@@ -57,4 +57,11 @@ begin
 			vc <= "0000000000";
 		elsif (rising_edge(clk) and vc_enable = '1') then --increment when vc_enable is on
 			if vc = vc_lines - 1 then --the vertical counter is at the end of the lines
-				vc <= "0000000000";
+				vc <= "0000000000";--so the counter is reset
+			else
+				vc <= vc + 1;
+			end if;
+		end if;
+	end process;
+
+	vsync <= '0' when (vc < vsp) else vsync <= '1'; --vsync should be low during the sync pulse, high otherwise
