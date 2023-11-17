@@ -1,12 +1,15 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
+use ieee.numeric_std.all;
 
 entity vga_driver is
     port(clk   	: in std_logic;
         reset 	: in std_logic;
         H_sync	: out std_logic;
         V_sync	: out std_logic;
+        x	: out std_logic;
+        y	: out std_logic;
         R	: out std_logic;
 	G	: out std_logic;
 	B	: out std_logic);
@@ -37,6 +40,7 @@ begin
 	begin
 		if reset = '1' then
 			hc <= "0000000000";
+			x <= "0000000000";
 		elsif (rising_edge(clk)) then
 			if hc = hpixels - 1 then --the counter reaches the end of the line
 				hc <= "0000000000"; --reset the counter
@@ -44,6 +48,13 @@ begin
 			else
 			hc <= hc + 1; --incement the horizontal counter
 			vc_enable <= '0'; --disable the vertical counter
+			end if;
+				
+			if (hc > hbp) then --x position counter, it starts when we leave the backporch
+				if (hc >= hfp) then
+					x <= "0000000000"; -- it resets when we enter teh frontporch
+				else 
+					x <= x + 1;
 			end if;
 		end if;
 	end process;
@@ -55,11 +66,19 @@ begin
 	begin
 		if reset = '1' then
 			vc <= "0000000000";
+			y <= "0000000000";
 		elsif (rising_edge(clk) and vc_enable = '1') then --increment when vc_enable is on
 			if vc = vc_lines - 1 then --the vertical counter is at the end of the lines
 				vc <= "0000000000";--so the counter is reset
 			else
 				vc <= vc + 1;
+			end if;
+
+			if (vc > vbp) then --y position counter, it goes up when we're past the backporch
+				if (vc >= vfp) then
+					y <= "0000000000"; -- it resets when we enter the front porch
+				else 
+					y <= y + 1;
 			end if;
 		end if;
 	end process;
