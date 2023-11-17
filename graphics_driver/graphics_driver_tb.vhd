@@ -19,4 +19,12 @@ architecture behaviour of graphics_driver_tb is
     signal blue  : integer range 0 to 15;
 begin
     test : graphics_driver port map(h_pos, v_pos, red, green, blue);
+    loop_v_pos : for i in 0 to 479 generate
+        loop_h_pos : for j in 0 to 639 generate
+            h_pos <= std_logic_vector(to_unsigned(j, 10));
+            v_pos <= std_logic_vector(to_unsigned(i, 9));
+            wait for 40 ns;
+        end generate;
+    end generate;
+
 end architecture;
