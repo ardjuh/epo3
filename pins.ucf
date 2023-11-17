@@ -1,0 +1,15 @@
+net VGA_VS loc=B11;
+net VGA_HS loc=A11;
+
+net VGA_R<0> loc=D9;
+net VGA_R<1> loc=C9;
+net VGA_R<2> loc=A7;
+net VGA_R<3> loc=B7;
+net VGA_G<0> loc=B8;
+net VGA_G<1> loc=C10;
+net VGA_G<2> loc=B9;
+net VGA_G<3> loc=A8;
+net VGA_B<0> loc=A9;
+net VGA_B<1> loc=D11;
+net VGA_B<2> loc=A10;
+net VGA_B<3> loc=B10;
