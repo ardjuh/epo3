@@ -19,7 +19,7 @@ architecture behavior of graphics_driver is
 begin
     process (h_pos, v_pos)
     begin
-        if (to_integer(unsigned(h_pos)) < 320) then
+        if (to_integer(unsigned(h_pos)) < 640) then
             red   <= 2;
             green <= 15;
             blue  <= 3;
