@@ -9,7 +9,7 @@ entity graphics_driver is
         v_pos : in std_logic_vector(8 downto 0);
         red   : out integer range 0 to 15;
         green : out integer range 0 to 15;
-        blue  : out integer range 0 to 15;
+        blue  : out integer range 0 to 15
     );
 end entity graphics_driver;
 
@@ -20,13 +20,13 @@ begin
     process (h_pos, v_pos)
     begin
         if (to_integer(unsigned(h_pos)) < 320) then
-            red   <= "2";
-            green <= "15";
-            blue  <= "3";
+            red   <= 2;
+            green <= 15;
+            blue  <= 3;
         else
-            red   <= "0";
-            green <= "0";
-            blue  <= "0";
+            red   <= 0;
+            green <= 0;
+            blue  <= 0;
         end if;
     end process;
 end architecture;
