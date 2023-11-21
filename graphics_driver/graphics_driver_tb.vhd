@@ -20,16 +20,17 @@ architecture behaviour of gpu_driver_tb is
 
 begin
     test : graphics_driver port map(h_pos, v_pos, red, green, blue);
-	simulation : process
-begin
-     for i in 0 to 479 loop
-        for j in 0 to 639 loop
-		
-		v_pos <= std_logic_vector(to_unsigned(j, 10));
-wait for 40 ns;
-	end loop;
-     	h_pos <= std_logic_vector(to_unsigned(i, 9));
-	
-     end loop;
-end process;
+
+    simulation : process
+    begin
+        for i in 0 to 479 loop
+            for j in 0 to 639 loop
+
+                v_pos <= std_logic_vector(to_unsigned(j, 10));
+                wait for 40 ns;
+            end loop;
+            h_pos <= std_logic_vector(to_unsigned(i, 9));
+
+        end loop;
+    end process;
 end architecture;
