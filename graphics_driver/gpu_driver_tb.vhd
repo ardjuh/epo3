@@ -24,11 +24,11 @@ begin
     simulation : process
     begin
         for i in 0 to 479 loop
+            h_pos <= std_logic_vector(to_unsigned(i, 9));
             for j in 0 to 639 loop
                 v_pos <= std_logic_vector(to_unsigned(j, 10));
                 wait for 40 ns;
             end loop;
-            h_pos <= std_logic_vector(to_unsigned(i, 9));
         end loop;
     end process;
 end architecture;
