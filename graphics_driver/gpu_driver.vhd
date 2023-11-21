@@ -10,12 +10,15 @@ architecture behavior of gpu_driver is
     signal g     : integer range 0 to 15;
     signal b     : integer range 0 to 15;
 begin
+    -- Convert the position signals to unsigned and subtract the offset
     x_pos <= to_integer(unsigned(h_pos)) - 145;
     y_pos <= to_integer(unsigned(v_pos)) - 32;
+    -- Convert the color signals to unsigned
     red   <= std_logic_vector(to_unsigned(r, 4));
     green <= std_logic_vector(to_unsigned(g, 4));
     blue  <= std_logic_vector(to_unsigned(b, 4));
 
+    -- The process that splits the screen in sections
     process (x_pos, y_pos)
     begin
         if (x_pos < 0 or x_pos > 640 or y_pos < 0 or y_pos > 480) then
