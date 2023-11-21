@@ -107,7 +107,22 @@ architecture arch of FSM_sync is
                 when BP =>
                     H_sync <= '1';
                     next_state_h <= HV;
-                    timer <= counter_bp_h
+                    timer <= counter_bp_h;
+                    video_1 <= '0';
+
+                when HV =>
+                    H_sync <= '1';
+                    next_state_h <= FP;
+                    timer <= counter_fp_h;
+                    video_1 <= '1';
+
+                when FP =>
+                    H_sync <= '1';
+                    next_state_h <= SP;
+                    timer <= counter_fp_h;
+                    video_1 <= '0';
+
+            end process;
 
   
     
