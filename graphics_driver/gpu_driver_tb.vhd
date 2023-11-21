@@ -2,7 +2,7 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use ieee.numeric_std.all;
 architecture behaviour of gpu_driver_tb is
-    component graphics_driver
+    component gpu_driver
         port (
             h_pos : in std_logic_vector(8 downto 0);
             v_pos : in std_logic_vector(9 downto 0);
