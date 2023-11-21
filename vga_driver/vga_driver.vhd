@@ -11,6 +11,8 @@ entity vga_driver is
         R	: out std_logic;
 	G	: out std_logic;
 	B	: out std_logic);
+	hc	: out std_logic_vector(9 downto 0);
+	vc	: out std_logic_vector(9 downto 0);
 end vga_driver;
 
 architecture vga_driver of vga_driver is
@@ -24,9 +26,9 @@ architecture vga_driver of vga_driver is
 	constant vfp: std_logic_vector(9 downto 0) := "0111111111"; --vertical frontporch (511) (vbackporch plus vscreen)
 	constant vsp: std_logic_vector(9 downto 0) := "0000000010"; --vertical sync pulse (2)
 
-	signal hc, vc: std_logic_vector (9 downto 0);
+	-- signal hc, vc: std_logic_vector (9 downto 0);
 	--horizontal and vertical counters
-	signal video: std_logic;
+	--signal video: std_logic;
 	--whether the video should be on or not
 	signal vc_enable: std_logic;
 	--whether the vertical counter should increment
@@ -65,4 +67,7 @@ begin
 		end if;
 	end process;
 
+
 	V_sync <= '0' when (vc < vsp) else '1'; --vsync should be low during the sync pulse, high otherwise
+
+end vga_driver;
