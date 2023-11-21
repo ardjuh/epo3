@@ -49,7 +49,7 @@ begin
 		end if;
 	end process;
 
-	H?sync <= '0' when (hc < hsp) else H?sync <= '1'; --Hsync should be low during the sync pulse, high otherwise
+	H_sync <= '0' when (hc < hsp) else '1'; --Hsync should be low during the sync pulse, high otherwise
 
 	--vertical counter
 	process (clk, reset)
@@ -65,4 +65,4 @@ begin
 		end if;
 	end process;
 
-	V?sync <= '0' when (vc < vsp) else V?sync <= '1'; --vsync should be low during the sync pulse, high otherwise
+	V_sync <= '0' when (vc < vsp) else '1'; --vsync should be low during the sync pulse, high otherwise
