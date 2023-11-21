@@ -49,7 +49,7 @@ begin
 		end if;
 	end process;
 
-	hsync <= '0' when (hc < hsp) else hsync <= '1'; --Hsync should be low during the sync pulse, high otherwise
+	H?sync <= '0' when (hc < hsp) else H?sync <= '1'; --Hsync should be low during the sync pulse, high otherwise
 
 	--vertical counter
 	process (clk, reset)
@@ -57,7 +57,7 @@ begin
 		if reset = '1' then
 			vc <= "0000000000";
 		elsif (rising_edge(clk) and vc_enable = '1') then --increment when vc_enable is on
-			if vc = vc_lines - 1 then --the vertical counter is at the end of the lines
+			if vc = vlines - 1 then --the vertical counter is at the end of the lines
 				vc <= "0000000000";--so the counter is reset
 			else
 				vc <= vc + 1;
@@ -65,4 +65,4 @@ begin
 		end if;
 	end process;
 
-	vsync <= '0' when (vc < vsp) else vsync <= '1'; --vsync should be low during the sync pulse, high otherwise
+	V?sync <= '0' when (vc < vsp) else V?sync <= '1'; --vsync should be low during the sync pulse, high otherwise
