@@ -15,13 +15,13 @@ architecture behavior of gpu_driver is
 function big_number(
 	y	:	integer range 0 to 19;
 	x	:	integer range 0 to 9;
-	number	: 	integer range 0 to 13;
-	
-) return std_logic is 
+	number	: 	integer range 0 to 13
+		)	 
+return std_logic is 
 begin
 	if number = 0 then --no card
-	return  '0'
-	if number = 1 then --A 
+	return  '0';
+	elsif number = 1 then --A 
 		if (x > 4 and x <7 and y = 0) then
 		return '1';
 		elsif (x =3 or x= 6 and y >=0 and y<3)then
@@ -34,13 +34,13 @@ begin
 		return '1';
 		elsif (y = 13)then
 		return '1';
+		else return '0';
 		end if;
-		end if;
-	if number = 2 then --2
+	elsif number = 2 then --2
 		if (x >2 ans x< 7 and y = 0) then
 		return '1';
 		elsif ((x > 0 and x< 3) or (x>6 and x<9) and y = 1)then
-		reutn '1';
+		return '1';
 		elsif (x=0 or x = 8 and y = 1)then
 		return '1';
 		elsif (x=0 or x =9 and y = 2)then
@@ -58,12 +58,13 @@ begin
 		elsif (x>1 and x<4 and y = 16)then
 		return '1';
 		elsif (x =1 and y >16)then
-		reutrn '1';
+		return '1';
 		elsif (y=19)then
 		return 1;
+		else return '0';
 	end if;
-	end if;
-	if number = 3 then --3
+	
+	elsif number = 3 then --3
 		if (x = 0 or x = 9 and (y<16 and y >11) or (y<8 and y>3)) then
 		return'1';
 		elsif( x=1 or x = 8 and (y<18 and y>15)or( y<4 and y>1))then
@@ -73,19 +74,23 @@ begin
 		elsif (y= 0 or  =19 and x >2 and x<7)then
 		return'1';
 		elsif(x = 8 and y= 11 or y=8)then
+		return  '1';
 		elsif(x = 7 and y >8 and y<11)then
+		return'1';
+		else return '0';
 	end if;
-	end if;
-	if number = 4	then --4
+	
+	elsif number = 4	then --4
 		if(x=0 and y >=0 and y<10) then
 		return  '1';
 		elsif(x=9 and y >=0)then
 		return '1';
 		elsif(x<10 and y = 9)then
 		return '1';
+else return '0';
 	end if;
-	end if;
-	if number = 5 then --5
+	
+	elsif number = 5 then --5
 		if(y=0) then
 		return '1';
 		elsif(x=0 and y < 7 or y = 18)then
@@ -104,9 +109,10 @@ begin
 		return '1';
 		elsif(x>6 and x<9 and y = 18)then
 		return '1';
+else return '0';
 	end if;
-	end if;
-	if number = 6 then --6
+	
+	elsif number = 6 then --6
 		if (x>3 and y=0) then
 		return '1';
 		elsif(x>1 and x<4 and y =1 )then
@@ -127,9 +133,10 @@ begin
 		return'1';
 		elsif(x=8 and y <18 and y >12)then
 		return'1';
+else return '0';
 	end if;
-	end if;
-	if number = 7 then --7
+	
+	elsif number = 7 then --7
 		if(y =0) then
 		return '1';
 		elsif(y>0 and y<3 and x = 8)then
@@ -138,9 +145,10 @@ begin
 		return '1';
 		elsif(y=10 and x>3)then
 		return '1';
+else return '0';
 	end if;
-	end if;
-	if number = 8 then --8
+	
+	elsif number = 8 then --8
 		if (y=0 or y=19 and x >1 and x<8)then
 		return'1';
 		elsif(x =1 or x=8 and y >0 and y<3 or y>5 and y<8 or y>10 and y<13 or y>15 and y<19)then
@@ -151,9 +159,9 @@ begin
 		return '1';
 		elsif(y = 9 and x>3 and x<6)then
 		return '1';
+else return '0';
 	end if;
-	end if;
-	if number = 9 then --9
+	elsif number = 9 then --9
 		if(y= 0 or y = 19 and x >1 and x<8)then
 		return '1';
 		elsif(x=1 or x =8 and y>0 and y<3)then
@@ -170,18 +178,18 @@ begin
 		return '1';
 		elsif(x>6 and y = 18)then
 		return '1';
+else return '0';
 	end if;
-	end if;
-	if number = 10 then --10
+	elsif number = 10 then --10
 		if(x=0) then
 		return'1';
 		elsif (y=0 or y =19 and x>3 and x<8)then
 		return'1';
 		elsif (x=9 or x =3 and y>0 and y<19)then
 		return '1';
+else return '0';
 	end if;
-	end if;
-	if number = 11 then --J
+	elsif number = 11 then --J
 		if (y=0)then
 		return'1';
 		elsif(x=8 and y<16)then
@@ -190,9 +198,9 @@ begin
 		return '1';
 		elsif(x=0 or x=7 and y<19 and y>15)then
 		return'1';
+else return '0';
 	end if;
-	end if;
-	if number = 12 then --Q
+	elsif number = 12 then --Q
 		if (y=0 or y=19 and x>1 and x<8) then
 		return '1';
 		elsif(x=0 or x=9 and y>2 and y<18)then
@@ -205,9 +213,10 @@ begin
 		return  '1';
 		elsif(x=9 and y = 19 )then
 		return '1';
+else return '0';
 	end if;
-	end if;
-	if number = 13 then --K
+
+	else   --K
 		if (x=0)then
 		return '1';
 		elsif(x=1 and y >7 and y<12)then
@@ -228,6 +237,7 @@ begin
 		return '1';
 		elsif(x=9 and y=0 or y= 19)then
 		return'1';
+else return '0';
 	end if;
 	end if;
 
