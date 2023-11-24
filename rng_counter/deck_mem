@@ -1,0 +1,45 @@
+ibrary IEEE;
+use IEEE.std_logic_1164.ALL;
+use IEEE.numeric_std.all;
+
+architecture behaviour of deck_mem is
+
+	signal summation : unsigned (7 downto 0) := to_unsigned(0,8);
+	signal card : unsigned (3 downto 0);
+	type memory is array (0 to 12) of unsigned(4 downto 0);
+	signal mem : memory;
+begin
+
+	process(reset, shuffle)
+	begin
+		if reset = '1' OR shuffle = '1' then
+			for i in 0 to 12 loop
+				mem(i) <= to_unsigned(16,5); 
+			end loop;
+		end if;		
+	end process;
+	
+
+	process(random_num)
+	begin
+		if random_num > "00000000" then
+				
+			for i in 0 to 12 loop
+				summation <= summation + mem(i);
+				if summation >= unsigned(random_num) then
+					 --word kaart op plek i
+					random_card <= std_logic_vector(to_unsigned(i + 1,4));
+
+					exit;
+				end if;
+			end loop;
+		else
+			random_card <= "0000";
+		end if;			
+		
+	end process;	
+
+
+
+end behaviour;
+
