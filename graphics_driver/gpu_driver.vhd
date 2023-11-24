@@ -253,7 +253,7 @@ architecture behavior of gpu_driver is
     -- Display a small number or letter of a card
     function small_card_char (
         char : integer range 0 to 13;
-        x    : integer range 0 to 10;
+        x    : integer range 0 to 5;
         y    : integer range 0 to 6
     ) return std_logic is
     begin
@@ -263,11 +263,11 @@ architecture behavior of gpu_driver is
             return small_letter(0, x, y);
         elsif (char <= 9) then
             return small_number(char, x, y);
-        elsif (char = 10) then
-            if (x <= 5) then
-                return small_number(1, x, y);
+        elsif (char = 10)
+            if (x = 0 or x = 2 or x = 4 or ((y = 0 or y = 6) and x = 3)) then
+                return '1';
             else
-                return small_number(0, x, y);
+                return '0';
             end if;
         elsif (char = 11) then
             return small_letter(9, x, y);
