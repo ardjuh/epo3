@@ -14,7 +14,7 @@ architecture behavior of gpu_driver is
     function small_letter (
         letter : integer range 0 to 25;
         x      : integer range 0 to 5;
-        y      : integer range 0 to 6;
+        y      : integer range 0 to 6
     ) return std_logic is
     begin
         if (x = 5) then -- Padding right
@@ -182,7 +182,7 @@ architecture behavior of gpu_driver is
     function small_number (
         number : integer range 0 to 9;
         x      : integer range 0 to 5;
-        y      : integer range 0 to 6;
+        y      : integer range 0 to 6
     ) return std_logic is
     begin
         if (x = 5) then -- Padding right
@@ -254,7 +254,7 @@ architecture behavior of gpu_driver is
     function small_card_char (
         char : integer range 0 to 13;
         x    : integer range 0 to 10;
-        y    : integer range 0 to 6;
+        y    : integer range 0 to 6
     ) return std_logic is
     begin
         if (char = 0) then
@@ -522,6 +522,7 @@ architecture behavior of gpu_driver is
             end if;
         end if;
     end function;
+
     pure function cards (
     x     : integer range 0 to 91;
     y     : integer range 0 to 86;
