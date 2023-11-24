@@ -26,7 +26,7 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (letter = 1) then -- B
-            if (x = 0 or ((y = 0 or y= 3 or y = 6) and x < 4) or (x = 4 and (y = 1 or y = 2 or y = 4 or y = 5))) then
+            if (x = 0 or ((y = 0 or y = 3 or y = 6) and x < 4) or (x = 4 and (y = 1 or y = 2 or y = 4 or y = 5))) then
                 return '1';
             else
                 return '0';
@@ -252,10 +252,9 @@ architecture behavior of gpu_driver is
 
     -- Display a small number or letter of a card
     function small_card_char (
-        
         x    : integer range 0 to 5;
         y    : integer range 0 to 6;
-	char : integer range 0 to 13
+        char : integer range 0 to 13
     ) return std_logic is
     begin
         if (char = 0) then
@@ -538,16 +537,17 @@ begin
         if (x <= 45 or y <= 1 or x >= 98 or y >= 85) then
             return '0';
         elsif (x >= 70 and x <= 80 and y >= 33 and y <= 56) then
-            return big_number(x-70 , y-33, 11);
+            return big_number(x - 70, y - 33, 11);
         else
             return '1';
         end if;
         return '1';
-   elsif( x>= 48 and x <= 52) then
-	if (y>=4 and y <=11) then
-		return small_card_char(x-48,y-4,11);
-	else return '0';
-	end if;		
+    elsif (x >= 48 and x <= 52) then
+        if (y >= 4 and y     <= 11) then
+            return small_card_char(x - 48, y - 4, 11);
+        else
+            return '0';
+        end if;
     else
         return '0';
     end if;
