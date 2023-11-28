@@ -537,7 +537,7 @@ architecture behavior of gpu_driver is
                 return '0';
             elsif (x >= 70 and x <= 80 and y >= 33 and y <= 56) then
                 return big_number(x - 70, y - 33, card1);
-            elsif (x >= 48 and x <= 52 and y >= 4 and y <= 11) then
+            elsif (x >= 48 and x <= 52 and y >= 4 and y <= 10) then
                 return small_card_char(x - 48, y - 4, card1);
             else
                 return '1';
@@ -545,32 +545,32 @@ architecture behavior of gpu_driver is
         elsif (x >= 33 and x <= 43 and card2 > 0) then
             if (x <= 34 or y <= 1 or x >= 42 or y >= 85) then
                 return '0';
-            elsif (x >= 37 and x <= 41 and y >= 4 and y <= 11) then
-                return small_card_char(x - 48, y - 4, card1);
+            elsif (x >= 37 and x <= 41 and y >= 4 and y <= 10) then
+                return small_card_char(x - 37, y - 4, card1);
             else
                 return '1';
             end if;
         elsif (x >= 22 and x <= 32 and card3 > 0) then
             if (x <= 23 or y <= 1 or x >= 31 or y >= 85) then
                 return '0';
-            elsif (x >= 25 and x <= 29 and y >= 4 and y <= 11) then
-                return small_card_char(x - 48, y - 4, card1);
+            elsif (x >= 26 and x <= 29 and y >= 4 and y <= 10) then
+                return small_card_char(x - 26, y - 4, card1);
             else
                 return '1';
             end if;
         elsif (x >= 11 and x <= 21 and card4 > 0) then
             if (x <= 12 or y <= 1 or x >= 20 or y >= 85) then
                 return '0';
-            elsif (x >= 14 and x <= 18 and y >= 4 and y <= 11) then
-                return small_card_char(x - 48, y - 4, card1);
+            elsif (x >= 15 and x <= 19 and y >= 4 and y <= 10) then
+                return small_card_char(x - 15, y - 4, card1);
             else
                 return '1';
             end if;
         elsif (x <= 10 and card5 > 0) then
             if (x <= 1 or y <= 1 or x >= 9 or y >= 85) then
                 return '0';
-            elsif (x >= 3 and x <= 7 and y >= 4 and y <= 11) then
-                return small_card_char(x - 48, y - 4, card1);
+            elsif (x >= 4 and x <= 8 and y >= 4 and y <= 10) then
+                return small_card_char(x - 4, y - 4, card1);
             else
                 return '1';
             end if;
