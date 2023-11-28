@@ -1,0 +1,11 @@
+library IEEE;
+use IEEE.std_logic_1164.ALL;
+
+entity enable_ff is
+   port(clk    : in  std_logic;
+        reset  : in  std_logic;
+        enable : in  std_logic;
+	shuffle:	in  std_logic;
+        D      : in  std_logic_vector(4 downto 0);
+        Q      : out std_logic_vector(4 downto 0));
+end enable_ff;
