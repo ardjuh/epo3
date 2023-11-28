@@ -572,6 +572,28 @@ architecture behavior of gpu_driver is
         end if;
     end function;
 
+    function action_menu (
+        x : integer range 0 to 639;
+        y : integer range 0 to 99
+    ) return std_logic is
+    begin
+        if (y_pos >= 32 and y_pos <= 38) then
+            if (x_pos >= 80 and x_pos < 98) then
+                if (x_pos < 86) then
+                    return small_letter(x_pos - 80, y_pos - 32, 7);
+                elsif (x_pos < 92) then
+                    return small_letter(x_pos - 86, y_pos - 32, 8);
+                else
+                    return small_letter(x_pos - 92, y_pos - 32, 19);
+                end if;
+            else
+                return '0';
+            end if;
+        else
+            return '0';
+        end if;
+    end function;
+
 begin
     -- Convert the position signals to unsigned and subtract the offset
     x_pos <= to_integer(unsigned(h_pos)) - 145;
@@ -598,20 +620,10 @@ begin
                 b <= 0;
             end if;
         elsif (y_pos >= 180 and y_pos < 280) then
-            if (y_pos >= 212 and y_pos <= 218) then
-                if (x_pos >= 80 and x_pos < 98) then
-                    if (x_pos < 86) then
-                        return small_letter(x_pos - 80, y_pos - 212, 7);
-                    elsif (x_pos < 92) then
-                        return small_letter(x_pos - 86, y_pos - 212, 8);
-                    else
-                        return small_letter(x_pos - 92, y_pos - 212, 19);
-                    end if;
-                else
-                    r <= 4;
-                    g <= 4;
-                    b <= 4;
-                end if;
+            if (action_menu(x_pos, y_pos - 180) = '1') then
+                r <= 15;
+                g <= 15;
+                b <= 15;
             else
                 r <= 4;
                 g <= 4;
