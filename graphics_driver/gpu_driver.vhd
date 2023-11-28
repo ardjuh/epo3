@@ -520,6 +520,117 @@ architecture behavior of gpu_driver is
         end if;
     end function;
 
+
+
+    function table (
+	x     : integer range 0 to 149;
+        y     : integer range 0 to 24;
+player1 : std_logic;
+        card1_1 : integer range 0 to 13 := 0;
+        card1_2 : integer range 0 to 13 := 0;
+        card1_3 : integer range 0 to 13 := 0;
+        card1_4 : integer range 0 to 13 := 0;
+        card1_5 : integer range 0 to 13 := 0;
+	money1  : std_logic_vector (0 downto 9) := "0000000001";
+
+player2 : std_logic;
+        card2_1 : integer range 0 to 13 := 0;
+        card2_2 : integer range 0 to 13 := 0;
+        card2_3 : integer range 0 to 13 := 0;
+        card2_4 : integer range 0 to 13 := 0;
+        card2_5 : integer range 0 to 13 := 0;
+	money2  : std_logic_vector (0 downto 9) := "0000000001";
+
+player3 : std_logic;
+        card3_1 : integer range 0 to 13 := 0;
+        card3_2 : integer range 0 to 13 := 0;
+        card3_3 : integer range 0 to 13 := 0;
+        card3_4 : integer range 0 to 13 := 0;
+        card3_5 : integer range 0 to 13 := 0;
+	money3  : std_logic_vector (0 downto 9) := "0000000001";
+
+player4 : std_logic;
+        card4_1 : integer range 0 to 13 := 0;
+        card4_2 : integer range 0 to 13 := 0;
+        card4_3 : integer range 0 to 13 := 0;
+        card4_4 : integer range 0 to 13 := 0;
+        card4_5 : integer range 0 to 13 := 0;
+	money4  : std_logic_vector (0 downto 9) := "0000000001"
+) return std_logic is
+	begin 
+	if (x>=44 and x<= 146 and y>=9 and y<= 24) then
+	elsif (y>=12 and y<=19) then
+		if(x<47)then
+		return small_letter(x-44, y-9,16); --P
+		elsif(x<53)then
+		return small_letter(x-44, y-9,12); --L
+		elsif(x<59)then
+		return small_letter(x-44, y-9,1); --A
+		elsif(x<65)then
+		return small_letter(x-44, y-9,25); --Y
+		elsif(x<71)then
+		return small_letter(x-44, y-9,5); --E
+		elsif(x<77)then
+		return small_letter(x-44, y-9,18); --R
+
+		elsif(x<83)then
+		return small_letter(x-44, y-9,0); --Space
+
+		elsif(x<89)then
+		return small_letter(x-44, y-9,3); --C
+		elsif(x<95)then
+		return small_letter(x-44, y-9,1); --A
+		elsif(x<101)then
+		return small_letter(x-44, y-9,18); --R
+		elsif(x<107)then
+		return small_letter(x-44, y-9,4); --D
+		elsif(x<113)then
+		return small_letter(x-44, y-9,19); --S
+
+		elsif(x<119)then
+		return small_letter(x-44, y-9,0); --Space
+
+		elsif(x<125)then
+		return small_letter(x-44, y-9,13); --M
+		elsif(x<131)then
+		return small_letter(x-44, y-9,15); --O
+		elsif(x<137)then
+		return small_letter(x-44, y-9,14); --N
+		elsif(x<143)then
+		return small_letter(x-44, y-9,5); --E
+		else
+		return small_letter(x-44, y-9,25); --Y
+		end if;
+	elsif(y>=20 and y<=27)
+		if(x<47)then
+		return small_letter(x-44, y-20,16); --P
+		elsif(x<53)then
+		return small_letter(x-44, y-20,12); --L
+		elsif(x<59)then
+		return small_letter(x-44, y-20,1); --A
+		elsif(x<65)then
+		return small_letter(x-44, y-20,25); --Y
+		elsif(x<71)then
+		return small_letter(x-44, y-20,5); --E
+		elsif(x<77)then
+		return small_letter(x-44, y-20,18); --R
+		elsif(x<83) then
+		return small_number(x-44, y-20,1); --1
+
+		elsif(x<83)then
+		return small_letter(x-44, y-9,0); --Space
+
+		elsif(x<113)then
+		return cards1_1; --Player cards
+
+		elsif(x<119)then
+		return small_letter(x-44, y-9,0); --Space
+
+		elsif(x<125)then
+		return small_letter(x-44, y-9,13); --Player money
+
+
+
     function cards (
         x     : integer range 0 to 99;
         y     : integer range 0 to 86;
