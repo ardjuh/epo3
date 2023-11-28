@@ -3,19 +3,16 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 use ieee.numeric_std.all;
 
-entity vga_driver is
+entity trial_driver is
     port(clk   	: in std_logic;
         reset 	: in std_logic;
         H_sync	: out std_logic;
         V_sync	: out std_logic;
-        R	: out std_logic;
-	G	: out std_logic;
-	B	: out std_logic;
-	hc	: out std_logic_vector(9 downto 0);
-	vc	: out std_logic_vector(9 downto 0);
-end vga_driver;
+	h_pos	: out std_logic_vector(9 downto 0);
+	v_pos	: out std_logic_vector(9 downto 0));
+end trial_driver;
 
-architecture behavioural of vga_driver is
+architecture behavioural of trial_driver is
 --constants used in the vga driver
 	constant hpixels: std_logic_vector(9 downto 0) := "1010010000"; --656 --amount of pixels in a line (800)
 	constant vlines: std_logic_vector(9 downto 0) := "0111101010"; --490 -- amount of lines (521)
@@ -26,116 +23,143 @@ architecture behavioural of vga_driver is
 	constant vfp: std_logic_vector(9 downto 0) := "0111100000"; --480 --vertical frontporch (511) (vbackporch plus vscreen)
 	constant vsp: std_logic_vector(9 downto 0) := "0111101100"; --492 --vertical sync pulse (2)
 signal vc_enable: std_logic;
+signal hc: std_logic_vector(9 downto 0);
+signal vc: std_logic_vector(9 downto 0);
 --desrition of state types
-        type vga_state is (	state_hsp, --horizontal sync period
+-- horizontal
+        type trial_state_h is (	state_hreset, --horizontal reset
+				state_hsp, --horizontal sync period
                                 state_hbp, --horizontal back porch
                                 state_hv, --horizontal video
-                                state_hfp, --horizontal front porch
-                                state_vsp, --vertical sync period
+                                state_hfp); --horizontal front porch
+            signal state_h, new_state_h: trial_state_h;
+--vertical
+        type trial_state_v is (	state_vreset, --vertical reset
+				state_vsp, --vertical sync period
                                 state_vbp, --video back porch
                                 state_vv, --vertical video
                                 state_vfp); -- vertical front porch
-            signal state_h, new_state_h, state_v, new_state_v: vga_state;
+            signal state_v, new_state_v: trial_state_v;
+
 begin
     process(clk)
     begin
         if(rising_edge(clk)) then
+		hc <= h_pos;
+		vc <= v_pos;
 		 if(reset = '1') then
-                	state_h <= state_hsp; --back to sync
-			state_v <= state_vsp; --back to sync
-            	else
+                			state_h <= state_hreset; 
+			state_v <= state_vreset;		
+            		else
                 	state_h <= new_state_h; --Assign new horizontal state to current state
                 	state_v <= new_state_v; --Assign new vertical state to current state    
 	    	end if;
 	end if;
     end process;
 
-    process (state_h, state_v)
+    process (state_h, state_v, hc, vc)
     begin
-        case state_h is  
-       		when state_hsp =>
-		hc <= hc + 1;
+        case state_h is 
+		when state_hreset =>
 		H_sync <= '0';
-            	if (hc > hsp - 2) then
-			new_state <= state_hbp;
+		h_pos <= "1010010000";
+		new_state_h <= state_hsp;
+		vc_enable <= '0';
+
+       		when state_hsp =>
+		H_sync <= '0';
+		h_pos <= h_pos + 1;
+		vc_enable <= '0';
+            		if (hc > hsp - 2) then
+			new_state_h <= state_hbp;
 		else
-			new_state <= state_hsp;
+			new_state_h <= state_hsp;
 		end if;
 		
 		when state_hbp =>
-		hc <= hc + 1;
 		H_sync <= '1';
+		h_pos <= h_pos + 1;
+		vc_enable <= '0';
 		if (hc > hbp - 2) then
-			new_state <= state_hv;
-			hc <= "0000000000"
+			new_state_h <= state_hv;
+			h_pos <= "0000000000";
 		else
-			new_state <= state_hbp;
+			new_state_h <= state_hbp;
 		end if;
 		
 		when state_hv =>
-		hc <= hc + 1;
 		H_sync <= '1';
+		h_pos <= h_pos + 1;
+		vc_enable <= '0';
 		if (hc > hfp - 2) then
-			new_state <= state_hfp;
+			new_state_h <= state_hfp;
 		else
-			new_state <= state_hv;
+			new_state_h <= state_hv;
 		end if;
 
 		when state_hfp =>
-		hc <= hc + 1;
 		H_sync <= '1';
+		h_pos <= h_pos + 1;
+		vc_enable <= '0';
 		if (hc > hpixels - 2) then
-			new_state <= state_hsp;
+			new_state_h <= state_hsp;
 			vc_enable <= '1';
 		else
-			new_state <= state_hfp;
+			new_state_h <= state_hfp;
 		end if;
 	end case;
 
 	case state_v is  
+		when state_vreset =>
+		V_sync <= '0';
+		v_pos <= "0111101010";
+		new_state_v <= state_vsp;
+
        		when state_vsp =>
 		V_sync <= '0';
-		if (vc_enable = 1) then
-			vc <= vc + 1;
+		if (vc_enable = '1') then
+			v_pos <= v_pos + 1;
 		end if;
-            	if (vc > vsp - 2) then
-			new_state <= state_vbp;
+            		if (vc > vsp - 1) then
+			new_state_v <= state_vbp;
 		else
-			new_state <= state_vsp;
+			new_state_v <= state_vsp;
 		end if;
 		
 		when state_vbp =>
 		V_sync <= '1';
-		if (vc_enable = 1) then
-			vc <= vc + 1;
+		if (vc_enable = '1') then
+			v_pos <= v_pos + 1;
 		end if;
 		if (vc > vbp - 2) then
-			new_state <= state_hv;
+			new_state_v <= state_vv;
+			v_pos <= "0000000000";
 		else
-			new_state <= state_vbp;
+			new_state_v <= state_vbp;
 		end if;
 		
 		when state_vv =>
 		V_sync <= '1';
-		if (vc_enable = 1) then
-			vc <= vc + 1;
-		end if:
+		if (vc_enable = '1') then
+			v_pos <= v_pos + 1;
+		end if;
 		if (vc > vfp - 2) then
-			new_state <= state_vfp;
+			new_state_v <= state_vfp;
 		else
-			new_state <= state_vv;
+			new_state_v <= state_vv;
 		end if;
 
 		when state_vfp =>
 		V_sync <= '1';
-		if (vc_enable = 1) then
-			vc <= vc + 1;
+		if (vc_enable = '1') then
+			v_pos <= v_pos + 1;
 		end if;
 		if (vc > vlines - 2) then
-			new_state <= state_vsp;
+			new_state_v <= state_vsp;
 		else
-			new_state <= state_vfp;
+			new_state_v <= state_vfp;
 		end if;
 	end case;
     end process;
 end architecture behavioural;
+
