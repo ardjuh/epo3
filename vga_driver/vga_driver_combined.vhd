@@ -31,7 +31,7 @@ architecture behavioral of vga_driver_combined is
          V_sync: out std_logic);
   end component;
   signal m1, m2 : std_logic_vector(9 downto 0);
-  signal m3, m4 : std logic:
+  signal m3, m4 : std logic;
 begin
 
   c1: counter port map(clk => clk, reset => reset, x_pos => m1, y_pos => m2);
