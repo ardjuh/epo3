@@ -711,7 +711,7 @@ begin
                 g <= 0;
                 b <= 0;
             end if;
-        elsif (y_pos >= 10 and y_pos < 96 and x < 630 and x >= 531) -- Dealer hand
+        elsif (y_pos >= 10 and y_pos < 96 and x_pos < 630 and x_pos >= 531) then -- Dealer hand
             if (cards(630 - x_pos, 96 - y_pos, 12, 4, 7, 3, 1) = '1') then
                 r <= 15;
                 g <= 15;
