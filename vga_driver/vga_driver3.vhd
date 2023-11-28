@@ -18,15 +18,14 @@ architecture vga_driver_arch of vga_driver is
     signal h_pos_signal, v_pos_signal : unsigned(9 downto 0);
 
 begin
-
+         h_pos_signal <= unsigned(h_pos)
+         v_pos_signal <= unsigned(v_pos)
     process(clk, reset)
     begin
         if reset = '1' then
          H_sync <= '0';
          V_sync <= '0';
 
-         h_pos_signal <= unsigned(h_pos)
-         v_pos_signal <= unsigned(v_pos)
         elsif rising_edge(clk) then
          
              if h_pos_signal < 128 then -- Hsync should be low during the horizontal sync pulse and high otherwise
