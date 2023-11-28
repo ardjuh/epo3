@@ -332,7 +332,6 @@ architecture behavior of gpu_driver is
             else
                 return '0';
             end if;
-
         elsif (number = 3) then --3
             if ((x = 0 or x = 9) and ((y < 16 and y > 11) or (y < 8 and y > 3))) then
                 return'1';
@@ -349,7 +348,6 @@ architecture behavior of gpu_driver is
             else
                 return '0';
             end if;
-
         elsif (number = 4) then --4
             if (x = 0 and y >= 0 and y < 10) then
                 return '1';
@@ -360,7 +358,6 @@ architecture behavior of gpu_driver is
             else
                 return '0';
             end if;
-
         elsif (number = 5) then --5
             if (y = 0) then
                 return '1';
@@ -383,7 +380,6 @@ architecture behavior of gpu_driver is
             else
                 return '0';
             end if;
-
         elsif (number = 6) then --6
             if (x > 3 and y = 0) then
                 return '1';
@@ -408,7 +404,6 @@ architecture behavior of gpu_driver is
             else
                 return '0';
             end if;
-
         elsif (number = 7) then --7
             if (y = 0) then
                 return '1';
@@ -421,7 +416,6 @@ architecture behavior of gpu_driver is
             else
                 return '0';
             end if;
-
         elsif (number = 8) then --8
             if ((y = 0 or y = 19) and x > 1 and x < 8) then
                 return'1';
@@ -494,7 +488,6 @@ architecture behavior of gpu_driver is
             else
                 return '0';
             end if;
-
         else --K
             if (x = 0) then
                 return '1';
@@ -603,6 +596,26 @@ begin
                 r <= 0;
                 g <= 0;
                 b <= 0;
+            end if;
+        elsif (y_pos >= 180 and y_pos < 280) then
+            if (y_pos >= 212 and y_pos <= 218) then
+                if (x_pos >= 80 and x_pos < 98) then
+                    if (x_pos < 86) then
+                        return small_letter(x_pos - 80, y_pos - 212, 7);
+                    elsif (x_pos < 92) then
+                        return small_letter(x_pos - 86, y_pos - 212, 8);
+                    else
+                        return small_letter(x_pos - 92, y_pos - 212, 19);
+                    end if;
+                else
+                    r <= 4;
+                    g <= 4;
+                    b <= 4;
+                end if;
+            else
+                r <= 4;
+                g <= 4;
+                b <= 4;
             end if;
         else
             r <= 2;
