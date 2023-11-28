@@ -546,7 +546,7 @@ architecture behavior of gpu_driver is
             if (x <= 34 or y <= 1 or x >= 42 or y >= 85) then
                 return '0';
             elsif (x >= 37 and x <= 41 and y >= 4 and y <= 10) then
-                return small_card_char(x - 37, y - 4, card1);
+                return small_card_char(x - 37, y - 4, card2);
             else
                 return '1';
             end if;
@@ -554,7 +554,7 @@ architecture behavior of gpu_driver is
             if (x <= 23 or y <= 1 or x >= 31 or y >= 85) then
                 return '0';
             elsif (x >= 26 and x <= 29 and y >= 4 and y <= 10) then
-                return small_card_char(x - 26, y - 4, card1);
+                return small_card_char(x - 26, y - 4, card3);
             else
                 return '1';
             end if;
@@ -562,7 +562,7 @@ architecture behavior of gpu_driver is
             if (x <= 12 or y <= 1 or x >= 20 or y >= 85) then
                 return '0';
             elsif (x >= 15 and x <= 19 and y >= 4 and y <= 10) then
-                return small_card_char(x - 15, y - 4, card1);
+                return small_card_char(x - 15, y - 4, card4);
             else
                 return '1';
             end if;
@@ -570,7 +570,7 @@ architecture behavior of gpu_driver is
             if (x <= 1 or y <= 1 or x >= 9 or y >= 85) then
                 return '0';
             elsif (x >= 4 and x <= 8 and y >= 4 and y <= 10) then
-                return small_card_char(x - 4, y - 4, card1);
+                return small_card_char(x - 4, y - 4, card5);
             else
                 return '1';
             end if;
@@ -595,7 +595,7 @@ begin
             g <= 0;
             b <= 0;
         elsif (y_pos <= 470 and y_pos >= 384 and x_pos >= 10 and x_pos <= 101) then
-            if (cards(x_pos - 10, y_pos - 384, 11) = '1') then
+            if (cards(x_pos - 10, y_pos - 384, 11, 3, 6, 2, 5) = '1') then
                 r <= 15;
                 g <= 15;
                 b <= 15;
