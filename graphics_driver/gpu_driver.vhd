@@ -578,10 +578,12 @@ architecture behavior of gpu_driver is
     end function;
 
     function action_menu (
-        x_pos      : integer range 0 to 639;
-        y_pos      : integer range 0 to 99;
-        em     : std_logic := '0';
-        double : std_logic := '0'
+        x_pos     : integer range 0 to 639;
+        y_pos     : integer range 0 to 99;
+        em        : std_logic := '0';
+        double    : std_logic := '0';
+        insurance : std_logic := '0';
+        split     : std_logic := '0'
     ) return std_logic is
     begin --hit
         if (y_pos >= 32 and y_pos <= 38) then
@@ -631,62 +633,57 @@ architecture behavior of gpu_driver is
                 end if;
             else
                 return '0';
-           
-        end if;
+            end if;
+        elsif (y_pos >= 82 and y_pos <= 88) then
+            if (x_pos >= 80 and x_pos < 104) then -- HOLD
+                if (x_pos < 86) then
+                    return small_letter(x_pos - 80, y_pos - 82, 8);
+                elsif (x_pos < 92) then
+                    return small_letter(x_pos - 86, y_pos - 82, 15);
+                elsif (x_pos < 98) then
+                    return small_letter(x_pos - 92, y_pos - 82, 12);
+                else
+                    return small_letter(x_pos - 98, y_pos - 82, 4);
+                end if;
+            elsif (x_pos >= 293 and x_pos < 323 and split = '1') then -- SPLIT
+                if (x_pos < 299) then
+                    return small_letter(x_pos - 293, y_pos - 82, 19);
+                elsif (x_pos < 305) then
+                    return small_letter(x_pos - 299, y_pos - 82, 16);
+                elsif (x_pos < 311) then
+                    return small_letter(x_pos - 305, y_pos - 82, 12);
+                elsif (x_pos < 317) then
+                    return small_letter(x_pos - 311, y_pos - 82, 9);
+                else
+                    return small_letter(x_pos - 317, y_pos - 82, 20);
+                end if;
+            elsif (x_pos >= 507 and x_pos < 561 and insurance = '1') then -- INSURANCE
+                if (x_pos < 513) then
+                    return small_letter(x_pos - 507, y_pos - 82, 9);
+                elsif (x_pos < 519) then
+                    return small_letter(x_pos - 513, y_pos - 82, 14);
+                elsif (x_pos < 525) then
+                    return small_letter(x_pos - 519, y_pos - 82, 19);
+                elsif (x_pos < 531) then
+                    return small_letter(x_pos - 525, y_pos - 82, 21);
+                elsif (x_pos < 537) then
+                    return small_letter(x_pos - 531, y_pos - 82, 18);
+                elsif (x_pos < 543) then
+                    return small_letter(x_pos - 537, y_pos - 82, 1);
+                elsif (x_pos < 549) then
+                    return small_letter(x_pos - 543, y_pos - 82, 14);
+                elsif (x_pos < 555) then
+                    return small_letter(x_pos - 549, y_pos - 82, 3);
+                else
+                    return small_letter(x_pos - 555, y_pos - 82, 5);
+                end if;
+            else
+                return '0';
 
-    elsif (y_pos >= 82 and y_pos <= 88) then
-        if (x_pos >= 80 and x_pos < 104) then -- HOLD
-            if (x_pos < 86) then
-                return small_letter(x_pos - 80, y_pos - 82, 8);
-            elsif (x_pos < 92) then
-                return small_letter(x_pos - 86, y_pos - 82, 15);
-            elsif (x_pos < 98) then
-                return small_letter(x_pos - 92, y_pos - 82, 12);
-            else
-                return small_letter(x_pos - 98, y_pos - 82, 4);
-            end if;
-        elsif (x_pos >= 293 and x_pos < 323) then -- SPLIT
-            if (x_pos < 299) then
-                return small_letter(x_pos - 293, y_pos - 82, 19);
-            elsif (x_pos < 305) then
-                return small_letter(x_pos - 299, y_pos - 82, 16);
-            elsif (x_pos < 311) then
-                return small_letter(x_pos - 305, y_pos - 82, 12);
-            elsif (x_pos < 317) then
-                return small_letter(x_pos - 311, y_pos - 82, 9);
-            else
-                return small_letter(x_pos - 317, y_pos - 82, 20);
-            end if;
-        elsif (x_pos >= 507 and x_pos < 561) then -- INSURANCE
-            if (x_pos < 513) then
-                return small_letter(x_pos - 507, y_pos - 82, 9);
-            elsif (x_pos < 519) then
-                return small_letter(x_pos - 513, y_pos - 82, 14);
-            elsif (x_pos < 525) then
-                return small_letter(x_pos - 519, y_pos - 82, 19);
-            elsif (x_pos < 531) then
-                return small_letter(x_pos - 525, y_pos - 82, 21);
-            elsif (x_pos < 537) then
-                return small_letter(x_pos - 531, y_pos - 82, 18);
-            elsif (x_pos < 543) then
-                return small_letter(x_pos - 537, y_pos - 82, 1);
-            elsif (x_pos < 549) then
-                return small_letter(x_pos - 543, y_pos - 82, 14);
-            elsif (x_pos < 555) then
-                return small_letter(x_pos - 549, y_pos - 82, 3);
-            else
-                return small_letter(x_pos - 555, y_pos - 82, 5);
             end if;
         else
             return '0';
-
- end if;
-        else
-            return '0';
         end if;
-
-
-
     end function;
 
 begin
