@@ -14,156 +14,161 @@ architecture behavior of gpu_driver is
     function small_letter (
         x      : integer range 0 to 5;
         y      : integer range 0 to 6;
-        letter : integer range 0 to 25
+        letter : integer range 0 to 26
     ) return std_logic is
     begin
         if (x = 5) then -- Padding right
             return '0';
-        elsif (letter = 0) then -- A
+
+	elsif (letter = 0) then -- Space
+		if (x > 0 ) then
+		return '0';
+		end if;
+        elsif (letter = 1) then -- A
             if (((x = 0 or x = 4) and y > 0) or y = 4 or (y = 0 and x > 0 and x < 4)) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 1) then -- B
+        elsif (letter = 2) then -- B
             if (x = 0 or ((y = 0 or y = 3 or y = 6) and x < 4) or (x = 4 and (y = 1 or y = 2 or y = 4 or y = 5))) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 2) then -- C
+        elsif (letter = 3) then -- C
             if ((x = 0 and (y > 0 and y < 6)) or ((y = 0 or y = 6) and x > 0 and x < 4) or (x = 4 and (y = 1 or y = 5))) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 3) then -- D
+        elsif (letter = 4) then -- D
             if (x = 0 or ((y = 0 or y = 6) and x < 4) or (x = 4 and y > 0 and y < 6)) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 4) then -- E
+        elsif (letter = 5) then -- E
             if (x = 0 or y = 0 or y = 6 or (y = 3 and x < 3)) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 5) then -- F
+        elsif (letter = 6) then -- F
             if (x = 0 or y = 0 or (y = 3 and x < 3)) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 6) then -- G
+        elsif (letter = 7) then -- G
             if ((x = 0 and (y > 0 and y < 6)) or ((y = 0 or y = 6) and x > 0 and x < 4) or (x = 4 and (y = 1 or y = 5 or y = 6)) or (y = 3 and x > 2)) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 7) then -- H
+        elsif (letter = 8) then -- H
             if (x = 0 or x = 4 or y = 3) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 8) then -- I
+        elsif (letter = 9) then -- I
             if (x = 2 or y = 0 or y = 6) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 9) then -- J
+        elsif (letter = 10) then -- J
             if (y = 0 or (x = 3 and y < 6) or (x = 0 and y > 3 and y < 6) or (y = 6 and x > 0 and x < 3)) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 10) then -- K
+        elsif (letter = 11) then -- K
             if (x = 0 or (y = 3 and x < 3) or (x = 3 and (y = 2 or y = 4)) or (x = 4 and (y = 0 or y = 1 or y = 5 or y = 6))) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 11) then -- L
+        elsif (letter = 12) then -- L
             if (x = 0 or y = 6) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 12) then -- M
+        elsif (letter = 13) then -- M
             if (x = 0 or x = 4 or (y = 1 and (x = 1 or x = 3)) or ((y = 2 or y = 3) and x = 2)) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 13) then -- N
+        elsif (letter = 14) then -- N
             if (x = 0 or x = 4 or (y = 1 and x = 1) or (y = 2 and x = 2) or (y = 3 and x = 3)) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 14) then -- O
+        elsif (letter = 15) then -- O
             if (((x = 0 or x = 4) and (y > 0 and y < 6)) or ((y = 0 or y = 6) and x > 0 and x < 4)) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 15) then -- P
+        elsif (letter = 16) then -- P
             if (x = 0 or ((y = 0 or y = 3) and x < 4) or (x = 4 and (y = 1 or y = 2))) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 16) then -- Q
+        elsif (letter = 17) then -- Q
             if ((x = 0 and (y > 0 and y < 6)) or (y = 0 and x > 0 and x < 4) or (x = 2 and y = 4) or (x = 3 and y = 5) or (x = 4 and y = 6) or (x = 4 and y > 0 and y < 5) or (y = 6 and x > 0 and x < 3)) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 17) then -- R
+        elsif (letter = 18) then -- R
             if (x = 0 or ((y = 0 or y = 4) and x < 4) or (x = 4 and ((y > 0 and y < 3) or y = 4 or y = 5))) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 18) then -- S
+        elsif (letter = 19) then -- S
             if ((x = 0 and (y = 1 or y = 2 or y = 6)) or ((y = 0 or y = 3 or y = 6) and x > 0 and x < 4) or (x = 4 and (y = 0 or y = 4 or y = 5))) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 19) then -- T
+        elsif (letter = 20) then -- T
             if (x = 2 or y = 0) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 20) then -- U
+        elsif (letter = 21) then -- U
             if (((x = 0 or x = 4) and y < 6) or (y = 6 and x > 0 and x < 4)) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 21) then -- V
+        elsif (letter = 22) then -- V
             if (((x = 0 or x = 4) and y < 4) or (y = 4 and (x = 1 or x = 3)) or ((y = 5 or y = 6) and x = 2)) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 22) then -- W
+        elsif (letter = 23) then -- W
             if (x = 0 or x = 4 or (y = 5 and (x = 1 or x = 3)) or (x = 2 and (y = 3 or y = 4))) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 23) then -- X
+        elsif (letter = 24) then -- X
             if (((x = 0 or x = 4) and (y < 3 or y > 5)) or ((x = 1 or x = 3) and (y = 2 or y = 4)) or (x = 2 and y = 3)) then
                 return '1';
             else
                 return '0';
             end if;
-        elsif (letter = 24) then -- Y
+        elsif (letter = 25) then -- Y
             if (((x = 0 or x = 4) and y < 3) or (x = 2 and (y = 3 or y = 4)) or ((x = 1 or x = 3) and y = 2)) then
                 return '1';
             else
@@ -576,7 +581,7 @@ architecture behavior of gpu_driver is
         x : integer range 0 to 639;
         y : integer range 0 to 99
     ) return std_logic is
-    begin
+    begin --hit
         if (y_pos >= 32 and y_pos <= 38) then
             if (x_pos >= 80 and x_pos < 98) then
                 if (x_pos < 86) then
@@ -592,6 +597,35 @@ architecture behavior of gpu_driver is
         else
             return '0';
         end if;
+
+	if (y_pos >=32 and y_pos <=38 and em = 1) then --even money
+		if (x_pos >= 507) then
+			if (x_pos < 514) then
+			 return small_letter(x_pos - 507, y_pos - 32, 5);--e
+			elsif (x pos < 520) then
+			return small_letter(x_pos - 513, y_pos -32, 22);--v
+			elsif (x_pos<526) then
+			return small_letter(x_pos - 519, y_pos -32, 5);--e
+			elsif (x_pos < 532) then
+			return small_letter(x_pos - 525, y_pos -32, 14);--n
+			elsif (x_pos < 538) then
+			return small_letter(x_pos -531, y_pos -32, 0);--space
+			elsif (x_pos <544) then
+			return small_letter(x_pos - 537, y_pos -32, 13); --m
+			elsif (x_pos<550) then
+			return small_letter(x_pos -543, y_pos -32, 15);--o
+			elsif(x_pos<556) then
+			return small_letter(x_pos -549, y_pos-32, 14); --n
+			elsif(x_pos < 562) then
+			return small_letter(x_pos -555, y_pos-32,5);--e
+			else(x_pos< 568) then
+			return small_letter(x_pos- 561, y_pos -32, 25);
+			end if;
+		else return '0';
+		end if;
+	else return '0';
+	end if;
+		
     end function;
 
 begin
