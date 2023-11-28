@@ -540,7 +540,6 @@ architecture behavior of gpu_driver is
             else
                 return '1';
             end if;
-            return '1';
         elsif (x >= 48 and x <= 52) then
             if (y >= 4 and y     <= 11) then
                 return small_card_char(x - 48, y - 4, card1);
