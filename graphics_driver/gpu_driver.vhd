@@ -522,66 +522,66 @@ architecture behavior of gpu_driver is
             end if;
         end if;
     end function;
-    pure function cards (
-    x     : integer range 0 to 99;
-    y     : integer range 0 to 86;
-    card1 : integer range 0 to 13 := 0;
-    card2 : integer range 0 to 13 := 0;
-    card3 : integer range 0 to 13 := 0;
-    card4 : integer range 0 to 13 := 0;
-    card5 : integer range 0 to 13 := 0
+
+    function cards (
+        x     : integer range 0 to 99;
+        y     : integer range 0 to 86;
+        card1 : integer range 0 to 13 := 0;
+        card2 : integer range 0 to 13 := 0;
+        card3 : integer range 0 to 13 := 0;
+        card4 : integer range 0 to 13 := 0;
+        card5 : integer range 0 to 13 := 0
     ) return std_logic is
-
-begin
-    if (x >= 44 and x <= 99 and card1 > 0) then
-        if (x <= 45 or y <= 1 or x >= 98 or y >= 85) then
-            return '0';
-        elsif (x >= 70 and x <= 80 and y >= 33 and y <= 56) then
-            return big_number(x - 70, y - 33, 11);
-        else
+    begin
+        if (x >= 44 and x <= 99 and card1 > 0) then
+            if (x <= 45 or y <= 1 or x >= 98 or y >= 85) then
+                return '0';
+            elsif (x >= 70 and x <= 80 and y >= 33 and y <= 56) then
+                return big_number(x - 70, y - 33, 11);
+            else
+                return '1';
+            end if;
             return '1';
-        end if;
-        return '1';
-    elsif (x >= 48 and x <= 52) then
-        if (y >= 4 and y     <= 11) then
-            return small_card_char(x - 48, y - 4, 11);
+        elsif (x >= 48 and x <= 52) then
+            if (y >= 4 and y     <= 11) then
+                return small_card_char(x - 48, y - 4, 11);
+            else
+                return '0';
+            end if;
         else
             return '0';
         end if;
-    else
-        return '0';
-    end if;
-end function;
+    end function;
 
 begin
--- Convert the position signals to unsigned and subtract the offset
-x_pos <= to_integer(unsigned(h_pos)) - 145;
-y_pos <= to_integer(unsigned(v_pos)) - 32;
--- Convert the color signals to unsigned
-red   <= std_logic_vector(to_unsigned(r, 4));
-green <= std_logic_vector(to_unsigned(g, 4));
-blue  <= std_logic_vector(to_unsigned(b, 4));
--- The process that splits the screen in sections
-process (x_pos, y_pos)
-begin
-    if (x_pos < 0 or x_pos > 640 or y_pos < 0 or y_pos > 480) then
-        r <= 0;
-        g <= 0;
-        b <= 0;
-    elsif (y_pos <= 470 and y_pos >= 383 and x_pos >= 10 and x_pos <= 101) then
-        if (cards(y_pos - 383, x_pos - 10) = '1') then
-            r <= 15;
-            g <= 15;
-            b <= 15;
-        else
+    -- Convert the position signals to unsigned and subtract the offset
+    x_pos <= to_integer(unsigned(h_pos)) - 145;
+    y_pos <= to_integer(unsigned(v_pos)) - 32;
+    -- Convert the color signals to unsigned
+    red   <= std_logic_vector(to_unsigned(r, 4));
+    green <= std_logic_vector(to_unsigned(g, 4));
+    blue  <= std_logic_vector(to_unsigned(b, 4));
+    -- The process that splits the screen in sections
+    process (x_pos, y_pos)
+    begin
+        if (x_pos < 0 or x_pos > 640 or y_pos < 0 or y_pos > 480) then
             r <= 0;
             g <= 0;
             b <= 0;
+        elsif (y_pos <= 470 and y_pos >= 383 and x_pos >= 10 and x_pos <= 101) then
+            if (cards(y_pos - 383, x_pos - 10) = '1') then
+                r <= 15;
+                g <= 15;
+                b <= 15;
+            else
+                r <= 0;
+                g <= 0;
+                b <= 0;
+            end if;
+        else
+            r <= 2;
+            g <= 15;
+            b <= 3;
         end if;
-    else
-        r <= 2;
-        g <= 15;
-        b <= 3;
-    end if;
-end process;
+    end process;
 end architecture;
