@@ -14,3 +14,4 @@ entity vga_driver is
 end vga_driver;
 
 architecture vga_driver of vga_driver is
+ 
