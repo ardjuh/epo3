@@ -578,8 +578,8 @@ architecture behavior of gpu_driver is
     end function;
 
     function action_menu (
-        x      : integer range 0 to 639;
-        y      : integer range 0 to 99;
+        x_pos      : integer range 0 to 639;
+        y_pos      : integer range 0 to 99;
         em     : std_logic := '0';
         double : std_logic := '0'
     ) return std_logic is
@@ -610,7 +610,7 @@ architecture behavior of gpu_driver is
             elsif (x_pos >= 507 and em = '1') then
                 if (x_pos < 514) then
                     return small_letter(x_pos - 507, y_pos - 32, 5);--e
-                elsif (x pos < 520) then
+                elsif (x_pos < 520) then
                     return small_letter(x_pos - 513, y_pos - 32, 22);--v
                 elsif (x_pos < 526) then
                     return small_letter(x_pos - 519, y_pos - 32, 5);--e
@@ -631,10 +631,9 @@ architecture behavior of gpu_driver is
                 end if;
             else
                 return '0';
-            end if;
-        else
-            return '0';
+           
         end if;
+
     elsif (y_pos >= 82 and y_pos <= 88) then
         if (x_pos >= 80 and x_pos < 104) then -- HOLD
             if (x_pos < 86) then
@@ -644,7 +643,7 @@ architecture behavior of gpu_driver is
             elsif (x_pos < 98) then
                 return small_letter(x_pos - 92, y_pos - 82, 12);
             else
-                return small_letter(x_pos - 92, y_pos - 82, 4);
+                return small_letter(x_pos - 98, y_pos - 82, 4);
             end if;
         elsif (x_pos >= 293 and x_pos < 323) then -- SPLIT
             if (x_pos < 299) then
@@ -656,7 +655,7 @@ architecture behavior of gpu_driver is
             elsif (x_pos < 317) then
                 return small_letter(x_pos - 311, y_pos - 82, 9);
             else
-                return small_letter(x_pos - 323, y_pos - 82, 20);
+                return small_letter(x_pos - 317, y_pos - 82, 20);
             end if;
         elsif (x_pos >= 507 and x_pos < 561) then -- INSURANCE
             if (x_pos < 513) then
@@ -676,11 +675,18 @@ architecture behavior of gpu_driver is
             elsif (x_pos < 555) then
                 return small_letter(x_pos - 549, y_pos - 82, 3);
             else
-                return small_letter(x_pos - 549, y_pos - 82, 5);
+                return small_letter(x_pos - 555, y_pos - 82, 5);
             end if;
         else
             return '0';
+
+ end if;
+        else
+            return '0';
         end if;
+
+
+
     end function;
 
 begin
