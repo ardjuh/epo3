@@ -284,8 +284,7 @@ architecture behavior of gpu_driver is
         y      : integer range 0 to 19;
         x      : integer range 0 to 9;
         number : integer range 0 to 13
-    )
-        return std_logic is
+    ) return std_logic is
     begin
         if (number = 0) then --no card
             return '0';
@@ -537,14 +536,14 @@ architecture behavior of gpu_driver is
             if (x <= 45 or y <= 1 or x >= 98 or y >= 85) then
                 return '0';
             elsif (x >= 70 and x <= 80 and y >= 33 and y <= 56) then
-                return big_number(x - 70, y - 33, 11);
+                return big_number(x - 70, y - 33, card1);
             else
                 return '1';
             end if;
             return '1';
         elsif (x >= 48 and x <= 52) then
             if (y >= 4 and y     <= 11) then
-                return small_card_char(x - 48, y - 4, 11);
+                return small_card_char(x - 48, y - 4, card1);
             else
                 return '0';
             end if;
@@ -569,7 +568,7 @@ begin
             g <= 0;
             b <= 0;
         elsif (y_pos <= 470 and y_pos >= 383 and x_pos >= 10 and x_pos <= 101) then
-            if (cards(y_pos - 383, x_pos - 10) = '1') then
+            if (cards(y_pos - 383, x_pos - 10, 11) = '1') then
                 r <= 15;
                 g <= 15;
                 b <= 15;
