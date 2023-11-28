@@ -11,4 +11,6 @@ entity vga_driver is
         H_sync	: out std_logic;
         V_sync	: out std_logic;
         
-	end vga_driver;
+end vga_driver;
+
+architecture vga_driver of vga_driver is
