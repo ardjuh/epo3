@@ -24,14 +24,17 @@ begin
         if reset = '1' then
          H_sync <= '0';
          V_sync <= '0';
-        elsif rising_edge(clk) then
+
          h_pos_signal <= unsigned(h_pos)
+         v_pos_signal <= unsigned(v_pos)
+        elsif rising_edge(clk) then
+         
              if h_pos_signal < 128 then -- Hsync should be low during the horizontal sync pulse and high otherwise
                  H_sync <= '0';
              else 
                  H_sync <= '1';
              end if;
-         v_pos_signal <= unsigned(v_pos)
+         
              if v_pos_signal < 2 then-- Vsync should be low during the vertical sync pulse and high otherwise
                 V_sync <= '0';
              else 
