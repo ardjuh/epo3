@@ -562,7 +562,7 @@ begin
     -- The process that splits the screen in sections
     process (x_pos, y_pos)
     begin
-        if (x_pos < 0 or x_pos > 640 or y_pos < 0 or y_pos > 480) then
+        if (x_pos < 0 or x_pos > 639 or y_pos < 0 or y_pos > 479) then
             r <= 0;
             g <= 0;
             b <= 0;
