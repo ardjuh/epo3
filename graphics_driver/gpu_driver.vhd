@@ -12,9 +12,9 @@ architecture behavior of gpu_driver is
 
     -- Display a small letter 5x7
     function small_letter (
-        letter : integer range 0 to 25;
         x      : integer range 0 to 5;
-        y      : integer range 0 to 6
+        y      : integer range 0 to 6;
+        letter : integer range 0 to 25
     ) return std_logic is
     begin
         if (x = 5) then -- Padding right
@@ -180,9 +180,9 @@ architecture behavior of gpu_driver is
 
     -- Display a small number 5x7
     function small_number (
-        number : integer range 0 to 9;
         x      : integer range 0 to 5;
-        y      : integer range 0 to 6
+        y      : integer range 0 to 6;
+        number : integer range 0 to 9
     ) return std_logic is
     begin
         if (x = 5) then -- Padding right
@@ -260,9 +260,9 @@ architecture behavior of gpu_driver is
         if (char = 0) then
             return '0';
         elsif (char = 1) then
-            return small_letter(0, x, y);
+            return small_letter(x, y, 0);
         elsif (char <= 9) then
-            return small_number(char, x, y);
+            return small_number(x, y, char);
         elsif (char = 10) then
             if (x = 0 or x = 2 or x = 4 or ((y = 0 or y = 6) and x = 3)) then
                 return '1';
@@ -270,19 +270,19 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (char = 11) then
-            return small_letter(9, x, y);
+            return small_letter(x, y, 9);
         elsif (char = 12) then
-            return small_letter(16, x, y);
+            return small_letter(x, y, 16);
         elsif (char = 13) then
-            return small_letter(10, x, y);
+            return small_letter(x, y, 10);
         else
             return '0';
         end if;
     end function;
 
     function big_number(
-        y      : integer range 0 to 19;
         x      : integer range 0 to 9;
+        y      : integer range 0 to 19;
         number : integer range 0 to 13
     ) return std_logic is
     begin
@@ -568,7 +568,7 @@ begin
             g <= 0;
             b <= 0;
         elsif (y_pos <= 470 and y_pos >= 383 and x_pos >= 10 and x_pos <= 101) then
-            if (cards(y_pos - 383, x_pos - 10, 11) = '1') then
+            if (cards(x_pos - 10, y_pos - 383, 11) = '1') then
                 r <= 15;
                 g <= 15;
                 b <= 15;
