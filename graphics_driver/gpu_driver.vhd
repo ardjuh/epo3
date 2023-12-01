@@ -847,11 +847,11 @@ architecture behavior of gpu_driver is
             elsif (x < 45) then
                 return small_letter(x - 38, y - 11, 0);
             elsif (x < 51) then
-                return small_letter(x - 44, y - 11, money) mod 10;
+                return small_letter(x - 44, y - 11, money / 100);
             elsif (x < 57) then
                 return small_letter(x - 50, y - 11, (money / 10) mod 10);
             else
-                return small_number(x - 56, y - 11, money / 100);
+                return small_number(x - 56, y - 11, money mod 10);
             end if;
         else
             return '0';
