@@ -965,7 +965,7 @@ elsif (y >= 44 and y <= 51)
             elsif (x < 39) then
                 return small_letter(x - 32, y - 3, 18);
             elsif (x < 45) then
-                return small_letter(x - 38, y - 3, 0);
+                return '0';
             else
                 return small_number(x - 44, y - 3, player);
             end if;
@@ -983,13 +983,87 @@ elsif (y >= 44 and y <= 51)
             elsif (x < 39) then
                 return small_letter(x - 32, y - 11, 27);
             elsif (x < 45) then
-                return small_letter(x - 38, y - 11, 0);
+                return '0';
             elsif (x < 51) then
                 return small_letter(x - 44, y - 11, money / 100);
             elsif (x < 57) then
                 return small_letter(x - 50, y - 11, (money / 10) mod 10);
             else
                 return small_number(x - 56, y - 11, money mod 10);
+            end if;
+        elsif (x >= 3 and x < 45 and y >= 19 and y < 26) then -- Bet: {{bet}}
+            if (x < 9) then
+                return small_letter(x - 3, y - 19, 2);
+            elsif (x < 15) then
+                return small_letter(x - 8, y - 19, 5);
+            elsif (x < 21) then
+                return small_letter(x - 14, y - 19, 20);
+            elsif (x < 27) then
+                return small_letter(x - 20, y - 19, 27);
+            elsif (x < 33) then
+                return '0';
+            elsif (x < 39) then
+                return small_number(x - 32, y - 19, bet / 10);
+            else
+                return small_number(x - 32, y - 19, bet mod 10);
+            end if;
+        elsif (x >= 3 and x < 87 and y >= 27 and y < 34) then -- Insurance: {{insurance}}
+            if (x < 9) then
+                return small_letter(x - 3, y - 35, 9);
+            elsif (x < 15) then
+                return small_letter(x - 8, y - 35, 14);
+            elsif (x < 21) then
+                return small_letter(x - 14, y - 35, 19);
+            elsif (x < 27) then
+                return small_letter(x - 20, y - 35, 21);
+            elsif (x < 33) then
+                return small_letter(x - 26, y - 35, 18);
+            elsif (x < 39) then
+                return small_le/.tter(x - 32, y - 35, 1);
+            elsif (x < 45) then
+                return small_letter(x - 38, y - 35, 14);
+            elsif (x < 51) then
+                return small_letter(x - 44, y - 35, 3);
+            elsif (x < 57) then
+                return small_letter(x - 50, y - 35, 5);
+            elsif (x < 63) then
+                return small_letter(x - 56, y - 35, 27);
+            elsif (x < 69) then
+                return '0';
+            elsif (insurance = '1') then -- Yes
+                if (x < 75) then
+                    return small_letter(x - 68, y - 35, 25);
+                elsif (x < 81) then
+                    return small_letter(x - 74, y - 35, 5);
+                else
+                    return small_letter(x - 80, y - 35, 19);
+                end if;
+            else -- No
+                if (x < 75) then
+                    return small_letter(x - 68, y - 35, 14);
+                elsif (x < 81) then
+                    return small_letter(x - 74, y - 35, 15);
+                else
+                    return '0';
+                end if;
+            end if;
+        elsif (x >= 3 and x < 45 and y >= 35 and y < 42 and split = '1') then -- Split: {{split}}
+            if (x < 9) then
+                return small_letter(x - 3, y - 27, 19);
+            elsif (x < 15) then
+                return small_letter(x - 8, y - 27, 16);
+            elsif (x < 21) then
+                return small_letter(x - 14, y - 27, 12);
+            elsif (x < 27) then
+                return small_letter(x - 20, y - 27, 9);
+            elsif (x < 33) then
+                return small_letter(x - 26, y - 27, 20);
+            elsif (x < 39) then
+                return small_letter(x - 32, y - 27, 27);
+            elsif (x < 45) then
+                return '0';
+            else
+                return small_number(x - 44, y - 27, split_number);
             end if;
         else
             return '0';
