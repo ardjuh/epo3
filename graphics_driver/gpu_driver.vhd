@@ -923,7 +923,7 @@ architecture behavior of gpu_driver is
             elsif (x < 45) then
                 return '0';
             else
-                return small_number(x - 44, y - 3, player);
+                return small_number(x - 45, y - 3, player);
             end if;
         elsif (x >= 3 and x < 63 and y >= 11 and y < 18) then -- Money: {{money}}
             if (x < 9) then
