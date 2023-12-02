@@ -157,11 +157,11 @@ begin
 			       new_state <= player_action;
 			  end if;
 
-			       -- Deal cards: first round. -- 
-			       -- draw play screen without options, game-setup draws new card --
+			       -- Check whether starting cards have been dealt -- 
+			       -- If yes, check which dealing phase we're in based on player count--
 
-		          if ( N_Players = "001" ) then
-		 	        if ( Player1_Hand_Card_1 = "0000" ) then 
+		          if ( N_Players = "001" ) then                  -- if 1 player, switch phases based on Player 1's hand --
+		 	        if ( Player1_Hand_Card_1 = "0000" ) then    -- Dealer receives a card after the last player received their first card --
 	 				first_card_deal <= '1';
 	 			 	dealer_card_deal <= '0';
 	 				second_card_deal <= '0';
@@ -180,7 +180,7 @@ begin
 	     				   new_state <= game_resolution;
 		 	       	end if;
 
-		 	  elsif ( N_Players = "010" ) then
+		 	  elsif ( N_Players = "010" ) then               -- if 2 players, switch phases based on Player 2's hand --
 		 	        if ( Player2_Hand_Card_1 = "0000" ) then 
 	 				first_card_deal <= '1';
 	 			 	dealer_card_deal <= '0';
@@ -200,10 +200,10 @@ begin
 	     				   new_state <= game_resolution;
 		 	       	end if; 
 
-		 	  elsif ( N_Players = "011" ) then
+		 	  elsif ( N_Players = "011" ) then               -- if 3 players, switch phases based on Player 3's hand --
 		 	        if ( Player3_Hand_Card_1 = "0000" ) then 
 	 				first_card_deal <= '1';
-	 			 	dealer_card_deal <= '0';
+	 			 	dealer_card_deal <= '0';    
 	 				second_card_deal <= '0';
 	  				new_state <= game_resolution; 
 
@@ -215,7 +215,7 @@ begin
 
 		                elsif ( Dealer_Hand_Card_1 != "0000") and ( Player3_Hand_Card_2 = "0000" ) then
               				   first_card_deal <= '0';
-	    				   dealer_card_deal <= '0';
+	    				   dealer_card_deal <= '0';      
 	     				   second_card_deal <= '1';
 	     				   new_state <= game_resolution;
 		 	       	end if; 
@@ -239,6 +239,8 @@ begin
 	     				   second_card_deal <= '1';
 	     				   new_state <= game_resolution;
 		 	       	end if; 
+		 	  end if;
+
 		 
 			  if ( bids_placed = '1' ) and (Player1_Hand_Card_1 == "0000") then
 			       cards_dealt <= '1';
