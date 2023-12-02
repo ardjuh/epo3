@@ -159,6 +159,87 @@ begin
 
 			       -- Deal cards: first round. -- 
 			       -- draw play screen without options, game-setup draws new card --
+
+		          if ( N_Players = "001" ) then
+		 	        if ( Player1_Hand_Card_1 = "0000" ) then 
+	 				first_card_deal <= '1';
+	 			 	dealer_card_deal <= '0';
+	 				second_card_deal <= '0';
+	  				new_state <= game_resolution; 
+
+		 	        elsif ( Player1_Hand_Card_1 != "0000" ) and ( Dealer_Hand_Card_1 = "0000" ) then 
+	                                   first_card_deal <= '0';
+	    				   dealer_card_deal <= '1';
+	    				   second_card_deal <= '0';
+	    				   new_state <= game_resolution; 
+
+		                elsif ( Dealer_Hand_Card_1 != "0000") and ( Player1_Hand_Card_2 = "0000" ) then
+              				   first_card_deal <= '0';
+	    				   dealer_card_deal <= '0';
+	     				   second_card_deal <= '1';
+	     				   new_state <= game_resolution;
+		 	       	end if;
+
+		 	  elsif ( N_Players = "010" ) then
+		 	        if ( Player2_Hand_Card_1 = "0000" ) then 
+	 				first_card_deal <= '1';
+	 			 	dealer_card_deal <= '0';
+	 				second_card_deal <= '0';
+	  				new_state <= game_resolution; 
+
+		 	        elsif ( Player2_Hand_Card_1 != "0000" ) and ( Dealer_Hand_Card_1 = "0000" ) then 
+	                                   first_card_deal <= '0';
+	    				   dealer_card_deal <= '1';
+	    				   second_card_deal <= '0';
+	    				   new_state <= game_resolution; 
+
+		                elsif ( Dealer_Hand_Card_1 != "0000") and ( Player2_Hand_Card_2 = "0000" ) then
+              				   first_card_deal <= '0';
+	    				   dealer_card_deal <= '0';
+	     				   second_card_deal <= '1';
+	     				   new_state <= game_resolution;
+		 	       	end if; 
+
+		 	  elsif ( N_Players = "011" ) then
+		 	        if ( Player3_Hand_Card_1 = "0000" ) then 
+	 				first_card_deal <= '1';
+	 			 	dealer_card_deal <= '0';
+	 				second_card_deal <= '0';
+	  				new_state <= game_resolution; 
+
+		 	        elsif ( Player3_Hand_Card_1 != "0000" ) and ( Dealer_Hand_Card_1 = "0000" ) then 
+	                                   first_card_deal <= '0';
+	    				   dealer_card_deal <= '1';
+	    				   second_card_deal <= '0';
+	    				   new_state <= game_resolution; 
+
+		                elsif ( Dealer_Hand_Card_1 != "0000") and ( Player3_Hand_Card_2 = "0000" ) then
+              				   first_card_deal <= '0';
+	    				   dealer_card_deal <= '0';
+	     				   second_card_deal <= '1';
+	     				   new_state <= game_resolution;
+		 	       	end if; 
+
+		 	  elsif ( N_Players = "100" ) then
+		 	        if ( Player4_Hand_Card_1 = "0000" ) then 
+	 				first_card_deal <= '1';
+	 			 	dealer_card_deal <= '0';
+	 				second_card_deal <= '0';
+	  				new_state <= game_resolution; 
+
+		 	        elsif ( Player4_Hand_Card_1 != "0000" ) and ( Dealer_Hand_Card_1 = "0000" ) then 
+	                                   first_card_deal <= '0';
+	    				   dealer_card_deal <= '1';
+	    				   second_card_deal <= '0';
+	    				   new_state <= game_resolution; 
+
+		                elsif ( Dealer_Hand_Card_1 != "0000") and ( Player4_Hand_Card_2 = "0000" ) then
+              				   first_card_deal <= '0';
+	    				   dealer_card_deal <= '0';
+	     				   second_card_deal <= '1';
+	     				   new_state <= game_resolution;
+		 	       	end if; 
+		 
 			  if ( bids_placed = '1' ) and (Player1_Hand_Card_1 == "0000") then
 			       cards_dealt <= '1';
 			       new_state <= game_resolution;
@@ -253,7 +334,7 @@ begin
 				    new_state <= game_setup;
 			  end if;
 
-			  elsif ( Player_Turn_In = "01" ) then
+			  elsif ( Player_Turn_In = "01" ) then   -- Player Turn 01 -> Player 2's Turn (not P1's Turn) --
 
 			       if    (mem_screen_position == 0 ) then
 		                      Player2_Bid_New <= "00";
@@ -307,27 +388,7 @@ begin
 				    bids_placed <= '1';
 			            Player_Turn_New <= "00";
 				    new_state <= game_setup;
-			  end if; 
-
-			  elsif ( Player_Turn_In = "00" ) then
-
-			       if    (mem_screen_position == 0 ) then
-		                      Player1_Bid_New <= "00";
-		               elsif (mem_screen_position == 1 ) then
-			              Player1_Bid_New <= "01";
-			       elsif (mem_screen_position == 2 ) then
-				      Player1_Bid_New  <= "10";
-		               elsif (mem_screen_position == 3 ) then
-				      Player1_Bid_New  <= "11";
-			       end if;  
-			       
-			       if ( unsigned(N_Players) > "001" ) then
-				    Player_Turn_New <= "01"; 
-			       else 
-				    bids_placed <= '1';
-			       end if;
-				    new_state <= game_setup;
-			  end if;  
+			  end if;   
                   
                   --------------------- dealing phase ------------------------
 			
