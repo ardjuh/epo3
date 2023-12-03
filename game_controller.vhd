@@ -241,56 +241,6 @@ begin
 		 	       	end if; 
 		 	  end if;
 
-		 
-			  if ( bids_placed = '1' ) and (Player1_Hand_Card_1 == "0000") then
-			       cards_dealt <= '1';
-			       new_state <= game_resolution;
-			  end if;
-
-			  if ( bids_placed = '1' ) and (Player1_Hand_Card_1 != "0000") and (Player2_Hand_Card_1 == "0000") and (Player_Turn_In <= N-Players) then
-			       cards_dealt <= '1';
-			       new_state <= game_resolution;
-			  end if;
-
-			  if ( bids_placed = '1' ) and (Player2_Hand_Card_1 != "0000") and (Player3_Hand_Card_1 == "0000") and (Player_Turn_In <= N-Players) then
-			       cards_dealt <= '1';
-			       new_state <= game_resolution;
-			  end if; 
-
-			  if ( bids_placed = '1' ) and (Player3_Hand_Card_1 != "0000") and (Player4_Hand_Card_1 == "0000") and (Player_Turn_In <= N-Players) then
-			       cards_dealt <= '1';
-			       new_state <= game_resolution;
-			  end if; 
-
-			       -- All player have been dealt ( playerTurn > 4 ), now deal dealer --
-			  if ( bids_placed = '1' ) and (Dealer_Hand_Card_1 != "0000") and (PlayerTurn > N-Players) then
-			       cards_dealt <= '1';
-			       new_state <= game_resolution;
-			  end if; 
-
-			       -- Deal cards: second round. -- 
-			  if ( bids_placed = '1' ) and (Dealer_Hand_Card_1 != "0000") and (Player1_Hand_Card_2 == "0000") then
-			       dealen <= '1';
-			       new_state <= player_resolve;
-			  end if;
-
-			  if ( bids_placed = '1' ) and (Hand1Card2 != "0000") and (Hand2Card2 == "0000") and (PlayerTurn <= N-Players) then
-			       dealen <= '1';
-			       new_state <= player_resolve;
-			  end if;
-
-			  if ( bids_placed = '1' ) and (Hand2Card2 != "0000") and (Hand3Card2 == "0000") and (PlayerTurn <= N-Players) then
-			       dealen <= '1';
-			       new_state <= player_resolve;
-			  end if;
-
-			  if ( bids_placed = '1' ) and (Hand3Card2 != "0000") and (Hand4Card2 == "0000") and (PlayerTurn <= N-Players) then
-			       dealen <= '1';
-			       new_state <= player_resolve;
-			  end if;
-			       -- Deal 2nd cards finished . -- 
-
-
                       when player_action =>
 
 			   mem_screen_position_max <= 4;       -- if in player select screen --
