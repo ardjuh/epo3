@@ -207,70 +207,66 @@ begin
 				end if;
 			when player_action =>
 				-- player select screen --
-			   mem_screen_position_max <= 4;
-			   if ( mem_switch_select == 1 ) then
-				new_state <= game_resolution;
-			   end if;
+				mem_screen_position_max <= 4;
+				if ( mem_switch_select == 1 ) then
+					new_state <= game_resolution;
+				end if;
 
-			   mem_screen_position_max <= 4;  -- if in bidding screen --
-			   if ( mem_switch_select == 1 ) then
-				new_state <= game_resolution;
+				-- bidding screen --
+				mem_screen_position_max <= 4;  
+				if ( mem_switch_select == 1 ) then
+					new_state <= game_resolution;
+				end if;
+			when game_resolution =>
+				if (N_Players = "000")
+				-- player select menu --
+					if (mem_screen_position = "000") then
+						N_Players_New <= "001";
+					elsif (mem_screen_position = "001" ) then
+						N_Players_New <= "010";
+					elsif (mem_screen_position = "010" ) then
+						N_Players_New <= "011";
+					elsif (mem_screen_position = "011" ) then
+						N_Players_New <= "100";
+					end if;
+				elsif (N_Players != "000" and bids_placed = '0') then
+				-- bidding phase --
+					if ( Player_Turn_In = "00" ) then
+					-- Player Turn 1 --
+						if (mem_screen_position = "000" ) then
+							Player1_Bid_New <= "00";
+						elsif (mem_screen_position "001" ) then
+							Player1_Bid_New <= "01";
+						elsif (mem_screen_position = "010" ) then
+							Player1_Bid_New <= "10";
+						elsif (mem_screen_position = "011" ) then
+							Player1_Bid_New  <= "11";
+						end if;  
+						if ( unsigned(N_Players) > "001" ) then
+							Player_Turn_New <= "01"; 
+						else 
+							bids_placed <= '1';
+						end if;
+					elsif ( Player_Turn_In = "00" ) then
+					-- Player Turn 2 --
+						if (mem_screen_position = "000" ) then
+							Player2_Bid_New <= "00";
+						elsif (mem_screen_position "001" ) then
+							Player2_Bid_New <= "01";
+						elsif (mem_screen_position = "010" ) then
+							Player2_Bid_New <= "10";
+						elsif (mem_screen_position = "011" ) then
+							Player2_Bid_New  <= "11";
+						end if;  
+						if ( unsigned(N_Players) > "010" ) then
+							Player_Turn_New <= "10"; 
+						else 
+							bids_placed <= '1';
+						end if;
+					end if;
+					new_state <= game_setup;
+				end if;
 
-                      when game_resolution =>
-
-                          -- if in player select menu --
-			  if    (mem_screen_position == 0 ) then
-		                 N_Players_New <= "001";
-		          elsif (mem_screen_position == 1 ) then
-			         N_Players_New <= "010";
-			  elsif (mem_screen_position == 2 ) then
-				 N_Players_New <= "011";
-		          elsif (mem_screen_position == 3 ) then
-				 N_Players_New <= "100";
-			  end if;
-
-	        --------------------- bidding phase ------------------------
-			  if ( Player_Turn_In = "00" ) then
-
-			       if    (mem_screen_position == 0 ) then
-		                      Player1_Bid_New <= "00";
-		               elsif (mem_screen_position == 1 ) then
-			              Player1_Bid_New <= "01";
-			       elsif (mem_screen_position == 2 ) then
-				      Player1_Bid_New  <= "10";
-		               elsif (mem_screen_position == 3 ) then
-				      Player1_Bid_New  <= "11";
-			       end if;  
-			       
-			       if ( unsigned(N_Players) > "001" ) then
-				    Player_Turn_New <= "01"; 
-			       else 
-				    bids_placed <= '1';
-			       end if;
-				    new_state <= game_setup;
-			  end if;
-
-			  elsif ( Player_Turn_In = "01" ) then   -- Player Turn 01 -> Player 2's Turn (not P1's Turn) --
-
-			       if    (mem_screen_position == 0 ) then
-		                      Player2_Bid_New <= "00";
-		               elsif (mem_screen_position == 1 ) then
-			              Player2_Bid_New <= "01";
-			       elsif (mem_screen_position == 2 ) then
-				      Player2_Bid_New  <= "10";
-		               elsif (mem_screen_position == 3 ) then
-				      Player2_Bid_New  <= "11";
-			       end if;  
-			       
-			       if ( unsigned(N_Players) > "010" ) then
-				    Player_Turn_New <= "10"; 
-			       else 
-				    bids_placed <= '1';
-			       end if;
-				    new_state <= game_setup;
-			  end if;
-
-                          elsif ( Player_Turn_In = "10" ) then
 
 			       if    (mem_screen_position == 0 ) then
 		                      Player3_Bid_New <= "00";
