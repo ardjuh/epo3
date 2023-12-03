@@ -93,7 +93,7 @@ type controller_state is ( reset,
                            game_resolution );
 
 signal state, new_state: controller state;
-signal bids_placed, cards_dealt  : std_logic;
+signal bids_placed, first_card_deal, dealer_card_deal, second_card_deal  : std_logic;
 
 begin
       process (clk)
