@@ -77,8 +77,9 @@ entity controller is
 	Player3_Bid_New  : out std_logic_vector (1 downto 0);
 	Player4_Bid_New  : out std_logic_vector (1 downto 0);
 
-	Player_Turn_New  : out std_logic_vector (1 downto 0);   -- outputs -> mem based on actions --
-	N_Players_New    : out std_logic_vector (2 downto 0);
+	Player_Turn_New	: out std_logic_vector (1 downto 0);   -- outputs -> mem based on actions --
+	N_Players_New	: out std_logic_vector (2 downto 0);
+	new_card_player	: out std_logic_vector (3 downto 0); 
 	new_card   : out std_logic_vector (3 downto 0);   -- Mem Controller determines where the new card goes from Player Turn and Hand Cards --
 	double     : out std_logic;   
 	split      : out std_logic;   -- Mem Controller determines what happens with each function --
@@ -247,7 +248,7 @@ begin
 						else 
 							bids_placed <= '1';
 						end if;
-					elsif ( Player_Turn_In = "00" ) then
+					elsif ( Player_Turn_In = "01" ) then
 					-- Player Turn 2 --
 						if (mem_screen_position = "000" ) then
 							Player2_Bid_New <= "00";
@@ -263,47 +264,54 @@ begin
 						else 
 							bids_placed <= '1';
 						end if;
+					elsif ( Player_Turn_In = "10" ) then
+					-- Player Turn 3 --
+						if (mem_screen_position = "000" ) then
+							Player3_Bid_New <= "00";
+						elsif (mem_screen_position "001" ) then
+							Player3_Bid_New <= "01";
+						elsif (mem_screen_position = "010" ) then
+							Player3_Bid_New <= "10";
+						elsif (mem_screen_position = "011" ) then
+							Player3_Bid_New  <= "11";
+						end if;  
+						if ( unsigned(N_Players) > "011" ) then
+							Player_Turn_New <= "11"; 
+						else 
+							bids_placed <= '1';
+						end if;
+					elsif ( Player_Turn_In = "11" ) then
+					-- Player Turn 4 --
+						if (mem_screen_position = "000" ) then
+							Player4_Bid_New <= "00";
+						elsif (mem_screen_position "001" ) then
+							Player4_Bid_New <= "01";
+						elsif (mem_screen_position = "010" ) then
+							Player4_Bid_New <= "10";
+						elsif (mem_screen_position = "011" ) then
+							Player4_Bid_New  <= "11";
+						end if;  
+						Player_Turn_New <= "00";
+						bids_placed <= '1';
 					end if;
 					new_state <= game_setup;
-				end if;
-
-
-			       if    (mem_screen_position == 0 ) then
-		                      Player3_Bid_New <= "00";
-		               elsif (mem_screen_position == 1 ) then
-			              Player3_Bid_New <= "01";
-			       elsif (mem_screen_position == 2 ) then
-				      Player3_Bid_New  <= "10";
-		               elsif (mem_screen_position == 3 ) then
-				      Player3_Bid_New  <= "11";
-			       end if;  
-			       
-			       if ( unsigned(N_Players) > "011" ) then
-				    Player_Turn_New <= "11"; 
-			       else 
-				    bids_placed <= '1';
-			       end if;
-				    new_state <= game_setup;
-			  end if; 
-
-			  elsif ( Player_Turn_In = "11" ) then
-
-			       if    (mem_screen_position == 0 ) then
-		                      Player1_Bid_New <= "00";
-		               elsif (mem_screen_position == 1 ) then
-			              Player1_Bid_New <= "01";
-			       elsif (mem_screen_position == 2 ) then
-				      Player1_Bid_New  <= "10";
-		               elsif (mem_screen_position == 3 ) then
-				      Player1_Bid_New  <= "11";
-			       end if;  
-				    bids_placed <= '1';
-			            Player_Turn_New <= "00";
-				    new_state <= game_setup;
-			  end if;   
-                  
-                  --------------------- dealing phase ------------------------
-			
-             end case;
+				--------------------- dealing phase ------------------------
+				-- maybe we can just send the card to mem along with player number, and the mem fills the first free card-slot found for that player --
+				-- then we can merge first_card_deal, second_card_deal, dealercarddeal into card_deal leaving two elifs --
+				elsif (first_card_deal = '1' and random_card = '0000') then
+					request_card <= '1';
+					new_state <= game_resolution;
+				elsif (second_card_deal = '1' and random_card = '0000') then
+					request_card <= '1';
+					new_state <= game_resolution;
+				elsif (dealer_card_deal = '1' and random_card = '0000') then
+					request_card <= '1';
+					new_state <= game_resolution;
+				elsif random_card != '0000') then
+					new_card_player <= Player_Turn_In; -- dealer is player 5? --
+					new_card <= random_card;
+					new_state <= game_setup;
+				end if; 
+            end case;
       end process;
 end architecture;
