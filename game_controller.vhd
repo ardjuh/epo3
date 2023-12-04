@@ -307,7 +307,7 @@ begin
 				elsif (dealer_card_deal = '1' and random_card = '0000') then
 					request_card <= '1';
 					new_state <= game_resolution;
-				elsif random_card != '0000') then
+				elsif (random_card != '0000') then
 					new_card_player <= Player_Turn_In; -- dealer is player 5? --
 					new_card <= random_card;
 					new_state <= game_setup;
