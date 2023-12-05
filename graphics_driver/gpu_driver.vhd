@@ -558,7 +558,7 @@ architecture behavior of gpu_driver is
         money4  : integer range 0 to 999 := 0
     ) return std_logic is
     begin
-        if (y >= 12 and y <= 18 and x >= 44) then
+        	if (y >= 12 and y <= 18 and x>=44) then
             if (x < 50) then
                 return small_letter(x - 44, y - 12, 16); --P
             elsif (x < 56) then
@@ -596,7 +596,7 @@ architecture behavior of gpu_driver is
             else
                 return small_letter(x - 146, y - 12, 25); --Y
             end if;
-        elsif (y >= 20 and y < 27 and x >= 44) then
+        elsif (y >= 20 and y < 27 and x>=44) then
             if (x < 50) then
                 return small_letter(x - 44, y - 20, 16); --P
             elsif (x < 56) then
@@ -629,7 +629,7 @@ architecture behavior of gpu_driver is
                 return small_card_char(x - 128, y - 20, card1_5); --Player1 card 5
 				else return '0';
             end if;
-        elsif (y >= 28 and y < 35 and x >= 44) then
+        elsif (y >= 28 and y < 35 and x>=44) then
             if (x < 50) then
                 return small_letter(x - 44, y - 28, 16); --P
             elsif (x < 56) then
@@ -643,7 +643,7 @@ architecture behavior of gpu_driver is
             elsif (x < 80) then
                 return small_letter(x - 74, y - 28, 18); --R
             elsif (x < 86) then
-                return small_number(x - 80, y - 28, 1); --2
+                return small_number(x - 80, y - 28, 2); --2
             elsif (x < 92) then
                 return small_letter(x - 86, y - 28, 0); --Space
             elsif (x < 98) then
@@ -662,7 +662,7 @@ architecture behavior of gpu_driver is
                 return small_card_char(x - 128, y - 28, card2_5); --Player2 card 5
 			   else return '0';
             end if;
-        elsif (y >= 36 and y < 43 and x >= 44) then
+        elsif (y >= 36 and y < 43 and x>=44) then
             if (x < 50) then
                 return small_letter(x - 44, y - 36, 16); --P
             elsif (x < 56) then
@@ -695,7 +695,7 @@ architecture behavior of gpu_driver is
                 return small_card_char(x - 128, y - 36, card3_5); --Player3 card 5
 				else return '0';
             end if;
-        elsif (y >= 44 and y < 51 and x >= 44) then
+        elsif (y >= 44 and y < 51 and x>=44) then
             if (x < 50) then
                 return small_letter(x - 44, y - 44, 16); --P
             elsif (x < 56) then
@@ -728,13 +728,12 @@ architecture behavior of gpu_driver is
                 return small_card_char(x - 128, y - 44, card4_5); --Player4 card 5
 				else return '0';
             end if;
-        else
-            return '0';
+				else return '0';
         end if;
     end function;
 
     function cards (
-        x     : integer range 0 to 99;
+        x     : integer range 0 to 100;
         y     : integer range 0 to 86;
         card1 : integer range 0 to 13 := 0;
         card2 : integer range 0 to 13 := 0;
@@ -743,7 +742,7 @@ architecture behavior of gpu_driver is
         card5 : integer range 0 to 13 := 0
     ) return std_logic is
     begin
-        if (x >= 44 and x <= 99 and card1 > 0) then
+        if (x >= 44 and x <= 100 and card1 > 0) then
             if (x <= 45 or y <= 1 or x >= 98 or y >= 85) then
                 return '1';
             elsif (x >= 70 and x < 80 and y >= 33 and y < 53) then
@@ -754,15 +753,15 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (x >= 33 and x <= 43 and card2 > 0) then
-            if (x <= 34 or y <= 1 or x >= 42 or y >= 85) then
+            if (x <= 34 or y <= 1 or y >= 85) then
                 return '1';
-            elsif (x >= 37 and x <= 41 and y >= 4 and y <= 10) then
+            elsif (x >= 37 and y >= 4 and y <= 10) then
                 return small_card_char(x - 37, y - 4, card2);
             else
                 return '0';
             end if;
         elsif (x >= 22 and x <= 32 and card3 > 0) then
-            if (x <= 23 or y <= 1 or x >= 31 or y >= 85) then
+            if (x <= 23 or y <= 1 or y >= 85) then
                 return '1';
             elsif (x >= 26 and x <= 29 and y >= 4 and y <= 10) then
                 return small_card_char(x - 26, y - 4, card3);
@@ -770,7 +769,7 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (x >= 11 and x <= 21 and card4 > 0) then
-            if (x <= 12 or y <= 1 or x >= 20 or y >= 85) then
+            if (x <= 12 or y <= 1 or y >= 85) then
                 return '1';
             elsif (x >= 15 and x <= 19 and y >= 4 and y <= 10) then
                 return small_card_char(x - 15, y - 4, card4);
@@ -778,7 +777,7 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (x <= 10 and card5 > 0) then
-            if (x <= 1 or y <= 1 or x >= 9 or y >= 85) then
+            if (x <= 1 or y <= 1 or y >= 85) then
                 return '1';
             elsif (x >= 4 and x <= 8 and y >= 4 and y <= 10) then
                 return small_card_char(x - 4, y - 4, card5);
@@ -1105,3 +1104,4 @@ begin
         end if;
     end process;
 end architecture;
+
