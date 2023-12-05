@@ -123,6 +123,7 @@ begin
 			when reset =>
 				bids_placed <= '0';
 				require_card <= '0';
+				enable <= '0';
 				-- signal to draw the main menu --
 				-- mem_screen_position_max	<= "000" --
 				-- mem_screen_position		<= "000" --
@@ -321,7 +322,7 @@ begin
 					new_state <= game_setup;
 				end if;
 							
-				--------------------- dealing phase ------------------------
+				----------------------- dealing phase ------------------------
 		-- maybe we can send the card to mem along with player number, and the mem fills the first free card-slot found for that player --
 		-- for the dealer it is convenient to take player_turn = 5 which helps during the game itself, --
 		-- as in the main game the game setup recognizes dealing out the dealer after fourth player --
@@ -352,22 +353,18 @@ begin
 					if ( first_card_dealt = '1' ) then         -- requirement for Receiving Hand to have a 0 off state. Saves a bit --   
 				        	if ( Player1_Hand_Card_1 = "0000" ) then     
 					        	Receiving_Hand <= "000";    -- "000" card goes to Player 1's hand --   				  
-						 	new_card <= random_card;
 					        	enable <= '1';
 							
 				       		elsif ( Player1_Hand_Card_1 != "0000" ) and ( Player2_Hand_Card_1 = "0000" ) then 
 							Receiving_Hand <= "001";    -- "001" card goes to Player 2's hand --       
-							new_card <= random_card;
 					        	enable <= '1';
 
 						elsif ( Player2_Hand_Card_1 != "0000" ) and ( Player3_Hand_Card_1 = "0000" ) then 
 							Receiving_Hand <= "010";    -- "010" card goes to Player 3's hand --
-							new_card <= random_card;
 					        	enable <= '1';
 
 						elsif ( Player3_Hand_Card_1 != "0000" ) and ( Player4_Hand_Card_1 = "0000" ) then 
-							Receiving_Hand <= "011";    -- "000" card goes to Player 4's hand --
-							new_card <= random_card;
+							Receiving_Hand <= "011";    -- "011" card goes to Player 4's hand --
 					        	enable <= '1';
 						end if;
 
@@ -397,11 +394,13 @@ begin
 							new_card <= random_card;
 					        	enable <= '1';
 						end if;
+							
 					
 			when pending_card_a =>
 				request_card <= '1';
                                 if ( random_card != "0000" ) then
 				        require_card <= '0';
+					new_card <= random_card;
 			        else
 					require_card <= '1';
 				end if;
@@ -415,6 +414,7 @@ begin
 				request_card <= '0';
 				if ( random_card != "0000" ) then
 				        require_card <= '0';
+					new_card <= random_card;
 			        else
 					require_card <= '1';
 				end if;
