@@ -842,27 +842,25 @@ architecture behavior of gpu_driver is
                 else
                     return small_letter(x_pos - 323, y_pos - 32, 5);
                 end if;
-            elsif (x_pos >= 507 and em = '1') then
-                if (x_pos < 514) then
-                    return small_letter(x_pos - 507, y_pos - 32, 5);--e
-                elsif (x_pos < 520) then
-                    return small_letter(x_pos - 513, y_pos - 32, 22);--v
-                elsif (x_pos < 526) then
-                    return small_letter(x_pos - 519, y_pos - 32, 5);--e
-                elsif (x_pos < 532) then
-                    return small_letter(x_pos - 525, y_pos - 32, 14);--n
-                elsif (x_pos < 538) then
-                    return small_letter(x_pos - 531, y_pos - 32, 0);--space
-                elsif (x_pos < 544) then
-                    return small_letter(x_pos - 537, y_pos - 32, 13); --m
-                elsif (x_pos < 550) then
-                    return small_letter(x_pos - 543, y_pos - 32, 15);--o
-                elsif (x_pos < 556) then
-                    return small_letter(x_pos - 549, y_pos - 32, 14); --n
-                elsif (x_pos < 562) then
-                    return small_letter(x_pos - 555, y_pos - 32, 5);--e
+            elsif (x_pos >= 507 and x_pos < 561 and em = '1') then -- EVEN MONEY
+                if (x_pos < 513) then
+                    return small_letter(x_pos - 507, y_pos - 32, 5);
+                elsif (x_pos < 519) then
+                    return small_letter(x_pos - 513, y_pos - 32, 22);
+                elsif (x_pos < 525) then
+                    return small_letter(x_pos - 519, y_pos - 32, 5);
+                elsif (x_pos < 531) then
+                    return small_letter(x_pos - 525, y_pos - 32, 14);
+                elsif (x_pos < 537) then
+                    return '0';
+                elsif (x_pos < 543) then
+                    return small_letter(x_pos - 537, y_pos - 32, 13);
+                elsif (x_pos < 549) then
+                    return small_letter(x_pos - 543, y_pos - 32, 14);
+                elsif (x_pos < 555) then
+                    return small_letter(x_pos - 549, y_pos - 32, 5);
                 else
-                    return small_letter(x_pos - 561, y_pos - 32, 25); --y
+                    return small_letter(x_pos - 555, y_pos - 32, 25);
                 end if;
             else
                 return '0';
