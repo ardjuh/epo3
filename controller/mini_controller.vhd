@@ -32,9 +32,11 @@ type mini_controller_state is (
 	leftb,
 	righta,
 	rightb,
-	reset_state);
+	reset_state,
+	player_action
+	);
 
-signal state, new_state, game_resolution, player_action: mini_controller_state;
+signal state, new_state, game_resolution: mini_controller_state;
 
 begin
 	process (clk)
@@ -104,6 +106,15 @@ begin
 				new_state <= player_action;
 				else new_state <= rightb;
 			        end if;
+		    
+			when reset_state =>
+				switch_right <= '0' ;
+				switch_left <= '0' ;
+				switch_select <= '0' ;
+				if (reset = '0') then
+					new_state <= player_action;
+				else new_state <= reset_state;
+				end if;
 			end case;	
 	end process;
 end architecture;
