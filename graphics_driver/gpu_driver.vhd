@@ -627,6 +627,7 @@ architecture behavior of gpu_driver is
                 return small_card_char(x - 122, y - 20, card1_4); --Player1 card 4
             elsif (x < 134 and card1_5 > 0) then
                 return small_card_char(x - 128, y - 20, card1_5); --Player1 card 5
+				else return '0';
             end if;
         elsif (y >= 28 and y < 35 and x>=44) then
             if (x < 50) then
@@ -659,6 +660,7 @@ architecture behavior of gpu_driver is
                 return small_card_char(x - 122, y - 28, card2_4); --Player2 card 4
             elsif (x < 134 and card1_5 > 0) then
                 return small_card_char(x - 128, y - 28, card2_5); --Player2 card 5
+			   else return '0';
             end if;
         elsif (y >= 36 and y < 43 and x>=44) then
             if (x < 50) then
@@ -691,6 +693,7 @@ architecture behavior of gpu_driver is
                 return small_card_char(x - 122, y - 36, card3_4); --Player3 card 4
             elsif (x < 134 and card1_5 > 0) then
                 return small_card_char(x - 128, y - 36, card3_5); --Player3 card 5
+				else return '0';
             end if;
         elsif (y >= 44 and y < 51 and x>=44) then
             if (x < 50) then
@@ -723,7 +726,9 @@ architecture behavior of gpu_driver is
                 return small_card_char(x - 122, y - 44, card4_4); --Player4 card 4
             elsif (x < 134 and card1_5 > 0) then
                 return small_card_char(x - 128, y - 44, card4_5); --Player4 card 5
+				else return '0';
             end if;
+				else return '0';
         end if;
     end function;
 
@@ -1083,8 +1088,8 @@ begin
                 b <= 2;
             end if;
         elsif (x_pos >= 10 and y_pos >= 10 and x_pos < 159 and y_pos < 60) then -- Table
-            if (table(x_pos - 10, y_pos - 10, '1', 1, 2, 3, 4, 5, 100, '1', 1, 2, 3, 4, 5, 100, '1', 1, 2, 3, 4, 5, 100, '1', 1, 2, 3, 4, 5, 100) = '1') then
-                r <= 15;
+					if (table(x_pos - 10, y_pos - 10, '1', 1, 2, 3, 4, 5, 100, '1', 1, 2, 3, 4, 5, 100, '1', 1, 2, 3, 4, 5, 100, '1', 1, 2, 3, 4, 5, 100) = '1') then
+                r <= 15; 
                 g <= 15;
                 b <= 15;
             else
@@ -1092,10 +1097,11 @@ begin
                 g <= 11;
                 b <= 2;
             end if;
-        else
+        else 
             r <= 2;
             g <= 15;
             b <= 3;
         end if;
     end process;
 end architecture;
+
