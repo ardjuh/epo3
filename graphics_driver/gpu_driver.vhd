@@ -1059,14 +1059,14 @@ begin
                 b <= 15;
             end if;
         elsif (y_pos >= 10 and y_pos < 96 and x_pos < 630 and x_pos >= 531) then -- Dealer hand
-            if (cards(630 - x_pos, 96 - y_pos, 12, 4, 7, 3, 1) = '1') then
-                r <= 15;
-                g <= 15;
-                b <= 15;
-            else
+            if (cards(x_pos - 531, y_pos - 10, 12, 4, 7, 3, 1) = '1') then
                 r <= 0;
                 g <= 0;
                 b <= 0;
+            else
+                r <= 15;
+                g <= 15;
+                b <= 15;
             end if;
         elsif (y_pos >= 180 and y_pos < 280) then -- Action menu
             if (action_menu(x_pos, y_pos - 180) = '1') then
