@@ -923,7 +923,7 @@ architecture behavior of gpu_driver is
 
     function details(
         x            : integer range 0 to 84;
-        y            : integer range 0 to 40;
+        y            : integer range 0 to 41;
         player       : integer range 1 to 4;
         money        : integer range 0 to 999;
         bet          : integer range 2 to 40;
@@ -1028,7 +1028,7 @@ architecture behavior of gpu_driver is
                     return '0';
                 end if;
             end if;
-        elsif (x >= 3 and x < 45 and y >= 35 and y < 42 and split = '1') then -- Split: {{split}}
+        elsif (x >= 3 and x < 45 and y >= 35 and split = '1') then -- Split: {{split}}
             if (x < 9) then
                 return small_letter(x - 3, y - 35, 19);
             elsif (x < 15) then
@@ -1096,12 +1096,12 @@ begin
                 g <= 4;
                 b <= 4;
             end if;
-        elsif (x_pos < 630 and x_pos >= 544 and y_pos < 470 and y_pos >= 428) then -- Details
-            if (x_pos = 544 or x_pos = 629 or y_pos = 428 or y_pos = 469) then
+        elsif (x_pos < 630 and x_pos >= 544 and y_pos < 470 and y_pos >= 427) then -- Details
+            if (x_pos = 544 or x_pos = 629 or y_pos = 427 or y_pos = 469) then
                 r <= 0;
                 g <= 0;
                 b <= 0;
-            elsif (details(x_pos - 545, y_pos - 428, 1, 100, 10) = '1') then
+            elsif (details(x_pos - 545, y_pos - 427, 1, 100, 10) = '1') then
                 r <= 15;
                 g <= 15;
                 b <= 15;
