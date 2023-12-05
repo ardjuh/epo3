@@ -123,7 +123,7 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (letter = 18) then -- R
-            if (x = 0 or ((y = 0 or y = 4) and x < 4) or (x = 4 and ((y > 0 and y < 3) or y = 4 or y = 5))) then
+            if (x = 0 or ((y = 0 or y = 4) and x < 4) or (x = 4 and ((y > 0 and y < 4) or y = 5 or y = 6))) then
                 return '1';
             else
                 return '0';
