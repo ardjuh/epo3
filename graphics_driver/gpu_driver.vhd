@@ -615,10 +615,10 @@ architecture behavior of gpu_driver is
                 return small_letter(x - 86, y - 20, 0); --Space
             elsif (x < 98) then
                 return small_number(x - 92, y - 20, money1/100); --Player money
-            elsif (x < 104) then
-                return small_number(x - 98, y - 20, money1/100 mod 10);
-            elsif (x < 110) then
-                return small_number(x - 104, y - 20, money1 mod 10);
+	   elsif (x <104) then
+		return small_number(x - 98, y - 20, money1/10 mod 10);
+	   elsif (x<110) then
+		return small_number(x - 104, y - 20, money1 mod 10);
             elsif (x < 116) then
                 return small_letter(x - 110, y - 20, 0); --Space
             elsif (x < 122 and card1_1 > 0) then
@@ -653,21 +653,21 @@ architecture behavior of gpu_driver is
                 return small_letter(x - 86, y - 28, 0); --Space
             elsif (x < 98) then
                 return small_number(x - 92, y - 20, money2/100); --Player money
-            elsif (x < 104) then
-                return small_number(x - 98, y - 20, money2/100 mod 10);
-            elsif (x < 110) then
-                return small_number(x - 104, y - 20, money2 mod 10);
-            elsif (x < 116) then
+	   elsif (x <104) then
+		return small_number(x - 98, y - 20, money2/10 mod 10);
+	   elsif (x<110) then
+		return small_number(x - 104, y - 20, money2 mod 10);
+	elsif (x < 116) then
                 return small_letter(x - 98, y - 28, 0); --Space
-            elsif (x < 122 and card2_1 > 0) then
+            elsif (x < 122 and card1_1 > 0) then
                 return small_card_char(x - 104, y - 28, card2_1); --Player2 card 1
-            elsif (x < 128 and card2_2 > 0) then
+            elsif (x < 128 and card1_2 > 0) then
                 return small_card_char(x - 110, y - 28, card2_2); --Player2 card 2
-            elsif (x < 134 and card2_3 > 0) then
+            elsif (x < 134 and card1_3 > 0) then
                 return small_card_char(x - 116, y - 28, card2_3); --Player2 card 3
-            elsif (x < 140 and card2_4 > 0) then
+            elsif (x < 140 and card1_4 > 0) then
                 return small_card_char(x - 122, y - 28, card2_4); --Player2 card 4
-            elsif (x < 146 and card2_5 > 0) then
+            elsif (x < 146 and card1_5 > 0) then
                 return small_card_char(x - 128, y - 28, card2_5); --Player2 card 5
             else
                 return '0';
@@ -691,21 +691,21 @@ architecture behavior of gpu_driver is
                 return small_letter(x - 86, y - 36, 0); --Space
             elsif (x < 98) then
                 return small_number(x - 92, y - 20, money3/100); --Player money
-            elsif (x < 104) then
-                return small_number(x - 98, y - 20, money3/100 mod 10);
-            elsif (x < 110) then
-                return small_number(x - 104, y - 20, money3 mod 10);
+	   elsif (x <104) then
+		return small_number(x - 98, y - 20, money3/10 mod 10);
+	   elsif (x<110) then
+		return small_number(x - 104, y - 20, money3 mod 10);
             elsif (x < 116) then
                 return small_letter(x - 98, y - 36, 0); --Space
-            elsif (x < 122 and card3_1 > 0) then
+            elsif (x < 122 and card1_1 > 0) then
                 return small_card_char(x - 104, y - 36, card3_1); --Player3 card 1
-            elsif (x < 128 and card3_2 > 0) then
+            elsif (x < 128 and card1_2 > 0) then
                 return small_card_char(x - 110, y - 36, card3_2); --Player3 card 2
-            elsif (x < 134 and card3_3 > 0) then
+            elsif (x < 134 and card1_3 > 0) then
                 return small_card_char(x - 116, y - 36, card3_3); --Player3 card 3
-            elsif (x < 140 and card3_4 > 0) then
+            elsif (x < 140 and card1_4 > 0) then
                 return small_card_char(x - 122, y - 36, card3_4); --Player3 card 4
-            elsif (x < 146 and card3_5 > 0) then
+            elsif (x < 146 and card1_5 > 0) then
                 return small_card_char(x - 128, y - 36, card3_5); --Player3 card 5
             else
                 return '0';
@@ -729,21 +729,21 @@ architecture behavior of gpu_driver is
                 return small_letter(x - 86, y - 44, 0); --Space
             elsif (x < 98) then
                 return small_number(x - 92, y - 20, money4/100); --Player money
-            elsif (x < 104) then
-                return small_number(x - 98, y - 20, money4/100 mod 10);
-            elsif (x < 110) then
-                return small_number(x - 104, y - 20, money4 mod 10);
+	   elsif (x <104) then
+		return small_number(x - 98, y - 20, money4/10 mod 10);
+	   elsif (x<110) then
+		return small_number(x - 104, y - 20, money4 mod 10);
             elsif (x < 116) then
                 return small_letter(x - 98, y - 44, 0); --Space
-            elsif (x < 122 and card4_1 > 0) then
+            elsif (x < 122 and card1_1 > 0) then
                 return small_card_char(x - 104, y - 44, card4_1); --Player4 card 1
-            elsif (x < 128 and card4_2 > 0) then
+            elsif (x < 128 and card1_2 > 0) then
                 return small_card_char(x - 110, y - 44, card4_2); --Player4 card 2
-            elsif (x < 134 and card4_3 > 0) then
+            elsif (x < 134 and card1_3 > 0) then
                 return small_card_char(x - 116, y - 44, card4_3); --Player4 card 3
-            elsif (x < 140 and card4_4 > 0) then
+            elsif (x < 140 and card1_4 > 0) then
                 return small_card_char(x - 122, y - 44, card4_4); --Player4 card 4
-            elsif (x < 146 and card4_5 > 0) then
+            elsif (x < 146 and card1_5 > 0) then
                 return small_card_char(x - 128, y - 44, card4_5); --Player4 card 5
             else
                 return '0';
@@ -784,7 +784,7 @@ architecture behavior of gpu_driver is
         elsif (x >= 22 and x <= 32 and card3 > 0) then
             if (x <= 23 or y <= 1 or y >= 85) then
                 return '1';
-            elsif (x >= 26 and x <= 30 and y >= 4 and y <= 10) then
+            elsif (x >= 26 and x <= 29 and y >= 4 and y <= 10) then
                 return small_card_char(x - 26, y - 4, card3);
             else
                 return '0';
@@ -1108,12 +1108,8 @@ begin
                 g <= 11;
                 b <= 2;
             end if;
-        elsif (x_pos >= 10 and y_pos >= 10 and x_pos < 161 and y_pos < 62) then -- Table
-            if (x_pos = 10 or x_pos = 160 or y_pos = 10 or y_pos = 61) then
-                r <= 0;
-                g <= 0;
-                b <= 0;
-            if (table(x_pos - 11, y_pos - 11, '1', 1, 2, 3, 4, 5, 100, '1', 1, 2, 3, 4, 5, 100, '1', 1, 2, 3, 4, 5, 100, '1', 1, 2, 3, 4, 5, 100) = '1') then
+        elsif (x_pos >= 10 and y_pos >= 10 and x_pos < 159 and y_pos < 60) then -- Table
+            if (table(x_pos - 10, y_pos - 10, '1', 1, 2, 3, 4, 5, 987, '1', 6, 7, 8, 9, 10, 123, '1', 11, 12, 13, 11, 5, 456, '1', 1, 2, 3, 4, 5, 432) = '1') then
                 r <= 15;
                 g <= 15;
                 b <= 15;
