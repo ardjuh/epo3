@@ -593,8 +593,10 @@ architecture behavior of gpu_driver is
                 return small_letter(x - 90, y, 18); --R
             elsif (x < 102) then
                 return small_letter(x - 96, y, 4); --D
-            else
+            elsif (x<108) then
                 return small_letter(x - 102, y, 19); --S
+				else
+				return '0';
             end if;
         elsif (y >= 8 and y < 15) then
             if (x < 6) then
