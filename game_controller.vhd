@@ -88,20 +88,21 @@ entity controller is
 end controller;
 
 architecture behaviour of controller is
-	type controller_state is (	reset,
-								game_setup,
-								player_action,
-								game_resolution );
+	type controller_state is ( reset,
+				   game_setup,
+				   player_action,
+				   game_resolution 
+				 );
 
-	signal state, new_state: controller_state;
-	variable bids_placed : std_logic;
-	-- menu + control implementation needs to be designed --
-	variable first_card_deal, dealer_card_deal, second_card_deal : std_logic;
-	variable double_selected, split_selected, insurance_selected, hold_selected, hit_selected : std_logic;
-	variable double_selectable, split_selectable, insurance_selectable : std_logic;
-	variable mem_screen_position_max, mem_screen_position : std_logic;
-	-- draw_menu signal needs to be held continously, thus remembered for all clock cycles --
-	variable menu : std_logic_vector (? downto 0); 
+signal state, new_state: controller_state;
+signal bids_placed, require_card : std_logic;
+signal first_card_deal, dealer_card_deal, second_card_deal : std_logic;
+signal double_selected, split_selected, insurance_selected, hold_selected, hit_selected : std_logic;
+signal double_selectable, split_selectable, insurance_selectable : std_logic;
+signal mem_screen_position_max, mem_screen_position : std_logic;
+-- draw_menu signal needs to be held continously, thus remembered for all clock cycles --
+signal menu : std_logic_vector (? downto 0); 
+
 begin
 	process (clk)
 	begin
@@ -119,6 +120,7 @@ begin
 		case state is
 			when reset =>
 				bids_placed <= '0';
+				require_card <= '0';
 				-- signal to draw the main menu --
 				-- mem_screen_position_max	<= "000" --
 				-- mem_screen_position		<= "000" --
@@ -126,6 +128,7 @@ begin
 				if( mem_switch_select = '1' ) then
 					new_state <= game_setup;
 				end if;
+					
 			when game_setup =>
 				insurance <= '0';
 				-- player select condition --
@@ -214,6 +217,7 @@ begin
 						new_state <= game_resolution;
 					end if; 
 				end if;
+					
 			when player_action =>
 				-- player select screen --
 				mem_screen_position_max <= "011";
@@ -227,6 +231,7 @@ begin
 					mem_switch_select <= '0';
 					new_state <= game_resolution;
 				end if;
+					
 			when game_resolution =>
 				if (N_Players = "000")
 				-- player select menu --
@@ -310,15 +315,15 @@ begin
 				-- for the dealer it is convenient to take player_turn = 5 which helps during the game itself, --
 				-- as in the main game the game setup recognizes dealing out the dealer after fourth player --
 							
-				elsif (first_card_deal = '1' and random_card = "0000") then	
-					request_card <= '1';
-					new_state <= game_resolution;
+				if (first_card_deal = '1' and random_card = "0000") then	
+					require_card <= '1';
+					new_state <= pending_card_a;
 				elsif (second_card_deal = '1' and random_card = "0000") then
-					request_card <= '1';
-					new_state <= game_resolution;
+					require_card <= '1';
+					new_state <= pending_card_a;
 				elsif (dealer_card_deal = '1' and random_card = "0000") then
-					request_card <= '1';
-					new_state <= game_resolution;
+					require_card <= '1';
+					new_state <= pending_card_a;
 							
 				--------------------- game phase ------------------------
 				elsif (hold_selected = '1') then
@@ -343,6 +348,31 @@ begin
 					new_card <= random_card;
 					new_state <= game_setup;
 				end if; 
+					
+			when pending_card_a =>
+				request_card <= '1';
+                                if ( random_card != "0000" ) then
+				        require_card <= '0';
+			        else
+					require_card <= '1';
+				end if;
+				if ( require_card = '1' ) then
+					new_state <= pending_card_b;
+				else
+					new_state <= game_resolution;
+				end if;
+
+			when pending_card_b =>
+				request_card <= '0';
+				if ( random_card != "0000" ) then
+				        require_card <= '0';
+			        else
+					require_card <= '1';
+				end if;
+				if ( require_card = '1' ) then
+					new_state <= pending_card_b;
+				else
+					new_state <= game_resolution;
             end case;
       end process;
 end architecture;
