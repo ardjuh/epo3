@@ -277,11 +277,11 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (char = 11) then
-            return small_letter(x, y, 9);
-        elsif (char = 12) then
-            return small_letter(x, y, 16);
-        elsif (char = 13) then
             return small_letter(x, y, 10);
+        elsif (char = 12) then
+            return small_letter(x, y, 17);
+        elsif (char = 13) then
+            return small_letter(x, y, 11);
         else
             return '0';
         end if;
