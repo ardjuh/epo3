@@ -3,11 +3,11 @@ use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.all;
 
 entity controller is
-	port(	clk		: in  std_logic;
-			reset	: in  std_logic;
+	port(	clk	: in  std_logic;
+		reset	: in  std_logic;
 
 	Player_Turn_In	: in std_logic_vector (1 downto 0);
-	N_Players		: in std_logic_vector (2 downto 0);
+	N_Players	: in std_logic_vector (2 downto 0);
 
 	switch_select	: in  std_logic;  
 	switch_left		: in  std_logic;						-- player inputs --
@@ -81,7 +81,7 @@ entity controller is
 	N_Players_New	: out std_logic_vector (2 downto 0);
 	Receiving_Hand	: out std_logic_vector (2 downto 0);   -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
 	enable     : out std_logic;
-	new_card   : out std_logic_vector (3 downto 0);   -- Mem Controller determines where the new card goes from Player Turn and Hand Cards --
+	new_card   : out std_logic_vector (3 downto 0);   -- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 	double     : out std_logic;   
 	split      : out std_logic;   -- Mem Controller determines what happens with each function --
 	insurance  : out std_logic
@@ -92,7 +92,9 @@ architecture behaviour of controller is
 	type controller_state is ( reset,
 				   game_setup,
 				   player_action,
-				   game_resolution 
+				   game_resolution,
+				   pending_card_a,
+				   pending_card_b
 				 );
 
 signal state, new_state: controller_state;
@@ -350,7 +352,7 @@ begin
 		--------------------- using the card received after returning from pending_card states ------------------------
 
 				if ( random_card != "0000" ) then             -- definitive condition for Receiving Hand to be given values. Removes --
-					if ( first_card_dealt = '1' ) then         -- requirement for Receiving Hand to have a 0 off state. Saves a bit --   
+					if ( first_card_deal = '1' ) then         -- requirement for Receiving Hand to have a 0 off state. Saves a bit --   
 				        	if ( Player1_Hand_Card_1 = "0000" ) then     
 					        	Receiving_Hand <= "000";    -- "000" card goes to Player 1's hand --   				  
 					        	enable <= '1';
@@ -368,12 +370,11 @@ begin
 					        	enable <= '1';
 						end if;
 
-					elsif ( dealer_card_dealt = '1' ) then   -- may be possible to funnel this in at the end of the above *if* statement as an optimization if needed -- 
-						Receiving_Hand <= "100";    -- "100" card goes to Dealer's hand -- 
-						new_card <= random_card;   
+					elsif ( dealer_card_deal = '1' ) then   -- may be possible to funnel this in at the end of the above *if* statement as an optimization if needed -- 
+						Receiving_Hand <= "100";    -- "100" card goes to Dealer's hand --  
 					        enable <= '1';
 
-					elsif ( second_card_dealt = '1' ) then
+					elsif ( second_card_deal = '1' ) then
 						if ( Player1_Hand_Card_2 = "0000" ) then     
 					        	Receiving_Hand <= "000";    -- "000" card goes to Player 1's hand --   				  
 						 	new_card <= random_card;
@@ -381,17 +382,14 @@ begin
 							
 				       		elsif ( Player1_Hand_Card_2 != "0000" ) and ( Player2_Hand_Card_2 = "0000" ) then 
 							Receiving_Hand <= "001";    -- "001" card goes to Player 2's hand --       
-							new_card <= random_card;
 					        	enable <= '1';
 
 						elsif ( Player2_Hand_Card_2 != "0000" ) and ( Player3_Hand_Card_2 = "0000" ) then 
 							Receiving_Hand <= "010";    -- "010" card goes to Player 3's hand --
-							new_card <= random_card;
 					        	enable <= '1';
 
 						elsif ( Player3_Hand_Card_2 != "0000" ) and ( Player4_Hand_Card_2 = "0000" ) then 
 							Receiving_Hand <= "011";    -- "000" card goes to Player 4's hand --
-							new_card <= random_card;
 					        	enable <= '1';
 						end if;
 							
@@ -422,6 +420,7 @@ begin
 					new_state <= pending_card_b;
 				else
 					new_state <= game_resolution;
+				end if;
             end case;
       end process;
 end architecture;
