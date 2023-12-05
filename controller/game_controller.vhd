@@ -79,7 +79,8 @@ entity controller is
 
 	Player_Turn_New	: out std_logic_vector (1 downto 0);   -- outputs -> mem based on actions --
 	N_Players_New	: out std_logic_vector (2 downto 0);
-	player_new_card	: out std_logic_vector (3 downto 0); 
+	Receiving_Hand	: out std_logic_vector (2 downto 0);   -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
+	enable     : out std_logic;
 	new_card   : out std_logic_vector (3 downto 0);   -- Mem Controller determines where the new card goes from Player Turn and Hand Cards --
 	double     : out std_logic;   
 	split      : out std_logic;   -- Mem Controller determines what happens with each function --
@@ -97,6 +98,7 @@ architecture behaviour of controller is
 signal state, new_state: controller_state;
 signal bids_placed, require_card : std_logic;
 signal first_card_deal, dealer_card_deal, second_card_deal : std_logic;
+
 signal double_selected, split_selected, insurance_selected, hold_selected, hit_selected : std_logic;
 signal double_selectable, split_selectable, insurance_selectable : std_logic;
 signal mem_screen_position_max, mem_screen_position : std_logic;
@@ -346,6 +348,56 @@ begin
 							
 		--------------------- using the card received after returning from pending_card states ------------------------
 
+				if ( random_card != "0000" ) then             -- definitive condition for Receiving Hand to be given values. Removes --
+					if ( first_card_dealt = '1' ) then         -- requirement for Receiving Hand to have a 0 off state. Saves a bit --   
+				        	if ( Player1_Hand_Card_1 = "0000" ) then     
+					        	Receiving_Hand <= "000";    -- "000" card goes to Player 1's hand --   				  
+						 	new_card <= random_card;
+					        	enable <= '1';
+							
+				       		elsif ( Player1_Hand_Card_1 != "0000" ) and ( Player2_Hand_Card_1 = "0000" ) then 
+							Receiving_Hand <= "001";    -- "001" card goes to Player 2's hand --       
+							new_card <= random_card;
+					        	enable <= '1';
+
+						elsif ( Player2_Hand_Card_1 != "0000" ) and ( Player3_Hand_Card_1 = "0000" ) then 
+							Receiving_Hand <= "010";    -- "010" card goes to Player 3's hand --
+							new_card <= random_card;
+					        	enable <= '1';
+
+						elsif ( Player3_Hand_Card_1 != "0000" ) and ( Player4_Hand_Card_1 = "0000" ) then 
+							Receiving_Hand <= "011";    -- "000" card goes to Player 4's hand --
+							new_card <= random_card;
+					        	enable <= '1';
+						end if;
+
+					elsif ( dealer_card_dealt = '1' ) then   -- may be possible to funnel this in at the end of the above *if* statement as an optimization if needed -- 
+						Receiving_Hand <= "100";    -- "100" card goes to Dealer's hand -- 
+						new_card <= random_card;   
+					        enable <= '1';
+
+					elsif ( second_card_dealt = '1' ) then
+						if ( Player1_Hand_Card_2 = "0000" ) then     
+					        	Receiving_Hand <= "000";    -- "000" card goes to Player 1's hand --   				  
+						 	new_card <= random_card;
+					        	enable <= '1';
+							
+				       		elsif ( Player1_Hand_Card_2 != "0000" ) and ( Player2_Hand_Card_2 = "0000" ) then 
+							Receiving_Hand <= "001";    -- "001" card goes to Player 2's hand --       
+							new_card <= random_card;
+					        	enable <= '1';
+
+						elsif ( Player2_Hand_Card_2 != "0000" ) and ( Player3_Hand_Card_2 = "0000" ) then 
+							Receiving_Hand <= "010";    -- "010" card goes to Player 3's hand --
+							new_card <= random_card;
+					        	enable <= '1';
+
+						elsif ( Player3_Hand_Card_2 != "0000" ) and ( Player4_Hand_Card_2 = "0000" ) then 
+							Receiving_Hand <= "011";    -- "000" card goes to Player 4's hand --
+							new_card <= random_card;
+					        	enable <= '1';
+						end if;
+
 				if ( first_card_dealt = '1' ) and ( random
 							
 				elsif (random_card != "0000") then
@@ -366,7 +418,6 @@ begin
 				request_card <= '1';
                                 if ( random_card != "0000" ) then
 				        require_card <= '0';
-					new_card <= random_card;
 			        else
 					require_card <= '1';
 				end if;
@@ -380,7 +431,6 @@ begin
 				request_card <= '0';
 				if ( random_card != "0000" ) then
 				        require_card <= '0';
-					new_card <= random_card;
 			        else
 					require_card <= '1';
 				end if;
