@@ -1064,7 +1064,7 @@ begin
             r <= 0;
             g <= 0;
             b <= 0;
-        elsif (y_pos <= 470 and y_pos >= 384 and x_pos >= 10 and x_pos <= 101) then -- Player hand
+        elsif (y_pos <= 470 and y_pos >= 384 and x_pos >= 10 and x_pos <= 110) then -- Player hand
             if (cards(x_pos - 10, y_pos - 384, 11, 3, 6, 2, 5) = '1') then
                 r <= 0;
                 g <= 0;
@@ -1074,7 +1074,7 @@ begin
                 g <= 15;
                 b <= 15;
             end if;
-        elsif (y_pos >= 10 and y_pos < 96 and x_pos < 630 and x_pos >= 531) then -- Dealer hand
+        elsif (y_pos >= 10 and y_pos < 96 and x_pos < 630 and x_pos >= 529) then -- Dealer hand
             if (cards(x_pos - 531, y_pos - 10, 12, 4, 7) = '1') then
                 r <= 0;
                 g <= 0;
