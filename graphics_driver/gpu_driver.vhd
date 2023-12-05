@@ -213,7 +213,7 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (number = 3) then -- 3
-            if ((x = 0 and (y = 1 or y = 5)) or ((y = 0 or y = 6) and (x > 0 and x < 4)) or (x = 4 and (y = 1 or y = 2 or y = 4 or y = 5)) or (y = 3 and x < 1 and y > 6)) then
+            if ((x = 0 and (y = 1 or y = 5)) or ((y = 0 or y = 6) and (x > 0 and x < 4)) or (x = 4 and (y = 1 or y = 2 or y = 4 or y = 5)) or (y = 3 and x > 1 and x < 4)) then
                 return '1';
             else
                 return '0';
