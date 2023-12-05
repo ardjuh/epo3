@@ -99,7 +99,7 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (letter = 14) then -- N
-            if (x = 0 or x = 4 or (y = 1 and x = 1) or (y = 2 and x = 2) or (y = 3 and x = 3)) then
+            if (x = 0 or x = 4 or (y = 2 and x = 1) or (y = 3 and x = 2) or (y = 4 and x = 3)) then
                 return '1';
             else
                 return '0';
