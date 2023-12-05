@@ -523,7 +523,7 @@ architecture behavior of gpu_driver is
     end function;
 
     function table (
-        x       : integer range 0 to 149;
+        x       : integer range 0 to 115;
         y       : integer range 0 to 50;
         player1 : std_logic;
         card1_1 : integer range 0 to 13  := 0;
@@ -558,193 +558,193 @@ architecture behavior of gpu_driver is
         money4  : integer range 0 to 999 := 0
     ) return std_logic is
     begin
-        if (y >= 12 and y <= 18 and x >= 44) then
-            if (x < 50) then
-                return small_letter(x - 44, y - 12, 16); --P
-            elsif (x < 56) then
-                return small_letter(x - 50, y - 12, 12); --L
-            elsif (x < 62) then
-                return small_letter(x - 56, y - 12, 1); --A
-            elsif (x < 68) then
-                return small_letter(x - 62, y - 12, 25); --Y
-            elsif (x < 74) then
-                return small_letter(x - 68, y - 12, 5); --E
-            elsif (x < 80) then
-                return small_letter(x - 74, y - 12, 18); --R
-            elsif (x < 86) then
-                return small_letter(x - 80, y - 12, 0); --Space
-            elsif (x < 92) then
-                return small_letter(x - 86, y - 12, 13); --M
-            elsif (x < 98) then
-                return small_letter(x - 92, y - 12, 15); --O
-            elsif (x < 104) then
-                return small_letter(x - 98, y - 12, 14); --N
-            elsif (x < 110) then
-                return small_letter(x - 104, y - 12, 5); --E
-            elsif (x < 116) then
-                return small_letter(x - 110, y - 12, 25); --Y
-            elsif (x < 122) then
-                return small_letter(x - 116, y - 12, 0); --Space
-            elsif (x < 128) then
-                return small_letter(x - 122, y - 12, 3); --C
-            elsif (x < 134) then
-                return small_letter(x - 128, y - 12, 1); --A
-            elsif (x < 140) then
-                return small_letter(x - 134, y - 12, 18); --R
-            elsif (x < 146) then
-                return small_letter(x - 140, y - 12, 4); --D
+        if (y < 7) then
+            if (x < 6) then
+                return small_letter(x, y, 16); --P
+            elsif (x < 12) then
+                return small_letter(x - 6, y, 12); --L
+            elsif (x < 18) then
+                return small_letter(x - 12, y, 1); --A
+            elsif (x < 24) then
+                return small_letter(x - 18, y, 25); --Y
+            elsif (x < 30) then
+                return small_letter(x - 24, y, 5); --E
+            elsif (x < 36) then
+                return small_letter(x - 30, y, 18); --R
+            elsif (x < 42) then
+                return small_letter(x - 36, y, 0); --Space
+            elsif (x < 48) then
+                return small_letter(x - 42, y, 13); --M
+            elsif (x < 54) then
+                return small_letter(x - 48, y, 15); --O
+            elsif (x < 60) then
+                return small_letter(x - 54, y, 14); --N
+            elsif (x < 66) then
+                return small_letter(x - 60, y, 5); --E
+            elsif (x < 72) then
+                return small_letter(x - 66, y, 25); --Y
+            elsif (x < 78) then
+                return small_letter(x - 72, y, 0); --Space
+            elsif (x < 84) then
+                return small_letter(x - 78, y, 3); --C
+            elsif (x < 90) then
+                return small_letter(x - 84, y, 1); --A
+            elsif (x < 96) then
+                return small_letter(x - 90, y, 18); --R
+            elsif (x < 102) then
+                return small_letter(x - 96, y, 4); --D
             else
-                return small_letter(x - 146, y - 12, 19); --S
+                return small_letter(x - 102, y, 19); --S
             end if;
-        elsif (y >= 20 and y < 27 and x >= 44) then
-            if (x < 50) then
-                return small_letter(x - 44, y - 20, 16); --P
-            elsif (x < 56) then
-                return small_letter(x - 50, y - 20, 12); --L
-            elsif (x < 62) then
-                return small_letter(x - 56, y - 20, 1); --A
-            elsif (x < 68) then
-                return small_letter(x - 62, y - 20, 25); --Y
-            elsif (x < 74) then
-                return small_letter(x - 68, y - 20, 5); --E
-            elsif (x < 80) then
-                return small_letter(x - 74, y - 20, 18); --R
-            elsif (x < 86) then
-                return small_number(x - 80, y - 20, 1); --1
-            elsif (x < 92) then
-                return small_letter(x - 86, y - 20, 0); --Space
-            elsif (x < 98) then
-                return small_number(x - 92, y - 20, money1/100); --Player money
-	   elsif (x <104) then
-		return small_number(x - 98, y - 20, money1/10 mod 10);
-	   elsif (x<110) then
-		return small_number(x - 104, y - 20, money1 mod 10);
-            elsif (x < 116) then
-                return small_letter(x - 110, y - 20, 0); --Space
-            elsif (x < 122 and card1_1 > 0) then
-                return small_card_char(x - 116, y - 20, card1_1); --Player1 card 1
-            elsif (x < 128 and card1_2 > 0) then
-                return small_card_char(x - 122, y - 20, card1_2); --Player1 card 2
-            elsif (x < 134 and card1_3 > 0) then
-                return small_card_char(x - 128, y - 20, card1_3); --Player1 card 3
-            elsif (x < 140 and card1_4 > 0) then
-                return small_card_char(x - 134, y - 20, card1_4); --Player1 card 4
-            elsif (x < 146 and card1_5 > 0) then
-                return small_card_char(x - 140, y - 20, card1_5); --Player1 card 5
+        elsif (y >= 8 and y < 15) then
+            if (x < 6) then
+                return small_letter(x, y - 8, 16); --P
+            elsif (x < 12) then
+                return small_letter(x - 6, y - 8, 12); --L
+            elsif (x < 18) then
+                return small_letter(x - 12, y - 8, 1); --A
+            elsif (x < 24) then
+                return small_letter(x - 18, y - 8, 25); --Y
+            elsif (x < 30) then
+                return small_letter(x - 24, y - 8, 5); --E
+            elsif (x < 36) then
+                return small_letter(x - 30, y - 8, 18); --R
+            elsif (x < 42) then
+                return small_number(x - 36, y - 8, 1); --1
+            elsif (x < 48) then
+                return small_letter(x - 42, y - 8, 0); --Space
+            elsif (x < 54) then
+                return small_number(x - 48, y - 8, money1/100); --Player money
+            elsif (x < 60) then
+                return small_number(x - 54, y - 8, (money1/10) mod 10);
+            elsif (x < 66) then
+                return small_number(x - 60, y - 8, money1 mod 10);
+            elsif (x < 72) then
+                return small_letter(x - 66, y - 8, 0); --Space
+            elsif (x < 78 and card1_1 > 0) then
+                return small_card_char(x - 72, y - 8, card1_1); --Player1 card 1
+            elsif (x < 84 and card1_2 > 0) then
+                return small_card_char(x - 78, y - 8, card1_2); --Player1 card 2
+            elsif (x < 90 and card1_3 > 0) then
+                return small_card_char(x - 84, y - 8, card1_3); --Player1 card 3
+            elsif (x < 96 and card1_4 > 0) then
+                return small_card_char(x - 90, y - 8, card1_4); --Player1 card 4
+            elsif (x < 102 and card1_5 > 0) then
+                return small_card_char(x - 96, y - 8, card1_5); --Player1 card 5
             else
                 return '0';
             end if;
         elsif (y >= 28 and y < 35 and x >= 44) then
-            if (x < 50) then
-                return small_letter(x - 44, y - 28, 16); --P
-            elsif (x < 56) then
-                return small_letter(x - 50, y - 28, 12); --L
-            elsif (x < 62) then
-                return small_letter(x - 56, y - 28, 1); --A
-            elsif (x < 68) then
-                return small_letter(x - 62, y - 28, 25); --Y
-            elsif (x < 74) then
-                return small_letter(x - 68, y - 28, 5); --E
-            elsif (x < 80) then
-                return small_letter(x - 74, y - 28, 18); --R
-            elsif (x < 86) then
-                return small_number(x - 80, y - 28, 2); --2
-            elsif (x < 92) then
-                return small_letter(x - 86, y - 28, 0); --Space
-            elsif (x < 98) then
-                return small_number(x - 92, y - 20, money2/100); --Player money
-	   elsif (x <104) then
-		return small_number(x - 98, y - 20, money2/10 mod 10);
-	   elsif (x<110) then
-		return small_number(x - 104, y - 20, money2 mod 10);
-	elsif (x < 116) then
-                return small_letter(x - 98, y - 28, 0); --Space
-            elsif (x < 122 and card1_1 > 0) then
-                return small_card_char(x - 104, y - 28, card2_1); --Player2 card 1
-            elsif (x < 128 and card1_2 > 0) then
-                return small_card_char(x - 110, y - 28, card2_2); --Player2 card 2
-            elsif (x < 134 and card1_3 > 0) then
-                return small_card_char(x - 116, y - 28, card2_3); --Player2 card 3
-            elsif (x < 140 and card1_4 > 0) then
-                return small_card_char(x - 122, y - 28, card2_4); --Player2 card 4
-            elsif (x < 146 and card1_5 > 0) then
-                return small_card_char(x - 128, y - 28, card2_5); --Player2 card 5
+            if (x < 6) then
+                return small_letter(x, y - 8, 16); --P
+            elsif (x < 12) then
+                return small_letter(x - 6, y - 8, 12); --L
+            elsif (x < 18) then
+                return small_letter(x - 12, y - 8, 1); --A
+            elsif (x < 24) then
+                return small_letter(x - 18, y - 8, 25); --Y
+            elsif (x < 30) then
+                return small_letter(x - 24, y - 8, 5); --E
+            elsif (x < 36) then
+                return small_letter(x - 30, y - 8, 18); --R
+            elsif (x < 42) then
+                return small_number(x - 36, y - 8, 2); --2
+            elsif (x < 48) then
+                return small_letter(x - 42, y - 8, 0); --Space
+            elsif (x < 54) then
+                return small_number(x - 48, y - 8, money2/100); --Player money
+            elsif (x < 60) then
+                return small_number(x - 54, y - 8, (money2/10) mod 10);
+            elsif (x < 66) then
+                return small_number(x - 60, y - 8, money2 mod 10);
+            elsif (x < 72) then
+                return small_letter(x - 66, y - 8, 0); --Space
+            elsif (x < 78 and card2_1 > 0) then
+                return small_card_char(x - 72, y - 8, card2_1); --Player1 card 1
+            elsif (x < 84 and card2_2 > 0) then
+                return small_card_char(x - 78, y - 8, card2_2); --Player1 card 2
+            elsif (x < 90 and card2_3 > 0) then
+                return small_card_char(x - 84, y - 8, card2_3); --Player1 card 3
+            elsif (x < 96 and card2_4 > 0) then
+                return small_card_char(x - 90, y - 8, card2_4); --Player1 card 4
+            elsif (x < 102 and card2_5 > 0) then
+                return small_card_char(x - 96, y - 8, card2_5); --Player1 card 5
             else
                 return '0';
             end if;
         elsif (y >= 36 and y < 43 and x >= 44) then
-            if (x < 50) then
-                return small_letter(x - 44, y - 36, 16); --P
-            elsif (x < 56) then
-                return small_letter(x - 50, y - 36, 12); --L
-            elsif (x < 62) then
-                return small_letter(x - 56, y - 36, 1); --A
-            elsif (x < 68) then
-                return small_letter(x - 62, y - 36, 25); --Y
-            elsif (x < 74) then
-                return small_letter(x - 68, y - 36, 5); --E
-            elsif (x < 80) then
-                return small_letter(x - 74, y - 36, 18); --R
-            elsif (x < 86) then
-                return small_number(x - 80, y - 36, 3); --3
-            elsif (x < 92) then
-                return small_letter(x - 86, y - 36, 0); --Space
-            elsif (x < 98) then
-                return small_number(x - 92, y - 20, money3/100); --Player money
-	   elsif (x <104) then
-		return small_number(x - 98, y - 20, money3/10 mod 10);
-	   elsif (x<110) then
-		return small_number(x - 104, y - 20, money3 mod 10);
-            elsif (x < 116) then
-                return small_letter(x - 98, y - 36, 0); --Space
-            elsif (x < 122 and card1_1 > 0) then
-                return small_card_char(x - 104, y - 36, card3_1); --Player3 card 1
-            elsif (x < 128 and card1_2 > 0) then
-                return small_card_char(x - 110, y - 36, card3_2); --Player3 card 2
-            elsif (x < 134 and card1_3 > 0) then
-                return small_card_char(x - 116, y - 36, card3_3); --Player3 card 3
-            elsif (x < 140 and card1_4 > 0) then
-                return small_card_char(x - 122, y - 36, card3_4); --Player3 card 4
-            elsif (x < 146 and card1_5 > 0) then
-                return small_card_char(x - 128, y - 36, card3_5); --Player3 card 5
+            if (x < 6) then
+                return small_letter(x, y - 8, 16); --P
+            elsif (x < 12) then
+                return small_letter(x - 6, y - 8, 12); --L
+            elsif (x < 18) then
+                return small_letter(x - 12, y - 8, 1); --A
+            elsif (x < 24) then
+                return small_letter(x - 18, y - 8, 25); --Y
+            elsif (x < 30) then
+                return small_letter(x - 24, y - 8, 5); --E
+            elsif (x < 36) then
+                return small_letter(x - 30, y - 8, 18); --R
+            elsif (x < 42) then
+                return small_number(x - 36, y - 8, 3); --3
+            elsif (x < 48) then
+                return small_letter(x - 42, y - 8, 0); --Space
+            elsif (x < 54) then
+                return small_number(x - 48, y - 8, money3/100); --Player money
+            elsif (x < 60) then
+                return small_number(x - 54, y - 8, (money3/10) mod 10);
+            elsif (x < 66) then
+                return small_number(x - 60, y - 8, money3 mod 10);
+            elsif (x < 72) then
+                return small_letter(x - 66, y - 8, 0); --Space
+            elsif (x < 78 and card3_1 > 0) then
+                return small_card_char(x - 72, y - 8, card3_1); --Player1 card 1
+            elsif (x < 84 and card3_2 > 0) then
+                return small_card_char(x - 78, y - 8, card3_2); --Player1 card 2
+            elsif (x < 90 and card3_3 > 0) then
+                return small_card_char(x - 84, y - 8, card3_3); --Player1 card 3
+            elsif (x < 96 and card3_4 > 0) then
+                return small_card_char(x - 90, y - 8, card3_4); --Player1 card 4
+            elsif (x < 102 and card3_5 > 0) then
+                return small_card_char(x - 96, y - 8, card3_5); --Player1 card 5
             else
                 return '0';
             end if;
         elsif (y >= 44 and y < 51 and x >= 44) then
-            if (x < 50) then
-                return small_letter(x - 44, y - 44, 16); --P
-            elsif (x < 56) then
-                return small_letter(x - 50, y - 44, 12); --L
-            elsif (x < 62) then
-                return small_letter(x - 56, y - 44, 1); --A
-            elsif (x < 68) then
-                return small_letter(x - 62, y - 44, 25); --Y
-            elsif (x < 74) then
-                return small_letter(x - 68, y - 44, 5); --E
-            elsif (x < 80) then
-                return small_letter(x - 74, y - 44, 18); --R
-            elsif (x < 86) then
-                return small_number(x - 80, y - 44, 4); --4
-            elsif (x < 92) then
-                return small_letter(x - 86, y - 44, 0); --Space
-            elsif (x < 98) then
-                return small_number(x - 92, y - 20, money4/100); --Player money
-	   elsif (x <104) then
-		return small_number(x - 98, y - 20, money4/10 mod 10);
-	   elsif (x<110) then
-		return small_number(x - 104, y - 20, money4 mod 10);
-            elsif (x < 116) then
-                return small_letter(x - 98, y - 44, 0); --Space
-            elsif (x < 122 and card1_1 > 0) then
-                return small_card_char(x - 104, y - 44, card4_1); --Player4 card 1
-            elsif (x < 128 and card1_2 > 0) then
-                return small_card_char(x - 110, y - 44, card4_2); --Player4 card 2
-            elsif (x < 134 and card1_3 > 0) then
-                return small_card_char(x - 116, y - 44, card4_3); --Player4 card 3
-            elsif (x < 140 and card1_4 > 0) then
-                return small_card_char(x - 122, y - 44, card4_4); --Player4 card 4
-            elsif (x < 146 and card1_5 > 0) then
-                return small_card_char(x - 128, y - 44, card4_5); --Player4 card 5
+            if (x < 6) then
+                return small_letter(x, y - 8, 16); --P
+            elsif (x < 12) then
+                return small_letter(x - 6, y - 8, 12); --L
+            elsif (x < 18) then
+                return small_letter(x - 12, y - 8, 1); --A
+            elsif (x < 24) then
+                return small_letter(x - 18, y - 8, 25); --Y
+            elsif (x < 30) then
+                return small_letter(x - 24, y - 8, 5); --E
+            elsif (x < 36) then
+                return small_letter(x - 30, y - 8, 18); --R
+            elsif (x < 42) then
+                return small_number(x - 36, y - 8, 4); --4
+            elsif (x < 48) then
+                return small_letter(x - 42, y - 8, 0); --Space
+            elsif (x < 54) then
+                return small_number(x - 48, y - 8, money4/100); --Player money
+            elsif (x < 60) then
+                return small_number(x - 54, y - 8, (money4/10) mod 10);
+            elsif (x < 66) then
+                return small_number(x - 60, y - 8, money4 mod 10);
+            elsif (x < 72) then
+                return small_letter(x - 66, y - 8, 0); --Space
+            elsif (x < 78 and card4_1 > 0) then
+                return small_card_char(x - 72, y - 8, card4_1); --Player1 card 1
+            elsif (x < 84 and card4_2 > 0) then
+                return small_card_char(x - 78, y - 8, card4_2); --Player1 card 2
+            elsif (x < 90 and card4_3 > 0) then
+                return small_card_char(x - 84, y - 8, card4_3); --Player1 card 3
+            elsif (x < 96 and card4_4 > 0) then
+                return small_card_char(x - 90, y - 8, card4_4); --Player1 card 4
+            elsif (x < 102 and card4_5 > 0) then
+                return small_card_char(x - 96, y - 8, card4_5); --Player1 card 5
             else
                 return '0';
             end if;
@@ -1085,7 +1085,7 @@ begin
                 b <= 15;
             end if;
         elsif (y_pos >= 180 and y_pos < 280) then -- Action menu
-            if (action_menu(x_pos, y_pos - 180) = '1') then
+            if (action_menu(x_pos, y_pos - 180, '1', '1', '1', '1') = '1') then
                 r <= 15;
                 g <= 15;
                 b <= 15;
@@ -1113,7 +1113,11 @@ begin
                 r <= 0;
                 g <= 0;
                 b <= 0;
-            if (table(x_pos - 11, y_pos - 11, '1', 1, 2, 3, 4, 5, 123, '1', 6, 7, 8, 9, 10, 456, '1', 11, 12, 13, 1, 2, 789, '1', 3, 4, 5, 6, 7, 5) = '1') then
+            elsif (x_pos <= 12 or x_pos >= 158 or y_pos <= 12 or y_pos >= 59) then
+                r <= 15;
+                g <= 15;
+                b <= 15;
+            elsif (table(x_pos - 11, y_pos - 11, '1', 1, 2, 3, 4, 5, 123, '1', 6, 7, 8, 9, 10, 456, '1', 11, 12, 13, 1, 2, 789, '1', 3, 4, 5, 6, 7, 5) = '1') then
                 r <= 15;
                 g <= 15;
                 b <= 15;
