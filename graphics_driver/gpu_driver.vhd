@@ -524,7 +524,7 @@ architecture behavior of gpu_driver is
 
     function table (
         x       : integer range 0 to 115;
-        y       : integer range 0 to 50;
+        y       : integer range 0 to 38;
         player1 : std_logic;
         card1_1 : integer range 0 to 13  := 0;
         card1_2 : integer range 0 to 13  := 0;
@@ -636,117 +636,117 @@ architecture behavior of gpu_driver is
             else
                 return '0';
             end if;
-        elsif (y >= 28 and y < 35 and x >= 44) then
+        elsif (y >= 16 and y < 23) then
             if (x < 6) then
-                return small_letter(x, y - 8, 16); --P
+                return small_letter(x, y - 16, 16); --P
             elsif (x < 12) then
-                return small_letter(x - 6, y - 8, 12); --L
+                return small_letter(x - 6, y - 16, 12); --L
             elsif (x < 18) then
-                return small_letter(x - 12, y - 8, 1); --A
+                return small_letter(x - 12, y - 16, 1); --A
             elsif (x < 24) then
-                return small_letter(x - 18, y - 8, 25); --Y
+                return small_letter(x - 18, y - 16, 25); --Y
             elsif (x < 30) then
-                return small_letter(x - 24, y - 8, 5); --E
+                return small_letter(x - 24, y - 16, 5); --E
             elsif (x < 36) then
-                return small_letter(x - 30, y - 8, 18); --R
+                return small_letter(x - 30, y - 16, 18); --R
             elsif (x < 42) then
-                return small_number(x - 36, y - 8, 2); --2
+                return small_number(x - 36, y - 16, 2); --2
             elsif (x < 48) then
-                return small_letter(x - 42, y - 8, 0); --Space
+                return small_letter(x - 42, y - 16, 0); --Space
             elsif (x < 54) then
-                return small_number(x - 48, y - 8, money2/100); --Player money
+                return small_number(x - 48, y - 16, money2/100); --Player money
             elsif (x < 60) then
-                return small_number(x - 54, y - 8, (money2/10) mod 10);
+                return small_number(x - 54, y - 16, (money2/10) mod 10);
             elsif (x < 66) then
-                return small_number(x - 60, y - 8, money2 mod 10);
+                return small_number(x - 60, y - 16, money2 mod 10);
             elsif (x < 72) then
-                return small_letter(x - 66, y - 8, 0); --Space
+                return small_letter(x - 66, y - 16, 0); --Space
             elsif (x < 78 and card2_1 > 0) then
-                return small_card_char(x - 72, y - 8, card2_1); --Player1 card 1
+                return small_card_char(x - 72, y - 16, card2_1); --Player2 card 1
             elsif (x < 84 and card2_2 > 0) then
-                return small_card_char(x - 78, y - 8, card2_2); --Player1 card 2
+                return small_card_char(x - 78, y - 16, card2_2); --Player2 card 2
             elsif (x < 90 and card2_3 > 0) then
-                return small_card_char(x - 84, y - 8, card2_3); --Player1 card 3
+                return small_card_char(x - 84, y - 16, card2_3); --Player2 card 3
             elsif (x < 96 and card2_4 > 0) then
-                return small_card_char(x - 90, y - 8, card2_4); --Player1 card 4
+                return small_card_char(x - 90, y - 16, card2_4); --Player2 card 4
             elsif (x < 102 and card2_5 > 0) then
-                return small_card_char(x - 96, y - 8, card2_5); --Player1 card 5
+                return small_card_char(x - 96, y - 16, card2_5); --Player2 card 5
             else
                 return '0';
             end if;
-        elsif (y >= 36 and y < 43 and x >= 44) then
+        elsif (y >= 24 and y < 31) then
             if (x < 6) then
-                return small_letter(x, y - 8, 16); --P
+                return small_letter(x, y - 24, 16); --P
             elsif (x < 12) then
-                return small_letter(x - 6, y - 8, 12); --L
+                return small_letter(x - 6, y - 24, 12); --L
             elsif (x < 18) then
-                return small_letter(x - 12, y - 8, 1); --A
+                return small_letter(x - 12, y - 24, 1); --A
             elsif (x < 24) then
-                return small_letter(x - 18, y - 8, 25); --Y
+                return small_letter(x - 18, y - 24, 25); --Y
             elsif (x < 30) then
-                return small_letter(x - 24, y - 8, 5); --E
+                return small_letter(x - 24, y - 24, 5); --E
             elsif (x < 36) then
-                return small_letter(x - 30, y - 8, 18); --R
+                return small_letter(x - 30, y - 24, 18); --R
             elsif (x < 42) then
-                return small_number(x - 36, y - 8, 3); --3
+                return small_number(x - 36, y - 24, 3); --3
             elsif (x < 48) then
-                return small_letter(x - 42, y - 8, 0); --Space
+                return small_letter(x - 42, y - 24, 0); --Space
             elsif (x < 54) then
-                return small_number(x - 48, y - 8, money3/100); --Player money
+                return small_number(x - 48, y - 24, money3/100); --Player money
             elsif (x < 60) then
-                return small_number(x - 54, y - 8, (money3/10) mod 10);
+                return small_number(x - 54, y - 24, (money3/10) mod 10);
             elsif (x < 66) then
-                return small_number(x - 60, y - 8, money3 mod 10);
+                return small_number(x - 60, y - 24, money3 mod 10);
             elsif (x < 72) then
-                return small_letter(x - 66, y - 8, 0); --Space
+                return small_letter(x - 66, y - 24, 0); --Space
             elsif (x < 78 and card3_1 > 0) then
-                return small_card_char(x - 72, y - 8, card3_1); --Player1 card 1
+                return small_card_char(x - 72, y - 24, card3_1); --Player3 card 1
             elsif (x < 84 and card3_2 > 0) then
-                return small_card_char(x - 78, y - 8, card3_2); --Player1 card 2
+                return small_card_char(x - 78, y - 24, card3_2); --Player3 card 2
             elsif (x < 90 and card3_3 > 0) then
-                return small_card_char(x - 84, y - 8, card3_3); --Player1 card 3
+                return small_card_char(x - 84, y - 24, card3_3); --Player3 card 3
             elsif (x < 96 and card3_4 > 0) then
-                return small_card_char(x - 90, y - 8, card3_4); --Player1 card 4
+                return small_card_char(x - 90, y - 24, card3_4); --Player3 card 4
             elsif (x < 102 and card3_5 > 0) then
-                return small_card_char(x - 96, y - 8, card3_5); --Player1 card 5
+                return small_card_char(x - 96, y - 24, card3_5); --Player3 card 5
             else
                 return '0';
             end if;
-        elsif (y >= 44 and y < 51 and x >= 44) then
+        elsif (y >= 32) then
             if (x < 6) then
-                return small_letter(x, y - 8, 16); --P
+                return small_letter(x, y - 32, 16); --P
             elsif (x < 12) then
-                return small_letter(x - 6, y - 8, 12); --L
+                return small_letter(x - 6, y - 32, 12); --L
             elsif (x < 18) then
-                return small_letter(x - 12, y - 8, 1); --A
+                return small_letter(x - 12, y - 32, 1); --A
             elsif (x < 24) then
-                return small_letter(x - 18, y - 8, 25); --Y
+                return small_letter(x - 18, y - 32, 25); --Y
             elsif (x < 30) then
-                return small_letter(x - 24, y - 8, 5); --E
+                return small_letter(x - 24, y - 32, 5); --E
             elsif (x < 36) then
-                return small_letter(x - 30, y - 8, 18); --R
+                return small_letter(x - 30, y - 32, 18); --R
             elsif (x < 42) then
-                return small_number(x - 36, y - 8, 4); --4
+                return small_number(x - 36, y - 32, 4); --4
             elsif (x < 48) then
-                return small_letter(x - 42, y - 8, 0); --Space
+                return small_letter(x - 42, y - 32, 0); --Space
             elsif (x < 54) then
-                return small_number(x - 48, y - 8, money4/100); --Player money
+                return small_number(x - 48, y - 32, money4/100); --Player money
             elsif (x < 60) then
-                return small_number(x - 54, y - 8, (money4/10) mod 10);
+                return small_number(x - 54, y - 32, (money4/10) mod 10);
             elsif (x < 66) then
-                return small_number(x - 60, y - 8, money4 mod 10);
+                return small_number(x - 60, y - 32, money4 mod 10);
             elsif (x < 72) then
-                return small_letter(x - 66, y - 8, 0); --Space
+                return small_letter(x - 66, y - 32, 0); --Space
             elsif (x < 78 and card4_1 > 0) then
-                return small_card_char(x - 72, y - 8, card4_1); --Player1 card 1
+                return small_card_char(x - 72, y - 32, card4_1); --Player4 card 1
             elsif (x < 84 and card4_2 > 0) then
-                return small_card_char(x - 78, y - 8, card4_2); --Player1 card 2
+                return small_card_char(x - 78, y - 32, card4_2); --Player4 card 2
             elsif (x < 90 and card4_3 > 0) then
-                return small_card_char(x - 84, y - 8, card4_3); --Player1 card 3
+                return small_card_char(x - 84, y - 32, card4_3); --Player4 card 3
             elsif (x < 96 and card4_4 > 0) then
-                return small_card_char(x - 90, y - 8, card4_4); --Player1 card 4
+                return small_card_char(x - 90, y - 32, card4_4); --Player4 card 4
             elsif (x < 102 and card4_5 > 0) then
-                return small_card_char(x - 96, y - 8, card4_5); --Player1 card 5
+                return small_card_char(x - 96, y - 32, card4_5); --Player4 card 5
             else
                 return '0';
             end if;
