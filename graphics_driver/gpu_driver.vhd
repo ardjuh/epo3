@@ -842,7 +842,7 @@ architecture behavior of gpu_driver is
                 else
                     return small_letter(x_pos - 323, y_pos - 32, 5);
                 end if;
-            elsif (x_pos >= 507 and x_pos < 561 and em = '1') then -- EVEN MONEY
+            elsif (x_pos >= 507 and x_pos < 567 and em = '1') then -- EVEN MONEY
                 if (x_pos < 513) then
                     return small_letter(x_pos - 507, y_pos - 32, 5);
                 elsif (x_pos < 519) then
@@ -856,11 +856,13 @@ architecture behavior of gpu_driver is
                 elsif (x_pos < 543) then
                     return small_letter(x_pos - 537, y_pos - 32, 13);
                 elsif (x_pos < 549) then
-                    return small_letter(x_pos - 543, y_pos - 32, 14);
+                    return small_letter(x_pos - 543, y_pos - 32, 15);
                 elsif (x_pos < 555) then
-                    return small_letter(x_pos - 549, y_pos - 32, 5);
+                    return small_letter(x_pos - 549, y_pos - 32, 14);
+                elsif (x_pos < 561) then
+                    return small_letter(x_pos - 555, y_pos - 32, 5);
                 else
-                    return small_letter(x_pos - 555, y_pos - 32, 25);
+                    return small_letter(x_pos - 561, y_pos - 32, 25);
                 end if;
             else
                 return '0';
