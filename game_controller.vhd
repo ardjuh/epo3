@@ -244,8 +244,8 @@ begin
 				end if;
 					
 			when game_resolution =>
+			------------------- player select menu ------------------------
 				if (N_Players = "000")
-				-- player select menu --
 					if (mem_screen_position = "000") then
 						N_Players_New <= "001";
 					elsif (mem_screen_position = "001" ) then
@@ -255,10 +255,10 @@ begin
 					elsif (mem_screen_position = "011" ) then
 						N_Players_New <= "100";
 					end if;
+
+			        ------------------ bidding phase ---------------------
 				elsif (N_Players != "000" and bids_placed = '0') then
-				-- bidding phase --
-					if ( Player_Turn_In = "00" ) then
-					-- Player Turn 1 --
+					if ( Player_Turn_In = "00" ) then            -- Player 1 Bid --
 						if (mem_screen_position = "000" ) then
 							Player1_Bid_New <= "00";
 						elsif (mem_screen_position "001" ) then
@@ -273,8 +273,7 @@ begin
 						else 
 							bids_placed <= '1';
 						end if;
-					elsif ( Player_Turn_In = "01" ) then
-					-- Player Turn 2 --
+					elsif ( Player_Turn_In = "01" ) then           -- Player 2 Bid --
 						if (mem_screen_position = "000" ) then
 							Player2_Bid_New <= "00";
 						elsif (mem_screen_position "001" ) then
@@ -289,8 +288,7 @@ begin
 						else 
 							bids_placed <= '1';
 						end if;
-					elsif ( Player_Turn_In = "10" ) then
-					-- Player Turn 3 --
+					elsif ( Player_Turn_In = "10" ) then           -- Player 3 Bid --
 						if (mem_screen_position = "000" ) then
 							Player3_Bid_New <= "00";
 						elsif (mem_screen_position "001" ) then
@@ -305,8 +303,7 @@ begin
 						else 
 							bids_placed <= '1';
 						end if;
-					elsif ( Player_Turn_In = "11" ) then
-					-- Player Turn 4 --
+					elsif ( Player_Turn_In = "11" ) then           -- Player 4 Bid --
 						if (mem_screen_position = "000" ) then
 							Player4_Bid_New <= "00";
 						elsif (mem_screen_position "001" ) then
@@ -320,6 +317,7 @@ begin
 						bids_placed <= '1';
 					end if;
 					new_state <= game_setup;
+				end if;
 							
 				--------------------- dealing phase ------------------------
 		-- maybe we can send the card to mem along with player number, and the mem fills the first free card-slot found for that player --
@@ -337,7 +335,7 @@ begin
 					new_state <= pending_card_a;
 				end if;
 							
-				--------------------- game phase ------------------------
+		---------------------------- game phase --------------------------------
 				elsif (hold_selected = '1') then
 					Player_Turn_New <= Player_Turn_In + 1;
 				elsif (insurance_selected = '1') then
