@@ -24,7 +24,6 @@ architecture structural of mini_controller_tb is
 	
 	signal clk, reset : std_logic;
 	signal button_right, button_left, button_select	: std_logic;
-	signal buttons : std_logic_vector(2 downto 0);
 	
 
 begin
