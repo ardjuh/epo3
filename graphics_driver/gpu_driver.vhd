@@ -558,7 +558,7 @@ architecture behavior of gpu_driver is
         money4  : integer range 0 to 999 := 0
     ) return std_logic is
     begin
-        	if (y >= 12 and y <= 18 and x>=44) then
+        if (y >= 12 and y <= 18 and x >= 44) then
             if (x < 50) then
                 return small_letter(x - 44, y - 12, 16); --P
             elsif (x < 56) then
@@ -596,7 +596,7 @@ architecture behavior of gpu_driver is
             else
                 return small_letter(x - 146, y - 12, 25); --Y
             end if;
-        elsif (y >= 20 and y < 27 and x>=44) then
+        elsif (y >= 20 and y < 27 and x >= 44) then
             if (x < 50) then
                 return small_letter(x - 44, y - 20, 16); --P
             elsif (x < 56) then
@@ -628,7 +628,7 @@ architecture behavior of gpu_driver is
             elsif (x < 134 and card1_5 > 0) then
                 return small_card_char(x - 128, y - 20, card1_5); --Player1 card 5
             end if;
-        elsif (y >= 28 and y < 35 and x>=44) then
+        elsif (y >= 28 and y < 35 and x >= 44) then
             if (x < 50) then
                 return small_letter(x - 44, y - 28, 16); --P
             elsif (x < 56) then
@@ -660,7 +660,7 @@ architecture behavior of gpu_driver is
             elsif (x < 134 and card1_5 > 0) then
                 return small_card_char(x - 128, y - 28, card2_5); --Player2 card 5
             end if;
-        elsif (y >= 36 and y < 43 and x>=44) then
+        elsif (y >= 36 and y < 43 and x >= 44) then
             if (x < 50) then
                 return small_letter(x - 44, y - 36, 16); --P
             elsif (x < 56) then
@@ -692,7 +692,7 @@ architecture behavior of gpu_driver is
             elsif (x < 134 and card1_5 > 0) then
                 return small_card_char(x - 128, y - 36, card3_5); --Player3 card 5
             end if;
-        elsif (y >= 44 and y < 51 and x>=44) then
+        elsif (y >= 44 and y < 51 and x >= 44) then
             if (x < 50) then
                 return small_letter(x - 44, y - 44, 16); --P
             elsif (x < 56) then
