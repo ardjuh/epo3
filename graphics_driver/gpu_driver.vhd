@@ -724,6 +724,8 @@ architecture behavior of gpu_driver is
             elsif (x < 134 and card1_5 > 0) then
                 return small_card_char(x - 128, y - 44, card4_5); --Player4 card 5
             end if;
+        else
+            return '0';
         end if;
     end function;
 
