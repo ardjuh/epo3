@@ -1080,8 +1080,8 @@ begin
                 b <= 15;
             else
                 r <= 2;
-                g <= 15;
-                b <= 3;
+                g <= 11;
+                b <= 2;
             end if;
         else
             r <= 2;
