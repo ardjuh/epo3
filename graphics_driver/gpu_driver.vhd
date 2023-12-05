@@ -165,7 +165,7 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (letter = 25) then -- Y
-            if (((x = 0 or x = 4) and y < 3) or (x = 2 and (y = 3 or y = 4)) or ((x = 1 or x = 3) and y = 2)) then
+            if (((x = 0 or x = 4) and y < 3) or (x = 2 and (y = 4 or y = 5)) or ((x = 1 or x = 3) and y = 3)) then
                 return '1';
             else
                 return '0';
@@ -277,11 +277,11 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (char = 11) then
-            return small_letter(x, y, 9);
-        elsif (char = 12) then
-            return small_letter(x, y, 16);
-        elsif (char = 13) then
             return small_letter(x, y, 10);
+        elsif (char = 12) then
+            return small_letter(x, y, 17);
+        elsif (char = 13) then
+            return small_letter(x, y, 11);
         else
             return '0';
         end if;
@@ -1099,8 +1099,8 @@ begin
             end if;
         else 
             r <= 2;
-            g <= 15;
-            b <= 3;
+            g <= 11;
+            b <= 2;
         end if;
     end process;
 end architecture;
