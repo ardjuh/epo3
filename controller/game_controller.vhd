@@ -397,22 +397,6 @@ begin
 							new_card <= random_card;
 					        	enable <= '1';
 						end if;
-
-				if ( first_card_dealt = '1' ) and ( random
-							
-				elsif (random_card != "0000") then
-					if (first_card_deal or dealer_card_deal or second_card_deal = '1' or double_selected = '1') then
-						Player_Turn_New <= Player_Turn_In + 1;
-					elsif (double_selected = '1' and Player_Turn_In != N_Players) then
-						double <= '1';
-						Player_Turn_New <= Player_Turn_In + 1;
-					elsif (split_selected = '1') then
-						split <= '1';
-					end if;
-					player_new_card <= Player_Turn_In; -- dealer is player 5? --
-					new_card <= random_card;
-					new_state <= game_setup;
-				end if; 
 					
 			when pending_card_a =>
 				request_card <= '1';
