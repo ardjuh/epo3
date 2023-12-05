@@ -304,10 +304,12 @@ begin
 						bids_placed <= '1';
 					end if;
 					new_state <= game_setup;
+							
 				--------------------- dealing phase ------------------------
 				-- maybe we can send the card to mem along with player number, and the mem fills the first free card-slot found for that player --
 				-- for the dealer it is convenient to take player_turn = 5 which helps during the game itself, --
 				-- as in the main game the game setup recognizes dealing out the dealer after fourth player --
+							
 				elsif (first_card_deal = '1' and random_card = "0000") then	
 					request_card <= '1';
 					new_state <= game_resolution;
@@ -317,6 +319,7 @@ begin
 				elsif (dealer_card_deal = '1' and random_card = "0000") then
 					request_card <= '1';
 					new_state <= game_resolution;
+							
 				--------------------- game phase ------------------------
 				elsif (hold_selected = '1') then
 					Player_Turn_New <= Player_Turn_In + 1;
@@ -325,6 +328,7 @@ begin
 				elsif (double_selected = '1' or split_selected = '1' or hit_selected = '1') then
 					request_card <= '1';
 					new_state <= game_resolution;
+							
 				--------------------- new_card ------------------------
 				elsif (random_card != "0000") then
 					if (first_card_deal or dealer_card_deal or second_card_deal = '1' or double_selected = '1') then
