@@ -1075,7 +1075,7 @@ begin
                 b <= 15;
             end if;
         elsif (y_pos >= 10 and y_pos < 96 and x_pos < 630 and x_pos >= 531) then -- Dealer hand
-            if (cards(x_pos - 531, y_pos - 10, 12, 4, 7, 3, 1) = '1') then
+            if (cards(x_pos - 531, y_pos - 10, 12, 4, 7) = '1') then
                 r <= 0;
                 g <= 0;
                 b <= 0;
