@@ -1110,12 +1110,12 @@ begin
                 g <= 11;
                 b <= 2;
             end if;
-        elsif (x_pos >= 10 and y_pos >= 10 and x_pos < 161 and y_pos < 62) then -- Table
-            if (x_pos = 10 or x_pos = 160 or y_pos = 10 or y_pos = 61) then
+        elsif (x_pos >= 10 and y_pos >= 10 and x_pos < 121 and y_pos < 62) then -- Table
+            if (x_pos = 10 or x_pos = 120 or y_pos = 10 or y_pos = 61) then
                 r <= 0;
                 g <= 0;
                 b <= 0;
-            elsif (x_pos <= 12 or x_pos >= 158 or y_pos <= 12 or y_pos >= 59) then
+            elsif (x_pos <= 12 or x_pos >= 138 or y_pos <= 12 or y_pos >= 59) then
                 r <= 2;
                 g <= 11;
                 b <= 2;
