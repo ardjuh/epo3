@@ -1083,6 +1083,16 @@ begin
                 g <= 11;
                 b <= 2;
             end if;
+        elsif (x_pos >= 10 and y_pos >= 10 and x_pos < 159 and y_pos < 34) then -- Table
+            if (table(x_pos - 10, y_pos - 10, '1', 1, 2, 3, 4, 5, 100, '1', 1, 2, 3, 4, 5, 100, '1', 1, 2, 3, 4, 5, 100, '1', 1, 2, 3, 4, 5, 100) = '1') then
+                r <= 15;
+                g <= 15;
+                b <= 15;
+            else
+                r <= 2;
+                g <= 11;
+                b <= 2;
+            end if;
         else
             r <= 2;
             g <= 15;
