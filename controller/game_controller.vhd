@@ -10,7 +10,7 @@ entity controller is
 	N_Players	: in std_logic_vector (2 downto 0);
 
 	switch_select	: in  std_logic;  
-	switch_left		: in  std_logic;						-- player inputs --
+	switch_left	: in  std_logic;						-- player inputs --
 	switch_right	: in  std_logic;
 
 	Player1_Budget	: in  std_logic_vector (9 downto 0);	-- base budget is 100, score limit chosen as 1000 so 10 bits --
@@ -18,10 +18,10 @@ entity controller is
 	Player3_Budget	: in  std_logic_vector (9 downto 0);  
 	Player4_Budget	: in  std_logic_vector (9 downto 0);
 
-	Player1_Bid		: in std_logic_vector (1 downto 0);		-- Bid and Budget required to determine if Insurance/Double are possible --
-	Player2_Bid		: in std_logic_vector (1 downto 0);		-- Value of Initial Bid = 2,6,10,20 -> 00,01,10,11 (Internal signal Bid_Value) --
-	Player3_Bid		: in std_logic_vector (1 downto 0);		-- Controller never needs the augmented value of Bid as Double/Insurance/Split --
-	Player4_Bid		: in std_logic_vector (1 downto 0);		-- are Turn 1 actions (If Mem Controller does end-round calculations) --
+	Player1_Bid	: in std_logic_vector (1 downto 0);		-- Bid and Budget required to determine if Insurance/Double are possible --
+	Player2_Bid	: in std_logic_vector (1 downto 0);		-- Value of Initial Bid = 2,6,10,20 -> 00,01,10,11 (Internal signal Bid_Value) --
+	Player3_Bid	: in std_logic_vector (1 downto 0);		-- Controller never needs the augmented value of Bid as Double/Insurance/Split --
+	Player4_Bid	: in std_logic_vector (1 downto 0);		-- are Turn 1 actions (If Mem Controller does end-round calculations) --
 
 	Player1_Hand_Card_1	: in std_logic_vector (3 downto 0);	-- Each card is a 4-bit vector --
 	Player1_Hand_Card_2	: in std_logic_vector (3 downto 0);
@@ -89,7 +89,7 @@ entity controller is
 end controller;
 
 architecture behaviour of controller is
-	type controller_state is ( reset,
+	type controller_state is ( reset_state,
 				   game_setup,
 				   player_action,
 				   game_resolution,
@@ -112,7 +112,7 @@ begin
 	begin
 		if (rising_edge (clk)) then
 			if (reset = '1') then
-				state <= reset;
+				state <= reset_state;
 			else
 				state <= new_state;
 			end if;
@@ -122,7 +122,7 @@ begin
 	process (state, mem (t.b.d))
 	begin
 		case state is
-			when reset =>
+			when reset_state =>
 				bids_placed <= '0';
 				require_card <= '0';
 				enable <= '0';
@@ -136,37 +136,34 @@ begin
 					
 			when game_setup =>
 				insurance <= '0';
-				-- player select condition --
-				if ( N_Players = "000" ) then
+				if ( N_Players = "000" ) then      -- player select condition --
 					-- draw_menu <= ?? --
 					mem_screen_position_max <= "011";
 					new_state <= player_action;
 				end if;
 
-				-- bidding screen condition--
-				if ( bids_placed = '0' and N_Players != "000" ) then
+				if ( bids_placed = '0' and N_Players /= "000" ) then	 -- bidding screen condition--
 					-- draw_menu <= ?? --
 					-- mem_screen_position_max	<= ?? --
-					mem_screen_position_max <= "011";
 					new_state <= player_action;
 				end if;
 
 				-- Check whether starting cards have been dealt -- 
 				-- If yes, check which dealing phase we're in based on player count--
-				if ( N_Players = "001" ) then			     -- if 1 player total, switch phases based on Player 1 cards --
-					if ( Player1_Hand_Card_1 = "0000" ) then	-- Dealer receives a card after the last player received their first card --
+				if ( N_Players = "001" ) then			    -- if 1 player total, switch phases based on Player 1 cards --
+					if ( Player1_Hand_Card_1 = "0000" ) the     -- Dealer receives a card after the last player received their first card --
 						first_card_deal <= '1';
 						dealer_card_deal <= '0';
 						second_card_deal <= '0';
 						new_state <= game_resolution; 
 			
-					elsif ( Player1_Hand_Card_1 != "0000" ) and ( Dealer_Hand_Card_1 = "0000" ) then 
+					elsif ( Player1_Hand_Card_1 /= "0000" ) and ( Dealer_Hand_Card_1 = "0000" ) then 
 						first_card_deal <= '0';
 						dealer_card_deal <= '1';
 						second_card_deal <= '0';
 						new_state <= game_resolution; 
 
-					elsif ( Dealer_Hand_Card_1 != "0000") and ( Player1_Hand_Card_2 = "0000" ) then
+					elsif ( Dealer_Hand_Card_1 /= "0000") and ( Player1_Hand_Card_2 = "0000" ) then
 						first_card_deal <= '0';
 						dealer_card_deal <= '0';
 						second_card_deal <= '1';
@@ -180,13 +177,13 @@ begin
 						second_card_deal <= '0';
 						new_state <= game_resolution; 
 
-					elsif ( Player2_Hand_Card_1 != "0000" ) and ( Dealer_Hand_Card_1 = "0000" ) then 
+					elsif ( Player2_Hand_Card_1 /= "0000" ) and ( Dealer_Hand_Card_1 = "0000" ) then 
 						first_card_deal <= '0';
 						dealer_card_deal <= '1';
 						second_card_deal <= '0';
 						new_state <= game_resolution; 
 
-					elsif ( Dealer_Hand_Card_1 != "0000") and ( Player2_Hand_Card_2 = "0000" ) then
+					elsif ( Dealer_Hand_Card_1 /= "0000") and ( Player2_Hand_Card_2 = "0000" ) then
 						first_card_deal <= '0';
 						dealer_card_deal <= '0';
 						second_card_deal <= '1';
@@ -200,13 +197,13 @@ begin
 						second_card_deal <= '0';
 						new_state <= game_resolution;
 
-					elsif ( Player3_Hand_Card_1 != "0000" ) and ( Dealer_Hand_Card_1 = "0000" ) then 
+					elsif ( Player3_Hand_Card_1 /= "0000" ) and ( Dealer_Hand_Card_1 = "0000" ) then 
 						first_card_deal <= '0';
 						dealer_card_deal <= '1';
 						second_card_deal <= '0';
 						new_state <= game_resolution; 
 
-					elsif ( Dealer_Hand_Card_1 != "0000") and ( Player3_Hand_Card_2 = "0000" ) then
+					elsif ( Dealer_Hand_Card_1 /= "0000") and ( Player3_Hand_Card_2 = "0000" ) then
 						first_card_deal <= '0';
 						dealer_card_deal <= '0';      
 						second_card_deal <= '1';
@@ -220,13 +217,13 @@ begin
 						second_card_deal <= '0';
 						new_state <= game_resolution; 
 
-		 	                elsif ( Player4_Hand_Card_1 != "0000" ) and ( Dealer_Hand_Card_1 = "0000" ) then 
+		 	                elsif ( Player4_Hand_Card_1 /= "0000" ) and ( Dealer_Hand_Card_1 = "0000" ) then 
 						first_card_deal <= '0';
 						dealer_card_deal <= '1';
 						second_card_deal <= '0';
 						new_state <= game_resolution; 
 
-					elsif ( Dealer_Hand_Card_1 != "0000") and ( Player4_Hand_Card_2 = "0000" ) then
+					elsif ( Dealer_Hand_Card_1 /= "0000") and ( Player4_Hand_Card_2 = "0000" ) then
 						first_card_deal <= '0';
 						dealer_card_deal <= '0';
 						second_card_deal <= '1';
@@ -235,14 +232,12 @@ begin
 				end if;
 					
 			when player_action =>
-				-- player select screen --
-				mem_screen_position_max <= "011";
+				mem_screen_position_max <= "011"; 	-- player select screen --
 				if ( mem_switch_select = '1' ) then
 					mem_switch_select <= '0';
 					new_state <= game_resolution;
 				end if;
-				-- bidding screen --
-				mem_screen_position_max <= "011";  
+				mem_screen_position_max <= "011";       -- bidding screen --
 				if ( mem_switch_select = '1' ) then
 					mem_switch_select <= '0';
 					new_state <= game_resolution;
@@ -262,7 +257,7 @@ begin
 					end if;
 
 			        ------------------ bidding phase ---------------------
-				elsif (N_Players != "000" and bids_placed = '0') then
+				elsif (N_Players /= "000" and bids_placed = '0') then
 					if ( Player_Turn_In = "00" ) then            -- Player 1 Bid --
 						if (mem_screen_position = "000" ) then
 							Player1_Bid_New <= "00";
@@ -351,21 +346,21 @@ begin
 							
 		--------------------- using the card received after returning from pending_card states ------------------------
 
-				if ( random_card != "0000" ) then             -- definitive condition for Receiving Hand to be given values. Removes --
+				if ( random_card /= "0000" ) then             -- definitive condition for Receiving Hand to be given values. Removes --
 					if ( first_card_deal = '1' ) then         -- requirement for Receiving Hand to have a 0 off state. Saves a bit --   
 				        	if ( Player1_Hand_Card_1 = "0000" ) then     
 					        	Receiving_Hand <= "000";    -- "000" card goes to Player 1's hand --   				  
 					        	enable <= '1';
 							
-				       		elsif ( Player1_Hand_Card_1 != "0000" ) and ( Player2_Hand_Card_1 = "0000" ) then 
+				       		elsif ( Player1_Hand_Card_1 /= "0000" ) and ( Player2_Hand_Card_1 = "0000" ) then 
 							Receiving_Hand <= "001";    -- "001" card goes to Player 2's hand --       
 					        	enable <= '1';
 
-						elsif ( Player2_Hand_Card_1 != "0000" ) and ( Player3_Hand_Card_1 = "0000" ) then 
+						elsif ( Player2_Hand_Card_1 /= "0000" ) and ( Player3_Hand_Card_1 = "0000" ) then 
 							Receiving_Hand <= "010";    -- "010" card goes to Player 3's hand --
 					        	enable <= '1';
 
-						elsif ( Player3_Hand_Card_1 != "0000" ) and ( Player4_Hand_Card_1 = "0000" ) then 
+						elsif ( Player3_Hand_Card_1 /= "0000" ) and ( Player4_Hand_Card_1 = "0000" ) then 
 							Receiving_Hand <= "011";    -- "011" card goes to Player 4's hand --
 					        	enable <= '1';
 						end if;
@@ -380,15 +375,15 @@ begin
 						 	new_card <= random_card;
 					        	enable <= '1';
 							
-				       		elsif ( Player1_Hand_Card_2 != "0000" ) and ( Player2_Hand_Card_2 = "0000" ) then 
+				       		elsif ( Player1_Hand_Card_2 /= "0000" ) and ( Player2_Hand_Card_2 = "0000" ) then 
 							Receiving_Hand <= "001";    -- "001" card goes to Player 2's hand --       
 					        	enable <= '1';
 
-						elsif ( Player2_Hand_Card_2 != "0000" ) and ( Player3_Hand_Card_2 = "0000" ) then 
+						elsif ( Player2_Hand_Card_2 /= "0000" ) and ( Player3_Hand_Card_2 = "0000" ) then 
 							Receiving_Hand <= "010";    -- "010" card goes to Player 3's hand --
 					        	enable <= '1';
 
-						elsif ( Player3_Hand_Card_2 != "0000" ) and ( Player4_Hand_Card_2 = "0000" ) then 
+						elsif ( Player3_Hand_Card_2 /= "0000" ) and ( Player4_Hand_Card_2 = "0000" ) then 
 							Receiving_Hand <= "011";    -- "000" card goes to Player 4's hand --
 					        	enable <= '1';
 						end if;
@@ -396,7 +391,7 @@ begin
 					
 			when pending_card_a =>
 				request_card <= '1';
-                                if ( random_card != "0000" ) then
+                                if ( random_card /= "0000" ) then
 				        require_card <= '0';
 					new_card <= random_card;
 			        else
@@ -410,7 +405,7 @@ begin
 
 			when pending_card_b =>
 				request_card <= '0';
-				if ( random_card != "0000" ) then
+				if ( random_card /= "0000" ) then
 				        require_card <= '0';
 					new_card <= random_card;
 			        else
