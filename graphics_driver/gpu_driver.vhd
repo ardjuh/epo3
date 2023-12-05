@@ -574,27 +574,27 @@ architecture behavior of gpu_driver is
             elsif (x < 86) then
                 return small_letter(x - 80, y - 12, 0); --Space
             elsif (x < 92) then
-                return small_letter(x - 86, y - 12, 3); --C
+                return small_letter(x - 86, y - 12, 13); --M
             elsif (x < 98) then
-                return small_letter(x - 92, y - 12, 1); --A
+                return small_letter(x - 92, y - 12, 15); --O
             elsif (x < 104) then
-                return small_letter(x - 98, y - 12, 18); --R
+                return small_letter(x - 98, y - 12, 14); --N
             elsif (x < 110) then
-                return small_letter(x - 104, y - 12, 4); --D
+                return small_letter(x - 104, y - 12, 5); --E
             elsif (x < 116) then
-                return small_letter(x - 110, y - 12, 19); --S
+                return small_letter(x - 110, y - 12, 25); --Y
             elsif (x < 122) then
                 return small_letter(x - 116, y - 12, 0); --Space
             elsif (x < 128) then
-                return small_letter(x - 122, y - 12, 13); --M
+                return small_letter(x - 122, y - 12, 3); --C
             elsif (x < 134) then
-                return small_letter(x - 128, y - 12, 15); --O
+                return small_letter(x - 128, y - 12, 1); --A
             elsif (x < 140) then
-                return small_letter(x - 134, y - 12, 14); --N
+                return small_letter(x - 134, y - 12, 18); --R
             elsif (x < 146) then
-                return small_letter(x - 140, y - 12, 5); --E
+                return small_letter(x - 140, y - 12, 4); --D
             else
-                return small_letter(x - 146, y - 12, 25); --Y
+                return small_letter(x - 146, y - 12, 19); --S
             end if;
         elsif (y >= 20 and y < 27 and x >= 44) then
             if (x < 50) then
@@ -615,18 +615,22 @@ architecture behavior of gpu_driver is
                 return small_letter(x - 86, y - 20, 0); --Space
             elsif (x < 98) then
                 return small_number(x - 92, y - 20, money1/100); --Player money
-            elsif (x < 104) then
-                return small_letter(x - 98, y - 20, 0); --Space
-            elsif (x < 110 and card1_1 > 0) then
-                return small_card_char(x - 104, y - 20, card1_1); --Player1 card 1
-            elsif (x < 116 and card1_2 > 0) then
-                return small_card_char(x - 110, y - 20, card1_2); --Player1 card 2
-            elsif (x < 122 and card1_3 > 0) then
-                return small_card_char(x - 116, y - 20, card1_3); --Player1 card 3
-            elsif (x < 128 and card1_4 > 0) then
-                return small_card_char(x - 122, y - 20, card1_4); --Player1 card 4
-            elsif (x < 134 and card1_5 > 0) then
-                return small_card_char(x - 128, y - 20, card1_5); --Player1 card 5
+	   elsif (x <104) then
+		return small_number(x - 98, y - 20, money1/100 mod 10);
+	   elsif (x<110) then
+		return small_number(x - 104, y - 20, money1 mod 10);
+            elsif (x < 116) then
+                return small_letter(x - 110, y - 20, 0); --Space
+            elsif (x < 122 and card1_1 > 0) then
+                return small_card_char(x - 116, y - 20, card1_1); --Player1 card 1
+            elsif (x < 128 and card1_2 > 0) then
+                return small_card_char(x - 122, y - 20, card1_2); --Player1 card 2
+            elsif (x < 134 and card1_3 > 0) then
+                return small_card_char(x - 128, y - 20, card1_3); --Player1 card 3
+            elsif (x < 140 and card1_4 > 0) then
+                return small_card_char(x - 134, y - 20, card1_4); --Player1 card 4
+            elsif (x < 146 and card1_5 > 0) then
+                return small_card_char(x - 140, y - 20, card1_5); --Player1 card 5
             else
                 return '0';
             end if;
@@ -648,18 +652,22 @@ architecture behavior of gpu_driver is
             elsif (x < 92) then
                 return small_letter(x - 86, y - 28, 0); --Space
             elsif (x < 98) then
-                return small_number(x - 92, y - 28, money2 /100); --Player money
-            elsif (x < 104) then
+                return small_number(x - 92, y - 20, money2/100); --Player money
+	   elsif (x <104) then
+		return small_number(x - 98, y - 20, money2/100 mod 10);
+	   elsif (x<110) then
+		return small_number(x - 104, y - 20, money2 mod 10);
+	elsif (x < 116) then
                 return small_letter(x - 98, y - 28, 0); --Space
-            elsif (x < 110 and card1_1 > 0) then
+            elsif (x < 122 and card1_1 > 0) then
                 return small_card_char(x - 104, y - 28, card2_1); --Player2 card 1
-            elsif (x < 116 and card1_2 > 0) then
+            elsif (x < 128 and card1_2 > 0) then
                 return small_card_char(x - 110, y - 28, card2_2); --Player2 card 2
-            elsif (x < 122 and card1_3 > 0) then
+            elsif (x < 134 and card1_3 > 0) then
                 return small_card_char(x - 116, y - 28, card2_3); --Player2 card 3
-            elsif (x < 128 and card1_4 > 0) then
+            elsif (x < 140 and card1_4 > 0) then
                 return small_card_char(x - 122, y - 28, card2_4); --Player2 card 4
-            elsif (x < 134 and card1_5 > 0) then
+            elsif (x < 146 and card1_5 > 0) then
                 return small_card_char(x - 128, y - 28, card2_5); --Player2 card 5
             else
                 return '0';
@@ -682,18 +690,22 @@ architecture behavior of gpu_driver is
             elsif (x < 92) then
                 return small_letter(x - 86, y - 36, 0); --Space
             elsif (x < 98) then
-                return small_number(x - 92, y - 36, money3/100); --Player money
-            elsif (x < 104) then
+                return small_number(x - 92, y - 20, money3/100); --Player money
+	   elsif (x <104) then
+		return small_number(x - 98, y - 20, money3/100 mod 10);
+	   elsif (x<110) then
+		return small_number(x - 104, y - 20, money3 mod 10);
+            elsif (x < 116) then
                 return small_letter(x - 98, y - 36, 0); --Space
-            elsif (x < 110 and card1_1 > 0) then
+            elsif (x < 122 and card1_1 > 0) then
                 return small_card_char(x - 104, y - 36, card3_1); --Player3 card 1
-            elsif (x < 116 and card1_2 > 0) then
+            elsif (x < 128 and card1_2 > 0) then
                 return small_card_char(x - 110, y - 36, card3_2); --Player3 card 2
-            elsif (x < 122 and card1_3 > 0) then
+            elsif (x < 134 and card1_3 > 0) then
                 return small_card_char(x - 116, y - 36, card3_3); --Player3 card 3
-            elsif (x < 128 and card1_4 > 0) then
+            elsif (x < 140 and card1_4 > 0) then
                 return small_card_char(x - 122, y - 36, card3_4); --Player3 card 4
-            elsif (x < 134 and card1_5 > 0) then
+            elsif (x < 146 and card1_5 > 0) then
                 return small_card_char(x - 128, y - 36, card3_5); --Player3 card 5
             else
                 return '0';
@@ -716,18 +728,22 @@ architecture behavior of gpu_driver is
             elsif (x < 92) then
                 return small_letter(x - 86, y - 44, 0); --Space
             elsif (x < 98) then
-                return small_number(x - 92, y - 44, money4/100); --Player money
-            elsif (x < 104) then
+                return small_number(x - 92, y - 20, money4/100); --Player money
+	   elsif (x <104) then
+		return small_number(x - 98, y - 20, money4/100 mod 10);
+	   elsif (x<110) then
+		return small_number(x - 104, y - 20, money4 mod 10);
+            elsif (x < 116) then
                 return small_letter(x - 98, y - 44, 0); --Space
-            elsif (x < 110 and card1_1 > 0) then
+            elsif (x < 122 and card1_1 > 0) then
                 return small_card_char(x - 104, y - 44, card4_1); --Player4 card 1
-            elsif (x < 116 and card1_2 > 0) then
+            elsif (x < 128 and card1_2 > 0) then
                 return small_card_char(x - 110, y - 44, card4_2); --Player4 card 2
-            elsif (x < 122 and card1_3 > 0) then
+            elsif (x < 134 and card1_3 > 0) then
                 return small_card_char(x - 116, y - 44, card4_3); --Player4 card 3
-            elsif (x < 128 and card1_4 > 0) then
+            elsif (x < 140 and card1_4 > 0) then
                 return small_card_char(x - 122, y - 44, card4_4); --Player4 card 4
-            elsif (x < 134 and card1_5 > 0) then
+            elsif (x < 146 and card1_5 > 0) then
                 return small_card_char(x - 128, y - 44, card4_5); --Player4 card 5
             else
                 return '0';
@@ -846,7 +862,7 @@ architecture behavior of gpu_driver is
                 elsif (x_pos < 562) then
                     return small_letter(x_pos - 555, y_pos - 32, 5);--e
                 else
-                    return small_letter(x_pos - 561, y_pos - 32, 25);
+                    return small_letter(x_pos - 561, y_pos - 32, 25); --y
                 end if;
             else
                 return '0';
