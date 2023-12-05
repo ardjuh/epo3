@@ -165,7 +165,7 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (letter = 25) then -- Y
-            if (((x = 0 or x = 4) and y < 3) or (x = 2 and (y = 5 or y = 6)) or ((x = 1 or x = 3) and (y = 3 or y = 4))) then
+            if (((x = 0 or x = 4) and y < 3) or (x = 2 and (y >= 5 and y < 7)) or ((x = 1 or x = 3) and (y = 3))) then
                 return '1';
             else
                 return '0';
