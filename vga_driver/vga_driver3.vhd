@@ -13,27 +13,24 @@ entity vga_driver is
         
 end vga_driver;
 
-architecture vga_driver_arch of vga_driver is
+architecture behaviour of vga_driver is
 
     signal h_pos_signal, v_pos_signal : unsigned(9 downto 0);
 
 begin
-         h_pos_signal <= unsigned(h_pos)
-         v_pos_signal <= unsigned(v_pos)
-    process(clk, reset)
+         h_pos_signal <= unsigned(h_pos);
+         v_pos_signal <= unsigned(v_pos);
+    process(reset, h_pos, v_pos)
     begin
         if reset = '1' then
          H_sync <= '0';
          V_sync <= '0';
-
-        elsif rising_edge(clk) then
-         
-             if h_pos_signal < 128 then -- Hsync should be low during the horizontal sync pulse and high otherwise
+        else
+             if h_pos_signal < 96 then -- Hsync should be low during the horizontal sync pulse and high otherwise
                  H_sync <= '0';
              else 
                  H_sync <= '1';
              end if;
-         
              if v_pos_signal < 2 then-- Vsync should be low during the vertical sync pulse and high otherwise
                 V_sync <= '0';
              else 
@@ -41,6 +38,7 @@ begin
              end if;
          end if;
     end process;
-end vga_driver_arch;
+end behaviour;
+
 
     

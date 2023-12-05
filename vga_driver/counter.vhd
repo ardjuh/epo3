@@ -20,7 +20,7 @@ process (clk, reset)
 				h_pos <= h_pos + 1;
 			else
 				h_pos <= "0000000000";
-				if (v_pos < 520) then
+				if (v_pos < 524) then
 					v_pos <= v_pos + 1;
 				else
 					v_pos <= "0000000000";
