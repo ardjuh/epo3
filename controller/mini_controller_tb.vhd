@@ -20,10 +20,11 @@ architecture structural of mini_controller_tb is
 				switch_left	: out std_logic;
 				switch_right	: out std_logic
 			);
-	end component mini_controller;
+end component mini_controller;
 	
-	signal clk, reset : std_logic;
-	signal button_right, button_left, button_select	: std_logic;
+signal clk, reset : std_logic;
+signal button_right, button_left, button_select	: std_logic;
+signal switch_right, switch_left, switch_select	: std_logic;
 	
 
 begin
@@ -31,7 +32,7 @@ begin
 	clk			<=	'0' after 0 ns,
 					'1' after 20 ns when clk /= '1' else '0' after 20 ns; -- 1 for 20, 60, 100 etc
 					
-	reset		<=  '1' after 0 ns,
+	reset		<=  		'1' after 0 ns,
 					'0' after 80 ns,
 					'1' after 140 ns, -- test if the reset works
 					'0' after 160 ns;
@@ -69,5 +70,15 @@ begin
 						'0' after 360 ns,
 						'1' after 380 ns, -- test if all 1
 						'0' after 400 ns;
+
+lbl2: inputbuffer port map( clk        =>  clk,
+                            reset      =>  reset,
+                            button_select  =>  button_select,
+                            button_left =>  button_left,
+			    button_right => button_right
+			    switch_select  =>  switch_select,
+                            switch_left =>  switch_left,
+			    switch_right => switch_right
+                           );
 						
 end architecture structural;

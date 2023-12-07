@@ -69,42 +69,48 @@ begin
 				switch_select <= '1' ; 	
 				if  (button_select = '1') then 
 					new_state <= selb;
-				else new_state <= game_resolution;
+				else 
+					new_state <= game_resolution;
 				end if;
 					
 			when selb	=> 
 				switch_select <= '0' ; 	
 				if  (button_select = '0') then 
 					new_state <= game_resolution;
-				else new_state <= selb;
+				else 
+					new_state <= selb;
 				end if;
 					
 			when lefta	=> 
 				switch_left <= '1' ;	
 				if  (button_left = '1') then 
 					new_state <= leftb;
-				else new_state <= player_action;
+				else 
+					new_state <= player_action;
 				end if;
 					
 			when leftb	=>
 				 switch_left <= '0';
 				if (button_left = '0') then 
 					new_state <= player_action;
-				else new_state <= leftb;
+				else 
+					new_state <= leftb;
 				end if;
 					
 			when righta => 
 				switch_right <= '1' ;	
 				if  (button_right = '1') then
 					 new_state <= rightb;
-				else new_state <= player_action;
+				else 
+					new_state <= player_action;
 				end if;
 					
 			when rightb => 
 				switch_right <= '0' ;
 			        if     (button_right = '0') then 
-				new_state <= player_action;
-				else new_state <= rightb;
+					new_state <= player_action;
+				else 
+					new_state <= rightb;
 			        end if;
 		    
 			when reset_state =>
@@ -113,7 +119,8 @@ begin
 				switch_select <= '0' ;
 				if (reset = '0') then
 					new_state <= player_action;
-				else new_state <= reset_state;
+				else 
+					new_state <= reset_state;
 				end if;
 			end case;	
 	end process;
