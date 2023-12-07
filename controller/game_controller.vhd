@@ -344,7 +344,7 @@ begin
 					request_card <= '1';
 					new_state <= game_resolution;
 							
-		--------------------- using the card received after returning from pending_card states ------------------------
+		----------------------- using the card received after returning from pending_card states ------------------------
 
 				if ( random_card /= "0000" ) then             -- definitive condition for Receiving Hand to be given values. Removes --
 					if ( first_card_deal = '1' ) then         -- requirement for Receiving Hand to have a 0 off state. Saves a bit --   
@@ -352,15 +352,15 @@ begin
 					        	Receiving_Hand <= "000";    -- "000" card goes to Player 1's hand --   				  
 					        	enable <= '1';
 							
-				       		elsif ( Player1_Hand_Card_1 /= "0000" ) and ( Player2_Hand_Card_1 = "0000" ) then 
+				       		elsif ( Player1_Hand_Card_1 /= "0000" ) and ( Player2_Hand_Card_1 = "0000" ) and ( unsigned(N_Players > 1) then 
 							Receiving_Hand <= "001";    -- "001" card goes to Player 2's hand --       
 					        	enable <= '1';
 
-						elsif ( Player2_Hand_Card_1 /= "0000" ) and ( Player3_Hand_Card_1 = "0000" ) then 
+						elsif ( Player2_Hand_Card_1 /= "0000" ) and ( Player3_Hand_Card_1 = "0000" ) and ( unsigned(N_Players > 2) then 
 							Receiving_Hand <= "010";    -- "010" card goes to Player 3's hand --
 					        	enable <= '1';
 
-						elsif ( Player3_Hand_Card_1 /= "0000" ) and ( Player4_Hand_Card_1 = "0000" ) then 
+						elsif ( Player3_Hand_Card_1 /= "0000" ) and ( Player4_Hand_Card_1 = "0000" ) and ( unsigned(N_Players > 3) then 
 							Receiving_Hand <= "011";    -- "011" card goes to Player 4's hand --
 					        	enable <= '1';
 						end if;
