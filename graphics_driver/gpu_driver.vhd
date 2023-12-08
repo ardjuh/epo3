@@ -768,8 +768,8 @@ architecture behavior of gpu_driver is
     end function;
 
     function cards (
-        x     : integer range 0 to 98;
-        y     : integer range 0 to 140;
+        x     : integer range 0 to 99;
+        y     : integer range 0 to 108;
         card1 : integer range 0 to 13 := 0;
         card2 : integer range 0 to 13 := 0;
         card3 : integer range 0 to 13 := 0;
@@ -779,19 +779,19 @@ architecture behavior of gpu_driver is
     ) return std_logic is
     begin
         if (x >= 44 and card1 > 0) then
-            if (x <= 45 or y <= 1 or x >= 98 or y >= 85) then
+            if (x <= 45 or y <= 1 or x >= 98 or y >= 107) then
                 return '1';
-            elsif (x >= 70 and x < 80 and y >= 33 and y < 53) then
-                return big_number(x - 70, y - 33, card1);
+            elsif (x >= 70 and x < 80 and y >= 44 and y < 64) then
+                return big_number(x - 70, y - 44, card1);
             elsif (x >= 48 and x <= 52 and y >= 4 and y <= 10) then
                 return small_card_char(x - 48, y - 4, card1);
-            elsif (x >= 91 and x < 96 and y >= 75 and y < 82) then
-                return small_card_char(x - 91, y - 75, card1);
+            elsif (x >= 91 and x < 96 and y >= 97 and y < 104) then
+                return small_card_char(x - 91, y - 97, card1);
             else
                 return '0';
             end if;
         elsif (x >= 33 and x <= 43 and card2 > 0) then
-            if (x <= 34 or y <= 1 or y >= 85) then
+            if (x <= 34 or y <= 1 or y >= 107) then
                 return '1';
             elsif (x >= 37 and x < 42 and y >= 4 and y <= 10) then
                 return small_card_char(x - 37, y - 4, card2);
@@ -799,7 +799,7 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (x >= 22 and x <= 32 and card3 > 0) then
-            if (x <= 23 or y <= 1 or y >= 85) then
+            if (x <= 23 or y <= 1 or y >= 107) then
                 return '1';
             elsif (x >= 26 and x <= 30 and y >= 4 and y <= 10) then
                 return small_card_char(x - 26, y - 4, card3);
@@ -807,7 +807,7 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (x >= 11 and x <= 21 and card4 > 0) then
-            if (x <= 12 or y <= 1 or y >= 85) then
+            if (x <= 12 or y <= 1 or y >= 107) then
                 return '1';
             elsif (x >= 15 and x <= 19 and y >= 4 and y <= 10) then
                 return small_card_char(x - 15, y - 4, card4);
@@ -815,7 +815,7 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (x <= 10 and card5 > 0) then
-            if (x <= 1 or y <= 1 or y >= 85) then
+            if (x <= 1 or y <= 1 or y >= 107) then
                 return '1';
             elsif (x >= 4 and x <= 8 and y >= 4 and y <= 10) then
                 return small_card_char(x - 4, y - 4, card5);
@@ -1061,8 +1061,8 @@ begin
             r <= 0;
             g <= 0;
             b <= 0;
-        elsif (y_pos <= 470 and y_pos >= 384 and x_pos >= 10 and x_pos <= 108) then -- Player hand
-            if (cards(x_pos - 10, y_pos - 384, 13, 3, 6, 2, 5) = '1') then
+        elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 10 and x_pos <= 109) then -- Player hand
+            if (cards(x_pos - 10, y_pos - 362, 13, 3, 6, 2, 5) = '1') then
                 r <= 0;
                 g <= 0;
                 b <= 0;
@@ -1071,8 +1071,8 @@ begin
                 g <= 15;
                 b <= 15;
             end if;
-        elsif (y_pos <= 470 and y_pos >= 384 and x_pos >= 120 and x_pos <= 218) then -- Player hand with split
-            if (cards(x_pos - 120, y_pos - 384, 11, 13, 12, 11, 10, '1') = '1') then
+        elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219) then -- Player hand with split
+            if (cards(x_pos - 120, y_pos - 362, 11, 13, 12, 11, 10, '1') = '1') then
                 r <= 0;
                 g <= 0;
                 b <= 0;
@@ -1081,8 +1081,8 @@ begin
                 g <= 15;
                 b <= 15;
             end if;
-        elsif (y_pos >= 10 and y_pos < 96 and x_pos < 630 and x_pos >= 531) then -- Dealer hand
-            if (cards(x_pos - 531, y_pos - 10, 10, 4, 7) = '1') then
+        elsif (y_pos >= 10 and y_pos < 118 and x_pos < 630 and x_pos >= 530) then -- Dealer hand
+            if (cards(x_pos - 530, y_pos - 10, 10, 4, 7) = '1') then
                 r <= 0;
                 g <= 0;
                 b <= 0;
