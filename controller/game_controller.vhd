@@ -122,6 +122,7 @@ begin
 			when reset_state =>
 				bids_placed <= '0';
 				require_card <= '0';
+				card_received <= '0';
 				enable <= '0';
 				-- signal to draw the main menu --
 				-- mem_screen_position_max	<= "000" --
@@ -506,46 +507,55 @@ begin
 							
 		----------------------- using the card received after returning from pending_card states ------------------------
 
-				if ( random_card /= "0000" ) then             -- definitive condition for Receiving Hand to be given values. Removes --
+				if ( card_received = '1' ) then             -- definitive condition for Receiving Hand to be given values. Removes --
 					if ( first_card_deal = '1' ) then         -- requirement for Receiving Hand to have a 0 off state. Saves a bit --   
 				        	if ( Player1_Hand_Card_1 = "0000" ) then     
 					        	Receiving_Hand <= "000";    -- "000" card goes to Player 1's hand --   				  
 					        	enable <= '1';
+							card_received <= '0';
 							
 				       		elsif ( Player1_Hand_Card_1 /= "0000" ) and ( Player2_Hand_Card_1 = "0000" ) and ( unsigned(N_Players > 1) then 
 							Receiving_Hand <= "001";    -- "001" card goes to Player 2's hand --       
 					        	enable <= '1';
+							card_received <= '0';
 
 						elsif ( Player2_Hand_Card_1 /= "0000" ) and ( Player3_Hand_Card_1 = "0000" ) and ( unsigned(N_Players > 2) then 
 							Receiving_Hand <= "010";    -- "010" card goes to Player 3's hand --
 					        	enable <= '1';
+							card_received <= '0';
 
 						elsif ( Player3_Hand_Card_1 /= "0000" ) and ( Player4_Hand_Card_1 = "0000" ) and ( unsigned(N_Players > 3) then 
 							Receiving_Hand <= "011";    -- "011" card goes to Player 4's hand --
 					        	enable <= '1';
+	      						card_received <= '0';
 						end if;
 
 					elsif ( dealer_card_deal = '1' ) then   -- may be possible to funnel this in at the end of the above *if* statement as an optimization if needed -- 
 						Receiving_Hand <= "100";    -- "100" card goes to Dealer's hand --  
 					        enable <= '1';
+						card_received <= '0';
 
 					elsif ( second_card_deal = '1' ) then
 						if ( Player1_Hand_Card_2 = "0000" ) then     
 					        	Receiving_Hand <= "000";    -- "000" card goes to Player 1's hand --   				  
 						 	new_card <= random_card;
 					        	enable <= '1';
+							card_received <= '0';
 							
 				       		elsif ( Player1_Hand_Card_2 /= "0000" ) and ( Player2_Hand_Card_2 = "0000" ) then 
 							Receiving_Hand <= "001";    -- "001" card goes to Player 2's hand --       
 					        	enable <= '1';
+							card_received <= '0';
 
 						elsif ( Player2_Hand_Card_2 /= "0000" ) and ( Player3_Hand_Card_2 = "0000" ) then 
 							Receiving_Hand <= "010";    -- "010" card goes to Player 3's hand --
 					        	enable <= '1';
+							card_received <= '0';
 
 						elsif ( Player3_Hand_Card_2 /= "0000" ) and ( Player4_Hand_Card_2 = "0000" ) then 
 							Receiving_Hand <= "011";    -- "000" card goes to Player 4's hand --
 					        	enable <= '1';
+							card_received <= '0';
 						end if;
 							
 					
@@ -554,6 +564,7 @@ begin
                                 if ( random_card /= "0000" ) then
 				        require_card <= '0';
 					new_card <= random_card;
+					card_received <= '1';
 			        else
 					require_card <= '1';
 				end if;
@@ -568,6 +579,7 @@ begin
 				if ( random_card /= "0000" ) then
 				        require_card <= '0';
 					new_card <= random_card;
+					card_received <= '1';
 			        else
 					require_card <= '1';
 				end if;
