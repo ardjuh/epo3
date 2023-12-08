@@ -146,16 +146,6 @@ begin
 				Receiving_Hand <= "000";
 				request_card <= '0';
 				round_end <= '0';
-				N_Players_New <= N_Players; -- preserve unused signals to next state --
-				Player_Turn_New <= Player_Turn_In;
-				Player1_Bid_New <= Player1_Bid;
-				Player2_Bid_New <= Player2_Bid;
-				Player3_Bid_New <= Player3_Bid;
-				Player4_Bid_New <= Player4_Bid;
-				Player1_Budget_New <= Player1_Budget;
-				Player2_Budget_New <= Player2_Budget;
-				Player3_Budget_New <= Player3_Budget;
-				Player4_Budget_New <= Player4_Budget;
 
 				if ( N_Players = "000" ) then      -- player select condition --
 					-- draw_menu <= ?? --
