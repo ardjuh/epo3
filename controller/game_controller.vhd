@@ -98,11 +98,11 @@ architecture behaviour of controller is
 				 );
 
 signal state, new_state: controller_state;
-signal bids_placed, require_card : std_logic;
+signal bids_placed, require_card : std_logic;  
 signal first_card_deal, dealer_card_deal, second_card_deal : std_logic;
+signal even_money_selected, insurance_selected, split_selected, double_selected, hit_selected, hold_selected : std_logic;
+signal even_money_selectable, insurance_selectable, split_selectable, double_selectable, hit_selectable, hold_selectable : std_logic;
 
-signal double_selected, split_selected, insurance_selected, hold_selected, hit_selected : std_logic;
-signal double_selectable, split_selectable, insurance_selectable, hit_selectable : std_logic;
 signal mem_screen_position_max, mem_screen_position : std_logic;
 -- draw_menu signal needs to be held continously, thus remembered for all clock cycles --
 signal menu : std_logic_vector (? downto 0); 
