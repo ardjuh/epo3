@@ -275,7 +275,10 @@ begin
 					elsif ( Player1_Hand_Card_3 /= "0000" ) then
 						if ( unsigned( Player1_Hand_Card_1 + Player1_Hand_Card_2 + Player1_Hand_Card_3 + Player1_Hand_Card_4 + Player1_Hand_Card_5 ) = 21) then
 							new_state <= player_action;
-
+						
+						elsif ( unsigned( Player1_Hand_Card_1 + Player1_Hand_Card_2 + Player1_Hand_Card_3 + Player1_Hand_Card_4 + Player1_Hand_Card_5 ) < 22 ) and ( Player1_Hand_Card_5 /= "0000" ) then
+							new_state <= player_action;
+						
 						else
 							hit_selectable <= '1';
 							new_state <= player_actton;
@@ -307,6 +310,9 @@ begin
 
 					elsif ( Player2_Hand_Card_3 /= "0000" ) then
 						if ( unsigned( Player2_Hand_Card_1 + Player2_Hand_Card_2 + Player2_Hand_Card_3 + Player2_Hand_Card_4 + Player2_Hand_Card_5 ) = 21) then
+							new_state <= player_action;
+
+						elsif ( unsigned( Player2_Hand_Card_1 + Player2_Hand_Card_2 + Player2_Hand_Card_3 + Player2_Hand_Card_4 + Player2_Hand_Card_5 ) < 22 ) and ( Player2_Hand_Card_5 /= "0000" ) then
 							new_state <= player_action;
 
 						else
@@ -342,6 +348,9 @@ begin
 						if ( unsigned( Player3_Hand_Card_1 + Player3_Hand_Card_2 + Player3_Hand_Card_3 + Player3_Hand_Card_4 + Player3_Hand_Card_5 ) = 21) then
 							new_state <= player_action;
 
+						elsif ( unsigned( Player3_Hand_Card_1 + Player3_Hand_Card_2 + Player3_Hand_Card_3 + Player3_Hand_Card_4 + Player3_Hand_Card_5 ) < 22 ) and ( Player3_Hand_Card_5 /= "0000" ) then
+							new_state <= player_action;
+
 						else
 							hit_selectable <= '1';
 							new_state <= player_actton;
@@ -375,6 +384,9 @@ begin
 						if ( unsigned( Player4_Hand_Card_1 + Player4_Hand_Card_2 + Player4_Hand_Card_3 + Player4_Hand_Card_4 + Player4_Hand_Card_5 ) = 21) then
 							new_state <= player_action;
 
+						elsif ( unsigned( Player4_Hand_Card_1 + Player4_Hand_Card_2 + Player4_Hand_Card_3 + Player4_Hand_Card_4 + Player4_Hand_Card_5 ) < 22 ) and ( Player4_Hand_Card_5 /= "0000" ) then
+							new_state <= player_action;
+						
 						else
 							hit_selectable <= '1';
 							new_state <= player_actton;
