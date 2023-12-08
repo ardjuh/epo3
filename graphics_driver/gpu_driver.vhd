@@ -1071,7 +1071,7 @@ begin
                 g <= 15;
                 b <= 15;
             end if;
-        elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219) then -- Player hand with split
+        elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219 and ((player = "00" and split_1 = '1') or (player = "01" and split_2 = '1') or (player = "10" and split_3 = '1') or (player = "11" and split_4 = '1'))) then -- Player hand with split
             if (cards(x_pos - 120, y_pos - 362, 11, 13, 12, 11, 10, '1') = '1') then
                 r <= 0;
                 g <= 0;
