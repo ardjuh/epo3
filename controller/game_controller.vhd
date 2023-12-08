@@ -289,6 +289,105 @@ begin
 					end if;
 				end if;
 
+				elsif ( Player_Turn_In = "01" ) then
+					if ( unsigned( Player2_Hand_Card_1 + Player2_Hand_Card_2 + Player2_Hand_Card_3 + Player2_Hand_Card_4 + Player2_Hand_Card_5 ) > 21) then
+							new_state <= player action;
+					
+					elsif ( Player2_Hand_Card_2 /= "0000" ) and ( Player2_Hand_Card_3 = "0000" ) then
+						if ( unsigned(Dealer_Hand_Card_1) > 9 ) and ( unsigned(Player2_Hand_Card_1 + Player2_Hand_Card_2) = 21 ) then
+							even_money_selectable <= '1';
+							new_state <= player_action;
+							-- draw even money pop up --
+					
+						elsif ( unsigned(Dealer_Hand_Card_1) = 11 ) then 
+							insurance_selectable <= '1';
+							new_state <= player_action;
+							-- draw insurance menu --
+
+						else 
+							double_selectable <= '1';
+							hit_selectable <= '1';
+							hold_selectable <= '1';
+							new_state <= player_action;
+						end if;
+
+					elsif ( Player2_Hand_Card_3 /= "0000" ) then
+						if ( unsigned( Player2_Hand_Card_1 + Player2_Hand_Card_2 + Player2_Hand_Card_3 + Player2_Hand_Card_4 + Player2_Hand_Card_5 ) = 21) then
+							new_state <= player_action;
+
+						else
+							hit_selectable <= '1';
+							new_state <= player_actton;
+						end if;
+					end if;
+				end if;
+
+				elsif ( Player_Turn_In = "10" ) then
+					if ( unsigned( Player3_Hand_Card_1 + Player3_Hand_Card_2 + Player3_Hand_Card_3 + Player3_Hand_Card_4 + Player3_Hand_Card_5 ) > 21) then
+							new_state <= player action;
+					
+					elsif ( Player3_Hand_Card_2 /= "0000" ) and ( Player3_Hand_Card_3 = "0000" ) then
+						if ( unsigned(Dealer_Hand_Card_1) > 9 ) and ( unsigned(Player3_Hand_Card_1 + Player3_Hand_Card_2) = 21 ) then
+							even_money_selectable <= '1';
+							new_state <= player_action;
+							-- draw even money pop up --
+					
+						elsif ( unsigned(Dealer_Hand_Card_1) = 11 ) then 
+							insurance_selectable <= '1';
+							new_state <= player_action;
+							-- draw insurance menu --
+
+						else 
+							double_selectable <= '1';
+							hit_selectable <= '1';
+							hold_selectable <= '1';
+							new_state <= player_action;
+						end if;
+
+					elsif ( Player3_Hand_Card_3 /= "0000" ) then
+						if ( unsigned( Player3_Hand_Card_1 + Player3_Hand_Card_2 + Player3_Hand_Card_3 + Player3_Hand_Card_4 + Player3_Hand_Card_5 ) = 21) then
+							new_state <= player_action;
+
+						else
+							hit_selectable <= '1';
+							new_state <= player_actton;
+						end if;
+					end if;
+				end if;
+
+				if ( Player_Turn_In = "11" ) then
+					if ( unsigned( Player4_Hand_Card_1 + Player4_Hand_Card_2 + Player4_Hand_Card_3 + Player4_Hand_Card_4 + Player4_Hand_Card_5 ) > 21) then
+							new_state <= player action;
+					
+					elsif ( Player4_Hand_Card_2 /= "0000" ) and ( Player4_Hand_Card_3 = "0000" ) then
+						if ( unsigned(Dealer_Hand_Card_1) > 9 ) and ( unsigned(Player4_Hand_Card_1 + Player4_Hand_Card_2) = 21 ) then
+							even_money_selectable <= '1';
+							new_state <= player_action;
+							-- draw even money pop up --
+					
+						elsif ( unsigned(Dealer_Hand_Card_1) = 11 ) then 
+							insurance_selectable <= '1';
+							new_state <= player_action;
+							-- draw insurance menu --
+
+						else 
+							double_selectable <= '1';
+							hit_selectable <= '1';
+							hold_selectable <= '1';
+							new_state <= player_action;
+						end if;
+
+					elsif ( Player4_Hand_Card_3 /= "0000" ) then
+						if ( unsigned( Player4_Hand_Card_1 + Player4_Hand_Card_2 + Player4_Hand_Card_3 + Player4_Hand_Card_4 + Player4_Hand_Card_5 ) = 21) then
+							new_state <= player_action;
+
+						else
+							hit_selectable <= '1';
+							new_state <= player_actton;
+						end if;
+					end if;
+				end if;
+
 
 			when player_action =>
 				mem_screen_position_max <= "011"; 	-- player select screen --
