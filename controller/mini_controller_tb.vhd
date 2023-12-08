@@ -60,7 +60,9 @@ begin
 						'1' after 1300 ns, -- test for left & right 1
 						'0' after 1420 ns,
 						'1' after 1500 ns, -- test if all 1
-						'0' after 1620 ns;
+						'0' after 1620 ns,
+						'1' after 1700 ns,
+						'0' after 1820 ns;
 	--button(1)
 	button_right		<= 			'0' after 0 ns,	-- all buttons 0
 						'1' after 500 ns, -- test if right works, select & left 0
@@ -82,4 +84,5 @@ lbl1: mini_con  port map( 					clk        		=>  clk,
 			    		switch_right 		=> switch_right
                            );
 end behaviour;
+
 
