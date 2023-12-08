@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.all;
-a
+
 entity controller is
 	port(	clk	: in  std_logic;
 		reset	: in  std_logic;
@@ -102,7 +102,7 @@ signal bids_placed, require_card : std_logic;
 signal first_card_deal, dealer_card_deal, second_card_deal : std_logic;
 
 signal double_selected, split_selected, insurance_selected, hold_selected, hit_selected : std_logic;
-signal double_selectable, split_selectable, insurance_selectable : std_logic;
+signal double_selectable, split_selectable, insurance_selectable, hit_selectable : std_logic;
 signal mem_screen_position_max, mem_screen_position : std_logic;
 -- draw_menu signal needs to be held continously, thus remembered for all clock cycles --
 signal menu : std_logic_vector (? downto 0); 
@@ -168,8 +168,8 @@ begin
 
 				-- Check whether starting cards have been dealt -- 
 				-- If yes, check which dealing phase we're in based on player count--
-				if ( N_Players = "001" ) then			    -- if 1 player total, switch phases based on Player 1 cards --
-					if ( Player1_Hand_Card_1 = "0000" ) the     -- Dealer receives a card after the last player received their first card --
+				if ( N_Players = "001" ) and ( bids_placed = '1' ) then			    -- if 1 player total, switch phases based on Player 1 cards --
+					if ( Player1_Hand_Card_1 = "0000" ) then     -- Dealer receives a card after the last player received their first card --
 						first_card_deal <= '1';
 						dealer_card_deal <= '0';
 						second_card_deal <= '0';
@@ -248,10 +248,45 @@ begin
 						new_state <= game_resolution;
 					end if; 
 				end if;
-				
-				if (Player1_Hand_Card_2 /= "0000") and (Player1_Hand_Card_3 = "0000") then
-					-- check card equality to ace:  --
-					double_selectable <= '0';
+			----------------------------- checking actions available -------------------------------------		
+				even_money_selectable <= '0';
+				insurance_selectable <= '0';
+				split_selectable <= '0';
+				double_selectable <= '0';
+				hit_selectable <= '0';
+				hold_selectable <= '1';
+
+				if ( Player_Turn_In = "00" ) then
+					if ( unsigned( Player1_Hand_Card_1 + Player1_Hand_Card_2 + Player1_Hand_Card_3 + Player1_Hand_Card_4 + Player1_Hand_Card_5 ) > 21) then
+							new_state <= player action;
+					
+					elsif ( Player1_Hand_Card_2 /= "0000" ) and ( Player1_Hand_Card_3 = "0000" ) then
+						if ( unsigned(Dealer_Hand_Card_1) > 9 ) and ( unsigned(Player1_Hand_Card_1 + Player1_Hand_Card_2) = 21 ) then
+							even_money_selectable <= '1';
+							new_state <= player_action;
+							-- draw even money pop up --
+					
+						elsif ( unsigned(Dealer_Hand_Card_1) = 11 ) then 
+							insurance_selectable <= '1';
+							new_state <= player_action;
+							-- draw insurance menu --
+
+						else 
+							double_selectable <= '1';
+							hit_selectable <= '1';
+							hold_selectable <= '1';
+							new_state <= player_action;
+						end if;
+
+					elsif ( Player1_Hand_Card_3 /= "0000" ) then
+						if ( unsigned( Player1_Hand_Card_1 + Player1_Hand_Card_2 + Player1_Hand_Card_3 + Player1_Hand_Card_4 + Player1_Hand_Card_5 ) = 21) then
+							new_state <= player_action;
+
+						else
+							hit_selectable <= '1';
+							new_state <= player_actton;
+						end if;
+					end if;
 				end if;
 
 
