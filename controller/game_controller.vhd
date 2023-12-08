@@ -245,7 +245,8 @@ begin
 						new_state <= game_resolution;
 					end if; 
 				end if;
-			----------------------------- checking actions available -------------------------------------		
+			----------------------------- checking actions available -------------------------------------	
+					
 				even_money_selectable <= '0';
 				insurance_selectable <= '0';
 				split_selectable <= '0';
@@ -491,12 +492,19 @@ begin
 				end if;
 							
 		---------------------------- game phase --------------------------------
+					
 				elsif (hold_selected = '1') then
 					Player_Turn_New <= Player_Turn_In + 1;
+					
 				elsif (insurance_selected = '1') then
 					insurance <= '1';
-				elsif (double_selected = '1' or split_selected = '1' or hit_selected = '1') then
-					request_card <= '1';
+					
+				elsif ( double_selected = '1' ) 
+					require_card <= '1';
+					new_state <= game_resolution;
+					
+				elsif hit_selected = '1') then
+				        require_card <= '1';
 					new_state <= game_resolution;
 							
 		----------------------- using the card received after returning from pending_card states ------------------------
