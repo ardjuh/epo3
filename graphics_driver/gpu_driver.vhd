@@ -267,7 +267,7 @@ architecture behavior of gpu_driver is
         if (char = 0) then
             return '0';
         elsif (char = 1) then
-            return small_letter(x, y, 0);
+            return small_letter(x, y, 1);
         elsif (char <= 9) then
             return small_number(x, y, char);
         elsif (char = 10) then
