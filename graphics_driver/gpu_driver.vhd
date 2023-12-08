@@ -468,21 +468,21 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
 elsif (number = 11) then --J
-            if ((y = 0 or y = 1) and x > 1 and x < 10) then
+            if (y = 0 and x > 1 and x < 10) then
                 return'1';
             elsif (x = 7 and y < 18) then
                 return '1';
-	    elsif (x = 6 and y < 19) then
+	    elsif (x = 6 and y > 16 and y < 19) then
                 return '1';
-            elsif (x = 5 and y > 15) then
+            elsif (x = 5 and y > 17) then
                 return '1';
-            elsif (x = 2 and y > 15) then
+            elsif (x = 2 and y > 17) then
                 return '1';
-            elsif ((x = 3 or x = 4) and y > 17) then
+            elsif ((x = 3 or x = 4) and y = 19) then
                 return '1';
-            elsif (x = 1 and y > 14 and y < 19) then
+            elsif (x = 1 and y > 16 and y  19) then
                 return '1';
-            elsif (x = 0 and y > 14 and y < 18) then
+            elsif (x = 0 and y > 15 and y < 18) then
                 return '1';
             else
                 return '0';
