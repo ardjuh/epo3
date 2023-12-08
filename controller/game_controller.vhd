@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.all;
-
+a
 entity controller is
 	port(	clk	: in  std_logic;
 		reset	: in  std_logic;
