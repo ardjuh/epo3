@@ -19,13 +19,13 @@ type mini_con_state is (
 	player_action
 	);
 
-signal state, new_state, game_resolution: mini_con_state;
+signal state, new_state : mini_con_state;
 signal button: std_logic_vector(2 downto 0);
 
 begin
 	process (clk)
 		begin
-			if (clk = '1' and clk'event) then
+			if (rising_edge(clk)) then
 				if (reset ='1') then
 					state	<= reset_state; 
 				else
@@ -44,6 +44,8 @@ begin
 
 				when player_action	=> 
 					switch_select <= '0' ;	
+					switch_left <= '0' ;
+					switch_right <= '0' ;
 					if (button = "100") then 
 						new_state <= sela;
 					elsif (button = "001") then 
@@ -59,13 +61,13 @@ begin
 					if  (button = "100") then 
 						new_state <= selb;
 					else 
-						new_state <= game_resolution; 
+						new_state <= player_action; -- must be changed to game_resolution when pasting into controller. Is now player_action for testbench purposes
 					end if;
 					
 				when selb	=> 
 					switch_select <= '0' ; 	
 					if  (button = "100") then 
-						new_state <= game_resolution;
+						new_state <= player_action; -- must be changed to game_resolution when pasting into controller. Is now player_action for testbench purposes
 					else 
 						new_state <= selb;
 					end if;
