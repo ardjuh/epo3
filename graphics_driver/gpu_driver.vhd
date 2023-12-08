@@ -923,12 +923,10 @@ architecture behavior of gpu_driver is
 
     function details(
         x            : integer range 0 to 84;
-        y            : integer range 0 to 41;
+        y            : integer range 0 to 36;
         player       : integer range 1 to 4;
         money        : integer range 0 to 999;
         bet          : integer range 2 to 40;
-        split        : std_logic            := '0';
-        split_number : integer range 1 to 1 := 1;
         insurance    : std_logic            := '0'
     ) return std_logic is
     begin
@@ -950,101 +948,83 @@ architecture behavior of gpu_driver is
             else
                 return small_number(x - 45, y - 3, player);
             end if;
-        elsif (x >= 3 and x < 63 and y >= 11 and y < 18) then -- Money: {{money}}
+        elsif (x >= 3 and x < 63 and y >= 12 and y < 19) then -- Money: {{money}}
             if (x < 9) then
-                return small_letter(x - 3, y - 11, 13);
+                return small_letter(x - 3, y - 12, 13);
             elsif (x < 15) then
-                return small_letter(x - 9, y - 11, 15);
+                return small_letter(x - 9, y - 12, 15);
             elsif (x < 21) then
-                return small_letter(x - 15, y - 11, 14);
+                return small_letter(x - 15, y - 12, 14);
             elsif (x < 27) then
-                return small_letter(x - 21, y - 11, 5);
+                return small_letter(x - 21, y - 12, 5);
             elsif (x < 33) then
-                return small_letter(x - 27, y - 11, 25);
+                return small_letter(x - 27, y - 12, 25);
             elsif (x < 39) then
-                return small_letter(x - 33, y - 11, 27);
+                return small_letter(x - 33, y - 12, 27);
             elsif (x < 45) then
                 return '0';
             elsif (x < 51) then
-                return small_number(x - 45, y - 11, money / 100);
+                return small_number(x - 45, y - 12, money / 100);
             elsif (x < 57) then
-                return small_number(x - 51, y - 11, (money / 10) mod 10);
+                return small_number(x - 51, y - 12, (money / 10) mod 10);
             else
-                return small_number(x - 57, y - 11, money mod 10);
+                return small_number(x - 57, y - 12, money mod 10);
             end if;
-        elsif (x >= 3 and x < 45 and y >= 19 and y < 26) then -- Bet: {{bet}}
+        elsif (x >= 3 and x < 45 and y >= 21 and y < 28) then -- Bet: {{bet}}
             if (x < 9) then
-                return small_letter(x - 3, y - 19, 2);
+                return small_letter(x - 3, y - 21, 2);
             elsif (x < 15) then
-                return small_letter(x - 9, y - 19, 5);
+                return small_letter(x - 9, y - 21, 5);
             elsif (x < 21) then
-                return small_letter(x - 15, y - 19, 20);
+                return small_letter(x - 15, y - 21, 20);
             elsif (x < 27) then
-                return small_letter(x - 21, y - 19, 27);
+                return small_letter(x - 21, y - 21, 27);
             elsif (x < 33) then
                 return '0';
             elsif (x < 39) then
-                return small_number(x - 33, y - 19, bet / 10);
+                return small_number(x - 33, y - 21, bet / 10);
             else
-                return small_number(x - 39, y - 19, bet mod 10);
+                return small_number(x - 39, y - 21, bet mod 10);
             end if;
-        elsif (x >= 3 and x < 87 and y >= 27 and y < 34) then -- Insurance: {{insurance}}
+        elsif (x >= 3 and x < 87 and y >= 30) then -- Insurance: {{insurance}}
             if (x < 9) then
-                return small_letter(x - 3, y - 27, 9);
+                return small_letter(x - 3, y - 30, 9);
             elsif (x < 15) then
-                return small_letter(x - 9, y - 27, 14);
+                return small_letter(x - 9, y - 30, 14);
             elsif (x < 21) then
-                return small_letter(x - 15, y - 27, 19);
+                return small_letter(x - 15, y - 30, 19);
             elsif (x < 27) then
-                return small_letter(x - 21, y - 27, 21);
+                return small_letter(x - 21, y - 30, 21);
             elsif (x < 33) then
-                return small_letter(x - 27, y - 27, 18);
+                return small_letter(x - 27, y - 30, 18);
             elsif (x < 39) then
-                return small_letter(x - 33, y - 27, 1);
+                return small_letter(x - 33, y - 30, 1);
             elsif (x < 45) then
-                return small_letter(x - 39, y - 27, 14);
+                return small_letter(x - 39, y - 30, 14);
             elsif (x < 51) then
-                return small_letter(x - 45, y - 27, 3);
+                return small_letter(x - 45, y - 30, 3);
             elsif (x < 57) then
-                return small_letter(x - 51, y - 27, 5);
+                return small_letter(x - 51, y - 30, 5);
             elsif (x < 63) then
-                return small_letter(x - 57, y - 27, 27);
+                return small_letter(x - 57, y - 30, 27);
             elsif (x < 69) then
                 return '0';
             elsif (insurance = '1') then -- Yes
                 if (x < 75) then
-                    return small_letter(x - 69, y - 27, 25);
+                    return small_letter(x - 69, y - 30, 25);
                 elsif (x < 81) then
-                    return small_letter(x - 75, y - 27, 5);
+                    return small_letter(x - 75, y - 30, 5);
                 else
-                    return small_letter(x - 81, y - 27, 19);
+                    return small_letter(x - 81, y - 30, 19);
                 end if;
             else -- No
                 if (x < 75) then
-                    return small_letter(x - 69, y - 27, 14);
+                    return small_letter(x - 69, y - 30, 14);
                 elsif (x < 81) then
-                    return small_letter(x - 75, y - 27, 15);
+                    return small_letter(x - 75, y - 30, 15);
                 else
                     return '0';
                 end if;
-            end if;
-        elsif (x >= 3 and x < 45 and y >= 35 and split = '1') then -- Split: {{split}}
-            if (x < 9) then
-                return small_letter(x - 3, y - 35, 19);
-            elsif (x < 15) then
-                return small_letter(x - 9, y - 35, 16);
-            elsif (x < 21) then
-                return small_letter(x - 15, y - 35, 12);
-            elsif (x < 27) then
-                return small_letter(x - 21, y - 35, 9);
-            elsif (x < 33) then
-                return small_letter(x - 27, y - 35, 20);
-            elsif (x < 39) then
-                return small_letter(x - 33, y - 35, 27);
-            elsif (x < 45) then
-                return '0';
-            else
-                return small_number(x - 45, y - 35, split_number);
             end if;
         else
             return '0';
@@ -1096,12 +1076,12 @@ begin
                 g <= 4;
                 b <= 4;
             end if;
-        elsif (x_pos < 630 and x_pos >= 544 and y_pos < 470 and y_pos >= 427) then -- Details
-            if (x_pos = 544 or x_pos = 629 or y_pos = 427 or y_pos = 469) then
+        elsif (x_pos < 630 and x_pos >= 544 and y_pos < 470 and y_pos >= 430) then -- Details
+            if (x_pos = 544 or x_pos = 629 or y_pos = 430 or y_pos = 469) then
                 r <= 0;
                 g <= 0;
                 b <= 0;
-            elsif (details(x_pos - 545, y_pos - 427, 1, 100, 10) = '1') then
+            elsif (details(x_pos - 545, y_pos - 431, 1, 100, 10) = '1') then
                 r <= 15;
                 g <= 15;
                 b <= 15;
