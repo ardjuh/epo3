@@ -1,5 +1,5 @@
 library IEEE;
-use IEEE.std_logic_1164.ALL;
+use IEEE.std_logic_1164.all;
 
 -- rgb output, 4 bits per color, hsync, vsync
 entity gpu_driver is
@@ -9,17 +9,17 @@ entity gpu_driver is
         red   : out std_logic_vector(3 downto 0);
         green : out std_logic_vector(3 downto 0);
         blue  : out std_logic_vector(3 downto 0);
-	
-	player	: in std_logic_vector (1 downto 0);
 
-	player1 : in std_logic;
+        player : in std_logic_vector (1 downto 0);
+
+        player1 : in std_logic;
         card1_1 : in std_logic_vector (4 downto 0);
         card1_2 : in std_logic_vector (4 downto 0);
         card1_3 : in std_logic_vector (4 downto 0);
         card1_4 : in std_logic_vector (4 downto 0);
         card1_5 : in std_logic_vector (4 downto 0);
         money1  : in std_logic_vector (10 downto 0);
-	split1 	: in std_logic;
+        split1  : in std_logic;
 
         player2 : in std_logic;
         card2_1 : in std_logic_vector (4 downto 0);
@@ -28,7 +28,7 @@ entity gpu_driver is
         card2_4 : in std_logic_vector (4 downto 0);
         card2_5 : in std_logic_vector (4 downto 0);
         money2  : in std_logic_vector (10 downto 0);
-	split2	: in std_logic;
+        split2  : in std_logic;
 
         player3 : in std_logic;
         card3_1 : in std_logic_vector (4 downto 0);
@@ -37,7 +37,7 @@ entity gpu_driver is
         card3_4 : in std_logic_vector (4 downto 0);
         card3_5 : in std_logic_vector (4 downto 0);
         money3  : in std_logic_vector (10 downto 0);
-	split3	: in std_logic;
+        split3  : in std_logic;
 
         player4 : in std_logic;
         card4_1 : in std_logic_vector (4 downto 0);
@@ -46,6 +46,6 @@ entity gpu_driver is
         card4_4 : in std_logic_vector (4 downto 0);
         card4_5 : in std_logic_vector (4 downto 0);
         money4  : in std_logic_vector (10 downto 0);
-	split4	: in std_logic
+        split4  : in std_logic
     );
 end entity gpu_driver;
