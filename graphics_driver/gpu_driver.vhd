@@ -829,96 +829,96 @@ elsif (number = 11) then --J
         split     : std_logic := '0'
     ) return std_logic is
     begin --hit
-        if (y_pos >= 32 and y_pos <= 38) then
+        if (y_pos >= 22 and y_pos <= 28) then
             if (x_pos >= 80 and x_pos < 98) then -- HIT
                 if (x_pos < 86) then
-                    return small_letter(x_pos - 80, y_pos - 32, 8);
+                    return small_letter(x_pos - 80, y_pos - 22, 8);
                 elsif (x_pos < 92) then
-                    return small_letter(x_pos - 86, y_pos - 32, 9);
+                    return small_letter(x_pos - 86, y_pos - 22, 9);
                 else
-                    return small_letter(x_pos - 92, y_pos - 32, 20);
+                    return small_letter(x_pos - 92, y_pos - 22, 20);
                 end if;
             elsif (x_pos >= 293 and x_pos < 329 and double = '1') then -- DOUBLE
                 if (x_pos < 299) then
-                    return small_letter(x_pos - 293, y_pos - 32, 4);
+                    return small_letter(x_pos - 293, y_pos - 22, 4);
                 elsif (x_pos < 305) then
-                    return small_letter(x_pos - 299, y_pos - 32, 15);
+                    return small_letter(x_pos - 299, y_pos - 22, 15);
                 elsif (x_pos < 311) then
-                    return small_letter(x_pos - 305, y_pos - 32, 21);
+                    return small_letter(x_pos - 305, y_pos - 22, 21);
                 elsif (x_pos < 317) then
-                    return small_letter(x_pos - 311, y_pos - 32, 2);
+                    return small_letter(x_pos - 311, y_pos - 22, 2);
                 elsif (x_pos < 323) then
-                    return small_letter(x_pos - 317, y_pos - 32, 12);
+                    return small_letter(x_pos - 317, y_pos - 22, 12);
                 else
-                    return small_letter(x_pos - 323, y_pos - 32, 5);
+                    return small_letter(x_pos - 323, y_pos - 22, 5);
                 end if;
             elsif (x_pos >= 507 and x_pos < 567 and em = '1') then -- EVEN MONEY
                 if (x_pos < 513) then
-                    return small_letter(x_pos - 507, y_pos - 32, 5);
+                    return small_letter(x_pos - 507, y_pos - 22, 5);
                 elsif (x_pos < 519) then
-                    return small_letter(x_pos - 513, y_pos - 32, 22);
+                    return small_letter(x_pos - 513, y_pos - 22, 22);
                 elsif (x_pos < 525) then
-                    return small_letter(x_pos - 519, y_pos - 32, 5);
+                    return small_letter(x_pos - 519, y_pos - 22, 5);
                 elsif (x_pos < 531) then
-                    return small_letter(x_pos - 525, y_pos - 32, 14);
+                    return small_letter(x_pos - 525, y_pos - 22, 14);
                 elsif (x_pos < 537) then
                     return '0';
                 elsif (x_pos < 543) then
-                    return small_letter(x_pos - 537, y_pos - 32, 13);
+                    return small_letter(x_pos - 537, y_pos - 22, 13);
                 elsif (x_pos < 549) then
-                    return small_letter(x_pos - 543, y_pos - 32, 15);
+                    return small_letter(x_pos - 543, y_pos - 22, 15);
                 elsif (x_pos < 555) then
-                    return small_letter(x_pos - 549, y_pos - 32, 14);
+                    return small_letter(x_pos - 549, y_pos - 22, 14);
                 elsif (x_pos < 561) then
-                    return small_letter(x_pos - 555, y_pos - 32, 5);
+                    return small_letter(x_pos - 555, y_pos - 22, 5);
                 else
-                    return small_letter(x_pos - 561, y_pos - 32, 25);
+                    return small_letter(x_pos - 561, y_pos - 22, 25);
                 end if;
             else
                 return '0';
             end if;
-        elsif (y_pos >= 82 and y_pos <= 88) then
+        elsif (y_pos >= 72 and y_pos <= 78) then
             if (x_pos >= 80 and x_pos < 104) then -- HOLD
                 if (x_pos < 86) then
-                    return small_letter(x_pos - 80, y_pos - 82, 8);
+                    return small_letter(x_pos - 80, y_pos - 72, 8);
                 elsif (x_pos < 92) then
-                    return small_letter(x_pos - 86, y_pos - 82, 15);
+                    return small_letter(x_pos - 86, y_pos - 72, 15);
                 elsif (x_pos < 98) then
-                    return small_letter(x_pos - 92, y_pos - 82, 12);
+                    return small_letter(x_pos - 92, y_pos - 72, 12);
                 else
-                    return small_letter(x_pos - 98, y_pos - 82, 4);
+                    return small_letter(x_pos - 98, y_pos - 72, 4);
                 end if;
             elsif (x_pos >= 293 and x_pos < 323 and split = '1') then -- SPLIT
                 if (x_pos < 299) then
-                    return small_letter(x_pos - 293, y_pos - 82, 19);
+                    return small_letter(x_pos - 293, y_pos - 72, 19);
                 elsif (x_pos < 305) then
-                    return small_letter(x_pos - 299, y_pos - 82, 16);
+                    return small_letter(x_pos - 299, y_pos - 72, 16);
                 elsif (x_pos < 311) then
-                    return small_letter(x_pos - 305, y_pos - 82, 12);
+                    return small_letter(x_pos - 305, y_pos - 72, 12);
                 elsif (x_pos < 317) then
-                    return small_letter(x_pos - 311, y_pos - 82, 9);
+                    return small_letter(x_pos - 311, y_pos - 72, 9);
                 else
-                    return small_letter(x_pos - 317, y_pos - 82, 20);
+                    return small_letter(x_pos - 317, y_pos - 72, 20);
                 end if;
             elsif (x_pos >= 507 and x_pos < 561 and insurance = '1') then -- INSURANCE
                 if (x_pos < 513) then
-                    return small_letter(x_pos - 507, y_pos - 82, 9);
+                    return small_letter(x_pos - 507, y_pos - 72, 9);
                 elsif (x_pos < 519) then
-                    return small_letter(x_pos - 513, y_pos - 82, 14);
+                    return small_letter(x_pos - 513, y_pos - 72, 14);
                 elsif (x_pos < 525) then
-                    return small_letter(x_pos - 519, y_pos - 82, 19);
+                    return small_letter(x_pos - 519, y_pos - 72, 19);
                 elsif (x_pos < 531) then
-                    return small_letter(x_pos - 525, y_pos - 82, 21);
+                    return small_letter(x_pos - 525, y_pos - 72, 21);
                 elsif (x_pos < 537) then
-                    return small_letter(x_pos - 531, y_pos - 82, 18);
+                    return small_letter(x_pos - 531, y_pos - 72, 18);
                 elsif (x_pos < 543) then
-                    return small_letter(x_pos - 537, y_pos - 82, 1);
+                    return small_letter(x_pos - 537, y_pos - 72, 1);
                 elsif (x_pos < 549) then
-                    return small_letter(x_pos - 543, y_pos - 82, 14);
+                    return small_letter(x_pos - 543, y_pos - 72, 14);
                 elsif (x_pos < 555) then
-                    return small_letter(x_pos - 549, y_pos - 82, 3);
+                    return small_letter(x_pos - 549, y_pos - 72, 3);
                 else
-                    return small_letter(x_pos - 555, y_pos - 82, 5);
+                    return small_letter(x_pos - 555, y_pos - 72, 5);
                 end if;
             else
                 return '0';
