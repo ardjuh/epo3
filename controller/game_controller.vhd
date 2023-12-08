@@ -82,6 +82,12 @@ entity controller is
 	Receiving_Hand	: out std_logic_vector (2 downto 0);   -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
 	enable     : out std_logic;
 	new_card   : out std_logic_vector (3 downto 0);   -- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
+	even_money : out std_logic;
+	insurance  : out std_logic;
+	split      : out std_logic;
+	double     : out std_logic;
+	hit 	   : out std_logic;
+	hold 	   : out std_logic;
 	);
 end controller;
 
@@ -123,7 +129,6 @@ begin
 				bids_placed <= '0';
 				require_card <= '0';
 				card_received <= '0';
-				enable <= '0';
 				-- signal to draw the main menu --
 				-- mem_screen_position_max	<= "000" --
 				-- mem_screen_position		<= "000" --
@@ -481,29 +486,39 @@ begin
 				if (first_card_deal = '1' and random_card = "0000") then	
 					require_card <= '1';
 					new_state <= pending_card_a;
+							
 				elsif (second_card_deal = '1' and random_card = "0000") then
 					require_card <= '1';
 					new_state <= pending_card_a;
+							
 				elsif (dealer_card_deal = '1' and random_card = "0000") then
 					require_card <= '1';
 					new_state <= pending_card_a;
-				end if;
 							
 		           ---------------------------- game phase --------------------------------
-					
-				elsif (hold_selected = '1') then
-					Player_Turn_New <= Player_Turn_In + 1;
-					
-				elsif (insurance_selected = '1') then
-					insurance <= '1';
-					
-				elsif ( double_selected = '1' ) 
-					require_card <= '1';
-					new_state <= game_resolution;
-					
-				elsif hit_selected = '1') then
+				elsif ( hit_selected = '1' ) then
 				        require_card <= '1';
 					new_state <= game_resolution;
+							
+				elsif ( double_selected = '1' ) then 
+					require_card <= '1';
+					new_state <= pending_card_a;
+							
+				elsif ( hold_selected = '1' ) then
+					Player_Turn_New <= unsigned(Player_Turn_In) + 1;
+					enable <= '1';
+					new_state <= game_setup;
+					
+				elsif ( insurance_selected = '1' ) then
+					insurance <= '1';
+					enable <= '1';
+					new_state <= game_setup;
+
+				elsif ( even_money_selected = '1' ) then
+					even_money <= '1';
+					enable <= '1';
+					new_state <= game_setup;
+					
 							
 		----------------------- using the card received after returning from pending_card states ------------------------
 
