@@ -508,7 +508,7 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         else --K
-            if (x = 0 and (y = 0 or y = 19) then
+            if (x = 0 and (y = 0 or y = 19)) then
                 return '1';
             elsif (x = 1) then
                 return '1';
