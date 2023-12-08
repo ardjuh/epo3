@@ -781,8 +781,8 @@ architecture behavior of gpu_driver is
         if (x >= 44 and card1 > 0) then
             if (x <= 45 or y <= 1 or x >= 98 or y >= 107) then
                 return '1';
-            elsif (x >= 70 and x < 80 and y >= 44 and y < 64) then
-                return big_number(x - 70, y - 44, card1);
+            elsif (x >= 67 and x < 77 and y >= 44 and y < 64) then
+                return big_number(x - 67, y - 44, card1);
             elsif (x >= 48 and x <= 52 and y >= 4 and y <= 10) then
                 return small_card_char(x - 48, y - 4, card1);
             elsif (x >= 91 and x < 96 and y >= 97 and y < 104) then
@@ -1071,7 +1071,7 @@ begin
                 g <= 15;
                 b <= 15;
             end if;
-        elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219 and ((player = "00" and split_1 = '1') or (player = "01" and split_2 = '1') or (player = "10" and split_3 = '1') or (player = "11" and split_4 = '1'))) then -- Player hand with split
+        elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219 and ((player = "00" and split1 = '1') or (player = "01" and split2 = '1') or (player = "10" and split3 = '1') or (player = "11" and split4 = '1'))) then -- Player hand with split
             if (cards(x_pos - 120, y_pos - 362, 11, 13, 12, 11, 10, '1') = '1') then
                 r <= 0;
                 g <= 0;
