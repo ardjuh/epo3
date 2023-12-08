@@ -135,7 +135,25 @@ begin
 				end if;
 					
 			when game_setup =>
-				insurance <= '0';
+				insurance <= '0'; -- unused signals during game-setup --
+				split <= '0';
+				double <= '0';
+				new_card <= "0000";
+				enable <= '0';
+				Receiving_Hand <= "000";
+				request_card <= '0';
+				round_end <= '0';
+				N_Players_New <= N_Players; -- preserve unused signals to next state --
+				Player_Turn_New <= Player_Turn_In;
+				Player1_Bid_New <= Player1_Bid;
+				Player2_Bid_New <= Player2_Bid;
+				Player3_Bid_New <= Player3_Bid;
+				Player4_Bid_New <= Player4_Bid;
+				Player1_Budget_New <= Player1_Budget;
+				Player2_Budget_New <= Player2_Budget;
+				Player3_Budget_New <= Player3_Budget;
+				Player4_Budget_New <= Player4_Budget;
+
 				if ( N_Players = "000" ) then      -- player select condition --
 					-- draw_menu <= ?? --
 					mem_screen_position_max <= "011";
@@ -144,7 +162,7 @@ begin
 
 				if ( bids_placed = '0' and N_Players /= "000" ) then	 -- bidding screen condition--
 					-- draw_menu <= ?? --
-					-- mem_screen_position_max	<= ?? --
+					mem_screen_position_max	<= "011";
 					new_state <= player_action;
 				end if;
 
@@ -230,7 +248,13 @@ begin
 						new_state <= game_resolution;
 					end if; 
 				end if;
-					
+				
+				if (Player1_Hand_Card_2 /= "0000") and (Player1_Hand_Card_3 = "0000") then
+					-- check card equality to ace:  --
+					double_selectable <= '0';
+				end if;
+
+
 			when player_action =>
 				mem_screen_position_max <= "011"; 	-- player select screen --
 				if ( mem_switch_select = '1' ) then
