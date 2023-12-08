@@ -82,9 +82,6 @@ entity controller is
 	Receiving_Hand	: out std_logic_vector (2 downto 0);   -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
 	enable     : out std_logic;
 	new_card   : out std_logic_vector (3 downto 0);   -- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
-	double     : out std_logic;   
-	split      : out std_logic;   -- Mem Controller determines what happens with each function --
-	insurance  : out std_logic
 	);
 end controller;
 
