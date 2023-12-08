@@ -311,7 +311,7 @@ architecture behavior of gpu_driver is
             else
                 return '0';
             end if;
-      elsif (number = 2) then --2
+        elsif (number = 2) then --2
             if (x = 0 and (y = 18 or y = 2 or y = 3)) then
                 return '1';
             elsif (x = 1 and (y = 17 or y = 1)) then
@@ -424,21 +424,20 @@ architecture behavior of gpu_driver is
         elsif (number = 8) then --8
             if ((y = 0 or y = 19) and x > 1 and x < 8) then
                 return'1';
-				elsif ((x=0 or x = 9) and y>1 and y<8) then
-					 return'1';
-				elsif ((x=0 or x =9) and y >12 and y< 18) then
-				  return'1';
-				elsif ((x=1 or x=8) and (y =1 or y =8)) then
-					 return'1';
-				elsif( (x = 2 or x = 7) and y =9) then
-				 return'1';
-				 elsif (x > 2 and x < 7 and y = 10) then
-				  return'1';
-				 elsif( (x = 2 or x = 7) and y =11) then
-				 return'1';
-				elsif ((x=1 or x=8) and (y =12 or y =18)) then
-					 return'1';
-				
+            elsif ((x = 0 or x = 9) and y > 1 and y < 8) then
+                return'1';
+            elsif ((x = 0 or x = 9) and y > 12 and y < 18) then
+                return'1';
+            elsif ((x = 1 or x = 8) and (y = 1 or y = 8)) then
+                return'1';
+            elsif ((x = 2 or x = 7) and y = 9) then
+                return'1';
+            elsif (x > 2 and x < 7 and y = 10) then
+                return'1';
+            elsif ((x = 2 or x = 7) and y = 11) then
+                return'1';
+            elsif ((x = 1 or x = 8) and (y = 12 or y = 18)) then
+                return'1';
             else
                 return '0';
             end if;
@@ -770,7 +769,7 @@ architecture behavior of gpu_driver is
 
     function cards (
         x     : integer range 0 to 98;
-        y     : integer range 0 to 86;
+        y     : integer range 0 to 140;
         card1 : integer range 0 to 13 := 0;
         card2 : integer range 0 to 13 := 0;
         card3 : integer range 0 to 13 := 0;
@@ -787,7 +786,7 @@ architecture behavior of gpu_driver is
             elsif (x >= 48 and x <= 52 and y >= 4 and y <= 10) then
                 return small_card_char(x - 48, y - 4, card1);
             elsif (x >= 91 and x < 96 and y >= 75 and y < 82) then
-                return small_card_char(x - , y - , card1);
+                return small_card_char(x - 91, y - 75, card1);
             else
                 return '0';
             end if;
