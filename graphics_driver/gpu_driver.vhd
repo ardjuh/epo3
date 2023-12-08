@@ -765,7 +765,7 @@ architecture behavior of gpu_driver is
         card5 : integer range 0 to 13 := 0
     ) return std_logic is
     begin
-        if (x >= 44 and x <= 100 and card1 > 0) then
+        if (x >= 44 and card1 > 0) then
             if (x <= 45 or y <= 1 or x >= 98 or y >= 85) then
                 return '1';
             elsif (x >= 70 and x < 80 and y >= 33 and y < 53) then
@@ -1077,7 +1077,7 @@ begin
                 b <= 15;
             end if;
         elsif (y_pos >= 10 and y_pos < 96 and x_pos < 630 and x_pos >= 529) then -- Dealer hand
-            if (cards(x_pos - 531, y_pos - 10, 12, 4, 7) = '1') then
+            if (cards(x_pos - 529, y_pos - 10, 12, 4, 7) = '1') then
                 r <= 0;
                 g <= 0;
                 b <= 0;
