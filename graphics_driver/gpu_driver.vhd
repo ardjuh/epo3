@@ -778,7 +778,7 @@ architecture behavior of gpu_driver is
         elsif (x >= 33 and x <= 43 and card2 > 0) then
             if (x <= 34 or y <= 1 or y >= 85) then
                 return '1';
-            elsif (x >= 37 and y >= 4 and y <= 10) then
+            elsif (x >= 37 and x < 42 and y >= 4 and y <= 10) then
                 return small_card_char(x - 37, y - 4, card2);
             else
                 return '0';
