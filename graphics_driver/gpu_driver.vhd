@@ -467,12 +467,12 @@ architecture behavior of gpu_driver is
             else
                 return '0';
             end if;
-elsif (number = 11) then --J
+        elsif (number = 11) then --J
             if (y = 0 and x > 1 and x < 10) then
                 return'1';
             elsif (x = 7 and y < 18) then
                 return '1';
-	    elsif (x = 6 and y > 16 and y < 19) then
+            elsif (x = 6 and y > 16 and y < 19) then
                 return '1';
             elsif (x = 5 and y > 17) then
                 return '1';
@@ -480,7 +480,7 @@ elsif (number = 11) then --J
                 return '1';
             elsif ((x = 3 or x = 4) and y = 19) then
                 return '1';
-            elsif (x = 1 and y > 16 and y  19) then
+            elsif (x = 1 and y > 16 and y 19) then
                 return '1';
             elsif (x = 0 and y > 15 and y < 18) then
                 return '1';
@@ -601,10 +601,10 @@ elsif (number = 11) then --J
                 return small_letter(x - 90, y, 18); --R
             elsif (x < 102) then
                 return small_letter(x - 96, y, 4); --D
-            elsif (x<108) then
+            elsif (x < 108) then
                 return small_letter(x - 102, y, 19); --S
-				else
-				return '0';
+            else
+                return '0';
             end if;
         elsif (y >= 11 and y < 18) then
             if (x < 6) then
@@ -930,12 +930,12 @@ elsif (number = 11) then --J
     end function;
 
     function details(
-        x            : integer range 0 to 84;
-        y            : integer range 0 to 38;
-        player       : integer range 1 to 4;
-        money        : integer range 0 to 999;
-        bet          : integer range 2 to 40;
-        insurance    : std_logic            := '0'
+        x         : integer range 0 to 84;
+        y         : integer range 0 to 38;
+        player    : integer range 1 to 4;
+        money     : integer range 0 to 999;
+        bet       : integer range 2 to 40;
+        insurance : std_logic := '0'
     ) return std_logic is
     begin
         if (x >= 3 and x < 51 and y >= 3 and y < 10) then -- Player {{player}}
@@ -1100,17 +1100,17 @@ begin
             end if;
         elsif (x_pos >= 10 and y_pos >= 10 and x_pos < 121 and y_pos < 62) then -- Table
             if (x_pos = 10 or x_pos = 120 or y_pos = 10 or y_pos = 61) then
-                r <= 0;
-                g <= 0;
-                b <= 0;
+                r            <= 0;
+                g            <= 0;
+                b            <= 0;
             elsif (x_pos <= 12 or x_pos >= 138 or y_pos <= 12 or y_pos >= 59) then
-                r <= 2;
-                g <= 11;
-                b <= 2;
-            elsif ( y_pos <= 54 and table(x_pos - 13, y_pos - 13, '1', 1, 2, 3, 4, 5, 123, '1', 6, 7, 8, 9, 10, 456, '1', 11, 12, 13, 1, 2, 789, '1', 3, 4, 5, 6, 7, 5) = '1') then
-                r <= 15;
-                g <= 15;
-                b <= 15;
+                r            <= 2;
+                g            <= 11;
+                b            <= 2;
+            elsif (y_pos <= 54 and table(x_pos - 13, y_pos - 13, '1', 1, 2, 3, 4, 5, 123, '1', 6, 7, 8, 9, 10, 456, '1', 11, 12, 13, 1, 2, 789, '1', 3, 4, 5, 6, 7, 5) = '1') then
+                r            <= 15;
+                g            <= 15;
+                b            <= 15;
             else
                 r <= 2;
                 g <= 11;
