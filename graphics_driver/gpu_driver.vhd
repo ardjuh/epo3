@@ -1081,6 +1081,8 @@ begin
                 g <= 15;
                 b <= 15;
             end if;
+			--elsif (split ='1')
+			
         elsif (y_pos >= 10 and y_pos < 118 and x_pos < 630 and x_pos >= 530) then -- Dealer hand
             if (cards(x_pos - 530, y_pos - 10, 10, 4, 7) = '1') then
                 r <= 0;
@@ -1124,7 +1126,7 @@ begin
                 r            <= 2;
                 g            <= 11;
                 b            <= 2;
-            elsif (y_pos <= 54 and table(x_pos - 13, y_pos - 13, '1', 1, 2, 3, 4, 5, 123, '1', 6, 7, 8, 9, 10, 456, '1', 11, 12, 13, 1, 2, 789, '1', 3, 4, 5, 6, 7, 5) = '1') then
+            elsif (y_pos <= 57 and table(x_pos - 13, y_pos - 13, '1', 1, 2, 3, 4, 5, 123, '1', 6, 7, 8, 9, 10, 456, '1', 11, 12, 13, 1, 2, 789, '1', 3, 4, 5, 6, 7, 5) = '1') then
                 r            <= 15;
                 g            <= 15;
                 b            <= 15;
