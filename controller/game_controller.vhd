@@ -476,9 +476,6 @@ begin
 				end if;
 							
 				----------------------- dealing phase ------------------------
-		-- maybe we can send the card to mem along with player number, and the mem fills the first free card-slot found for that player --
-		-- for the dealer it is convenient to take player_turn = 5 which helps during the game itself, --
-		-- as in the main game the game setup recognizes dealing out the dealer after fourth player --
 							
 				if (first_card_deal = '1' and random_card = "0000") then	
 					require_card <= '1';
@@ -491,7 +488,7 @@ begin
 					new_state <= pending_card_a;
 				end if;
 							
-		---------------------------- game phase --------------------------------
+		           ---------------------------- game phase --------------------------------
 					
 				elsif (hold_selected = '1') then
 					Player_Turn_New <= Player_Turn_In + 1;
