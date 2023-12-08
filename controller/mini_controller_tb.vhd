@@ -34,48 +34,48 @@ begin
 					
 	reset		<=  		'1' after 0 ns,
 					'0' after 80 ns,
-					'1' after 140 ns, -- test if the reset works
-					'0' after 160 ns;
+					'1' after 740 ns, -- test if the reset works
+					'0' after 780 ns;
 	
 	button_select 	<=	'0' after 0 ns, -- all buttons 0
 						'1' after 60 ns, -- test if reset works, since that is high
 						'0' after 80 ns,
 						'1' after 100 ns, -- test if select works, left & right 0
-						'0' after 120 ns,
-						'1' after 140 ns, -- test if it chooses reset over select
-						'0' after 160 ns,
-						'1' after 260 ns, -- test what happens if select & left 1
-						'0' after 280 ns,
-						'1' after 300 ns, -- test what happens if select & right 1
-						'0' after 320 ns,
-						'1' after 380 ns, -- test if all 1
-						'0' after 400 ns;
+						'0' after 220 ns,
+						'1' after 700 ns, -- test if it chooses reset over select
+						'0' after 820 ns,
+						'1' after 900 ns, -- test what happens if select & left 1
+						'0' after 1020 ns,
+						'1' after 1100 ns, -- test what happens if select & right 1
+						'0' after 1220 ns,
+						'1' after 1500 ns, -- test if all 1
+						'0' after 1620 ns;
 	
 	button_left		<= 	'0' after 0 ns, -- all buttons 0
-						'1' after 180 ns, -- test if left works, select & right 0
-						'0' after 200 ns,
-						'1' after 260 ns, -- test what happens if select & left 1
-						'0' after 280 ns,
-						'1' after 340 ns, -- test for left & right 1
-						'0' after 360 ns,
-						'1' after 380 ns, -- test if all 1
-						'0' after 400 ns;
+						'1' after 300 ns, -- test if left works, select & right 0
+						'0' after 420 ns,
+						'1' after 900 ns, -- test what happens if select & left 1
+						'0' after 1020 ns,
+						'1' after 1300 ns, -- test for left & right 1
+						'0' after 1420 ns,
+						'1' after 1500 ns, -- test if all 1
+						'0' after 1620 ns;
 	
 	button_right	<= 	'0' after 0 ns,	-- all buttons 0
-						'1' after 220 ns, -- test if right works, select & left 0
-						'0' after 240 ns,
-						'1' after 300 ns, -- test what happens if select & right 1
-						'0' after 320 ns,
-						'1' after 340 ns, -- test for left & right 1
-						'0' after 360 ns,
-						'1' after 380 ns, -- test if all 1
-						'0' after 400 ns;
+						'1' after 500 ns, -- test if right works, select & left 0
+						'0' after 620 ns,
+						'1' after 1100 ns, -- test what happens if select & right 1
+						'0' after 1220 ns,
+						'1' after 1300 ns, -- test for left & right 1
+						'0' after 1420 ns,
+						'1' after 1500 ns, -- test if all 1
+						'0' after 1620 ns;
 
-lbl2: inputbuffer port map( clk        =>  clk,
+lbl1: mini_controller  port map( clk        =>  clk,
                             reset      =>  reset,
                             button_select  =>  button_select,
                             button_left =>  button_left,
-			    button_right => button_right
+			    button_right => button_right,
 			    switch_select  =>  switch_select,
                             switch_left =>  switch_left,
 			    switch_right => switch_right
