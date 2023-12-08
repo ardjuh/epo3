@@ -931,7 +931,7 @@ elsif (number = 11) then --J
 
     function details(
         x            : integer range 0 to 84;
-        y            : integer range 0 to 36;
+        y            : integer range 0 to 38;
         player       : integer range 1 to 4;
         money        : integer range 0 to 999;
         bet          : integer range 2 to 40;
@@ -994,7 +994,7 @@ elsif (number = 11) then --J
             else
                 return small_number(x - 39, y - 21, bet mod 10);
             end if;
-        elsif (x >= 3 and x < 87 and y >= 30) then -- Insurance: {{insurance}}
+        elsif (x >= 3 and x < 87 and y >= 30 and y < 37) then -- Insurance: {{insurance}}
             if (x < 9) then
                 return small_letter(x - 3, y - 30, 9);
             elsif (x < 15) then
@@ -1084,12 +1084,12 @@ begin
                 g <= 4;
                 b <= 4;
             end if;
-        elsif (x_pos < 630 and x_pos >= 544 and y_pos < 470 and y_pos >= 430) then -- Details
-            if (x_pos = 544 or x_pos = 629 or y_pos = 430 or y_pos = 469) then
+        elsif (x_pos < 630 and x_pos >= 544 and y_pos < 470 and y_pos >= 429) then -- Details
+            if (x_pos = 544 or x_pos = 629 or y_pos = 429 or y_pos = 469) then
                 r <= 0;
                 g <= 0;
                 b <= 0;
-            elsif (details(x_pos - 545, y_pos - 431, 1, 100, 10) = '1') then
+            elsif (details(x_pos - 545, y_pos - 430, 1, 100, 10) = '1') then
                 r <= 15;
                 g <= 15;
                 b <= 15;
