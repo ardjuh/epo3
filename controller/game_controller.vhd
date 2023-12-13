@@ -555,7 +555,6 @@ begin
 					elsif ( second_card_deal = '1' ) then
 						if ( Player1_Hand_Card_2 = "0000" ) then     
 					        	Receiving_Hand <= "000";    -- "000" card goes to Player 1's hand --   				  
-						 	new_card <= random_card;
 					        	enable <= '1';
 							card_received <= '0';
 							
