@@ -63,6 +63,7 @@ entity controller is
 	random_card  : in  std_logic_vector (3 downto 0);		-- Comms with RNG --
 	request_card : out std_logic;                         
 	round_end    : out std_logic;
+	new_card     : out std_logic_vector (3 downto 0);   -- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 
 	draw_menu    : out std_logic_vector (? downto 0);		-- Comms with Graphics Driver --
 	menu_ready   : in std_logic;
@@ -81,7 +82,6 @@ entity controller is
 	N_Players_New	: out std_logic_vector (2 downto 0);
 	Receiving_Hand	: out std_logic_vector (2 downto 0);   -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
 	enable     : out std_logic;
-	new_card   : out std_logic_vector (3 downto 0);   -- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 	even_money : out std_logic;
 	insurance  : out std_logic;
 	split      : out std_logic;
