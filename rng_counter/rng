@@ -2,44 +2,82 @@ library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.all;
 
-architecture behaviour of rngtest is
-signal count, deck_count: unsigned(7 downto 0);
+architecture behaviour of rng is
+
+signal new_count, new_deck_count,deck_count, count: unsigned(7 downto 0);
+
+type state_machine is (reset_state,count_state,request_state);
+signal state, new_state: state_machine;
+
 begin
-	process(round_end)
-	begin 
-		if round_end = '1' then --goes 1 when a new round is started
-			if deck_count <= to_unsigned(52,8) then --checks wether there are only 52 cards left after the round and then resets the memory
-					count <= to_unsigned(1,8);
-					deck_count <= to_unsigned(208,8);
-					shuffle <= '1';
-			else shuffle <= '0';
+	
+
+	process(clk)
+	begin
+		if(rising_edge (clk)) then
+			if(reset = '1') then
+				state<= reset_state;
+				count <= to_unsigned(1,8);
+				deck_count <= to_unsigned(208,8);
+			else
+				state <= new_state;
+				count <= new_count;
+				deck_count <= new_deck_count;
 			end if;
-		else shuffle <= '0';
 		end if;
-	end process;	
-
-	process(clk,reset)
-	begin
-		if reset = '1' then --resets the whole counter
-			count <= to_unsigned(1,8);
-			deck_count <= to_unsigned(208,8);
-		elsif count >= deck_count then --if the counter reaches its maximum it goes to zero
-			count <= to_unsigned(1,8);
-		elsif rising_edge(clk) then --every rising edge adds 1 to the counter
-			count <= count + 1;
-		end if;	
-	end process;
-
-	process(request_card)
-	begin
-		if request_card = '1' then --a card is requested so it gives a randomnum to the memory and lowers the total cards
-			random_num <= std_logic_vector(count);
-			deck_count <= deck_count -1;
-		else 		
-			random_num <= (others => '0');
-		end if;	
 	end process;
 
 
-end behaviour;
+	process(state, count, request_card, round_end, deck_count)
+	begin
+	
+		case state is
+		
+		when reset_state =>			shuffle <= '1';
+					random_num <= "00000000";
+
+			new_count <= to_unsigned(1,8);
+
+			new_deck_count <= to_unsigned(208,8);
+
+			new_state	<= count_state;
+			
+
+
+		when count_state =>			shuffle <= '0';
+					random_num <= "00000000";
+
+			new_deck_count <= deck_count;	--volgende deck_count beslissen
+
+			if(count = deck_count) then		--New count beslissen
+				new_count <= to_unsigned(1,8);
+			else
+				new_count <= count + 1;
+			end if;
+		
+
+			if(request_card = '1') then -- Volgende state beslissen
+				new_state <= request_state;
+			elsif round_end = '1' AND deck_count <= to_unsigned(52,8) then -- VERANDER NAAR 52
+				new_state <= reset_state;
+			else	
+				new_state <= count_state;
+			end if;
+
+
+		when request_state =>			shuffle <= '0';
+					random_num <= std_logic_vector(count);
+
+			new_count <= unsigned(count);
+			--new_count <= to_unsigned(1,8);
+
+			new_deck_count <= deck_count - 1;
+
+			new_state <= count_state;
+
+
+		end case;
+	end process;
+end architecture;
+
 
