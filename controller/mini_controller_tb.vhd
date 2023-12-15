@@ -33,7 +33,7 @@ begin
 					
 	reset		<=  			'1' after 0 ns,
 						'0' after 80 ns,
-						'1' after 740 ns, -- test if the reset works
+						'1' after 720 ns, -- test if the reset works
 						'0' after 780 ns;
 	
 	--button(2)
