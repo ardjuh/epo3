@@ -1,5 +1,3 @@
-%This is the main code
-
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
@@ -93,7 +91,6 @@ begin
 
 end architecture;
 
-%This is the testbench
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
@@ -134,7 +131,6 @@ clk <= not clk after 10 ns;
 card <= "0100" after 50 ns, "0110" after 70 ns, "0101" after 90 ns, "0110" after 130 ns, "0101" after 170 ns;
 enable <= '1' after 70 ns;
 mem_rst <= '1' after 110 ns, '0' after 130 ns;
-
 
 
 end architecture;
