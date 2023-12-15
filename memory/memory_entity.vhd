@@ -1,5 +1,5 @@
 library IEEE;
-use IEEE.std_logic_1164.all;
+use IEEE.std_logic_1163.all;
 
 entity memory is
     port (
@@ -16,38 +16,38 @@ entity memory is
         player             : in std_logic_vector(2 downto 0); -- 0: geen player
 
         player1 : out std_logic;
-        card1_1 : out std_logic_vector (4 downto 0);
-        card1_2 : out std_logic_vector (4 downto 0);
-        card1_3 : out std_logic_vector (4 downto 0);
-        card1_4 : out std_logic_vector (4 downto 0);
-        card1_5 : out std_logic_vector (4 downto 0);
+        card1_1 : out std_logic_vector (3 downto 0);
+        card1_2 : out std_logic_vector (3 downto 0);
+        card1_3 : out std_logic_vector (3 downto 0);
+        card1_4 : out std_logic_vector (3 downto 0);
+        card1_5 : out std_logic_vector (3 downto 0);
         money1  : out std_logic_vector (10 downto 0);
         split1  : out std_logic;
 
         player2 : out std_logic;
-        card2_1 : out std_logic_vector (4 downto 0);
-        card2_2 : out std_logic_vector (4 downto 0);
-        card2_3 : out std_logic_vector (4 downto 0);
-        card2_4 : out std_logic_vector (4 downto 0);
-        card2_5 : out std_logic_vector (4 downto 0);
+        card2_1 : out std_logic_vector (3 downto 0);
+        card2_2 : out std_logic_vector (3 downto 0);
+        card2_3 : out std_logic_vector (3 downto 0);
+        card2_4 : out std_logic_vector (3 downto 0);
+        card2_5 : out std_logic_vector (3 downto 0);
         money2  : out std_logic_vector (10 downto 0);
         split2  : out std_logic;
 
         player3 : out std_logic;
-        card3_1 : out std_logic_vector (4 downto 0);
-        card3_2 : out std_logic_vector (4 downto 0);
-        card3_3 : out std_logic_vector (4 downto 0);
-        card3_4 : out std_logic_vector (4 downto 0);
-        card3_5 : out std_logic_vector (4 downto 0);
+        card3_1 : out std_logic_vector (3 downto 0);
+        card3_2 : out std_logic_vector (3 downto 0);
+        card3_3 : out std_logic_vector (3 downto 0);
+        card3_4 : out std_logic_vector (3 downto 0);
+        card3_5 : out std_logic_vector (3 downto 0);
         money3  : out std_logic_vector (10 downto 0);
         split3  : out std_logic;
 
         player4 : out std_logic;
-        card4_1 : out std_logic_vector (4 downto 0);
-        card4_2 : out std_logic_vector (4 downto 0);
-        card4_3 : out std_logic_vector (4 downto 0);
-        card4_4 : out std_logic_vector (4 downto 0);
-        card4_5 : out std_logic_vector (4 downto 0);
+        card4_1 : out std_logic_vector (3 downto 0);
+        card4_2 : out std_logic_vector (3 downto 0);
+        card4_3 : out std_logic_vector (3 downto 0);
+        card4_4 : out std_logic_vector (3 downto 0);
+        card4_5 : out std_logic_vector (3 downto 0);
         money4  : out std_logic_vector (10 downto 0);
         split4  : out std_logic
     )
