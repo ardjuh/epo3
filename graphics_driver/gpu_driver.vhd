@@ -51,11 +51,12 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (letter = 6) then -- F
-            if (x = 0 or y = 0 or (y = 3 and x < 3)) then
-                return '1';
-            else
-                return '0';
-            end if;
+            -- if (x = 0 or y = 0 or (y = 3 and x < 3)) then
+            --     return '1';
+            -- else
+            --     return '0';
+            -- end if;
+            return '0';
         elsif (letter = 7) then -- G
             if ((x = 0 and (y > 0 and y < 6)) or ((y = 0 or y = 6) and x > 0 and x < 4) or (x = 4 and (y = 1 or y = 5 or y = 6)) or (y = 3 and x > 2)) then
                 return '1';
@@ -153,17 +154,19 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (letter = 23) then -- W
-            if (x = 0 or x = 4 or (y = 5 and (x = 1 or x = 3)) or (x = 2 and (y = 3 or y = 4))) then
-                return '1';
-            else
-                return '0';
-            end if;
+            -- if (x = 0 or x = 4 or (y = 5 and (x = 1 or x = 3)) or (x = 2 and (y = 3 or y = 4))) then
+            --     return '1';
+            -- else
+            --     return '0';
+            -- end if;
+            return '0';
         elsif (letter = 24) then -- X
-            if (((x = 0 or x = 4) and (y < 3 or y > 5)) or ((x = 1 or x = 3) and (y = 2 or y = 4)) or (x = 2 and y = 3)) then
-                return '1';
-            else
-                return '0';
-            end if;
+            -- if (((x = 0 or x = 4) and (y < 3 or y > 5)) or ((x = 1 or x = 3) and (y = 2 or y = 4)) or (x = 2 and y = 3)) then
+            --     return '1';
+            -- else
+            --     return '0';
+            -- end if;
+            return '0';
         elsif (letter = 25) then -- Y
             if (((x = 0 or x = 4) and y < 3) or (x = 2 and (y >= 4 and y < 7)) or ((x = 1 or x = 3) and (y = 3))) then
                 return '1';
@@ -171,11 +174,12 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (letter = 26) then -- Z
-            if (y = 0 or y = 6 or (x = 4 and y = 1) or (x = 3 and y = 2) or (x = 2 and y = 3) or (x = 1 and y = 4) or (x = 0 and y = 5)) then
-                return '1';
-            else
-                return '0';
-            end if;
+            -- if (y = 0 or y = 6 or (x = 4 and y = 1) or (x = 3 and y = 2) or (x = 2 and y = 3) or (x = 1 and y = 4) or (x = 0 and y = 5)) then
+            --     return '1';
+            -- else
+            --     return '0';
+            -- end if;
+            return '0';
         else -- :
             if (x = 2 and (y = 2 or y = 4)) then
                 return '1';
