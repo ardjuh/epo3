@@ -540,7 +540,7 @@ architecture behavior of gpu_driver is
 
     function table (
         x       : integer range 0 to 115;
-        y       : integer range 0 to 38;
+        y       : integer range 0 to 45;
         player1 : std_logic;
         card1_1 : integer range 0 to 13  := 0;
         card1_2 : integer range 0 to 13  := 0;
@@ -728,7 +728,7 @@ architecture behavior of gpu_driver is
             else
                 return '0';
             end if;
-        elsif (y >= 38) then
+        elsif (y >= 38 and y < 45) then
             if (x < 6) then
                 return small_letter(x, y - 38, 16); --P
             elsif (x < 12) then
@@ -1179,7 +1179,7 @@ begin
                 r            <= 2;
                 g            <= 11;
                 b            <= 2;
-            elsif (y_pos <= 57 and table(x_pos - 13, y_pos - 13, '1', 1, 2, 3, 4, 5, 123, '1', 6, 7, 8, 9, 10, 456, '1', 11, 12, 13, 1, 2, 789, '1', 3, 4, 5, 6, 7, 5) = '1') then
+            elsif (table(x_pos - 13, y_pos - 13, '1', 1, 2, 3, 4, 5, 123, '1', 6, 7, 8, 9, 10, 456, '1', 11, 12, 13, 1, 2, 789, '1', 3, 4, 5, 6, 7, 5) = '1') then
                 r            <= 15;
                 g            <= 15;
                 b            <= 15;
