@@ -941,12 +941,13 @@ architecture behavior of gpu_driver is
     end function;
 
     function details(
-        x         : integer range 0 to 84;
-        y         : integer range 0 to 38;
-        player    : integer range 1 to 4;
-        money     : integer range 0 to 999;
-        bet       : integer range 2 to 40;
-        insurance : std_logic := '0'
+        x           : integer range 0 to 84;
+        y           : integer range 0 to 38;
+        player      : integer range 1 to 4;
+        money       : integer range 0 to 999;
+        bet         : std_logic_vector(1 downto 0);
+        double_down : std_logic := '0';
+        insurance   : std_logic := '0'
     ) return std_logic is
     begin
         if (x >= 3 and x < 51 and y >= 3 and y < 10) then -- Player {{player}}
@@ -1000,10 +1001,60 @@ architecture behavior of gpu_driver is
                 return small_letter(x - 21, y - 21, 27);
             elsif (x < 33) then
                 return '0';
-            elsif (x < 39) then
-                return small_number(x - 33, y - 21, bet / 10);
+            elsif (double_down = '1') then
+                case bet is
+                    when "00" =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 4);
+                        else
+                            return '0';
+                        end if;
+                    when "01" =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 1);
+                        else
+                            return small_number(x - 39, y - 21, 2);
+                        end if;
+                    when "10" =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 2);
+                        else
+                            return small_number(x - 39, y - 21, 0);
+                        end if;
+                    when others =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 4);
+                        else
+                            return small_number(x - 39, y - 21, 0);
+                        end if;
+                end case;
             else
-                return small_number(x - 39, y - 21, bet mod 10);
+                case bet is
+                    when "00" =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 2);
+                        else
+                            return '0';
+                        end if;
+                    when "01" =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 6);
+                        else
+                            return '0';
+                        end if;
+                    when "10" =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 1);
+                        else
+                            return small_number(x - 39, y - 21, 0);
+                        end if;
+                    when others =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 2);
+                        else
+                            return small_number(x - 39, y - 21, 0);
+                        end if;
+                end case;
             end if;
         elsif (x >= 3 and x < 87 and y >= 30 and y < 37) then -- Insurance: {{insurance}}
             if (x < 9) then
@@ -1085,8 +1136,6 @@ begin
                 g <= 15;
                 b <= 15;
             end if;
-			--elsif (split ='1')
-			
         elsif (y_pos >= 10 and y_pos < 118 and x_pos < 630 and x_pos >= 530) then -- Dealer hand
             if (cards(x_pos - 530, y_pos - 10, 10, 4, 7) = '1') then
                 r <= 0;
@@ -1112,7 +1161,7 @@ begin
                 r <= 0;
                 g <= 0;
                 b <= 0;
-            elsif (details(x_pos - 545, y_pos - 430, 1, 100, 10) = '1') then
+            elsif (details(x_pos - 545, y_pos - 430, 1, 100, "01", 1) = '1') then
                 r <= 15;
                 g <= 15;
                 b <= 15;
