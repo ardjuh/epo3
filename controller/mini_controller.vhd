@@ -20,7 +20,6 @@ type mini_con_state is (
 	);
 
 signal state, new_state : mini_con_state;
-signal button: std_logic_vector(2 downto 0);
 
 begin
 	process (clk)
@@ -35,10 +34,11 @@ begin
 	end process;
 
 	process(state, button_left, button_right, button_select)
+		variable button: std_logic_vector(2 downto 0);
 		begin
-			button(0) <= button_left;
-			button(1) <= button_right;
-			button(2) <= button_select;
+			button(0) := button_left;
+			button(1) := button_right;
+			button(2) := button_select;
 
 			case state is	
 
