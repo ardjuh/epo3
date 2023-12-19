@@ -269,9 +269,8 @@ begin
 						else
 							hit_selectable <= '1';
 							new_state <= player_action;
-					end if;
+						end if;
 		
-					
 					elsif ( Player1_Hand_Card_2 /= "0000" ) and ( Player1_Hand_Card_3 = "0000" ) and ( split_player /= Player_Turn_In ) then
 						if ( unsigned(Dealer_Hand_Card_1) > 9 ) and ( unsigned(Player1_Hand_Card_1 + Player1_Hand_Card_2) = 21 ) then
 							even_money_selectable <= '1';
@@ -325,7 +324,7 @@ begin
 						else
 							hit_selectable <= '1';
 							new_state <= player_action;
-					end if;
+						end if;
 					
 					elsif ( Player2_Hand_Card_2 /= "0000" ) and ( Player2_Hand_Card_3 = "0000" ) then
 						if ( unsigned(Dealer_Hand_Card_1) > 9 ) and ( unsigned(Player2_Hand_Card_1 + Player2_Hand_Card_2) = 21 ) then
@@ -382,7 +381,7 @@ begin
 						else
 							hit_selectable <= '1';
 							new_state <= player_action;
-					end if;
+						end if;
 					
 					elsif ( Player3_Hand_Card_2 /= "0000" ) and ( Player3_Hand_Card_3 = "0000" ) then
 						if ( unsigned(Dealer_Hand_Card_1) > 9 ) and ( unsigned(Player3_Hand_Card_1 + Player3_Hand_Card_2) = 21 ) then
@@ -437,7 +436,7 @@ begin
 						else
 							hit_selectable <= '1';
 							new_state <= player_action;
-					end if;
+						end if;
 					
 					elsif ( Player4_Hand_Card_2 /= "0000" ) and ( Player4_Hand_Card_3 = "0000" ) then
 						if ( unsigned(Dealer_Hand_Card_1) > 9 ) and ( unsigned(Player4_Hand_Card_1 + Player4_Hand_Card_2) = 21 ) then
