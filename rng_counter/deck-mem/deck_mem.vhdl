@@ -10,10 +10,12 @@ architecture behaviour of deck_mem is
 	signal enable : std_logic_vector(3 downto 0);
 begin	
 
-
-	process(random_num)
+	
+	
+	process(clk)
 	variable summation : unsigned (7 downto 0);
 	begin
+	if (rising_edge(clk)) then
 		if random_num > "00000000" then
 			summation := to_unsigned(0,8);
 				
@@ -37,11 +39,12 @@ begin
 			random_card <= "0000";
 			enable <= "0000";
 		end if;	
+	end if;
 	end process;	
 
 
 --Elke flipflop 13 keer, 0 = aas, 1 = eenen...... 12 = koning.			
-   process(Clk, shuffle, reset)
+   process(Clk)
 	begin 
 		if(rising_edge(Clk)) then
 			if reset= '1' OR shuffle = '1' then 
@@ -52,7 +55,7 @@ begin
 		end if;       
 	end process; 
 
- process(Clk, shuffle, reset)
+ process(Clk)
 	begin 
 		if(rising_edge(Clk)) then
 			if reset= '1' OR shuffle = '1' then 
@@ -63,7 +66,7 @@ begin
 		end if;       
 	end process; 
 
- process(Clk, shuffle, reset)
+ process(Clk)
 	begin 
 		if(rising_edge(Clk)) then
 			if reset= '1' OR shuffle = '1' then 
@@ -74,7 +77,7 @@ begin
 		end if;       
 	end process; 
 
- process(Clk, shuffle, reset)
+ process(Clk)
 	begin 
 		if(rising_edge(Clk)) then
 			if reset= '1' OR shuffle = '1' then 
@@ -85,7 +88,7 @@ begin
 		end if;       
 	end process; 
 
- process(Clk, shuffle, reset)
+ process(Clk)
 	begin 
 		if(rising_edge(Clk)) then
 			if reset= '1' OR shuffle = '1' then 
@@ -96,7 +99,7 @@ begin
 		end if;       
 	end process; 
 
- process(Clk, shuffle, reset)
+ process(Clk)
 	begin 
 		if(rising_edge(Clk)) then
 			if reset= '1' OR shuffle = '1' then 
@@ -107,7 +110,7 @@ begin
 		end if;       
 	end process; 
 
- process(Clk, shuffle, reset)
+ process(Clk)
 	begin 
 		if(rising_edge(Clk)) then
 			if reset= '1' OR shuffle = '1' then 
@@ -118,7 +121,7 @@ begin
 		end if;       
 	end process; 
 
- process(Clk, shuffle, reset)
+ process(Clk)
 	begin 
 		if(rising_edge(Clk)) then
 			if reset= '1' OR shuffle = '1' then 
@@ -129,7 +132,7 @@ begin
 		end if;       
 	end process; 
 
- process(Clk, shuffle, reset)
+ process(Clk)
 	begin 
 		if(rising_edge(Clk)) then
 			if reset= '1' OR shuffle = '1' then 
@@ -140,7 +143,7 @@ begin
 		end if;       
 	end process; 
 
- process(Clk, shuffle, reset)
+ process(Clk)
 	begin 
 		if(rising_edge(Clk)) then
 			if reset= '1' OR shuffle = '1' then 
@@ -151,7 +154,7 @@ begin
 		end if;       
 	end process; 
 
- process(Clk, shuffle, reset)
+ process(Clk)
 	begin 
 		if(rising_edge(Clk)) then
 			if reset= '1' OR shuffle = '1' then 
@@ -162,7 +165,7 @@ begin
 		end if;       
 	end process; 
 
- process(Clk, shuffle, reset)
+ process(Clk)
 	begin 
 		if(rising_edge(Clk)) then
 			if reset= '1' OR shuffle = '1' then 
@@ -173,7 +176,7 @@ begin
 		end if;       
 	end process; 
 
- process(Clk, shuffle, reset)
+ process(Clk)
 	begin 
 		if(rising_edge(Clk)) then
 			if reset= '1' OR shuffle = '1' then 
