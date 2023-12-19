@@ -1166,7 +1166,7 @@ begin
                 r <= 0;
                 g <= 0;
                 b <= 0;
-            elsif (details(x_pos - 545, y_pos - 430, 1, 100, "01", 1) = '1') then
+            elsif (details(x_pos - 545, y_pos - 430, 1, 100, "01", '1','0') = '1') then
                 r <= 15;
                 g <= 15;
                 b <= 15;
