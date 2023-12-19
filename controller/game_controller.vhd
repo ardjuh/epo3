@@ -58,7 +58,6 @@ entity controller is
 	Reserve_Hand_Card_3	: in std_logic_vector (3 downto 0);
 	Reserve_Hand_Card_4	: in std_logic_vector (3 downto 0);
 	Reserve_Hand_Card_5	: in std_logic_vector (3 downto 0);
-	Reserve_Hand_Player	: in std_logic_vector (2 downto 0);	-- Pointer to which player split their hand --
 
 	random_card  : in  std_logic_vector (3 downto 0);		-- Comms with RNG --
 	request_card : out std_logic;                         
@@ -643,63 +642,63 @@ begin
 				if ( card_received = '1' ) then             -- definitive condition for Receiving Hand to be given values. Removes --
 					if ( first_card_deal = '1' ) then         -- requirement for Receiving Hand to have a 0 off state. Saves a bit --   
 				        	if ( Player1_Hand_Card_1 = "0000" ) then     
-					        	Receiving_Hand <= "000";    -- "000" card goes to Player 1's hand --   				  
+					        	Receiving_Hand <= "001";    -- "000" card goes to Player 1's hand --   				  
 					        	enable <= '1';
 							card_received <= '0';
 							new_state <= game_setup;
 							
 				       		elsif ( Player1_Hand_Card_1 /= "0000" ) and ( Player2_Hand_Card_1 = "0000" ) and ( unsigned(N_Players > 1) then 
-							Receiving_Hand <= "001";    -- "001" card goes to Player 2's hand --       
+							Receiving_Hand <= "010";    -- "001" card goes to Player 2's hand --       
 					        	enable <= '1';
 							card_received <= '0';
 							new_state <= game_setup;
 
 						elsif ( Player2_Hand_Card_1 /= "0000" ) and ( Player3_Hand_Card_1 = "0000" ) and ( unsigned(N_Players > 2) then 
-							Receiving_Hand <= "010";    -- "010" card goes to Player 3's hand --
+							Receiving_Hand <= "011";    -- "010" card goes to Player 3's hand --
 					        	enable <= '1';
 							card_received <= '0';
 							new_state <= game_setup;
 
 						elsif ( Player3_Hand_Card_1 /= "0000" ) and ( Player4_Hand_Card_1 = "0000" ) and ( unsigned(N_Players > 3) then 
-							Receiving_Hand <= "011";    -- "011" card goes to Player 4's hand --
+							Receiving_Hand <= "100";    -- "011" card goes to Player 4's hand --
 					        	enable <= '1';
 	      						card_received <= '0';
 							new_state <= game_setup;
 						end if;
 
 					elsif ( dealer_card_deal = '1' ) then   -- may be possible to funnel this in at the end of the above *if* statement as an optimization if needed -- 
-						Receiving_Hand <= "100";    -- "100" card goes to Dealer's hand --  
+						Receiving_Hand <= "101";    -- "100" card goes to Dealer's hand --  
 					        enable <= '1';
 						card_received <= '0';
 						new_state <= game_setup;
 
 					elsif ( second_card_deal = '1' ) then
 						if ( Player1_Hand_Card_2 = "0000" ) then     
-					        	Receiving_Hand <= "000";    -- "000" card goes to Player 1's hand --   				  
+					        	Receiving_Hand <= "001";    -- "000" card goes to Player 1's hand --   				  
 					        	enable <= '1';
 							card_received <= '0';
 							new_state <= game_setup;
 							
 				       		elsif ( Player1_Hand_Card_2 /= "0000" ) and ( Player2_Hand_Card_2 = "0000" ) then 
-							Receiving_Hand <= "001";    -- "001" card goes to Player 2's hand --       
+							Receiving_Hand <= "010";    -- "001" card goes to Player 2's hand --       
 					        	enable <= '1';
 							card_received <= '0';
 							new_state <= game_setup;
 
 						elsif ( Player2_Hand_Card_2 /= "0000" ) and ( Player3_Hand_Card_2 = "0000" ) then 
-							Receiving_Hand <= "010";    -- "010" card goes to Player 3's hand --
+							Receiving_Hand <= "011";    -- "010" card goes to Player 3's hand --
 					        	enable <= '1';
 							card_received <= '0';
 							new_state <= game_setup;
 
 						elsif ( Player3_Hand_Card_2 /= "0000" ) and ( Player4_Hand_Card_2 = "0000" ) then 
-							Receiving_Hand <= "011";    -- "000" card goes to Player 4's hand --
+							Receiving_Hand <= "100";    -- "000" card goes to Player 4's hand --
 					        	enable <= '1';
 							card_received <= '0';
 							new_state <= game_setup;
 						end if;
 																  
-					elsif ( double_selected = '1' ) then 
+					elsif ( double_selected = '1' ) then 										  
 						unsigned(Receiving_Hand) <= unsigned(Player_Turn_In);
 						double <= '1';
 						enable <= '1';
@@ -707,10 +706,18 @@ begin
 						new_state <= game_setup;
 
 					elsif ( hit_selected = '1' ) then 
-						unsigned(Receiving_Hand) <= unsigned(Player_Turn_In);
-						enable <= '1';
-						card_received <= '0';
-						new_state <= game_setup;
+						if ( split_player_turn = '1' ) then
+							Receiving_Hand <= "110";   
+							enable <= '1';
+							card_received <= '0';
+							new_state <= game_setup;
+
+						else
+							unsigned(Receiving_Hand) <= unsigned(Player_Turn_In);
+							enable <= '1';
+							card_received <= '0';
+							new_state <= game_setup;
+						end if;
 					end if;
 				end if;		   					
 					
