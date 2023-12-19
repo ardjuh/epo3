@@ -1172,17 +1172,17 @@ begin
             end if;
         elsif (x_pos >= 10 and y_pos >= 10 and x_pos < 122 and y_pos < 62) then -- Table
             if (x_pos = 10 or x_pos = 121 or y_pos = 10 or y_pos = 61) then
-                r            <= 0;
-                g            <= 0;
-                b            <= 0;
+                r <= 0;
+                g <= 0;
+                b <= 0;
             elsif (x_pos <= 12 or x_pos >= 138 or y_pos <= 12 or y_pos >= 59) then
-                r            <= 2;
-                g            <= 11;
-                b            <= 2;
+                r <= 2;
+                g <= 11;
+                b <= 2;
             elsif (table(x_pos - 13, y_pos - 13, '1', 1, 2, 3, 4, 5, 123, '1', 6, 7, 8, 9, 10, 456, '1', 11, 12, 13, 1, 2, 789, '1', 3, 4, 5, 6, 7, 5) = '1') then
-                r            <= 15;
-                g            <= 15;
-                b            <= 15;
+                r <= 15;
+                g <= 15;
+                b <= 15;
             else
                 r <= 2;
                 g <= 11;
