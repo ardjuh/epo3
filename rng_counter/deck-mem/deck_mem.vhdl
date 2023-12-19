@@ -6,7 +6,8 @@ architecture behaviour of deck_mem is
 	
 
 	type memory is array (0 to 12) of unsigned(4 downto 0);
-	signal mem, Q_reg, Q_next, Q : memory;
+	signal Q_reg, Q_next, Q : memory;
+	signal new_memory : unsigned(4 downto 0);
 	signal enable : std_logic_vector(3 downto 0);
 begin	
 
@@ -26,7 +27,7 @@ begin
 					 --word kaart op plek i
 					random_card <= std_logic_vector(to_unsigned(i + 1,4));
 					--mogen we in dezelfde line berekening doen en converten
-				mem(i) <= Q(i) - to_unsigned(1,5);					
+				new_memory <= Q(i) - to_unsigned(1,5);					
 				--enable <= '1';
 				enable <= std_logic_vector(to_unsigned(i + 1,4));
 
@@ -190,19 +191,19 @@ begin
 
 
 --next state logic
-Q_next(0) <= mem(0) when enable = "0001" else Q_reg(0);
-Q_next(1) <= mem(1) when enable = "0010" else Q_reg(1);
-Q_next(2) <= mem(2) when enable = "0011" else Q_reg(2);
-Q_next(3) <= mem(3) when enable = "0100" else Q_reg(3);
-Q_next(4) <= mem(4) when enable = "0101" else Q_reg(4);
-Q_next(5) <= mem(5) when enable = "0110" else Q_reg(5);
-Q_next(6) <= mem(6) when enable = "0111" else Q_reg(6);
-Q_next(7) <= mem(7) when enable = "1000" else Q_reg(7);
-Q_next(8) <= mem(8) when enable = "1001" else Q_reg(8);
-Q_next(9) <= mem(9) when enable = "1010" else Q_reg(9);
-Q_next(10) <= mem(10) when enable = "1011" else Q_reg(10);
-Q_next(11) <= mem(11) when enable = "1100" else Q_reg(11);
-Q_next(12) <= mem(12) when enable = "1101" else Q_reg(12);
+Q_next(0) <= new_memory when enable = "0001" else Q_reg(0);
+Q_next(1) <= new_memory when enable = "0010" else Q_reg(1);
+Q_next(2) <= new_memory when enable = "0011" else Q_reg(2);
+Q_next(3) <= new_memory when enable = "0100" else Q_reg(3);
+Q_next(4) <= new_memory when enable = "0101" else Q_reg(4);
+Q_next(5) <= new_memory when enable = "0110" else Q_reg(5);
+Q_next(6) <= new_memory when enable = "0111" else Q_reg(6);
+Q_next(7) <= new_memory when enable = "1000" else Q_reg(7);
+Q_next(8) <= new_memory when enable = "1001" else Q_reg(8);
+Q_next(9) <= new_memory when enable = "1010" else Q_reg(9);
+Q_next(10) <= new_memory when enable = "1011" else Q_reg(10);
+Q_next(11) <= new_memory when enable = "1100" else Q_reg(11);
+Q_next(12) <= new_memory when enable = "1101" else Q_reg(12);
 
 
 
