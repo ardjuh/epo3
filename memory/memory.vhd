@@ -16,6 +16,30 @@ architecture behavior of memory is
         card5 : out std_logic_vector(3 downto 0));
     end component;
 
+    component player port (
+        clk    : in std_logic;
+        rst    : in std_logic;
+        memrst : in std_logic;
+
+        profit_enable : in std_logic;
+        stake_enable  : in std_logic;
+        profit        : in std_logic_vector(6 downto 0);
+        stake         : in std_logic_vector(4 downto 0);
+
+        bid_in        : in std_logic_vector(1 downto 0);
+        insurance_in  : in std_logic;
+        doubledown_in : in std_logic;
+
+        bid_in_enable        : in std_logic;
+        insurance_in_enable  : in std_logic;
+        doubledown_in_enable : in std_logic;
+
+        bid_out        : out std_logic_vector(1 downto 0);
+        budget         : out std_logic_vector(9 downto 0);
+        insurance_out  : out std_logic;
+        doubledown_out : out std_logic);
+    end component;
+
     h1, h2, h3, h4, h5, h6 : std_logic := '0';
 begin
     h1_l : hand port map(clk => clk, rst => rst, mem_rst => mem_rst, enable => h1, card => card, card1 => card1_1, card2 => card1_2, card3 => card1_3, card4 => card1_4, card5 => card1_5);
@@ -86,5 +110,6 @@ begin
                     h5 <= '0';
                     h6 <= '0';
             end case;
-        end process;
-    end behavior;
+        end if;
+    end process;
+end behavior;
