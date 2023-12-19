@@ -1126,16 +1126,21 @@ begin
                 g <= 15;
                 b <= 15;
             end if;
-        elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219 and ((player = "00" and split1 = '1') or (player = "01" and split2 = '1') or (player = "10" and split3 = '1') or (player = "11" and split4 = '1'))) then -- Player hand with split
-            if (cards(x_pos - 120, y_pos - 362, 11, 13, 12, 11, 10, '1') = '1') then
-                r <= 0;
-                g <= 0;
-                b <= 0;
-            else
-                r <= 15;
-                g <= 15;
-                b <= 15;
-            end if;
+        elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219) then 
+            if ((player = "00" and split1 = '1') or (player = "01" and split2 = '1') or (player = "10" and split3 = '1') or (player = "11" and split4 = '1'))) then -- Player hand with split
+                if (cards(x_pos - 120, y_pos - 362, 11, 13, 12, 11, 10, '1') = '1') then
+                    r <= 0;
+                    g <= 0;
+                    b <= 0;
+                else
+                    r <= 15;
+                    g <= 15;
+                    b <= 15;
+                end if;
+             else 
+                 r <= 2;
+                 g <= 11;
+                 b <= 2;
         elsif (y_pos >= 10 and y_pos < 118 and x_pos < 630 and x_pos >= 530) then -- Dealer hand
             if (cards(x_pos - 530, y_pos - 10, 10, 4, 7) = '1') then
                 r <= 0;
