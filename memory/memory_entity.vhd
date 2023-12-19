@@ -43,8 +43,8 @@ entity memory is
         money2      : out std_logic_vector(10 downto 0);
         bid2        : out std_logic_vector(1 downto 0);
         split2      : out std_logic;
-        insurance1  : out std_logic;
-        doubledown1 : out std_logic;
+        insurance2  : out std_logic;
+        doubledown2 : out std_logic;
 
         player3     : out std_logic;
         card3_1     : out std_logic_vector(3 downto 0);
@@ -55,8 +55,8 @@ entity memory is
         money3      : out std_logic_vector(10 downto 0);
         bid3        : out std_logic_vector(1 downto 0);
         split3      : out std_logic;
-        insurance1  : out std_logic;
-        doubledown1 : out std_logic;
+        insurance3  : out std_logic;
+        doubledown3 : out std_logic;
 
         player4     : out std_logic;
         card4_1     : out std_logic_vector(3 downto 0);
@@ -67,8 +67,8 @@ entity memory is
         money4      : out std_logic_vector(10 downto 0);
         bid4        : out std_logic_vector(1 downto 0);
         split4      : out std_logic;
-        insurance1  : out std_logic;
-        doubledown1 : out std_logic;
+        insurance4  : out std_logic;
+        doubledown4 : out std_logic;
 
         -- dealer
         card5_1 : out std_logic_vector(3 downto 0);
