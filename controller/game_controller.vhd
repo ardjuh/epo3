@@ -467,6 +467,9 @@ begin
 						if ( unsigned( Player4_Hand_Card_1 + Player4_Hand_Card_2 + Player4_Hand_Card_3 + Player4_Hand_Card_4 + Player4_Hand_Card_5 ) = 21) then
 							new_state <= player_action;
 
+						elsif ( unsigned(Reserve_Hand_Card_1) = 11 ) and ( Reserve_Hand_Card_2 /= "0000" ) then
+							new_state <= player_action;
+
 						elsif ( unsigned( Player4_Hand_Card_1 + Player4_Hand_Card_2 + Player4_Hand_Card_3 + Player4_Hand_Card_4 + Player4_Hand_Card_5 ) < 22 ) and ( Player4_Hand_Card_5 /= "0000" ) then
 							new_state <= player_action;
 						
@@ -485,7 +488,7 @@ begin
 						elsif ( unsigned( Reserve_Hand_Card_1 + Reserve_Hand_Card_2 + Reserve_Hand_Card_3 + Reserve_Hand_Card_4 + Reserve_Hand_Card_5 ) = 21) then
 							new_state <= player_action;
 
-						elsif ( unsigned( Reserve_Hand_Card_1 + Reserve_Hand_Card_2 + Reserve_Hand_Card_3 + Reserve_Hand_Card_4 + Reserve_Hand_Card_5 ) < 22 ) and ( Player4_Hand_Card_5 /= "0000" ) then
+						elsif ( unsigned( Reserve_Hand_Card_1 + Reserve_Hand_Card_2 + Reserve_Hand_Card_3 + Reserve_Hand_Card_4 + Reserve_Hand_Card_5 ) < 22 ) and ( Reserve_Hand_Card_5 /= "0000" ) then
 							new_state <= player_action;
 						
 						else
