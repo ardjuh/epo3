@@ -10,12 +10,11 @@ entity hand is
         enable  : in std_logic;
         card    : in std_logic_vector(3 downto 0);
 
-        card1         : out std_logic_vector(3 downto 0);
-        card2         : out std_logic_vector(3 downto 0);
-        card3         : out std_logic_vector(3 downto 0);
-        card4         : out std_logic_vector(3 downto 0);
-        card5         : out std_logic_vector(3 downto 0);
-        numberofcards : out std_logic_vector(2 downto 0)
+        card1 : out std_logic_vector(3 downto 0);
+        card2 : out std_logic_vector(3 downto 0);
+        card3 : out std_logic_vector(3 downto 0);
+        card4 : out std_logic_vector(3 downto 0);
+        card5 : out std_logic_vector(3 downto 0)
     );
 end entity;
 
