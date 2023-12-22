@@ -508,7 +508,10 @@ begin
 						
 
 				elsif ( split_player = Player_Turn_In ) and ( split_player_turn = '1' ) then
-						if ( unsigned( Reserve_Hand_Card_1 + Reserve_Hand_Card_2 + Reserve_Hand_Card_3 + Reserve_Hand_Card_4 + Reserve_Hand_Card_5 ) > 21) then
+						if ( unsigned(Reserve_Hand_Card_1) = 11 ) and ( Reserve_Hand_Card_2 /= "0000" ) then
+								new_state <= player_action;
+					
+						elsif ( unsigned( Reserve_Hand_Card_1 + Reserve_Hand_Card_2 + Reserve_Hand_Card_3 + Reserve_Hand_Card_4 + Reserve_Hand_Card_5 ) > 21) then
 							new_state <= player action;
 						
 						elsif ( unsigned( Reserve_Hand_Card_1 + Reserve_Hand_Card_2 + Reserve_Hand_Card_3 + Reserve_Hand_Card_4 + Reserve_Hand_Card_5 ) = 21) then
