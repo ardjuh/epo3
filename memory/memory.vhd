@@ -53,9 +53,9 @@ begin
     h6_l : hand port map(clk => clk, rst => rst, mem_rst => mem_rst, enable => h6, card => card, card1 => card6_1, card2 => card6_2, card3 => card6_3, card4 => card6_4, card5 => card6_5);
 
     p1_l : player port map(clk => clk, rst => rst, mem_rst => mem_rst, profit_enable => p1_p, profit => profit, stake_enable => p1_s, stake => stake, bid_in => bet, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p1_b, insurance_enable => p1_i, doubledown_enable => p1_d, bid_out => bid1, money => money1, insurance_out => insurance1, doubledown_out => doubledown1);
-    p1_l : player port map(clk => clk, rst => rst, mem_rst => mem_rst, profit_enable => p2_p, profit => profit, stake_enable => p2_s, stake => stake, bid_in => bet, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p2_b, insurance_enable => p2_i, doubledown_enable => p2_d, bid_out => bid2, money => money2, insurance_out => insurance2, doubledown_out => doubledown2);
-    p1_l : player port map(clk => clk, rst => rst, mem_rst => mem_rst, profit_enable => p3_p, profit => profit, stake_enable => p3_s, stake => stake, bid_in => bet, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p3_b, insurance_enable => p3_i, doubledown_enable => p3_d, bid_out => bid3, money => money3, insurance_out => insurance3, doubledown_out => doubledown3);
-    p1_l : player port map(clk => clk, rst => rst, mem_rst => mem_rst, profit_enable => p4_p, profit => profit, stake_enable => p4_s, stake => stake, bid_in => bet, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p4_b, insurance_enable => p4_i, doubledown_enable => p4_d, bid_out => bid4, money => money4, insurance_out => insurance4, doubledown_out => doubledown4);
+    p2_l : player port map(clk => clk, rst => rst, mem_rst => mem_rst, profit_enable => p2_p, profit => profit, stake_enable => p2_s, stake => stake, bid_in => bet, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p2_b, insurance_enable => p2_i, doubledown_enable => p2_d, bid_out => bid2, money => money2, insurance_out => insurance2, doubledown_out => doubledown2);
+    p3_l : player port map(clk => clk, rst => rst, mem_rst => mem_rst, profit_enable => p3_p, profit => profit, stake_enable => p3_s, stake => stake, bid_in => bet, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p3_b, insurance_enable => p3_i, doubledown_enable => p3_d, bid_out => bid3, money => money3, insurance_out => insurance3, doubledown_out => doubledown3);
+    p4_l : player port map(clk => clk, rst => rst, mem_rst => mem_rst, profit_enable => p4_p, profit => profit, stake_enable => p4_s, stake => stake, bid_in => bet, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p4_b, insurance_enable => p4_i, doubledown_enable => p4_d, bid_out => bid4, money => money4, insurance_out => insurance4, doubledown_out => doubledown4);
 
     process (player, card_enable)
     begin
@@ -119,5 +119,59 @@ begin
                     h6 <= '0';
             end case;
         end if;
+    end process;
+
+    
+    process ()
+        case bid is
+            when "00" =>
+                case win_type is /*00 = win, 01 = blackjack_win, 10 = insurance_win, 11 = doubledown_win*/
+                    when "00" =>
+                        profit_temp <= "0000100";
+                    when "01"   =>
+                    profit_temp <= 
+                    when "10"   =>
+                    profit_temp <= 
+                    when "11"   =>
+                    profit_temp <= 
+                    when others =>
+                        null;
+                end case;
+            when "01" =>
+                case win_type is
+                    when "00" =>
+                    profit_temp <= 
+                    when "01"   =>
+                    profit_temp <= 
+                    when "10"   =>
+                    profit_temp <= 
+                    when "11"   =>
+                    profit_temp <= 
+                    when others =>
+                        null;
+                end case;
+            when "10" =>
+                case win_type is
+                    when "00" =>
+                    profit_temp <= 
+                    when "01"   =>
+                    when "10"   =>
+                    when "11"   =>
+                    when others =>
+                        null;
+                end case;
+            when "11" =>
+                case win_type is
+                    when "00" =>
+
+                    when "01"   =>
+                    when "10"   =>
+                    when "11"   =>
+                    when others =>
+                        null;
+                end case;
+            when others =>
+                null;
+        end case;
     end process;
 end behavior;
