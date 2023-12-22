@@ -248,6 +248,7 @@ begin
 						new_state <= game_resolution;
 					end if; 
 				end if;
+					
 			----------------------------- checking actions available -------------------------------------	
 					
 				even_money_selectable <= '0';
@@ -523,9 +524,18 @@ begin
 						
 						else
 							hit_selectable <= '1';
-							new_state <= player_actton;
+							new_state <= player_action;
 						end if;
 
+				elsif ( Player_Turn_In = "101" ) then
+					if ( unsigned( Dealer_Hand_Card_1 + Dealer_Hand_Card_2 + Dealer_Hand_Card_3 + Dealer_Hand_Card_4 + Dealer_Hand_Card_5 ) < 17) and ( Dealer_Hand_Card_5 = "0000" ) then
+							dealer_card_deal <= '1';
+							new_state <= game_resolution;
+					else
+						--- score screen stuff ---
+						new_state <= player_action;
+
+					
 			when player_action =>
 				mem_screen_position_max <= "011"; 	-- player select screen --
 				if ( mem_switch_select = '1' ) then
@@ -660,10 +670,10 @@ begin
 							
 				elsif ( hold_selected = '1' ) then
 					if ( unsigned(Player_Turn_In) = unsigned(N_Players) ) and ( split_player /= Player_Turn_In )then
-						round_end <= '1';
+						Player_Turn_In <= "101";
 
 					elsif ( unsigned(Player_Turn_In) = unsigned(N_Players) ) and ( split_player_turn = '1' ) then
-						round_end <= '1';
+						Player_Turn_In <= "101";
 					
 					elsif ( split_player = Player_Turn_In ) and ( split_player_turn = '0' ) then
 						split_player_turn <= '1';
