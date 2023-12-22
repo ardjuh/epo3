@@ -1,11 +1,12 @@
 library IEEE;
-use IEEE.std_logic_1164.ALL;
+use IEEE.std_logic_1164.all;
 
 entity hand is
-   port(clk    : in  std_logic;
-        rst    : in  std_logic;
-        enable : in  std_logic;
-        card   : in  std_logic_vector(3 downto 0);
+    port (
+        clk    : in std_logic;
+        rst    : in std_logic;
+        enable : in std_logic;
+        card   : in std_logic_vector(3 downto 0);
         card1  : out std_logic_vector(3 downto 0);
         card2  : out std_logic_vector(3 downto 0);
         card3  : out std_logic_vector(3 downto 0);

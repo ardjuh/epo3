@@ -19,7 +19,7 @@ architecture behaviour of player_tb is
             insurance_in_enable  : in std_logic;
             doubledown_in_enable : in std_logic;
             bid_out              : out std_logic_vector(1 downto 0);
-            money               : out std_logic_vector(9 downto 0);
+            money                : out std_logic_vector(9 downto 0);
             insurance_out        : out std_logic;
             doubledown_out       : out std_logic);
     end component;
@@ -37,7 +37,7 @@ architecture behaviour of player_tb is
     signal insurance_in_enable  : std_logic                    := '0';
     signal doubledown_in_enable : std_logic                    := '0';
     signal bid_out              : std_logic_vector(1 downto 0) := "00";
-    signal money               : std_logic_vector(9 downto 0) := "0000000000";
+    signal money                : std_logic_vector(9 downto 0) := "0000000000";
     signal insurance_out        : std_logic                    := '0';
     signal doubledown_out       : std_logic                    := '0';
 begin
