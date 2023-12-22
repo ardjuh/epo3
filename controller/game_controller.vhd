@@ -100,10 +100,13 @@ architecture behaviour of controller is
 				 );
 
 signal state, new_state: controller_state;
+
 signal bids_placed, require_card, card_received : std_logic;  
 signal first_card_deal, dealer_card_deal, second_card_deal : std_logic;
+
 signal even_money_selected, insurance_selected, split_selected, double_selected, hit_selected, hold_selected : std_logic;
 signal even_money_selectable, insurance_selectable, split_selectable, double_selectable, hit_selectable, hold_selectable : std_logic;
+
 signal split_player : std_logic_vector (2 downto 0);  
 signal split_player_turn : std_logic;
 
@@ -130,7 +133,7 @@ begin
 				bids_placed <= '0';
 				require_card <= '0';
 				card_received <= '0';
-				split_player <= '000';
+				split_player <= "000";
 				split_player_turn <= '0';
 				-- signal to draw the main menu --
 				-- mem_screen_position_max	<= "000" --
