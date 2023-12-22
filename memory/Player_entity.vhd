@@ -1,43 +1,22 @@
 library IEEE;
-use IEEE.std_logic_1164.all;
-use IEEE.numeric_std.all;
+use IEEE.std_logic_1164.ALL;
 
-architecture behaviour of player is
-    signal money_sig : std_logic_vector(9 downto 0);
-begin
-    money_sig <= money;
-
-    process (clk)
-    begin
-
-        if (rising_edge(clk)) then
-            if (rst = '1') then
-                bid_out        <= "00";
-                money         <= "0000000000";
-                insurance_out  <= '0';
-                doubledown_out <= '0';
-            elsif (memrst = '1') then
-                bid_out        <= "00";
-                insurance_out  <= '0';
-                doubledown_out <= '0';
-            else
-
-                if (profit_enable = '1') then
-                    money <= std_logic_vector(unsigned(money_sig) + unsigned(profit));
-                end if;
-                if (stake_enable = '1') then
-                    money <= std_logic_vector(unsigned(money_sig) - unsigned(stake));
-                end if;
-                if (bid_in_enable = '1') then
-                    bid_out <= bid_in;
-                end if;
-                if (insurance_in_enable = '1') then
-                    insurance_out <= insurance_in;
-                end if;
-                if (doubledown_in_enable = '1') then
-                    doubledown_out <= doubledown_in;
-                end if;
-            end if;
-        end if;
-    end process;
-end behaviour;
+entity player is
+   port(clk            : in  std_logic;
+        rst            : in  std_logic;
+        memrst         : in  std_logic;
+        profit_enable  : in  std_logic;
+        stake_enable   : in  std_logic;
+        profit         : in  std_logic_vector(6 downto 0);
+        stake          : in  std_logic_vector(4 downto 0);
+        bid_in         : in  std_logic_vector(1 downto 0);
+        insurance_in   : in  std_logic;
+        doubledown_in  : in  std_logic;
+        bid_in_enable  : in  std_logic;
+        insurance_in_enable   : in  std_logic;
+        doubledown_in_enable   : in  std_logic;
+        bid_out        : out std_logic_vector(1 downto 0);
+        budget         : out std_logic_vector(9 downto 0);
+        insurance_out  : out std_logic;
+        doubledown_out : out std_logic);
+end player;
