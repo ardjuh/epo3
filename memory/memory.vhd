@@ -120,58 +120,62 @@ begin
             end case;
         end if;
     end process;
-
-    
     process ()
         case bid is
             when "00" =>
-                case win_type is /*00 = win, 01 = blackjack_win, 10 = insurance_win, 11 = doubledown_win*/
+                case win_type is /* 00 = win, 01 = blackjack_win, 10 = insurance_win, 11 = doubledown_win * /
                     when "00" =>
                         profit_temp <= "0000100";
-                    when "01"   =>
-                    profit_temp <= 
-                    when "10"   =>
-                    profit_temp <= 
-                    when "11"   =>
-                    profit_temp <= 
+                    when "01" =>
+                        profit_temp <= "0000101";
+                    when "10" =>
+                        profit_temp <= "0000011";
+                    when "11" =>
+                        profit_temp <= "0001000";
                     when others =>
-                        null;
+                        profit_temp <= "0000000";
                 end case;
             when "01" =>
                 case win_type is
                     when "00" =>
-                    profit_temp <= 
-                    when "01"   =>
-                    profit_temp <= 
-                    when "10"   =>
-                    profit_temp <= 
-                    when "11"   =>
-                    profit_temp <= 
+                        profit_temp <= "0001100";
+                    when "01" =>
+                        profit_temp <= "0001111";
+                    when "10" =>
+                        profit_temp <= "0001001";
+                    when "11" =>
+                        profit_temp <= "0011000";
                     when others =>
-                        null;
+                        profit_temp <= "0000000";
                 end case;
             when "10" =>
                 case win_type is
                     when "00" =>
-                    profit_temp <= 
-                    when "01"   =>
-                    when "10"   =>
-                    when "11"   =>
+                        profit_temp <= "0010100";
+                    when "01" =>
+                        profit_temp <= "0011001";
+                    when "10" =>
+                        profit_temp <= "0001111";
+                    when "11" =>
+                        profit_temp <= "0101000";
                     when others =>
-                        null;
+                        profit_temp <= "0000000";
                 end case;
             when "11" =>
                 case win_type is
                     when "00" =>
-
-                    when "01"   =>
-                    when "10"   =>
-                    when "11"   =>
+                        profit_temp <= "0101000";
+                    when "01" =>
+                        profit_temp <= "0110010";
+                    when "10" =>
+                        profit_temp <= "0001110";
+                    when "11" =>
+                        profit_temp <= "1010000";
                     when others =>
-                        null;
+                        profit_temp <= "0000000";
                 end case;
             when others =>
-                null;
+                profit_temp <= "0000000";
         end case;
     end process;
 end behavior;
