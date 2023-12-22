@@ -659,9 +659,11 @@ begin
 					new_state <= game_setup;
 							
 				elsif ( hold_selected = '1' ) then
-					if ( unsigned(Player_Turn_In) = unsigned(N_Players) ) then
+					if ( unsigned(Player_Turn_In) = unsigned(N_Players) ) and ( split_player /= Player_Turn_In )then
 						round_end <= '1';
-					       --maybe an enable?--
+
+					elsif ( unsigned(Player_Turn_In) = unsigned(N_Players) ) and ( split_player_turn = '1' ) then
+						round_end <= '1';
 					
 					elsif ( split_player = Player_Turn_In ) and ( split_player_turn = '0' ) then
 						split_player_turn <= '1';
