@@ -106,6 +106,7 @@ signal first_card_deal, dealer_card_deal, second_card_deal : std_logic;
 
 signal even_money_selected, insurance_selected, split_selected, double_selected, hit_selected, hold_selected : std_logic;
 signal even_money_selectable, insurance_selectable, split_selectable, double_selectable, hit_selectable, hold_selectable : std_logic;
+signal first_turn_over : std_logic;
 
 signal split_player : std_logic_vector (2 downto 0);  
 signal split_player_turn : std_logic;
@@ -629,20 +630,31 @@ begin
 							
 		           ---------------------------- game phase --------------------------------
 				elsif ( hit_selected = '1' ) then
+					first_turn_over <= '1';
 				        require_card <= '1';
 					new_state <= pending_card_a;
 							
 				elsif ( double_selected = '1' ) then 
+					first_turn_over <= '1';
 					require_card <= '1';
 					new_state <= pending_card_a;
 
 				elsif ( insurance_selected = '1' ) then
+					first_turn_over <= '1';
 					insurance <= '1';
 					enable <= '1';
 					new_state <= game_setup;
 
 				elsif ( even_money_selected = '1' ) then
+					first_turn_over <= '1';
 					even_money <= '1';
+					enable <= '1';
+					new_state <= game_setup;
+
+				elsif ( split_selected = '1' ) then 
+					split_player <= Player_Turn_In;
+					first_turn_over <= '1';
+					split <= '1';
 					enable <= '1';
 					new_state <= game_setup;
 							
@@ -657,12 +669,7 @@ begin
 					else
 						Player_Turn_New <= Player_Turn_In + 1;
 					end if;
-					new_state <= game_setup;
-					enable <= '1';	
-
-				elsif ( split_selected = '1' ) then 
-					split_player <= Player_Turn_In;
-					split <= '1';
+					first_turn_over <= '0';
 					enable <= '1';
 					new_state <= game_setup;
 				end if;
