@@ -24,28 +24,18 @@ begin
 
 
    	reset <= '1' after 0 ns,
-		'0' after 100 ns;
+		'0' after 40 ns;
 
 
    	request_card <= '0' after 0 ns,
-			'1' after 501 ns,
-			'0' after 541 ns,
-			'1' after 2000 ns,
-			'0' after 2040 ns,
-			'1' after 7452 ns,
-			'0' after 7492 ns,
-			'1' after 10069 ns,
-			'0' after 10109 ns,
-			'1' after 15340 ns,
-			'0' after 15380 ns,
-			'1' after 19999 ns,
-			'0' after 20039 ns;
+			'1' after 60 ns,
+			'0' after 100 ns,
+			'1' after 140 ns,
+			'0' after 180 ns;
 			
 			
 		
   	 round_end <= 	'0' after 0 ns,
-			'1' after 4000 ns, 	
-			'0' after 4040 ns,
-			'1' after 13000 ns,
-			'0' after 13040 ns;
+			'1' after 200 ns, 	
+			'0' after 240 ns;
 end behaviour;
