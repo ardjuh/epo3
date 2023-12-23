@@ -22,7 +22,7 @@ entity memory is
 
         player : out std_logic_vector(2 downto 0);
 
-        player1     : out std_logic;
+        player_a     : out std_logic;
         card1_1     : out std_logic_vector(3 downto 0);
         card1_2     : out std_logic_vector(3 downto 0);
         card1_3     : out std_logic_vector(3 downto 0);
@@ -34,7 +34,7 @@ entity memory is
         insurance1  : out std_logic;
         doubledown1 : out std_logic;
 
-        player2     : out std_logic;
+        player_b     : out std_logic;
         card2_1     : out std_logic_vector(3 downto 0);
         card2_2     : out std_logic_vector(3 downto 0);
         card2_3     : out std_logic_vector(3 downto 0);
@@ -46,7 +46,7 @@ entity memory is
         insurance2  : out std_logic;
         doubledown2 : out std_logic;
 
-        player3     : out std_logic;
+        player_c     : out std_logic;
         card3_1     : out std_logic_vector(3 downto 0);
         card3_2     : out std_logic_vector(3 downto 0);
         card3_3     : out std_logic_vector(3 downto 0);
@@ -58,7 +58,7 @@ entity memory is
         insurance3  : out std_logic;
         doubledown3 : out std_logic;
 
-        player4     : out std_logic;
+        player_d     : out std_logic;
         card4_1     : out std_logic_vector(3 downto 0);
         card4_2     : out std_logic_vector(3 downto 0);
         card4_3     : out std_logic_vector(3 downto 0);

@@ -21,7 +21,7 @@ entity gpu_driver is
         money1  : in std_logic_vector (10 downto 0);
 	split1 	: in std_logic;
 
-        player2 : in std_logic;
+        player_b : in std_logic;
         card2_1 : in std_logic_vector (3 downto 0);
         card2_2 : in std_logic_vector (3 downto 0);
         card2_3 : in std_logic_vector (3 downto 0);
@@ -30,7 +30,7 @@ entity gpu_driver is
         money2  : in std_logic_vector (10 downto 0);
 	split2	: in std_logic;
 
-        player3 : in std_logic;
+        player_c : in std_logic;
         card3_1 : in std_logic_vector (3 downto 0);
         card3_2 : in std_logic_vector (3 downto 0);
         card3_3 : in std_logic_vector (3 downto 0);
@@ -39,7 +39,7 @@ entity gpu_driver is
         money3  : in std_logic_vector (10 downto 0);
 	split3	: in std_logic;
 
-        player4 : in std_logic;
+        player_d : in std_logic;
         card4_1 : in std_logic_vector (3 downto 0);
         card4_2 : in std_logic_vector (3 downto 0);
         card4_3 : in std_logic_vector (3 downto 0);

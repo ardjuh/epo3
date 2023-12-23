@@ -539,17 +539,17 @@ architecture behavior of gpu_driver is
     end function;
 
     function table (
-        x       : integer range 0 to 115;
-        y       : integer range 0 to 45;
+        x        : integer range 0 to 115;
+        y        : integer range 0 to 45;
         player_a : std_logic;
-        card1_1 : integer range 0 to 13  := 0;
-        card1_2 : integer range 0 to 13  := 0;
-        card1_3 : integer range 0 to 13  := 0;
-        card1_4 : integer range 0 to 13  := 0;
-        card1_5 : integer range 0 to 13  := 0;
-        money1  : integer range 0 to 999 := 0;
+        card1_1  : integer range 0 to 13  := 0;
+        card1_2  : integer range 0 to 13  := 0;
+        card1_3  : integer range 0 to 13  := 0;
+        card1_4  : integer range 0 to 13  := 0;
+        card1_5  : integer range 0 to 13  := 0;
+        money1   : integer range 0 to 999 := 0;
 
-        player2 : std_logic;
+        player_b : std_logic;
         card2_1 : integer range 0 to 13  := 0;
         card2_2 : integer range 0 to 13  := 0;
         card2_3 : integer range 0 to 13  := 0;
@@ -557,7 +557,7 @@ architecture behavior of gpu_driver is
         card2_5 : integer range 0 to 13  := 0;
         money2  : integer range 0 to 999 := 0;
 
-        player3 : std_logic;
+        player_c : std_logic;
         card3_1 : integer range 0 to 13  := 0;
         card3_2 : integer range 0 to 13  := 0;
         card3_3 : integer range 0 to 13  := 0;
@@ -565,7 +565,7 @@ architecture behavior of gpu_driver is
         card3_5 : integer range 0 to 13  := 0;
         money3  : integer range 0 to 999 := 0;
 
-        player4 : std_logic;
+        player_d : std_logic;
         card4_1 : integer range 0 to 13  := 0;
         card4_2 : integer range 0 to 13  := 0;
         card4_3 : integer range 0 to 13  := 0;
@@ -1126,7 +1126,7 @@ begin
                 g <= 15;
                 b <= 15;
             end if;
-        elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219) then 
+        elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219) then
             if ((player = "00" and split1 = '1') or (player = "01" and split2 = '1') or (player = "10" and split3 = '1') or (player = "11" and split4 = '1')) then -- Player hand with split
                 if (cards(x_pos - 120, y_pos - 362, 11, 13, 12, 11, 10, '1') = '1') then
                     r <= 0;
@@ -1137,11 +1137,11 @@ begin
                     g <= 15;
                     b <= 15;
                 end if;
-             else 
-                 r <= 2;
-                 g <= 11;
-                 b <= 2;
-	     end if;
+            else
+                r <= 2;
+                g <= 11;
+                b <= 2;
+            end if;
         elsif (y_pos >= 10 and y_pos < 118 and x_pos < 630 and x_pos >= 530) then -- Dealer hand
             if (cards(x_pos - 530, y_pos - 10, 10, 4, 7) = '1') then
                 r <= 0;
