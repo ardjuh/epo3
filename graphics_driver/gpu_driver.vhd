@@ -550,28 +550,28 @@ architecture behavior of gpu_driver is
         money1   : integer range 0 to 999 := 0;
 
         player_b : std_logic;
-        card2_1 : integer range 0 to 13  := 0;
-        card2_2 : integer range 0 to 13  := 0;
-        card2_3 : integer range 0 to 13  := 0;
-        card2_4 : integer range 0 to 13  := 0;
-        card2_5 : integer range 0 to 13  := 0;
-        money2  : integer range 0 to 999 := 0;
+        card2_1  : integer range 0 to 13  := 0;
+        card2_2  : integer range 0 to 13  := 0;
+        card2_3  : integer range 0 to 13  := 0;
+        card2_4  : integer range 0 to 13  := 0;
+        card2_5  : integer range 0 to 13  := 0;
+        money2   : integer range 0 to 999 := 0;
 
         player_c : std_logic;
-        card3_1 : integer range 0 to 13  := 0;
-        card3_2 : integer range 0 to 13  := 0;
-        card3_3 : integer range 0 to 13  := 0;
-        card3_4 : integer range 0 to 13  := 0;
-        card3_5 : integer range 0 to 13  := 0;
-        money3  : integer range 0 to 999 := 0;
+        card3_1  : integer range 0 to 13  := 0;
+        card3_2  : integer range 0 to 13  := 0;
+        card3_3  : integer range 0 to 13  := 0;
+        card3_4  : integer range 0 to 13  := 0;
+        card3_5  : integer range 0 to 13  := 0;
+        money3   : integer range 0 to 999 := 0;
 
         player_d : std_logic;
-        card4_1 : integer range 0 to 13  := 0;
-        card4_2 : integer range 0 to 13  := 0;
-        card4_3 : integer range 0 to 13  := 0;
-        card4_4 : integer range 0 to 13  := 0;
-        card4_5 : integer range 0 to 13  := 0;
-        money4  : integer range 0 to 999 := 0
+        card4_1  : integer range 0 to 13  := 0;
+        card4_2  : integer range 0 to 13  := 0;
+        card4_3  : integer range 0 to 13  := 0;
+        card4_4  : integer range 0 to 13  := 0;
+        card4_5  : integer range 0 to 13  := 0;
+        money4   : integer range 0 to 999 := 0
     ) return std_logic is
     begin
         if (y < 7) then
