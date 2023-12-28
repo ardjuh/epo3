@@ -12,4 +12,6 @@ entity blackjack is
        red    : out std_logic_vector(3 downto 0);
        green  : out std_logic_vector(3 downto 0);
        blue   : out std_logic_vector(3 downto 0);
+       H_sync : out std_logic;
+       V_sync : out std_logic;
        
