@@ -100,7 +100,6 @@ architecture behaviour of controller is
 				 );
 
 signal state, new_state: controller_state;
-
 signal bids_placed, require_card, card_received : std_logic;  
 signal first_card_deal, dealer_card_deal, second_card_deal : std_logic;
 
@@ -136,16 +135,16 @@ begin
 				card_received <= '0';
 				split_player <= "000";
 				split_player_turn <= '0';
-				-- signal to draw the main menu --
-				-- mem_screen_position_max	<= "000" --
-				-- mem_screen_position		<= "000" --
-				-- mem_switch_select		<= '0' --
-				if( mem_switch_select = '1' ) then
+				current_screen_position <= "100";
+
+				start_screen <= '1';
+				if ( switch_select = '1' ) then
+					start_screen <= '0';
 					new_state <= game_setup;
 				end if;
 					
 			when game_setup =>
-				insurance <= '0'; -- unused signals during game-setup --
+				insurance <= '0';   ---- may need to move these to reset ----
 				split <= '0';
 				double <= '0';
 				new_card <= "0000";
@@ -156,14 +155,18 @@ begin
 
 				if ( N_Players = "000" ) then      -- player select condition --
 					-- draw_menu <= ?? --
-					mem_screen_position_max <= "011";
+					choose_players <= '1';
 					new_state <= player_action;
+				else
+					choose_players <= '0';
 				end if;
 
 				if ( bids_placed = '0' and N_Players /= "000" ) then	 -- bidding screen condition--
 					-- draw_menu <= ?? --
-					mem_screen_position_max	<= "011";
+					choose_bids <= '1';
 					new_state <= player_action;
+				else
+					choose_bids <= '0';
 				end if;
 
 				-- Check whether starting cards have been dealt -- 
@@ -534,32 +537,237 @@ begin
 					else
 						--- score screen stuff ---
 						new_state <= player_action;
+				end if;
+		
+			when player_action =>									
+				if ( choose_players = '1' ) then                              -- menu for choosing players --
+					if ( switch_left = '1' ) then
+						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 4 --
+							current_screen_position <= "100";    
+						else
+							current_screen_position <= current_screen_position - 1;
+							new_state <= player_action;
+						end if;
+		
+					elsif ( switch_right = '1' ) then
+						if ( current_screen_position = "100" ) then         -- if at option 4, right moves to option 1 --
+							current_screen_position <= "001";
+						else
+							current_screen_position <= current_screen_position + 1;
+							new_state <= player_action;
+						end if;
 
-					
-			when player_action =>
-				mem_screen_position_max <= "011"; 	-- player select screen --
-				if ( mem_switch_select = '1' ) then
-					mem_switch_select <= '0';
-					new_state <= game_resolution;
-				end if;
-				mem_screen_position_max <= "011";       -- bidding screen --
-				if ( mem_switch_select = '1' ) then
-					mem_switch_select <= '0';
-					new_state <= game_resolution;
-				end if;
+					elsif ( switch_select = '1' ) then        
+						if ( current_screen_position = "001" ) then
+							N_Players <= "001";
+							enable <= '1';
+							new_state <= game_setup;
+
+						elsif ( current_screen_position = "010" ) then
+							N_Players <= "010";
+							enable <= '1';
+							new_state <= game_setup;
+
+						elsif ( current_screen_position = "011" ) then
+							N_Players <= "011";
+							enable <= '1';
+							new_state <= game_setup;
+
+						elsif ( current_screen_position = "100" ) then
+							N_Players <= "100";
+							enable <= '1';
+							new_state <= game_setup;
+						else
+							new_state <= player_action;
+						end if;
+					end if;
+
+				elsif ( choose_bids = '1' ) then                              -- menu for choosing bids (near identical to choosing players) --
+					if ( switch_left = '1' ) then
+						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 4 --
+							current_screen_position <= "100";    
+						else
+							current_screen_position <= current_screen_position - 1;
+							new_state <= player_action;
+						end if;
+		
+					elsif ( switch_right = '1' ) then
+						if ( current_screen_position = "100" ) then         -- if at option 4, right moves to option 1 --
+							current_screen_position <= "001";
+						else
+							current_screen_position <= current_screen_position + 1;
+							new_state <= player_action;
+						end if;
+
+					elsif ( switch_select = '1' ) then         -- N player selection could be done straight away here? --
+						if ( Player_Turn_In = "001" ) then
+							if ( current_screen_position = "001" ) then
+								Player1_Bid_New <= "00";
+								enable <= '1';
+								new_state <= game_setup;
+
+							elsif ( current_screen_position = "010" ) then
+								Player1_Bid_New <= "01";
+								enable <= '1';
+								new_state <= game_setup;
+
+							elsif ( current_screen_position = "011" ) then
+								Player1_Bid_New <= "10";
+								enable <= '1';
+								new_state <= game_setup;
+
+							elsif ( current_screen_position = "100" ) then
+								Player1_Bid_New <= "11";
+								enable <= '1';
+								new_state <= game_setup;
+							end if;
+
+							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) then
+								Player_Turn_New <= Player_Turn_In + 1;
+							else
+								bids_placed <= '1';
+								Player_Turn_New <= "001";
+							end if;
+
+						elsif ( Player_Turn_In = "010" ) then
+							if ( current_screen_position = "001" ) then
+								Player2_Bid_New <= "00";
+								enable <= '1';
+								new_state <= game_setup;
+
+							elsif ( current_screen_position = "010" ) then
+								Player2_Bid_New <= "01";
+								enable <= '1';
+								new_state <= game_setup;
+
+							elsif ( current_screen_position = "011" ) then
+								Player2_Bid_New <= "10";
+								enable <= '1';
+								new_state <= game_setup;
+
+							elsif ( current_screen_position = "100" ) then
+								Player2_Bid_New <= "11";
+								enable <= '1';
+								new_state <= game_setup;
+							end if;
+
+							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) then
+								Player_Turn_New <= Player_Turn_In + 1;
+							else
+								bids_placed <= '1';
+								Player_Turn_New <= "001";
+							end if;
+
+						elsif ( Player_Turn_In = "011" ) then
+							if ( current_screen_position = "001" ) then
+								Player3_Bid_New <= "00";
+								enable <= '1';
+								new_state <= game_setup;
+
+							elsif ( current_screen_position = "010" ) then
+								Player3_Bid_New <= "01";
+								enable <= '1';
+								new_state <= game_setup;
+
+							elsif ( current_screen_position = "011" ) then
+								Player3_Bid_New <= "10";
+								enable <= '1';
+								new_state <= game_setup;
+
+							elsif ( current_screen_position = "100" ) then
+								Player3_Bid_New <= "11";
+								enable <= '1';
+								new_state <= game_setup;
+							end if;
+
+							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) then
+								Player_Turn_New <= Player_Turn_In + 1;
+							else
+								bids_placed <= '1';
+								Player_Turn_New <= "001";
+							end if;
+
+						elsif ( Player_Turn_In = "100" ) then
+							bids_placed <= '1';                 -- sets player turn back to P1, bids placed=1 means the bid wont repeat after --
+							Player_Turn_New <= "001";
+							if ( current_screen_position = "001" ) then
+								Player4_Bid_New <= "00";
+								enable <= '1';
+								new_state <= game_setup;
+
+							elsif ( current_screen_position = "010" ) then
+								Player4_Bid_New <= "01";
+								enable <= '1';
+								new_state <= game_setup;
+
+							elsif ( current_screen_position = "011" ) then
+								Player4_Bid_New <= "10";
+								enable <= '1';
+								new_state <= game_setup;
+
+							elsif ( current_screen_position = "100" ) then
+								Player4_Bid_New <= "11";
+								enable <= '1';
+								new_state <= game_setup;
+							end if;
+	
+				elsif ( choose_action = '1' ) then                 -- menu for choosing actions such as hit, hold etc --				
+					if ( switch_left = '1' ) then
+						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 6 --
+							current_screen_position <= "110";    
+						else
+							current_screen_position <= current_screen_position - 1;
+							new_state <= player_action;
+						end if;
+		
+					elsif ( switch_right = '1' ) then
+						if ( current_screen_position = "110" ) then         -- if at option 6, right moves to option 1 --
+							current_screen_position <= "001";
+						else
+							current_screen_position <= current_screen_position + 1;
+							new_state <= player_action;
+						end if;
+
+					elsif ( switch_select = '1' ) then  
+						if ( current_screen_position = "001" ) then
+							hit_selected <= '1';
+							new_state <= game_resolution;
+
+						elsif ( current_screen_position = "010" ) then
+							hold_selected <= '1';
+			
+				-------------- etc etc, one for each action. No discussion with graphics needed for this ------------
+						else
+							new_state <= player_action;
+						end if;
+
+				elsif ( score_screen = '1' ) then 
+					if ( switch_left = '1' ) then
+						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 2 --
+							current_screen_position <= "010";    
+						else
+							current_screen_position <= current_screen_position - 1;
+							new_state <= player_action;
+						end if;
+		
+					elsif ( switch_right = '1' ) then
+						if ( current_screen_position = "010" ) then         -- if at option 2, right moves to option 1 --
+							current_screen_position <= "001";
+						else
+							current_screen_position <= current_screen_position + 1;
+							new_state <= player_action;
+						end if;
+
+					elsif ( switch_select = '1' ) then
+						if ( current_screen_position = "001" ) then
+							round_end <= '1';                            ---- round end executes a pseudo-reset on memory, RCM checks deck ----
+							new_state <= game_resolution;
+
+						elsif ( current_screen_position = "010" ) then
+							reset <= '1';                                ---- reset here is akin to the game over option ----
+						end if;
 					
 			when game_resolution =>
-			------------------- player select menu ------------------------
-				if (N_Players = "000")
-					if (mem_screen_position = "000") then
-						N_Players_New <= "001";
-					elsif (mem_screen_position = "001" ) then
-						N_Players_New <= "010";
-					elsif (mem_screen_position = "010" ) then
-						N_Players_New <= "011";
-					elsif (mem_screen_position = "011" ) then
-						N_Players_New <= "100";
-					end if;
 
 			        ------------------ bidding phase ---------------------
 				elsif (N_Players /= "000" and bids_placed = '0') then
