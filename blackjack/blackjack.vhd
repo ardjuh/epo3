@@ -20,11 +20,11 @@ end blackjack;
 architecture behavioral of blackjack is
        
   component controller
-    port( clk  : in std_logic;
-          reset: in std_logic;
-          Player_Turn_In : in std_logic_vector (2 downto 0);
-          N_players      : in std_logic_vector (2 downto 0);
-          switch_select	: in  std_logic;  
+    port( 	clk  : in std_logic;
+          	reset: in std_logic;
+                Player_Turn_In  : in std_logic_vector (2 downto 0);
+         	N_players       : in std_logic_vector (2 downto 0);
+          	switch_select	: in  std_logic;  
 	        switch_left	: in  std_logic;					
 	        switch_right	: in  std_logic;
 
