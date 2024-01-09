@@ -126,7 +126,7 @@ begin
 		end if;
 	end process;
 
-	process (state, mem (t.b.d))
+	process (state, )
 	begin
 		case state is
 			when reset_state =>
@@ -155,7 +155,6 @@ begin
 				bid_successful <= '0';     
 
 				if ( N_Players = "000" ) then      -- player select condition --
-					-- draw_menu <= ?? --
 					choose_players <= '1';
 					new_state <= player_action;
 				else
@@ -163,7 +162,6 @@ begin
 				end if;
 
 				if ( bids_placed = '0' and N_Players /= "000" ) then	 -- bidding screen condition--
-					-- draw_menu <= ?? --
 					choose_bids <= '1';
 					new_state <= player_action;
 				else
