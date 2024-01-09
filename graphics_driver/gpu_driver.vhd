@@ -940,6 +940,79 @@ architecture behavior of gpu_driver is
         end if;
     end function;
 
+    function begin_menu(
+        x_pos     : integer range 0 to 639;
+        y_pos     : integer range 0 to 99;
+	begin	  : std_logic :='0';
+	end	  : std_logic :'0'
+	) return std_logic is
+	begin
+	if (y_pos >= 22 and y_pos <= 28 and begin = 0) then
+            if (x < 285) then
+                return small_letter(x - 278, y - 22, 16); --P
+            elsif (x < 291) then
+                return small_letter(x - 285, y - 22, 12); --L
+            elsif (x < 297) then
+                return small_letter(x - 291, y - 22, 1); --A
+            elsif (x < 303) then
+                return small_letter(x - 297, y - 22, 25); --Y
+            elsif (x < 309) then
+                return small_letter(x - 303, y - 22, 5); --E
+            elsif (x < 315) then
+                return small_letter(x - 309, y - 22, 18); --R
+            elsif (x < 321) then
+		return small_letter(x- 315, y - 22, 0) --Space
+	    elsif (x < 327) then
+		return small_number(x - 321, y - 22, 1); --1
+	    elsif (x < 333) then
+		return small_letter(x - 327, y - 22, 0); --Space
+            elsif (x < 339) then
+		return small_number(x - 333, y - 22, 2); --2
+            elsif (x < 345) then
+		return small_letter(x - 339, y - 22, 0); --Space
+            elsif (x < 351) then
+		return small_number(x - 345, y - 22, 3); --3
+            elsif (x < 357) then
+		return small_letter(x - 351, y - 22, 0); --Space
+            elsif (x < 363) then
+		return small_number(x - 357, y - 22, 4); --4
+	    else
+                return '0';
+	    end if;
+
+	 elsif (y_pos >= 72 and y_pos <= 78) then
+                return small_letter(x - 278, y - 72, 19); --S
+            if (x < 291) then
+                return small_letter(x - 285, y - 72, 20); --T
+            elsif (x < 297) then
+                return small_letter(x - 291, y - 72, 1); --A
+            elsif (x < 303) then
+                return small_letter(x - 297, y - 72, 18); --R
+            elsif (x < 309) then
+                return small_letter(x - 303, y - 72, 20); --T
+	    else 
+	   	return '0';
+ 		end if;
+	   if (y_pos >= 72 and y_pos <= 78 and stop = 1) then
+                return small_letter(x - 278, y - 72, 6); --F
+            if (x < 291) then
+                return small_letter(x - 285, y - 72, 9); --I
+            elsif (x < 297) then
+                return small_letter(x - 291, y - 72, 14); --N
+            elsif (x < 303) then
+                return small_letter(x - 297, y - 72, 9); --I
+            elsif (x < 309) then
+                return small_letter(x - 303, y - 72, 19); --S
+	    elsif (x < 315) then
+		return small_letter(x-309, y-72, 8)--H
+	    elsif (x<321) then
+		return small_letter(x-315, y-72,5)--E
+	    elsif (x< 327)
+		return small_letter(x-321, y-71,4)--D
+ 		else 
+	   return '0';
+	end if
+ end function;
     function details(
         x           : integer range 0 to 84;
         y           : integer range 0 to 38;
@@ -1110,12 +1183,20 @@ begin
     green <= std_logic_vector(to_unsigned(g, 4));
     blue  <= std_logic_vector(to_unsigned(b, 4));
     -- The process that splits the screen in sections
-    process (x_pos, y_pos)
+    process (x_pos, y_pos, begin)
     begin
         if (x_pos < 0 or x_pos > 639 or y_pos < 0 or y_pos > 479) then
-            r <= 0;
-            g <= 0;
-            b <= 0;
+		if (begin_menu(x_pos, y_pos,'0')='1') then
+           	 r <= 0;
+           	 g <= 0;
+                 b <= 0;
+	    else
+		r<=15;
+		g<=15;
+		b<=15;
+	end if;
+	
+	   
         elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 10 and x_pos <= 109) then -- Player hand
             if (cards(x_pos - 10, y_pos - 362, 13, 3, 6, 2, 5) = '1') then
                 r <= 0;
