@@ -28,6 +28,7 @@ entity memory is
         card1_3     : out std_logic_vector(3 downto 0);
         card1_4     : out std_logic_vector(3 downto 0);
         card1_5     : out std_logic_vector(3 downto 0);
+        score1      : out std_logic_vector(4 downto 0);
         money1      : out std_logic_vector(10 downto 0);
         bid1        : out std_logic_vector(1 downto 0);
         split1      : out std_logic;
@@ -40,6 +41,7 @@ entity memory is
         card2_3     : out std_logic_vector(3 downto 0);
         card2_4     : out std_logic_vector(3 downto 0);
         card2_5     : out std_logic_vector(3 downto 0);
+        score2      : out std_logic_vector(4 downto 0);
         money2      : out std_logic_vector(10 downto 0);
         bid2        : out std_logic_vector(1 downto 0);
         split2      : out std_logic;
@@ -52,6 +54,7 @@ entity memory is
         card3_3     : out std_logic_vector(3 downto 0);
         card3_4     : out std_logic_vector(3 downto 0);
         card3_5     : out std_logic_vector(3 downto 0);
+        score3      : out std_logic_vector(4 downto 0);
         money3      : out std_logic_vector(10 downto 0);
         bid3        : out std_logic_vector(1 downto 0);
         split3      : out std_logic;
@@ -64,6 +67,7 @@ entity memory is
         card4_3     : out std_logic_vector(3 downto 0);
         card4_4     : out std_logic_vector(3 downto 0);
         card4_5     : out std_logic_vector(3 downto 0);
+        score4      : out std_logic_vector(4 downto 0);
         money4      : out std_logic_vector(10 downto 0);
         bid4        : out std_logic_vector(1 downto 0);
         split4      : out std_logic;
@@ -76,12 +80,14 @@ entity memory is
         card5_3 : out std_logic_vector(3 downto 0);
         card5_4 : out std_logic_vector(3 downto 0);
         card5_5 : out std_logic_vector(3 downto 0);
+        score5  : out std_logic_vector(4 downto 0);
 
         -- split
         card6_1 : out std_logic_vector(3 downto 0);
         card6_2 : out std_logic_vector(3 downto 0);
         card6_3 : out std_logic_vector(3 downto 0);
         card6_4 : out std_logic_vector(3 downto 0);
-        card6_5 : out std_logic_vector(3 downto 0)
+        card6_5 : out std_logic_vector(3 downto 0);
+        score6  : out std_logic_vector(4 downto 0)
     )
 end entity memory;
