@@ -28,6 +28,13 @@ component vga_driver_combined
 	        V_sync: out std_logic);
 end component;
 
+component top_entity_rcm
+    port(	clk : in std_logic;
+	 	reset : in std_logic;
+	 	request_card : in std_logic;
+	 	round_end : in std_logic;
+	 	random_card : out std_logic_vector(3 downto 0));
+
 component gpu_driver
     port(	h_pos : in std_logic_vector(9 downto 0);
 	        v_pos : in std_logic_vector(9 downto 0);
@@ -249,13 +256,15 @@ end component;
 	signal bid1_signal, bid1_signal_new, bid2_signal, bid2_signal_new, bid3_signal, bid3_signal_new, bid4_signal, bid4_signal_new : std_logic_vector(1 downto 0);
 	signal card1_1_signal, card1_2_signal, card1_3signal, card1_4_sigal, card1_5_signal, card2_1_signal, card2_2_signal, card2_3_signal, card2_4_signal, card2_5_signal, card3_1_signal, card3_2_signal, card3_3_signal, card3_4_signal, card3_5_signal, card4_1_signal, card4_2_signal, card4_3_signal, card4_4_signal, card4_5_signal, card5_1_signal, card5_2_signal, card5_3_signal, card5_4_signal, card5_5_signal : std_logic_vector(3 downto 0);
 	signal money1_signal, money2_signal, money3_signal, moneyd4_signal : std_logic_vector(10 downto 0);
+	signal split1_signal, split2_signal, split3_signal, split4_signal : std_logic;	 
 	signal player_signal : std_logic_vector(2 downto 0);
 	signal player_a_signal, player_b_signal, player_c_signal, player_d_signal : std_logic;
-	signal 
 	signal select_signal, left_signal, right_signal, H_sync_signal, V_sync_signal : std_logic;
 	signal x_pos_signal, y_pos_signal : std_logic_vector(9 downto 0);
 	signal red_signal, green_signal, blue_signal : std_logic_vector(3 downto 0);
-	signal split1_signal, split2_signal, split3_signal, split4_signal : std_logic;	 
+	signal random_card_signal, new_card_signal : std_logic_vector (3 downto 0);
+	signal request_card_signal, round_end_signal : std_logic;
+	
 begin
 	p1: memory 	port map(clk => clk, rst => reset, 
 				bid1 => bid1_signal, bid2 => bid2_signal, bid3 => bid3_signal, bid4 => bid4_signal, 
@@ -280,6 +289,7 @@ begin
 				Player1_Budget => money1_signal, Player2_Budget => money2_signal, Player3_Budget => money3_signal, Player4_Budget => money4_signal
 				N_Players => player_signal,
 				switch_select => select_signal, switch_left => left_signal, switch_right => right_signal,
+				random_card => random_card_signal, request_card => request_card_signal, round_end => round_end_signal,
 				 
 	p3: vga_driver_combined port map(clk => clk, reset => reset, x_pos => x_pos_signal, y_pos => y_pos_signal, H_sync => H_sync_signal, V_sync => V_sync_signal)
 
@@ -292,6 +302,8 @@ begin
 				player_a => player_a_signal, player_b => player_b_signal, player_c => player_c_signal,
 				money1 => money1_singal, money2 => money2_signal, money3 => money3_signal, money4 => money4_signal,
 				split1 => split1_signal, split2 => split2_signal, split3 => split3_signal, split4 => split4_signal,
+
+	p5: top_entity_rcm port map(clk => clk, reset => reset, request_card => request_card_signal, round_end => round_end_signal, random_card => random_card_signal,
 
         switch_select <= select_signal;
 	switch_right  <= right_signal;
