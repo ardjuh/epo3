@@ -545,7 +545,21 @@ begin
 						new_state <= player_action;
 				end if;
 		
-			when player_action =>									
+			when player_action =>
+				switch_select <= '0';	
+				switch_left <= '0';
+				switch_right <= '0';
+							
+				if (button = "100") then 
+					new_state <= sela;
+				elsif (button = "001") then 
+					new_state <= lefta;
+				elsif (button = "010") then 
+					new_state <= righta;
+				else  
+					new_state <= player_action;
+				end if;
+						
 				if ( choose_players = '1' ) then                              -- menu for choosing players --
 					if ( switch_left = '1' ) then
 						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 4 --
