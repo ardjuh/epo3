@@ -258,7 +258,7 @@ begin
 					end if; 
 				end if;
 					
-			----------------------------- checking actions available -------------------------------------	
+			----------------------------- checking actions available: scores of hands may be sent by mem, adjust accordingly -------------------------------------	
 					
 				even_money_selectable <= '0';
 				insurance_selectable <= '0';
@@ -564,7 +564,8 @@ begin
 				if ( choose_players = '1' ) then                              -- menu for choosing players --
 					if ( switch_left = '1' ) then
 						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 4 --
-							current_screen_position <= "100";    
+							current_screen_position <= "100"; 
+							new_state <= player_action;
 						else
 							current_screen_position <= current_screen_position - 1;
 							new_state <= player_action;
@@ -573,6 +574,7 @@ begin
 					elsif ( switch_right = '1' ) then
 						if ( current_screen_position = "100" ) then         -- if at option 4, right moves to option 1 --
 							current_screen_position <= "001";
+							new_state <= player_action;
 						else
 							current_screen_position <= current_screen_position + 1;
 							new_state <= player_action;
@@ -606,7 +608,8 @@ begin
 				elsif ( choose_bids = '1' ) then                              -- menu for choosing bids (near identical to choosing players) --
 					if ( switch_left = '1' ) then
 						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 4 --
-							current_screen_position <= "100";    
+							current_screen_position <= "100"; 
+							new_state <= player_action;
 						else
 							current_screen_position <= current_screen_position - 1;
 							new_state <= player_action;
@@ -615,12 +618,13 @@ begin
 					elsif ( switch_right = '1' ) then
 						if ( current_screen_position = "100" ) then         -- if at option 4, right moves to option 1 --
 							current_screen_position <= "001";
+							new_state <= player_action;
 						else
 							current_screen_position <= current_screen_position + 1;
 							new_state <= player_action;
 						end if;
 
-					elsif ( switch_select = '1' ) then         -- N player selection could be done straight away here? --
+					elsif ( switch_select = '1' ) then         
 						if ( Player_Turn_In = "001" ) then
 							if ( current_screen_position = "001" ) and ( unsigned(Player1_Budget) >= 2 ) then
 								Player1_Bid_New <= "00";
@@ -751,6 +755,7 @@ begin
 							if ( bid_successful = '1' ) then
 								bids_placed <= '1';                 -- sets player turn back to P1, bids placed=1 means the bid wont repeat after --
 								Player_Turn_New <= "001";
+								new_state <= game_setup;
 							end if;
 	
 				elsif ( choose_action = '1' ) then                 -- menu for choosing actions such as hit, hold etc --				
