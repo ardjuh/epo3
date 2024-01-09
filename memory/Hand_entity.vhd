@@ -11,5 +11,7 @@ entity hand is
         card2  : out std_logic_vector(3 downto 0);
         card3  : out std_logic_vector(3 downto 0);
         card4  : out std_logic_vector(3 downto 0);
-        card5  : out std_logic_vector(3 downto 0));
+        card5  : out std_logic_vector(3 downto 0);
+        score  : out std_logic_vector(4 downto 0) -- "11111" is BlackJack
+    );
 end hand;
