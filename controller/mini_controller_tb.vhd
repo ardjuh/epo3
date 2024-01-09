@@ -74,7 +74,7 @@ begin
 						'1' after 1500 ns, -- test if all 1
 						'0' after 1620 ns;
 
-lbl1: mini_con  port map( 					clk        		=>  clk,
+test: mini_con  port map( 					clk        		=>  clk,
                             					reset      		=>  reset,
                             					button_select  	=>  button_select,
                             					button_left 		=>  button_left,
@@ -84,5 +84,3 @@ lbl1: mini_con  port map( 					clk        		=>  clk,
 			    		switch_right 		=> switch_right
                            );
 end behaviour;
-
-
