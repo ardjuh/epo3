@@ -100,7 +100,7 @@ architecture behaviour of controller is
 				 );
 
 signal state, new_state: controller_state;
-signal bids_placed, require_card, card_received : std_logic;  
+signal bids_placed, bid_successful, require_card, card_received : std_logic;  
 signal first_card_deal, dealer_card_deal, second_card_deal : std_logic;
 
 signal even_money_selected, insurance_selected, split_selected, double_selected, hit_selected, hold_selected : std_logic;
@@ -152,6 +152,7 @@ begin
 				Receiving_Hand <= "000";
 				request_card <= '0';
 				round_end <= '0';
+				bid_successful <= '0';     
 
 				if ( N_Players = "000" ) then      -- player select condition --
 					-- draw_menu <= ?? --
@@ -601,28 +602,34 @@ begin
 
 					elsif ( switch_select = '1' ) then         -- N player selection could be done straight away here? --
 						if ( Player_Turn_In = "001" ) then
-							if ( current_screen_position = "001" ) then
+							if ( current_screen_position = "001" ) and ( unsigned(Player1_Budget) >= 2 ) then
 								Player1_Bid_New <= "00";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
 
-							elsif ( current_screen_position = "010" ) then
+							elsif ( current_screen_position = "010" ) and ( unsigned(Player1_Budget) >= 6 ) then
 								Player1_Bid_New <= "01";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
 
-							elsif ( current_screen_position = "011" ) then
+							elsif ( current_screen_position = "011" ) and ( unsigned(Player1_Budget) >= 10 ) then
 								Player1_Bid_New <= "10";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
 
-							elsif ( current_screen_position = "100" ) then
+							elsif ( current_screen_position = "100" ) and ( unsigned(Player1_Budget) >= 20 ) then
 								Player1_Bid_New <= "11";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
+							else
+								new_state <= player_action;
 							end if;
 
-							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) then
+							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
 								Player_Turn_New <= Player_Turn_In + 1;
 							else
 								bids_placed <= '1';
@@ -630,28 +637,32 @@ begin
 							end if;
 
 						elsif ( Player_Turn_In = "010" ) then
-							if ( current_screen_position = "001" ) then
+							if ( current_screen_position = "001" ) and ( unsigned(Player2_Budget) >= 2 ) then
 								Player2_Bid_New <= "00";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
 
-							elsif ( current_screen_position = "010" ) then
+							elsif ( current_screen_position = "010" ) and ( unsigned(Player2_Budget) >= 6 ) then
 								Player2_Bid_New <= "01";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
 
-							elsif ( current_screen_position = "011" ) then
+							elsif ( current_screen_position = "011" ) and ( unsigned(Player2_Budget) >= 10 ) then
 								Player2_Bid_New <= "10";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
 
-							elsif ( current_screen_position = "100" ) then
+							elsif ( current_screen_position = "100" ) and ( unsigned(Player2_Budget) >= 20 ) then
 								Player2_Bid_New <= "11";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
 							end if;
 
-							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) then
+							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
 								Player_Turn_New <= Player_Turn_In + 1;
 							else
 								bids_placed <= '1';
@@ -659,28 +670,32 @@ begin
 							end if;
 
 						elsif ( Player_Turn_In = "011" ) then
-							if ( current_screen_position = "001" ) then
+							if ( current_screen_position = "001" ) and ( unsigned(Player3_Budget) >= 2 ) then
 								Player3_Bid_New <= "00";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
 
-							elsif ( current_screen_position = "010" ) then
+							elsif ( current_screen_position = "010" ) and ( unsigned(Player3_Budget) >= 6 ) then
 								Player3_Bid_New <= "01";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
 
-							elsif ( current_screen_position = "011" ) then
+							elsif ( current_screen_position = "011" ) and ( unsigned(Player3_Budget) >= 10 ) then
 								Player3_Bid_New <= "10";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
 
-							elsif ( current_screen_position = "100" ) then
+							elsif ( current_screen_position = "100" ) and ( unsigned(Player3_Budget) >= 20 ) then
 								Player3_Bid_New <= "11";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
 							end if;
 
-							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) then
+							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
 								Player_Turn_New <= Player_Turn_In + 1;
 							else
 								bids_placed <= '1';
@@ -688,27 +703,34 @@ begin
 							end if;
 
 						elsif ( Player_Turn_In = "100" ) then
-							bids_placed <= '1';                 -- sets player turn back to P1, bids placed=1 means the bid wont repeat after --
-							Player_Turn_New <= "001";
 							if ( current_screen_position = "001" ) then
 								Player4_Bid_New <= "00";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
 
 							elsif ( current_screen_position = "010" ) then
 								Player4_Bid_New <= "01";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
 
 							elsif ( current_screen_position = "011" ) then
 								Player4_Bid_New <= "10";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
 
 							elsif ( current_screen_position = "100" ) then
 								Player4_Bid_New <= "11";
+								bid_successful <= '1';
 								enable <= '1';
 								new_state <= game_setup;
+							end if;
+
+							if ( bid_successful = '1' ) then
+								bids_placed <= '1';                 -- sets player turn back to P1, bids placed=1 means the bid wont repeat after --
+								Player_Turn_New <= "001";
 							end if;
 	
 				elsif ( choose_action = '1' ) then                 -- menu for choosing actions such as hit, hold etc --				
