@@ -85,8 +85,6 @@ entity controller is
 	insurance  : out std_logic;
 	split      : out std_logic;
 	double     : out std_logic;
-	hit 	   : out std_logic;
-	hold 	   : out std_logic;
 	);
 end controller;
 
@@ -96,7 +94,13 @@ architecture behaviour of controller is
 				   player_action,
 				   game_resolution,
 				   pending_card_a,
-				   pending_card_b
+				   pending_card_b,
+				   sela,
+				   selb,
+				   lefta,
+				   leftb,
+				   righta,
+				   rightb
 				 );
 
 signal state, new_state: controller_state;
