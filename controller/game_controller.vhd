@@ -129,7 +129,9 @@ begin
 	end process;
 
 	process (state, )
+	variable button : std_logic_vector (2 downto 0);
 	begin
+		
 		case state is
 			when reset_state =>
 				bids_placed <= '0';
