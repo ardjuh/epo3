@@ -4,7 +4,7 @@ use IEEE.numeric_std.all;
 
 entity controller is
 	port(	clk	: in  std_logic;
-		reset	: in  std_logic;
+		reset	: in  std_logic
 
 	Player_Turn_In	: in std_logic_vector (2 downto 0);
 	N_Players	: in std_logic_vector (2 downto 0);
@@ -580,13 +580,13 @@ begin
 						if ( unsigned(Reserve_Hand_Card_1) = 11 ) and ( Reserve_Hand_Card_2 /= "0000" ) then
 								new_state <= player_action;
 					
-						elsif ( unsigned( Reserve_Hand_Card_1 + Reserve_Hand_Card_2 + Reserve_Hand_Card_3 + Reserve_Hand_Card_4 + Reserve_Hand_Card_5 ) > 21) then
+						elsif ( unsigned(Reserve_Hand_Score) > 21) then
 							new_state <= player action;
 						
-						elsif ( unsigned( Reserve_Hand_Card_1 + Reserve_Hand_Card_2 + Reserve_Hand_Card_3 + Reserve_Hand_Card_4 + Reserve_Hand_Card_5 ) = 21) then
+						elsif ( unsigned(Reserve_Hand_Score) = 21) then
 							new_state <= player_action;
 
-						elsif ( unsigned( Reserve_Hand_Card_1 + Reserve_Hand_Card_2 + Reserve_Hand_Card_3 + Reserve_Hand_Card_4 + Reserve_Hand_Card_5 ) < 22 ) and ( Reserve_Hand_Card_5 /= "0000" ) then
+						elsif (unsigned(Reserve_Hand_Score) < 22 ) and ( Reserve_Hand_Card_5 /= "0000" ) then
 							new_state <= player_action;
 						
 						else
@@ -595,7 +595,7 @@ begin
 						end if;
 
 				elsif ( Player_Turn_In = "101" ) then
-					if ( unsigned( Dealer_Hand_Card_1 + Dealer_Hand_Card_2 + Dealer_Hand_Card_3 + Dealer_Hand_Card_4 + Dealer_Hand_Card_5 ) < 17) and ( Dealer_Hand_Card_5 = "0000" ) then
+					if ( unsigned(Dealer_Hand_Score) < 17) and ( Dealer_Hand_Card_5 = "0000" ) then
 							dealer_card_deal <= '1';
 							new_state <= game_resolution;
 					else
