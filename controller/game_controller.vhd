@@ -53,7 +53,7 @@ entity controller is
 	Dealer_Hand_Card_4	: in std_logic_vector (3 downto 0);
 	Dealer_Hand_Card_5	: in std_logic_vector (3 downto 0);
 
-	Reserve_Hand_Card_1	: in std_logic_vector (3 downto 0);	-- Reserve hand for Split. Only one player can split (low chance) --
+	Reserve_Hand_Card_1	: in std_logic_vector (3 downto 0);	-- Reserve hand for Split. Only one player can split (low chance of multiple splits) --
 	Reserve_Hand_Card_2	: in std_logic_vector (3 downto 0);
 	Reserve_Hand_Card_3	: in std_logic_vector (3 downto 0);
 	Reserve_Hand_Card_4	: in std_logic_vector (3 downto 0);
