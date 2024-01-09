@@ -164,16 +164,15 @@ begin
 				if ( N_Players = "000" ) then      -- player select condition --
 					choose_players <= '1';
 					new_state <= player_action;
-				else
-					choose_players <= '0';
-				end if;
 
-				if ( bids_placed = '0' and N_Players /= "000" ) then	 -- bidding screen condition--
+				elsif ( bids_placed = '0' and N_Players /= "000" ) then	 -- bidding screen condition--
 					choose_bids <= '1';
+					choose_players <= '0';
 					new_state <= player_action;
 				else
 					choose_bids <= '0';
 					choose_action <= '1';
+					new_state <= player_action;
 				end if;
 
 				-- Check whether starting cards have been dealt -- 
