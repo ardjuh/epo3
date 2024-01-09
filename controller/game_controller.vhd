@@ -13,10 +13,10 @@ entity controller is
 	button_left	: in  std_logic;						-- player inputs --
 	button_right	: in  std_logic;
 
-	Player1_Budget	: in  std_logic_vector (9 downto 0);	-- base budget is 100, score limit chosen as 1000 so 10 bits --
-	Player2_Budget	: in  std_logic_vector (9 downto 0);
-	Player3_Budget	: in  std_logic_vector (9 downto 0);  
-	Player4_Budget	: in  std_logic_vector (9 downto 0);
+	Player1_Budget	: in  std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 so 10 bits --
+	Player2_Budget	: in  std_logic_vector (10 downto 0);
+	Player3_Budget	: in  std_logic_vector (10 downto 0);  
+	Player4_Budget	: in  std_logic_vector (10 downto 0);
 
 	Player1_Bid	: in std_logic_vector (1 downto 0);		-- Bid and Budget required to determine if Insurance/Double are possible --
 	Player2_Bid	: in std_logic_vector (1 downto 0);		-- Value of Initial Bid = 2,6,10,20 -> 00,01,10,11 (Internal signal Bid_Value) --
@@ -128,7 +128,7 @@ begin
 		end if;
 	end process;
 
-	process (state, )
+	process (state, button_left, button_right, button_select, )
 	variable button : std_logic_vector (2 downto 0);
 	begin
 		button(0) := button_left;
