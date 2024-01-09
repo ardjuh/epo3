@@ -581,22 +581,22 @@ begin
 
 					elsif ( switch_select = '1' ) then        
 						if ( current_screen_position = "001" ) then
-							N_Players <= "001";
+							N_Players_New <= "001";
 							enable <= '1';
 							new_state <= game_setup;
 
 						elsif ( current_screen_position = "010" ) then
-							N_Players <= "010";
+							N_Players_New <= "010";
 							enable <= '1';
 							new_state <= game_setup;
 
 						elsif ( current_screen_position = "011" ) then
-							N_Players <= "011";
+							N_Players_New <= "011";
 							enable <= '1';
 							new_state <= game_setup;
 
 						elsif ( current_screen_position = "100" ) then
-							N_Players <= "100";
+							N_Players_New <= "100";
 							enable <= '1';
 							new_state <= game_setup;
 						else
