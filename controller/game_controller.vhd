@@ -131,7 +131,10 @@ begin
 	process (state, )
 	variable button : std_logic_vector (2 downto 0);
 	begin
-		
+		button(0) := button_left;
+		button(1) := button_right;
+		button(2) := button_select;
+
 		case state is
 			when reset_state =>
 				bids_placed <= '0';
