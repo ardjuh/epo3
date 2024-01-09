@@ -29,6 +29,7 @@ type mini_con_state is (
 	rightb,
 	reset_state,
 	player_action
+	game_resolution
 	);
 
 signal state, new_state : mini_con_state;
