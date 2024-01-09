@@ -9,9 +9,9 @@ entity controller is
 	Player_Turn_In	: in std_logic_vector (2 downto 0);
 	N_Players	: in std_logic_vector (2 downto 0);
 
-	switch_select	: in  std_logic;  
-	switch_left	: in  std_logic;						-- player inputs --
-	switch_right	: in  std_logic;
+	button_select	: in  std_logic;  
+	button_left	: in  std_logic;						-- player inputs --
+	button_right	: in  std_logic;
 
 	Player1_Budget	: in  std_logic_vector (9 downto 0);	-- base budget is 100, score limit chosen as 1000 so 10 bits --
 	Player2_Budget	: in  std_logic_vector (9 downto 0);
@@ -104,6 +104,8 @@ architecture behaviour of controller is
 				 );
 
 signal state, new_state: controller_state;
+signal switch_left, switch_right, switch_select : std_logic;
+
 signal bids_placed, bid_successful, require_card, card_received : std_logic;  
 signal first_card_deal, dealer_card_deal, second_card_deal : std_logic;
 
@@ -113,10 +115,6 @@ signal first_turn_over : std_logic;
 
 signal split_player : std_logic_vector (2 downto 0);  
 signal split_player_turn : std_logic;
-
-signal mem_screen_position_max, mem_screen_position : std_logic;
--- draw_menu signal needs to be held continously, thus remembered for all clock cycles --
-signal menu : std_logic_vector (? downto 0); 
 
 begin
 	process (clk)
@@ -1046,6 +1044,54 @@ begin
 				else
 					new_state <= game_resolution;
 				end if;
+
+			when sela => 
+				switch_select <= '1' ; 	
+				if  (button = "100") then 
+					new_state <= selb;
+				else 
+					new_state <= game_resolution; 
+				end if;
+					
+			when selb => 
+				switch_select <= '0' ; 	
+				if  (button = "100") then 
+					new_state <= game_resolution; 
+				else 
+					new_state <= selb;
+				end if;
+					
+			when lefta => 
+				switch_left <= '1' ;	
+				if  (button = "001") then 
+					new_state <= leftb;
+				else 
+					new_state <= player_action;
+				end if;
+					
+			when leftb =>
+				 switch_left <= '0';
+				if (button = "001") then 
+					new_state <= player_action;
+				else 
+					new_state <= leftb;
+				end if;
+					
+			when righta => 
+				switch_right <= '1' ;	
+				if (button = "010") then
+				 	new_state <= rightb;
+				else 
+					new_state <= player_action;
+				end if;
+					
+			when rightb => 
+				switch_right <= '0' ;
+				if (button = "010") then 
+					new_state <= player_action;
+				else 
+					new_state <= rightb;
+	        		end if;
             end case;
       end process;
 end architecture;
