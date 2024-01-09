@@ -13,7 +13,7 @@ entity controller is
 	button_left	: in  std_logic;						-- player inputs --
 	button_right	: in  std_logic;
 
-	Player1_Budget	: in  std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 so 10 bits --
+	Player1_Budget	: in  std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 so 11 bits --
 	Player2_Budget	: in  std_logic_vector (10 downto 0);
 	Player3_Budget	: in  std_logic_vector (10 downto 0);  
 	Player4_Budget	: in  std_logic_vector (10 downto 0);
@@ -67,10 +67,10 @@ entity controller is
 	draw_menu    : out std_logic_vector (? downto 0);		-- Comms with Graphics Driver --
 	menu_ready   : in std_logic;
 
-	Player1_Budget_New  : out  std_logic_vector (9 downto 0);-- base budget is 100, score limit chosen as 1000 so 10 bits --
-	Player2_Budget_New  : out  std_logic_vector (9 downto 0);
-	Player3_Budget_New  : out  std_logic_vector (9 downto 0);  
-	Player4_Budget_New  : out  std_logic_vector (9 downto 0);
+	Player1_Budget_New  : out  std_logic_vector (10 downto 0);-- base budget is 100, score limit chosen as 1000 so 11 bits --
+	Player2_Budget_New  : out  std_logic_vector (10 downto 0);
+	Player3_Budget_New  : out  std_logic_vector (10 downto 0);  
+	Player4_Budget_New  : out  std_logic_vector (10 downto 0);
 
 	Player1_Bid_New  : out std_logic_vector (1 downto 0);   -- 2,6,10,20 = 4 options so 2 bits --
 	Player2_Bid_New  : out std_logic_vector (1 downto 0);
