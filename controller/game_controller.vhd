@@ -173,6 +173,7 @@ begin
 					new_state <= player_action;
 				else
 					choose_bids <= '0';
+					choose_action <= '1';
 				end if;
 
 				-- Check whether starting cards have been dealt -- 
@@ -541,8 +542,9 @@ begin
 							dealer_card_deal <= '1';
 							new_state <= game_resolution;
 					else
-						--- score screen stuff ---
+						score_screen <= '1';
 						new_state <= player_action;
+					end if;
 				end if;
 		
 			when player_action =>
@@ -823,71 +825,7 @@ begin
 							reset <= '1';                                ---- reset here is akin to the game over option ----
 						end if;
 					
-			when game_resolution =>
-
-			        ------------------ bidding phase ---------------------
-				elsif (N_Players /= "000" and bids_placed = '0') then
-					if ( Player_Turn_In = "001" ) then            -- Player 1 Bid --
-						if (mem_screen_position = "000" ) then
-							Player1_Bid_New <= "00";
-						elsif (mem_screen_position "001" ) then
-							Player1_Bid_New <= "01";
-						elsif (mem_screen_position = "010" ) then
-							Player1_Bid_New <= "10";
-						elsif (mem_screen_position = "011" ) then
-							Player1_Bid_New  <= "11";
-						end if;  
-						if ( unsigned(N_Players) > unsigned(Player_Turn_In) + 1 ) then
-							Player_Turn_New <= "01"; 
-						else 
-							bids_placed <= '1';
-						end if;
-					elsif ( Player_Turn_In = "010" ) then           -- Player 2 Bid --
-						if (mem_screen_position = "000" ) then
-							Player2_Bid_New <= "00";
-						elsif (mem_screen_position "001" ) then
-							Player2_Bid_New <= "01";
-						elsif (mem_screen_position = "010" ) then
-							Player2_Bid_New <= "10";
-						elsif (mem_screen_position = "011" ) then
-							Player2_Bid_New  <= "11";
-						end if;
-						if ( unsigned(N_Players) > "010" ) then
-							Player_Turn_New <= "10"; 
-						else 
-							bids_placed <= '1';
-						end if;
-					elsif ( Player_Turn_In = "011" ) then           -- Player 3 Bid --
-						if (mem_screen_position = "000" ) then
-							Player3_Bid_New <= "00";
-						elsif (mem_screen_position "001" ) then
-							Player3_Bid_New <= "01";
-						elsif (mem_screen_position = "010" ) then
-							Player3_Bid_New <= "10";
-						elsif (mem_screen_position = "011" ) then
-							Player3_Bid_New  <= "11";
-						end if;  
-						if ( unsigned(N_Players) > "011" ) then
-							Player_Turn_New <= "11"; 
-						else 
-							bids_placed <= '1';
-						end if;
-					elsif ( Player_Turn_In = "100" ) then           -- Player 4 Bid --
-						if (mem_screen_position = "000" ) then
-							Player4_Bid_New <= "00";
-						elsif (mem_screen_position "001" ) then
-							Player4_Bid_New <= "01";
-						elsif (mem_screen_position = "010" ) then
-							Player4_Bid_New <= "10";
-						elsif (mem_screen_position = "011" ) then
-							Player4_Bid_New  <= "11";
-						end if;  
-						Player_Turn_New <= "00";
-						bids_placed <= '1';
-					end if;
-					new_state <= game_setup;
-				end if;
-							
+			when game_resolution =>		
 				----------------------- dealing phase ------------------------
 							
 				if (first_card_deal = '1' and random_card = "0000") then	
@@ -941,7 +879,6 @@ begin
 					
 					elsif ( split_player = Player_Turn_In ) and ( split_player_turn = '0' ) then
 						split_player_turn <= '1';
-					
 					else
 						Player_Turn_New <= Player_Turn_In + 1;
 					end if;
@@ -1024,7 +961,6 @@ begin
 							enable <= '1';
 							card_received <= '0';
 							new_state <= game_setup;
-
 						else
 							unsigned(Receiving_Hand) <= unsigned(Player_Turn_In);
 							enable <= '1';
@@ -1032,7 +968,7 @@ begin
 							new_state <= game_setup;
 						end if;
 					end if;
-				end if;		   					
+				end if;	
 					
 			when pending_card_a =>
 				request_card <= '1';
