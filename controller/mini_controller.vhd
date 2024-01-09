@@ -74,13 +74,13 @@ begin
 					if  (button = "100") then 
 						new_state <= selb;
 					else 
-						new_state <= player_action; -- must be changed to game_resolution when pasting into controller. Is now player_action for testbench purposes
+						new_state <= game_resolution; 
 					end if;
 					
 				when selb	=> 
 					switch_select <= '0' ; 	
 					if  (button = "100") then 
-						new_state <= player_action; -- must be changed to game_resolution when pasting into controller. Is now player_action for testbench purposes
+						new_state <= game_resolution; 
 					else 
 						new_state <= selb;
 					end if;
