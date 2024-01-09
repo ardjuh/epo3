@@ -6,9 +6,9 @@ use ieee.numeric_std.all;
 entity blackjack is
 	    port(clk    : in std_logic;
 	         reset  : in std_logic;
-	         sw_select : in std_logic; -- controller
-	         sw_left   : in std_logic; -- controller
-	         sw_right  : in std_logic; -- controller
+	         switch_select : in std_logic; -- controller
+	         switch_left   : in std_logic; -- controller
+	         switch_right  : in std_logic; -- controller
 	         red    : out std_logic_vector(3 downto 0);
 	         green  : out std_logic_vector(3 downto 0);
 	         blue   : out std_logic_vector(3 downto 0);
@@ -18,8 +18,63 @@ entity blackjack is
 end blackjack;
 
 architecture behavioral of blackjack is
+
+component vga_driver_combined
+    port(       clk : in std_logic;
+	        reset: in std_logic;
+	        x_pos: out std_logic_vector (9 downto 0);
+	        y_pos: out std_logic_vector (9 downto 0);
+	        H_sync: out std_logic;
+	        V_sync: out std_logic);
+end component;
+
+component gpu_driver
+    port(	h_pos : in std_logic_vector(9 downto 0);
+	        v_pos : in std_logic_vector(9 downto 0);
+	        red   : out std_logic_vector(3 downto 0);
+	        green : out std_logic_vector(3 downto 0);
+	        blue  : out std_logic_vector(3 downto 0);
+	
+	        player : in std_logic_vector (1 downto 0);
+	
+	        player_a : in std_logic;
+	        card1_1  : in std_logic_vector (3 downto 0);
+	        card1_2  : in std_logic_vector (3 downto 0);
+	        card1_3  : in std_logic_vector (3 downto 0);
+	        card1_4  : in std_logic_vector (3 downto 0);
+	        card1_5  : in std_logic_vector (3 downto 0);
+	        money1   : in std_logic_vector (10 downto 0);
+	        split1   : in std_logic;
+	
+	        player_b : in std_logic;
+	        card2_1  : in std_logic_vector (3 downto 0);
+	        card2_2  : in std_logic_vector (3 downto 0);
+	        card2_3  : in std_logic_vector (3 downto 0);
+	        card2_4  : in std_logic_vector (3 downto 0);
+	        card2_5  : in std_logic_vector (3 downto 0);
+	        money2   : in std_logic_vector (10 downto 0);
+	        split2   : in std_logic;
+	
+	        player_c : in std_logic;
+	        card3_1  : in std_logic_vector (3 downto 0);
+	        card3_2  : in std_logic_vector (3 downto 0);
+	        card3_3  : in std_logic_vector (3 downto 0);
+	        card3_4  : in std_logic_vector (3 downto 0);
+	        card3_5  : in std_logic_vector (3 downto 0);
+	        money3   : in std_logic_vector (10 downto 0);
+	        split3   : in std_logic;
+	
+	        player_d : in std_logic;
+	        card4_1  : in std_logic_vector (3 downto 0);
+	        card4_2  : in std_logic_vector (3 downto 0);
+	        card4_3  : in std_logic_vector (3 downto 0);
+	        card4_4  : in std_logic_vector (3 downto 0);
+	        card4_5  : in std_logic_vector (3 downto 0);
+	        money4   : in std_logic_vector (10 downto 0);
+	        split4   : in std_logic
+	    );     
        
-  component controller
+component controller
     port( 	clk  : in std_logic;
           	reset: in std_logic;
                 Player_Turn_In  : in std_logic_vector (2 downto 0);
@@ -103,7 +158,8 @@ architecture behavioral of blackjack is
         	hit 	   : out std_logic;
         	hold 	   : out std_logic;
         	);
-   end component;
+end component;
+		 
          
 component memory 
   port   (
@@ -186,28 +242,36 @@ component memory
 	        card6_2 : out std_logic_vector(3 downto 0);
 	        card6_3 : out std_logic_vector(3 downto 0);
 	        card6_4 : out std_logic_vector(3 downto 0);
-	        card6_5 : out std_logic_vector(3 downto 0)
-	    )
-	end memory;
-	signal bid1_signal, bid2_signal, bid3_signal, bid4_signal : std_logic_vector(1 downto 0);
+	        card6_5 : out std_logic_vector(3 downto 0));
+	    
+end component;
+		 
+	signal bid1_signal, bid1_signal_new, bid2_signal, bid2_signal_new, bid3_signal, bid3_signal_new, bid4_signal, bid4_signal_new : std_logic_vector(1 downto 0);
 	signal card1_1_signal, card1_2_signal, card1_3signal, card1_4_sigal, card1_5_signal, card2_1_signal, card2_2_signal, card2_3_signal, card2_4_signal, card2_5_signal, card3_1_signal, card3_2_signal, card3_3_signal, card3_4_signal, card3_5_signal, card4_1_signal, card4_2_signal, card4_3_signal, card4_4_signal, card4_5_signal, card5_1_signal, card5_2_signal, card5_3_signal, card5_4_signal, card5_5_signal : std_logic_vector(3 downto 0);
 	signal money1_signal, money2_signal, money3_signal, moneyd4_signal : std_logic_vector(10 downto 0);
 	signal player_signal : std_logic_vector(2 downto 0);
-	signal select_signal, left_signal, right_signal : std_logic;
-		 
+	signal player_a_signal, player_b_signal, player_c_signal, player_d_signal : std_logic;
+	signal 
+	signal select_signal, left_signal, right_signal, H_sync_signal, V_sync_signal : std_logic;
+	signal x_pos_signal, y_pos_signal : std_logic_vector(9 downto 0);
+	signal red_signal, green_signal, blue_signal : std_logic_vector(3 downto 0);
+	signal split1_signal, split2_signal, split3_signal, split4_signal : std_logic;	 
 begin
 	p1: memory 	port map(clk => clk, rst => reset, 
 				bid1 => bid1_signal, bid2 => bid2_signal, bid3 => bid3_signal, bid4 => bid4_signal, 
+				split1 => split1_signal, split2 => split2_signal, split3 => split3_signal, split4 => split4_signal,
+				money1 => money1_singal, money2 => money2_signal, money3 => money3_signal, money4 => money4_signal,
 			    	card1_1 => card1_1_signal, card1_2 => card1_2_signal, card1_3 => card1_3_signal, card1_4 => card1_4_signal, card1_5 => card1_5_signal,
 			    	card2_1 => card2_1_signal, card2_2 => card2_2_signal, card2_3 => card2_3_signal, card2_4 => card2_4_signal, card2_5 => card2_5_signal,
 			    	card3_1 => card3_1_signal, card3_2 => card3_2_signal, card3_3 => card3_3_signal, card3_4 => card3_4_signal, card3_5 => card3_5_signal,
 			    	card4_1 => card4_1_signal, card4_2 => card4_2_signal, card4_3 => card4_3_signal, card4_4 => card4_4_signal, card4_5 => card4_5_signal,
 			    	card5_1 => card5_1_signal, card5_2 => card5_2_signal, card5_3 => card5_3_signal, card5_4 => card5_4_signal, card5_5 => card5_5_signal,
-				money1 => money1_singal, money2 => money2_signal, money3 => money3_signal, money4 => money4_signal,
 				player_out => player_signal,
+				player_a => player_a_signal, player_b => player_b_signal, player_c => player_c_signal,
 
 	p2: controller 	port map(clk => clk, reset => reset, 
 				Player1_Bid => bid1_signal, Player2_Bid => bid2_signal, Player3_Bid => bid3_signal, Player4_Bid => bid4_signal, 
+				Player1_Bid_New => bid1_signal_new, Player2_Bid_New => bid2_signal_new, Player3_Bid_New => bid3_signal_new, Player4_Bid_New => bid4_signal_new,
 				Player1_Hand_Card_1 => card1_1_signal, Player1_Hand_Card_2 => card1_2_signal, Player1_Hand_Card_3 => card1_3_signal, Player1_Hand_Card_4 => card1_4_signal, Player1_Hand_Card_5 => card1_5_signal,
 				Player2_Hand_Card_1 => card2_1_signal, Player2_Hand_Card_2 => card2_2_signal, Player2_Hand_Card_3 => card2_3_signal, Player2_Hand_Card_4 => card2_4_signal, Player2_Hand_Card_5 => card2_5_signal,
 				Player3_Hand_Card_1 => card3_1_signal, Player3_Hand_Card_2 => card3_2_signal, Player3_Hand_Card_3 => card3_3_signal, Player3_Hand_Card_4 => card3_4_signal, Player3_Hand_Card_5 => card3_5_signal,
@@ -215,8 +279,27 @@ begin
 				Dealer_Hand_Card_1 => card5_1_signal, Dealer_Hand_Card_2 => card5_2_signal, Dealer_Hand_Card_3 => card5_3_signal, Dealer_Hand_Card_4 => card5_4_signal, Dealer_Hand_Card_5 => card5_5_signal,
 				Player1_Budget => money1_signal, Player2_Budget => money2_signal, Player3_Budget => money3_signal, Player4_Budget => money4_signal
 				N_Players => player_signal,
-				switch_select => select_signal, switch_left => left_signal, switch_right => right_signal
+				switch_select => select_signal, switch_left => left_signal, switch_right => right_signal,
+				 
+	p3: vga_driver_combined port map(clk => clk, reset => reset, x_pos => x_pos_signal, y_pos => y_pos_signal, H_sync => H_sync_signal, V_sync => V_sync_signal)
 
-         sw_select <= select_signal;
-	 sw_right  <= right_signal;
-	 sw_left   <= left_signal;
+	p4: gpu_driver port map(h_pos => x_pos_signal, v_pos => y_pos_sinal,
+				red => red_signal, green => green_signal, blue => blue_signal,
+				card1_1 => card1_1_signal, card1_2 => card1_2_signal, card1_3 => card1_3_signal, card1_4 => card1_4_signal, card1_5 => card1_5_signal,
+			    	card2_1 => card2_1_signal, card2_2 => card2_2_signal, card2_3 => card2_3_signal, card2_4 => card2_4_signal, card2_5 => card2_5_signal,
+			    	card3_1 => card3_1_signal, card3_2 => card3_2_signal, card3_3 => card3_3_signal, card3_4 => card3_4_signal, card3_5 => card3_5_signal,
+			    	card4_1 => card4_1_signal, card4_2 => card4_2_signal, card4_3 => card4_3_signal, card4_4 => card4_4_signal, card4_5 => card4_5_signal,
+				player_a => player_a_signal, player_b => player_b_signal, player_c => player_c_signal,
+				money1 => money1_singal, money2 => money2_signal, money3 => money3_signal, money4 => money4_signal,
+				split1 => split1_signal, split2 => split2_signal, split3 => split3_signal, split4 => split4_signal,
+
+        switch_select <= select_signal;
+	switch_right  <= right_signal;
+	switch_left   <= left_signal;
+	
+	H_sync <= H_sync_signal;
+	V_sync <= V_sync_signal;
+
+	red <= red_signal;
+	green <= green_signal;
+	blue <= blue_signal;
