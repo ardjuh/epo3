@@ -751,14 +751,29 @@ begin
 						end if;
 
 					elsif ( switch_select = '1' ) then  
-						if ( current_screen_position = "001" ) then
+						if ( current_screen_position = "001" ) and ( hold_selectable = '1' ) then
+							hold_selected <= '1';
+							new_state <= game_resolution;
+
+						elsif ( current_screen_position = "010" ) and ( hit_selectable = '1' ) then
 							hit_selected <= '1';
 							new_state <= game_resolution;
 
-						elsif ( current_screen_position = "010" ) then
-							hold_selected <= '1';
-			
-				-------------- etc etc, one for each action. No discussion with graphics needed for this ------------
+						elsif ( current_screen_position = "011" ) and ( double_selectable = '1' ) then
+							double_selected <= '1';
+							new_state <= game_resolution;
+
+						elsif ( current_screen_position = "100" ) and ( split_selectable = '1' ) then
+							split_selected <= '1';
+							new_state <= game_resolution;
+
+						elsif ( current_screen_position = "101" ) and ( insurance_selectable = '1' ) then
+							insurance_selected <= '1';
+							new_state <= game_resolution;
+
+						elsif ( current_screen_position = "110" ) and ( even_money_selectable = '1' ) then
+							even_money_selected <= '1';
+							new_state <= game_resolution;
 						else
 							new_state <= player_action;
 						end if;
