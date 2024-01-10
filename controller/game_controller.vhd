@@ -4,14 +4,14 @@ use IEEE.numeric_std.all;
 
 entity controller is
 	port(	clk	: in  std_logic;
-		reset	: in  std_logic
+		reset	: in  std_logic;
 
-	Player_Turn_In	: in std_logic_vector (2 downto 0);
-	N_Players	: in std_logic_vector (2 downto 0);
+	Player_Turn_In		: in std_logic_vector (2 downto 0);
+	N_Players		: in std_logic_vector (2 downto 0);
 
-	button_select	: in  std_logic;  
-	button_left	: in  std_logic;						-- player inputs --
-	button_right	: in  std_logic;
+	button_select		: in  std_logic;  
+	button_left		: in  std_logic;						-- player inputs --
+	button_right		: in  std_logic;
 
 	Player1_Budget	: in  std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 so 11 bits --
 	Player2_Budget	: in  std_logic_vector (10 downto 0);
@@ -28,49 +28,50 @@ entity controller is
 	Player1_Hand_Card_3	: in std_logic_vector (3 downto 0);
 	Player1_Hand_Card_4	: in std_logic_vector (3 downto 0);
 	Player1_Hand_Card_5	: in std_logic_vector (3 downto 0);
-	Player1_Hand_Score      : in std_logic_vector (5 downto 0);     -- Player can have 20 and draw a 10, so 30 points total possible --
+	Player1_Hand_Score  : in std_logic_vector (5 downto 0);     -- Player can have 20 and draw a 10, so 30 points total possible --
 
 	Player2_Hand_Card_1	: in std_logic_vector (3 downto 0);
 	Player2_Hand_Card_2	: in std_logic_vector (3 downto 0);
 	Player2_Hand_Card_3	: in std_logic_vector (3 downto 0);
 	Player2_Hand_Card_4	: in std_logic_vector (3 downto 0);   
 	Player2_Hand_Card_5	: in std_logic_vector (3 downto 0);
-	Player2_Hand_Score      : in std_logic_vector (5 downto 0);
+	Player2_Hand_Score  : in std_logic_vector (5 downto 0);
 
 	Player3_Hand_Card_1	: in std_logic_vector (3 downto 0);
 	Player3_Hand_Card_2	: in std_logic_vector (3 downto 0);
 	Player3_Hand_Card_3	: in std_logic_vector (3 downto 0);   
 	Player3_Hand_Card_4	: in std_logic_vector (3 downto 0);
 	Player3_Hand_Card_5	: in std_logic_vector (3 downto 0);
-	Player3_Hand_Score      : in std_logic_vector (5 downto 0);
+	Player3_Hand_Score  : in std_logic_vector (5 downto 0);
 
 	Player4_Hand_Card_1	: in std_logic_vector (3 downto 0);
 	Player4_Hand_Card_2	: in std_logic_vector (3 downto 0);
 	Player4_Hand_Card_3	: in std_logic_vector (3 downto 0);
 	Player4_Hand_Card_4	: in std_logic_vector (3 downto 0);
 	Player4_Hand_Card_5	: in std_logic_vector (3 downto 0);
-	Player4_Hand_Score      : in std_logic_vector (5 downto 0);
+	Player4_Hand_Score  : in std_logic_vector (5 downto 0);
 
 	Dealer_Hand_Card_1	: in std_logic_vector (3 downto 0);
 	Dealer_Hand_Card_2	: in std_logic_vector (3 downto 0);
 	Dealer_Hand_Card_3	: in std_logic_vector (3 downto 0);
 	Dealer_Hand_Card_4	: in std_logic_vector (3 downto 0);
 	Dealer_Hand_Card_5	: in std_logic_vector (3 downto 0);
-	Dealer_Hand_Score      : in std_logic_vector (5 downto 0);
+	Dealer_Hand_Score  : in std_logic_vector (5 downto 0);
 
 	Reserve_Hand_Card_1	: in std_logic_vector (3 downto 0);	-- Reserve hand for Split. Only one player can split (low chance of multiple splits) --
 	Reserve_Hand_Card_2	: in std_logic_vector (3 downto 0);
 	Reserve_Hand_Card_3	: in std_logic_vector (3 downto 0);
 	Reserve_Hand_Card_4	: in std_logic_vector (3 downto 0);
 	Reserve_Hand_Card_5	: in std_logic_vector (3 downto 0);
-	Reserve_Hand_Score      : in std_logic_vector (5 downto 0);
+	Reserve_Hand_Score  : in std_logic_vector (5 downto 0);
 
 	random_card  : in  std_logic_vector (3 downto 0);		-- Comms with RNG --
 	request_card : out std_logic;                         
 	round_end    : out std_logic;
 	new_card     : out std_logic_vector (3 downto 0);   -- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 
-	draw_menu    : out std_logic_vector (? downto 0);		-- Comms with Graphics Driver: needs to be altered --
+	screen_type   : out std_logic_vector(2 downto 0);		-- Comms with Graphics Driver: needs to be altered --
+	
 	menu_ready   : in std_logic;
 
 	Player1_Budget_New  : out  std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 so 11 bits --
@@ -92,8 +93,12 @@ entity controller is
 	insurance  : out std_logic;
 	split      : out std_logic;
 	double     : out std_logic;
+
+	cursor_position : out std_logic_vector(2 downto 0);
+	global_reset : out std_logic
 	);
 end controller;
+
 
 architecture behaviour of controller is
 	type controller_state is ( reset_state,
@@ -124,6 +129,10 @@ signal first_turn_over : std_logic;
 signal split_player : std_logic_vector (2 downto 0);  
 signal split_player_turn : std_logic;
 
+signal start_screen, choose_players, choose_bids, choose_action, score_screen : std_logic;
+
+signal current_screen_position : std_logic_vector(2 downto 0);
+
 begin
 	process (clk)
 	begin
@@ -136,7 +145,16 @@ begin
 		end if;
 	end process;
 
-	process (state, button_left, button_right, button_select, )
+	process (state, button_left, button_right, button_select, switch_left, switch_right, switch_select, N_PLayers, bids_placed, 
+		Player1_Hand_Card_1, Player1_Hand_Card_2, Player1_Hand_Card_3, Player1_Hand_Card_4, Player1_Hand_Card_5,
+		Dealer_Hand_Card_1, Dealer_Hand_Card_2, Dealer_Hand_Card_3, Dealer_Hand_Card_4, Dealer_Hand_Card_5,
+		Player2_Hand_Card_1, Player2_Hand_Card_2, Player2_Hand_Card_3, Player2_Hand_Card_4, Player2_Hand_Card_5,
+PLayer_Turn_In  )
+
+
+
+
+
 	variable button : std_logic_vector (2 downto 0);
 	begin
 		button(0) := button_left;
@@ -200,7 +218,7 @@ begin
 				card_received <= '0';
 				split_player <= "000";
 				split_player_turn <= '0';
-				current_screen_position <= "100";
+				current_screen_position <= "001";
 
 				start_screen <= '1';
 				if ( switch_select = '1' ) then
@@ -328,14 +346,14 @@ begin
 				if ( Player_Turn_In = "001" ) and ( split_player_turn = '0' ) then
 					if ( first_turn_over = '0' ) then
 						if ( unsigned(Player1_Hand_Score) > 21) then
-							new_state <= player action;
+							new_state <= player_action;
 		
 						elsif ( Player1_Hand_Card_2 /= "0000" ) and ( Player1_Hand_Card_3 = "0000" ) then
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player1_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
 								-- draw even money pop up --
 					
-							elsif ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player1_Budget) >= 0.5 * unsigned(Player1_Bid_Value) )  then 
+							elsif ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player1_Budget) >= ( unsigned(Player1_Bid_Value) /2) )  then 
 								insurance_selectable <= '1';
 								-- draw insurance menu --
 
@@ -362,13 +380,13 @@ begin
 						
 							else
 								hit_selectable <= '1';
-								new_state <= player_actton;
+								new_state <= player_action;
 							end if;
 						end if;	
 							
 					elsif ( first_turn_over = '1' ) then
 						if ( unsigned(Player1_Hand_Score) > 21) then
-							new_state <= player action;
+							new_state <= player_action;
 						
 						elsif ( unsigned(split_player) = unsigned(Player_Turn_In) ) and ( split_player_turn = '0' ) then       -------------------- look at split player in a sec --------------------
 							if ( unsigned(Player1_Hand_Card_1) = 11 ) and ( Player1_Hand_Card_2 /= "0000" ) then        ------ inquire on seeing if Ace (signal?) ------
@@ -390,7 +408,7 @@ begin
 				elsif ( Player_Turn_In = "010" ) and ( split_player_turn = '0' ) then
 					if ( first_turn_over = '0' ) then
 						if ( unsigned(Player2_Hand_Score) > 21) then
-								new_state <= player action;
+								new_state <= player_action;
 					
 						elsif ( Player2_Hand_Card_2 /= "0000" ) and ( Player2_Hand_Card_3 = "0000" ) then
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player2_Hand_Score) = 21 ) then
@@ -398,12 +416,12 @@ begin
 								new_state <= player_action;
 								-- draw even money pop up --
 					
-							elsif ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player2_Budget) >= 0.5 * unsigned(Player2_Bid_Value) ) then 
+							elsif ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player2_Budget) >= (unsigned(Player2_Bid_Value)/2) ) then 
 								insurance_selectable <= '1';
 								new_state <= player_action;
 								-- draw insurance menu --
 
-							elsif ( unsigned(Player2_Hand_Score) ) and ( unsigned(Player2_Budget) >= unsigned(Player2_Bid_Value) ) then 
+							elsif ( unsigned(Player2_Hand_Card_1) = unsigned(Player2_Hand_Card_2)) and ( unsigned(Player2_Budget) >= unsigned(Player2_Bid_Value) ) then 
 								split_selectable <= '1';
 
 							elsif ( unsigned(Player2_Budget) >= unsigned(Player2_Bid_Value) ) and ( unsigned(Player2_Hand_Score) < 21 ) then  
@@ -426,13 +444,13 @@ begin
 
 							else
 								hit_selectable <= '1';
-								new_state <= player_actton;
+								new_state <= player_action;
 							end if;
 						end if;
 
 					elsif ( first_turn_over = '1' ) then
 						if ( unsigned(Player2_Hand_Score) > 21) then
-								new_state <= player action;
+								new_state <= player_action;
 
 						elsif ( unsigned(split_player) = unsigned(Player_Turn_In) ) and ( split_player_turn = '0' ) then
 							if ( unsigned(Player2_Hand_Card_1) = 11 ) and ( Player2_Hand_Card_2 /= "0000" ) then
@@ -453,18 +471,18 @@ begin
 				elsif ( Player_Turn_In = "011" ) and ( split_player_turn = '0' ) then
 					if ( first_turn_over = '0' ) then
 						if ( unsigned(Player3_Hand_Score) > 21) then
-								new_state <= player action;
+								new_state <= player_action;
 					
 						elsif ( Player3_Hand_Card_2 /= "0000" ) and ( Player3_Hand_Card_3 = "0000" ) then
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player3_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
 								-- draw even money pop up --
 					
-							elsif ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player3_Budget) >= 0.5 * unsigned(Player3_Bid_Value) ) then 
+							elsif ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player3_Budget) >= (unsigned(Player3_Bid_Value)/2) ) then 
 								insurance_selectable <= '1';
 								-- draw insurance menu --
 
-							elsif ( unsigned(Player3_Hand_Card_1) = unsigned(Player_Hand3_Card_2) ) and ( unsigned(Player3_Budget) >= unsigned(Player3_Bid_Value) ) then 
+							elsif ( unsigned(Player3_Hand_Card_1) = unsigned(Player3_Hand_Card_2) ) and ( unsigned(Player3_Budget) >= unsigned(Player3_Bid_Value) ) then 
 								split_selectable <= '1';
 
 							elsif ( unsigned(Player3_Budget) >= unsigned(Player3_Bid_Value) ) and ( unsigned(Player3_Hand_Score) < 21 ) then  
@@ -487,13 +505,13 @@ begin
 
 							else
 								hit_selectable <= '1';
-								new_state <= player_actton;
+								new_state <= player_action;
 							end if;
 						end if;
 
 					elsif ( first_turn_over = '1' ) then
 						if ( unsigned(Player3_Hand_Score) > 21) then
-								new_state <= player action;
+								new_state <= player_action;
 
 						elsif ( unsigned(split_player) = unsigned(Player_Turn_In) ) and ( split_player_turn = '0' ) then
 							if ( unsigned(Player3_Hand_Card_1) = 11 ) and ( Player3_Hand_Card_2 /= "0000" ) then
@@ -514,14 +532,14 @@ begin
 				elsif ( Player_Turn_In = "100" ) and ( split_player_turn = '0' ) then
 					if ( first_turn_over = '0' ) then
 						if ( unsigned(Player4_Hand_Score) > 21) then
-								new_state <= player action;
+								new_state <= player_action;
 					
 						elsif ( Player4_Hand_Card_2 /= "0000" ) and ( Player4_Hand_Card_3 = "0000" ) then
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player4_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
 								-- draw even money pop up --
 					
-							elsif ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player4_Budget) >= 0.5 * unsigned(Player4_Bid_Value)* ) then 
+							elsif ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player4_Budget) >= ( unsigned(Player4_Bid_Value)/2) ) then 
 								insurance_selectable <= '1';
 								-- draw insurance menu --
 
@@ -543,7 +561,7 @@ begin
 							if ( unsigned(Player4_Hand_Score) = 21) then
 								new_state <= player_action;
 
-							elsif ( unsigned(Player4_Hand_Card_1) = 11 ) and ( Player4_Hand_Card_2 /= "0000" ) then
+							elsif ( unsigned(Player4_Hand_Card_1) = 11 ) and ( Reserve_Hand_Card_2 /= "0000" ) then
 								new_state <= player_action;
 
 							elsif ( unsigned(Player4_Hand_Score) < 22 ) and ( Player4_Hand_Card_5 /= "0000" ) then
@@ -551,13 +569,13 @@ begin
 						
 							else
 								hit_selectable <= '1';
-								new_state <= player_actton;
+								new_state <= player_action;
 							end if;
 						end if;
 
 					elsif ( first_turn_over = '1' ) then
 						if ( unsigned(Player4_Hand_Score) > 21) then
-								new_state <= player action;
+								new_state <= player_action;
 
 						elsif ( unsigned(split_player) = unsigned(Player_Turn_In) ) and ( split_player_turn = '0' ) then
 							if ( unsigned(Player4_Hand_Card_1) = 11 ) and ( Player4_Hand_Card_2 /= "0000" ) then
@@ -577,11 +595,11 @@ begin
 						
 
 				elsif ( unsigned(split_player) = unsigned(Player_Turn_In) ) and ( split_player_turn = '1' ) then
-						if ( unsigned(Reserve_Hand_Card_1) = 1 ) and ( Reserve_Hand_Card_2 /= "0000" ) then
+						if ( unsigned(Reserve_Hand_Card_1) = 11 ) and ( Reserve_Hand_Card_2 /= "0000" ) then
 								new_state <= player_action;
 					
 						elsif ( unsigned(Reserve_Hand_Score) > 21) then
-							new_state <= player action;
+							new_state <= player_action;
 						
 						elsif ( unsigned(Reserve_Hand_Score) = 21) then
 							new_state <= player_action;
@@ -625,7 +643,7 @@ begin
 							current_screen_position <= "100"; 
 							new_state <= player_action;
 						else
-							current_screen_position <= current_screen_position - 1;
+							current_screen_position <= std_logic_vector(unsigned(current_screen_position) - 1);
 							new_state <= player_action;
 						end if;
 		
@@ -634,7 +652,7 @@ begin
 							current_screen_position <= "001";
 							new_state <= player_action;
 						else
-							current_screen_position <= current_screen_position + 1;
+							current_screen_position <= std_logic_vector(unsigned(current_screen_position) + 1);
 							new_state <= player_action;
 						end if;
 
@@ -669,7 +687,7 @@ begin
 							current_screen_position <= "100"; 
 							new_state <= player_action;
 						else
-							current_screen_position <= current_screen_position - 1;
+							current_screen_position <= std_logic_vector(unsigned(current_screen_position) - 1);
 							new_state <= player_action;
 						end if;
 		
@@ -678,7 +696,7 @@ begin
 							current_screen_position <= "001";
 							new_state <= player_action;
 						else
-							current_screen_position <= current_screen_position + 1;
+							current_screen_position <=  std_logic_vector(unsigned(current_screen_position) + 1);
 							new_state <= player_action;
 						end if;
 
@@ -712,7 +730,7 @@ begin
 							end if;
 
 							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
-								Player_Turn_New <= Player_Turn_In + 1;
+								Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
 							else
 								bids_placed <= '1';
 								Player_Turn_New <= "001";
@@ -745,7 +763,7 @@ begin
 							end if;
 
 							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
-								Player_Turn_New <= Player_Turn_In + 1;
+								Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
 							else
 								bids_placed <= '1';
 								Player_Turn_New <= "001";
@@ -778,7 +796,7 @@ begin
 							end if;
 
 							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
-								Player_Turn_New <= Player_Turn_In + 1;
+								Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
 							else
 								bids_placed <= '1';
 								Player_Turn_New <= "001";
@@ -815,13 +833,13 @@ begin
 								Player_Turn_New <= "001";
 								new_state <= game_setup;
 							end if;
-	
+						end if;
 				elsif ( choose_action = '1' ) then                 -- menu for choosing actions such as hit, hold etc --				
 					if ( switch_left = '1' ) then
 						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 6 --
 							current_screen_position <= "110";    
 						else
-							current_screen_position <= current_screen_position - 1;
+							current_screen_position <= std_logic_vector(unsigned(current_screen_position) - 1);
 							new_state <= player_action;
 						end if;
 		
@@ -829,7 +847,7 @@ begin
 						if ( current_screen_position = "110" ) then         -- if at option 6, right moves to option 1 --
 							current_screen_position <= "001";
 						else
-							current_screen_position <= current_screen_position + 1;
+							current_screen_position <=  std_logic_vector(unsigned(current_screen_position) + 1);
 							new_state <= player_action;
 						end if;
 
@@ -860,13 +878,14 @@ begin
 						else
 							new_state <= player_action;
 						end if;
+					end if;
 
 				elsif ( score_screen = '1' ) then 
 					if ( switch_left = '1' ) then
 						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 2 --
 							current_screen_position <= "010";    
 						else
-							current_screen_position <= current_screen_position - 1;
+							current_screen_position <= std_logic_vector(unsigned(current_screen_position) - 1);
 							new_state <= player_action;
 						end if;
 		
@@ -874,7 +893,7 @@ begin
 						if ( current_screen_position = "010" ) then         -- if at option 2, right moves to option 1 --
 							current_screen_position <= "001";
 						else
-							current_screen_position <= current_screen_position + 1;
+							current_screen_position <= std_logic_vector(unsigned(current_screen_position) + 1);
 							new_state <= player_action;
 						end if;
 
@@ -884,8 +903,11 @@ begin
 							new_state <= game_resolution;
 
 						elsif ( current_screen_position = "010" ) then
-							reset <= '1';                                ---- reset here is akin to the game over option ----
+							global_reset <= '1';                                ---- reset send to all modules ----
+							new_state <= reset_state;
 						end if;
+					end if;
+				end if;
 					
 			when game_resolution =>		
 				----------------------- dealing phase ------------------------
