@@ -87,5 +87,5 @@ entity memory is
         card6_4 : out std_logic_vector(3 downto 0);
         card6_5 : out std_logic_vector(3 downto 0);
         score6  : out std_logic_vector(4 downto 0)
-    )
+    );
 end entity memory;
