@@ -45,32 +45,42 @@ begin
         if (card1 = "0001") then
             newScore := newScore + 11;
             aces     := aces + 1;
+        elsif (to_integer(unsigned(card1)) > 10)
+            newScore := newScore + 10;
         else
-            newScore := newScore + minimum(to_integer(unsigned(card1)), 10);
+            newScore := newScore + to_integer(unsigned(card1));
         end if;
         if (card2 = "0001") then
             newScore := newScore + 11;
             aces     := aces + 1;
+        elsif (to_integer(unsigned(card2)) > 10)
+            newScore := newScore + 10;
         else
-            newScore := newScore + minimum(to_integer(unsigned(card2)), 10);
+            newScore := newScore + to_integer(unsigned(card2));
         end if;
         if (card3 = "0001") then
             newScore := newScore + 11;
             aces     := aces + 1;
+        elsif (to_integer(unsigned(card3)) > 10)
+            newScore := newScore + 10;
         else
-            newScore := newScore + minimum(to_integer(unsigned(card3)), 10);
+            newScore := newScore + to_integer(unsigned(card3));
         end if;
         if (card4 = "0001") then
             newScore := newScore + 11;
             aces     := aces + 1;
+        elsif (to_integer(unsigned(card4)) > 10)
+            newScore := newScore + 10;
         else
-            newScore := newScore + minimum(to_integer(unsigned(card4)), 10);
+            newScore := newScore + to_integer(unsigned(card4));
         end if;
         if (card5 = "0001") then
             newScore := newScore + 11;
             aces     := aces + 1;
+        elsif (to_integer(unsigned(card5)) > 10)
+            newScore := newScore + 10;
         else
-            newScore := newScore + minimum(to_integer(unsigned(card5)), 10);
+            newScore := newScore + to_integer(unsigned(card5));
         end if;
         if (newScore > 21) then
             if (aces > 0) then
