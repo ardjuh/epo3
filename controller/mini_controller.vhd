@@ -2,6 +2,18 @@ library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.all;
 
+entity mini_con is
+   port(clk    			: in  std_logic;
+        reset  			: in  std_logic;
+        button_left			: in  std_logic;
+	button_right		: in  std_logic;
+	button_select		: in  std_logic;
+
+        switch_left			: out std_logic;
+	switch_right		: out std_logic;
+	switch_select		: out std_logic);
+end mini_con;
+
 architecture behaviour of mini_con is
 
 type mini_con_state is (
@@ -17,9 +29,11 @@ type mini_con_state is (
 	rightb,
 	reset_state,
 	player_action
+	game_resolution
 	);
 
 signal state, new_state : mini_con_state;
+
 
 begin
 	process (clk)
@@ -34,7 +48,7 @@ begin
 	end process;
 
 	process(state, button_left, button_right, button_select)
-		variable button: std_logic_vector(2 downto 0);
+	variable button: std_logic_vector(2 downto 0);
 		begin
 			button(0) := button_left;
 			button(1) := button_right;
@@ -61,13 +75,13 @@ begin
 					if  (button = "100") then 
 						new_state <= selb;
 					else 
-						new_state <= player_action; -- must be changed to game_resolution when pasting into controller. Is now player_action for testbench purposes
+						new_state <= game_resolution; 
 					end if;
 					
 				when selb	=> 
 					switch_select <= '0' ; 	
 					if  (button = "100") then 
-						new_state <= player_action; -- must be changed to game_resolution when pasting into controller. Is now player_action for testbench purposes
+						new_state <= game_resolution; 
 					else 
 						new_state <= selb;
 					end if;

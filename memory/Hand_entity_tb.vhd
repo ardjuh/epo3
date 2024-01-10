@@ -15,15 +15,16 @@ architecture hand_tb_arc of hand_tb is
             card2 : out std_logic_vector(3 downto 0);
             card3 : out std_logic_vector(3 downto 0);
             card4 : out std_logic_vector(3 downto 0);
-            card5 : out std_logic_vector(3 downto 0)
-
+            card5 : out std_logic_vector(3 downto 0);
+            score : out std_logic_vector(4 downto 0)
         );
     end component;
 
     signal clk, rst, enable                        : std_logic                    := '0';
     signal card, card1, card2, card3, card4, card5 : std_logic_vector(3 downto 0) := "0000";
+    signal score                                   : std_logic_vector(4 downto 0) := "00000";
 begin
-    test : hand port map(clk, rst, enable, card, card1, card2, card3, card4, card5);
+    test : hand port map(clk, rst, enable, card, card1, card2, card3, card4, card5, score);
 
     clk <= not clk after 10 ns;
 
