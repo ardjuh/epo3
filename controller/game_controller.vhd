@@ -543,7 +543,7 @@ begin
 							if ( unsigned(Player4_Hand_Score) = 21) then
 								new_state <= player_action;
 
-							elsif ( unsigned(Player4_Hand_Card_1) = 11 ) and ( Reserve_Hand_Card_2 /= "0000" ) then
+							elsif ( unsigned(Player4_Hand_Card_1) = 11 ) and ( Player4_Hand_Card_2 /= "0000" ) then
 								new_state <= player_action;
 
 							elsif ( unsigned(Player4_Hand_Score) < 22 ) and ( Player4_Hand_Card_5 /= "0000" ) then
@@ -577,7 +577,7 @@ begin
 						
 
 				elsif ( unsigned(split_player) = unsigned(Player_Turn_In) ) and ( split_player_turn = '1' ) then
-						if ( unsigned(Reserve_Hand_Card_1) = 11 ) and ( Reserve_Hand_Card_2 /= "0000" ) then
+						if ( unsigned(Reserve_Hand_Card_1) = 1 ) and ( Reserve_Hand_Card_2 /= "0000" ) then
 								new_state <= player_action;
 					
 						elsif ( unsigned(Reserve_Hand_Score) > 21) then
