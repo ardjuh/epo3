@@ -32,7 +32,7 @@ begin
     end process;
 
     process (card1, card2, card3, card4, card5)
-        variable newScore : integer range 0 to 31;
+        variable newScore : integer range 0 to 63;
         variable aces     : integer range 0 to 5;
     begin
         if ((card1 = "0001" and (card2 = "1010" or card2 = "1011" or card2 = "1100" or card2 = "1101")) or (card2 = "0001" and (card1 = "1010" or card1 = "1011" or card1 = "1100" or card1 = "1101"))) then -- blackjack
