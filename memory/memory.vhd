@@ -177,5 +177,51 @@ begin
             when others =>
                 profit_temp <= "0000000";
         end case;
+
+        case bid is
+            when "00" =>
+                profit_temp <= "0001100";
+            when "01" =>
+                profit_temp <= "0001111";
+            when "10" =>
+                profit_temp <= "0001001";
+            when "11" =>
+                profit_temp <= "0011000";
+            when others =>
+                profit_temp <= "0000000";
+        end case;
+
+        if (profit_enable_in = '1') then --miss timing issue omdat twee aanpassing tijdens clock
+            case player is
+                when "00" =>
+                    p1_p <= '1';
+                    p2_p <= '0';
+                    p3_p <= '0';
+                    p4_p <= '0';
+                when "01" =>
+                    p1_p <= '0';
+                    p2_p <= '1';
+                    p3_p <= '0';
+                    p4_p <= '0';
+                when "10" =>
+                    p1_p <= '0';
+                    p2_p <= '0';
+                    p3_p <= '1';
+                    p4_p <= '0';
+                when "11" =>
+                    p1_p <= '0';
+                    p2_p <= '0';
+                    p3_p <= '0';
+                    p4_p <= '1';
+                when others =>
+                    null;
+            end case;
+        else
+            p1_p <= '0';
+            p2_p <= '0';
+            p3_p <= '0';
+            p4_p <= '0';
+        end if;
+
     end process;
 end behavior;
