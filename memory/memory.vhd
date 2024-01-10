@@ -5,7 +5,6 @@ architecture behavior of memory is
     component hand port (
         clk     : in std_logic;
         rst     : in std_logic;
-        mem_rst : in std_logic;
         enable  : in std_logic;
         card    : in std_logic_vector(3 downto 0);
 
@@ -13,13 +12,14 @@ architecture behavior of memory is
         card2 : out std_logic_vector(3 downto 0);
         card3 : out std_logic_vector(3 downto 0);
         card4 : out std_logic_vector(3 downto 0);
-        card5 : out std_logic_vector(3 downto 0));
+        card5 : out std_logic_vector(3 downto 0);
+	score : out std_logic_vector(4 downto 0));
     end component;
 
     component player port (
         clk    : in std_logic;
         rst    : in std_logic;
-        memrst : in std_logic;
+        mem_rst : in std_logic;
 
         profit_enable : in std_logic;
         stake_enable  : in std_logic;
@@ -42,23 +42,23 @@ architecture behavior of memory is
 
     signal h1, h2, h3, h4, h5, h6                                                                                                 : std_logic                    := '0';
     signal p1_p, p1_s, p1_b, p1_i, p1_d, p2_p, p2_s, p2_b, p2_i, p2_d, p3_p, p3_s, p3_b, p3_i, p3_d, p4_p, p4_s, p4_b, p4_i, p4_d : std_logic                    := '0';
-    signal profit                                                                                                                 : std_logic_vector(6 downto 0) := "000000";
-    signal stake                                                                                                                  : std_logic_vector(4 downto 0) := "0000";
+    signal profit                                                                                                                 : std_logic_vector(6 downto 0) := "0000000";
+    signal stake                                                                                                                  : std_logic_vector(4 downto 0) := "00000";
     signal bid_temp                                                                                                               : std_logic_vector(1 downto 0) := "00";
 begin
-    h1_l : hand port map(clk => clk, rst => rst, mem_rst => mem_rst, enable => h1, card => card, card1 => card1_1, card2 => card1_2, card3 => card1_3, card4 => card1_4, card5 => card1_5, score => score1);
-    h2_l : hand port map(clk => clk, rst => rst, mem_rst => mem_rst, enable => h2, card => card, card1 => card2_1, card2 => card2_2, card3 => card2_3, card4 => card2_4, card5 => card2_5, score => score2);
-    h3_l : hand port map(clk => clk, rst => rst, mem_rst => mem_rst, enable => h3, card => card, card1 => card3_1, card2 => card3_2, card3 => card3_3, card4 => card3_4, card5 => card3_5, score => score3);
-    h4_l : hand port map(clk => clk, rst => rst, mem_rst => mem_rst, enable => h4, card => card, card1 => card4_1, card2 => card4_2, card3 => card4_3, card4 => card4_4, card5 => card4_5, score => score4);
-    h5_l : hand port map(clk => clk, rst => rst, mem_rst => mem_rst, enable => h5, card => card, card1 => card5_1, card2 => card5_2, card3 => card5_3, card4 => card5_4, card5 => card5_5, score => score5);
-    h6_l : hand port map(clk => clk, rst => rst, mem_rst => mem_rst, enable => h6, card => card, card1 => card6_1, card2 => card6_2, card3 => card6_3, card4 => card6_4, card5 => card6_5, score => score6);
+    h1_l : hand port map(clk => clk, rst => rst or end_round, enable => h1, card => card, card1 => card1_1, card2 => card1_2, card3 => card1_3, card4 => card1_4, card5 => card1_5, score => score1);
+    h2_l : hand port map(clk => clk, rst => rst or end_round, enable => h2, card => card, card1 => card2_1, card2 => card2_2, card3 => card2_3, card4 => card2_4, card5 => card2_5, score => score2);
+    h3_l : hand port map(clk => clk, rst => rst or end_round, enable => h3, card => card, card1 => card3_1, card2 => card3_2, card3 => card3_3, card4 => card3_4, card5 => card3_5, score => score3);
+    h4_l : hand port map(clk => clk, rst => rst or end_round, enable => h4, card => card, card1 => card4_1, card2 => card4_2, card3 => card4_3, card4 => card4_4, card5 => card4_5, score => score4);
+    h5_l : hand port map(clk => clk, rst => rst or end_round, enable => h5, card => card, card1 => card5_1, card2 => card5_2, card3 => card5_3, card4 => card5_4, card5 => card5_5, score => score5);
+    h6_l : hand port map(clk => clk, rst => rst or end_round, enable => h6, card => card, card1 => card6_1, card2 => card6_2, card3 => card6_3, card4 => card6_4, card5 => card6_5, score => score6);
 
-    p1_l : player port map(clk => clk, rst => rst, mem_rst => mem_rst, profit_enable => p1_p, profit => profit, stake_enable => p1_s, stake => stake, bid_in => bet, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p1_b, insurance_enable => p1_i, doubledown_enable => p1_d, bid_out => bid1, money => money1, insurance_out => insurance1, doubledown_out => doubledown1);
-    p2_l : player port map(clk => clk, rst => rst, mem_rst => mem_rst, profit_enable => p2_p, profit => profit, stake_enable => p2_s, stake => stake, bid_in => bet, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p2_b, insurance_enable => p2_i, doubledown_enable => p2_d, bid_out => bid2, money => money2, insurance_out => insurance2, doubledown_out => doubledown2);
-    p3_l : player port map(clk => clk, rst => rst, mem_rst => mem_rst, profit_enable => p3_p, profit => profit, stake_enable => p3_s, stake => stake, bid_in => bet, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p3_b, insurance_enable => p3_i, doubledown_enable => p3_d, bid_out => bid3, money => money3, insurance_out => insurance3, doubledown_out => doubledown3);
-    p4_l : player port map(clk => clk, rst => rst, mem_rst => mem_rst, profit_enable => p4_p, profit => profit, stake_enable => p4_s, stake => stake, bid_in => bet, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p4_b, insurance_enable => p4_i, doubledown_enable => p4_d, bid_out => bid4, money => money4, insurance_out => insurance4, doubledown_out => doubledown4);
+    p1_l : player port map(clk => clk, rst => rst, mem_rst => end_round, profit_enable => p1_p, profit => profit, stake_enable => p1_s, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p1_b, insurance_enable => p1_i, doubledown_enable => p1_d, bid_out => bid1, money => money1, insurance_out => insurance1, doubledown_out => doubledown1);
+    p2_l : player port map(clk => clk, rst => rst, mem_rst => end_round, profit_enable => p2_p, profit => profit, stake_enable => p2_s, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p2_b, insurance_enable => p2_i, doubledown_enable => p2_d, bid_out => bid2, money => money2, insurance_out => insurance2, doubledown_out => doubledown2);
+    p3_l : player port map(clk => clk, rst => rst, mem_rst => end_round, profit_enable => p3_p, profit => profit, stake_enable => p3_s, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p3_b, insurance_enable => p3_i, doubledown_enable => p3_d, bid_out => bid3, money => money3, insurance_out => insurance3, doubledown_out => doubledown3);
+    p4_l : player port map(clk => clk, rst => rst, mem_rst => end_round, profit_enable => p4_p, profit => profit, stake_enable => p4_s, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p4_b, insurance_enable => p4_i, doubledown_enable => p4_d, bid_out => bid4, money => money4, insurance_out => insurance4, doubledown_out => doubledown4);
 
-    process (player, card_enable)
+    process (player_in, card_enable)
     begin
         if (card_enable = '0') then
             h1 <= '0';
@@ -68,7 +68,7 @@ begin
             h5 <= '0';
             h6 <= '0';
         else
-            case player is
+            case player_in is
                 when "001" =>
                     h1 <= '1';
                     h2 <= '0';
@@ -120,9 +120,8 @@ begin
                     h6 <= '0';
             end case;
         end if;
-    end process;
 
-    case player is
+    case player_in is -- mss fout
         when "001" =>
             bid_temp <= bid1;  -- bid 1 is intern signaal
         when "010" =>
@@ -134,8 +133,10 @@ begin
         when others =>
             null;
     end case;
+    end process;
 
     process (win_enable)
+begin
         case bid_temp is
             when "00" =>
                 case win_type is -- 00 = win, 01 = blackjack_win, 10 = insurance_win, 11 = doubledown_win * /
@@ -222,23 +223,23 @@ begin
         end if;
 
         if (win_enable = '1') then --miss timing issue omdat twee aanpassing tijdens clock
-            case player is
-                when "00" =>
+            case player_in is
+                when "000" =>
                     p1_p <= '1';
                     p2_p <= '0';
                     p3_p <= '0';
                     p4_p <= '0';
-                when "01" =>
+                when "001" =>
                     p1_p <= '0';
                     p2_p <= '1';
                     p3_p <= '0';
                     p4_p <= '0';
-                when "10" =>
+                when "010" =>
                     p1_p <= '0';
                     p2_p <= '0';
                     p3_p <= '1';
                     p4_p <= '0';
-                when "11" =>
+                when "011" =>
                     p1_p <= '0';
                     p2_p <= '0';
                     p3_p <= '0';
@@ -253,23 +254,23 @@ begin
             p4_p <= '0';
         end if;
         if (insurance_enable = '1' or bid_enable = '1') then --miss timing issue omdat twee aanpassing tijdens clock
-            case player is
-                when "00" =>
+            case player_in is
+                when "000" =>
                     p1_s <= '1';
                     p1_s <= '0';
                     p1_s <= '0';
                     p1_s <= '0';
-                when "01" =>
+                when "001" =>
                     p1_s <= '0';
                     p1_s <= '1';
                     p1_s <= '0';
                     p1_s <= '0';
-                when "10" =>
+                when "010" =>
                     p1_s <= '0';
                     p1_s <= '0';
                     p1_s <= '1';
                     p1_s <= '0';
-                when "11" =>
+                when "011" =>
                     p1_s <= '0';
                     p1_s <= '0';
                     p1_s <= '0';

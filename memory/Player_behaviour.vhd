@@ -16,7 +16,7 @@ begin
                 money         <= "0000000000";
                 insurance_out  <= '0';
                 doubledown_out <= '0';
-            elsif (memrst = '1') then
+            elsif (mem_rst = '1') then
                 bid_out        <= "00";
                 insurance_out  <= '0';
                 doubledown_out <= '0';
@@ -28,13 +28,13 @@ begin
                 if (stake_enable = '1') then
                     money <= std_logic_vector(unsigned(money_sig) - unsigned(stake));
                 end if;
-                if (bid_in_enable = '1') then
+                if (bid_enable = '1') then
                     bid_out <= bid_in;
                 end if;
-                if (insurance_in_enable = '1') then
+                if (insurance_enable = '1') then
                     insurance_out <= insurance_in;
                 end if;
-                if (doubledown_in_enable = '1') then
+                if (doubledown_enable = '1') then
                     doubledown_out <= doubledown_in;
                 end if;
             end if;
