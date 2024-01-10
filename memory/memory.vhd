@@ -44,6 +44,7 @@ architecture behavior of memory is
     signal p1_p, p1_s, p1_b, p1_i, p1_d, p2_p, p2_s, p2_b, p2_i, p2_d, p3_p, p3_s, p3_b, p3_i, p3_d, p4_p, p4_s, p4_b, p4_i, p4_d : std_logic                    := '0';
     signal profit                                                                                                                 : std_logic_vector(6 downto 0) := "000000";
     signal stake                                                                                                                  : std_logic_vector(4 downto 0) := "0000";
+    signal bid_temp                                                                                                               : std_logic_vector(1 downto 0) := "00";
 begin
     h1_l : hand port map(clk => clk, rst => rst, mem_rst => mem_rst, enable => h1, card => card, card1 => card1_1, card2 => card1_2, card3 => card1_3, card4 => card1_4, card5 => card1_5);
     h2_l : hand port map(clk => clk, rst => rst, mem_rst => mem_rst, enable => h2, card => card, card1 => card2_1, card2 => card2_2, card3 => card2_3, card4 => card2_4, card5 => card2_5);
@@ -120,10 +121,24 @@ begin
             end case;
         end if;
     end process;
-    process ()
-        case bid is
+
+    case player is
+        when "001" =>
+            bid_temp <= bid1;
+        when "010" =>
+            bid_temp <= bid2;
+        when "011" =>
+            bid_temp <= bid3;
+        when "100" =>
+            bid_temp <= bid4;
+        when others =>
+            null;
+    end case;
+
+    process (win_enable)
+        case bid_temp is
             when "00" =>
-                case win_type is /* 00 = win, 01 = blackjack_win, 10 = insurance_win, 11 = doubledown_win * /
+                case win_type is -- 00 = win, 01 = blackjack_win, 10 = insurance_win, 11 = doubledown_win * /
                     when "00" =>
                         profit_temp <= "0000100";
                     when "01" =>
@@ -178,20 +193,35 @@ begin
                 profit_temp <= "0000000";
         end case;
 
-        case bid is
-            when "00" =>
-                profit_temp <= "0001100";
-            when "01" =>
-                profit_temp <= "0001111";
-            when "10" =>
-                profit_temp <= "0001001";
-            when "11" =>
-                profit_temp <= "0011000";
-            when others =>
-                profit_temp <= "0000000";
-        end case;
+        if (bid_enable = '1') then
+            case bid_temp is
+                when "00" =>
+                    stake_temp <= "00010";
+                when "01" =>
+                    stake_temp <= "00110";
+                when "10" =>
+                    stake_temp <= "01010";
+                when "11" =>
+                    stake_temp <= "10100";
+                when others =>
+                    stake_temp <= "00000";
+            end case;
+        else
+            case bid_temp is
+                when "00" =>
+                    stake_temp <= "00001";
+                when "01" =>
+                    stake_temp <= "00011";
+                when "10" =>
+                    stake_temp <= "00101";
+                when "11" =>
+                    stake_temp <= "01010";
+                when others =>
+                    stake_temp <= "00000";
+            end case;
+        end if;
 
-        if (profit_enable_in = '1') then --miss timing issue omdat twee aanpassing tijdens clock
+        if (win_enable = '1') then --miss timing issue omdat twee aanpassing tijdens clock
             case player is
                 when "00" =>
                     p1_p <= '1';
@@ -222,6 +252,36 @@ begin
             p3_p <= '0';
             p4_p <= '0';
         end if;
-
+        if (insurance_enable = '1' or bid_enable = '1') then --miss timing issue omdat twee aanpassing tijdens clock
+            case player is
+                when "00" =>
+                    p1_s <= '1';
+                    p1_s <= '0';
+                    p1_s <= '0';
+                    p1_s <= '0';
+                when "01" =>
+                    p1_s <= '0';
+                    p1_s <= '1';
+                    p1_s <= '0';
+                    p1_s <= '0';
+                when "10" =>
+                    p1_s <= '0';
+                    p1_s <= '0';
+                    p1_s <= '1';
+                    p1_s <= '0';
+                when "11" =>
+                    p1_s <= '0';
+                    p1_s <= '0';
+                    p1_s <= '0';
+                    p1_s <= '1';
+                when others =>
+                    null;
+            end case;
+        else
+            p1_s <= '0';
+            p1_s <= '0';
+            p1_s <= '0';
+            p1_s <= '0';
+        end if;
     end process;
 end behavior;
