@@ -122,7 +122,7 @@ begin
             null;
         end if;
         if (newScore < 22 and card5 /= "0000") then
-            score <= "11111";
+            score <= "10101"; -- 5 cards charlie
         else
             score <= std_logic_vector(to_unsigned(newScore, 5));
         end if;
