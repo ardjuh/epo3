@@ -124,7 +124,7 @@ begin
 
     case player is
         when "001" =>
-            bid_temp <= bid1;
+            bid_temp <= bid1;  -- bid 1 is intern signaal
         when "010" =>
             bid_temp <= bid2;
         when "011" =>
@@ -140,84 +140,84 @@ begin
             when "00" =>
                 case win_type is -- 00 = win, 01 = blackjack_win, 10 = insurance_win, 11 = doubledown_win * /
                     when "00" =>
-                        profit_temp <= "0000100";
+                        profit <= "0000100";
                     when "01" =>
-                        profit_temp <= "0000101";
+                        profit <= "0000101";
                     when "10" =>
-                        profit_temp <= "0000011";
+                        profit <= "0000011";
                     when "11" =>
-                        profit_temp <= "0001000";
+                        profit <= "0001000";
                     when others =>
-                        profit_temp <= "0000000";
+                        profit <= "0000000";
                 end case;
             when "01" =>
                 case win_type is
                     when "00" =>
-                        profit_temp <= "0001100";
+                        profit <= "0001100";
                     when "01" =>
-                        profit_temp <= "0001111";
+                        profit <= "0001111";
                     when "10" =>
-                        profit_temp <= "0001001";
+                        profit <= "0001001";
                     when "11" =>
-                        profit_temp <= "0011000";
+                        profit <= "0011000";
                     when others =>
-                        profit_temp <= "0000000";
+                        profit <= "0000000";
                 end case;
             when "10" =>
                 case win_type is
                     when "00" =>
-                        profit_temp <= "0010100";
+                        profit <= "0010100";
                     when "01" =>
-                        profit_temp <= "0011001";
+                        profit <= "0011001";
                     when "10" =>
-                        profit_temp <= "0001111";
+                        profit <= "0001111";
                     when "11" =>
-                        profit_temp <= "0101000";
+                        profit <= "0101000";
                     when others =>
-                        profit_temp <= "0000000";
+                        profit <= "0000000";
                 end case;
             when "11" =>
                 case win_type is
                     when "00" =>
-                        profit_temp <= "0101000";
+                        profit <= "0101000";
                     when "01" =>
-                        profit_temp <= "0110010";
+                        profit <= "0110010";
                     when "10" =>
-                        profit_temp <= "0001110";
+                        profit <= "0001110";
                     when "11" =>
-                        profit_temp <= "1010000";
+                        profit <= "1010000";
                     when others =>
-                        profit_temp <= "0000000";
+                        profit <= "0000000";
                 end case;
             when others =>
-                profit_temp <= "0000000";
+                profit <= "0000000";
         end case;
 
         if (bid_enable = '1') then
             case bid_temp is
                 when "00" =>
-                    stake_temp <= "00010";
+                    stake <= "00010";
                 when "01" =>
-                    stake_temp <= "00110";
+                    stake <= "00110";
                 when "10" =>
-                    stake_temp <= "01010";
+                    stake <= "01010";
                 when "11" =>
-                    stake_temp <= "10100";
+                    stake <= "10100";
                 when others =>
-                    stake_temp <= "00000";
+                    stake <= "00000";
             end case;
         else
             case bid_temp is
                 when "00" =>
-                    stake_temp <= "00001";
+                    stake <= "00001";
                 when "01" =>
-                    stake_temp <= "00011";
+                    stake <= "00011";
                 when "10" =>
-                    stake_temp <= "00101";
+                    stake <= "00101";
                 when "11" =>
-                    stake_temp <= "01010";
+                    stake <= "01010";
                 when others =>
-                    stake_temp <= "00000";
+                    stake <= "00000";
             end case;
         end if;
 
