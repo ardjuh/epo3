@@ -15,8 +15,6 @@ entity memory is
         bid               : in std_logic_vector(1 downto 0); -- 0: 2, 1: 6, 2: 10, 3: 20
         player_in         : in std_logic_vector(2 downto 0); -- 0: geen player, 1-4: speler, 5: dealer, 6: split 
         player_enable     : in std_logic;
-        card              : in std_logic_vector(3 downto 0);      --  dubbel????
-        card_enable       : in std_logic;               --  dubbel????
         money             : in std_logic_vector(9 downto 0);
         split             : in std_logic;
 
