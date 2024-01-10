@@ -37,7 +37,11 @@ begin
 
     enable <= '0' after 25 ns,
         '1' after 50 ns,
-        '0' after 70 ns;
+        '0' after 70 ns,
+        '1' after 85 ns,
+        '0' after 125 ns,
+        '1' after 165 ns,
+        '0' after 185 ns;
 
     rst <= '0' after 0 ns,
         '1' after 5 ns,
