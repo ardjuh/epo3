@@ -17,7 +17,7 @@ entity player is
         insurance_in_enable  : in std_logic;
         doubledown_in_enable : in std_logic;
         bid_out              : out std_logic_vector(1 downto 0);
-        budget               : out std_logic_vector(9 downto 0);
+        money               : out std_logic_vector(9 downto 0);
         insurance_out        : out std_logic;
         doubledown_out       : out std_logic);
 end player;
