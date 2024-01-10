@@ -17,3 +17,12 @@ component game_controller_tb                          --------- portmap placehol
    		switch_right	: out std_logic;
    		switch_select	: out std_logic);
    end component;
+      
+signal clk    		: std_logic;           ---------- placeholder for signal list of inputs -----------
+signal reset  		: std_logic;
+signal button_left	: std_logic;
+signal button_right	: std_logic;
+signal button_select	: std_logic;
+signal switch_left	: std_logic;
+signal switch_right	: std_logic;
+signal switch_select	: std_logic;
