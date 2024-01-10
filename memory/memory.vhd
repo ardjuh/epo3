@@ -3,22 +3,22 @@ use ieee.std_logic_1164.all;
 
 architecture behavior of memory is
     component hand port (
-        clk     : in std_logic;
-        rst     : in std_logic;
-        enable  : in std_logic;
-        card    : in std_logic_vector(3 downto 0);
+        clk    : in std_logic;
+        rst    : in std_logic;
+        enable : in std_logic;
+        card   : in std_logic_vector(3 downto 0);
 
         card1 : out std_logic_vector(3 downto 0);
         card2 : out std_logic_vector(3 downto 0);
         card3 : out std_logic_vector(3 downto 0);
         card4 : out std_logic_vector(3 downto 0);
         card5 : out std_logic_vector(3 downto 0);
-	score : out std_logic_vector(4 downto 0));
+        score : out std_logic_vector(4 downto 0));
     end component;
 
     component player port (
-        clk    : in std_logic;
-        rst    : in std_logic;
+        clk     : in std_logic;
+        rst     : in std_logic;
         mem_rst : in std_logic;
 
         profit_enable : in std_logic;
@@ -121,22 +121,22 @@ begin
             end case;
         end if;
 
-    case player_in is -- mss fout
-        when "001" =>
-            bid_temp <= bid1;  -- bid 1 is intern signaal
-        when "010" =>
-            bid_temp <= bid2;
-        when "011" =>
-            bid_temp <= bid3;
-        when "100" =>
-            bid_temp <= bid4;
-        when others =>
-            null;
-    end case;
+        case player_in is -- mss fout
+            when "001" =>
+                bid_temp <= bid1; -- bid 1 is intern signaal
+            when "010" =>
+                bid_temp <= bid2;
+            when "011" =>
+                bid_temp <= bid3;
+            when "100" =>
+                bid_temp <= bid4;
+            when others =>
+                null;
+        end case;
     end process;
 
     process (win_enable)
-begin
+    begin
         case bid_temp is
             when "00" =>
                 case win_type is -- 00 = win, 01 = blackjack_win, 10 = insurance_win, 11 = doubledown_win * /
