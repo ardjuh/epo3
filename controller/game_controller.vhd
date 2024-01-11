@@ -28,50 +28,49 @@ entity controller is
 	Player1_Hand_Card_3	: in std_logic_vector (3 downto 0);
 	Player1_Hand_Card_4	: in std_logic_vector (3 downto 0);
 	Player1_Hand_Card_5	: in std_logic_vector (3 downto 0);
-	Player1_Hand_Score  : in std_logic_vector (5 downto 0);     -- Player can have 20 and draw a 10, so 30 points total possible --
+	Player1_Hand_Score      : in std_logic_vector (5 downto 0);     -- Player can have 20 and draw a 10, so 30 points total possible --
 
 	Player2_Hand_Card_1	: in std_logic_vector (3 downto 0);
 	Player2_Hand_Card_2	: in std_logic_vector (3 downto 0);
 	Player2_Hand_Card_3	: in std_logic_vector (3 downto 0);
 	Player2_Hand_Card_4	: in std_logic_vector (3 downto 0);   
 	Player2_Hand_Card_5	: in std_logic_vector (3 downto 0);
-	Player2_Hand_Score  : in std_logic_vector (5 downto 0);
+	Player2_Hand_Score      : in std_logic_vector (5 downto 0);
 
 	Player3_Hand_Card_1	: in std_logic_vector (3 downto 0);
 	Player3_Hand_Card_2	: in std_logic_vector (3 downto 0);
 	Player3_Hand_Card_3	: in std_logic_vector (3 downto 0);   
 	Player3_Hand_Card_4	: in std_logic_vector (3 downto 0);
 	Player3_Hand_Card_5	: in std_logic_vector (3 downto 0);
-	Player3_Hand_Score  : in std_logic_vector (5 downto 0);
+	Player3_Hand_Score      : in std_logic_vector (5 downto 0);
 
 	Player4_Hand_Card_1	: in std_logic_vector (3 downto 0);
 	Player4_Hand_Card_2	: in std_logic_vector (3 downto 0);
 	Player4_Hand_Card_3	: in std_logic_vector (3 downto 0);
 	Player4_Hand_Card_4	: in std_logic_vector (3 downto 0);
 	Player4_Hand_Card_5	: in std_logic_vector (3 downto 0);
-	Player4_Hand_Score  : in std_logic_vector (5 downto 0);
+	Player4_Hand_Score      : in std_logic_vector (5 downto 0);
 
 	Dealer_Hand_Card_1	: in std_logic_vector (3 downto 0);
 	Dealer_Hand_Card_2	: in std_logic_vector (3 downto 0);
 	Dealer_Hand_Card_3	: in std_logic_vector (3 downto 0);
 	Dealer_Hand_Card_4	: in std_logic_vector (3 downto 0);
 	Dealer_Hand_Card_5	: in std_logic_vector (3 downto 0);
-	Dealer_Hand_Score  : in std_logic_vector (5 downto 0);
+	Dealer_Hand_Score       : in std_logic_vector (5 downto 0);
 
 	Reserve_Hand_Card_1	: in std_logic_vector (3 downto 0);	-- Reserve hand for Split. Only one player can split (low chance of multiple splits) --
 	Reserve_Hand_Card_2	: in std_logic_vector (3 downto 0);
 	Reserve_Hand_Card_3	: in std_logic_vector (3 downto 0);
 	Reserve_Hand_Card_4	: in std_logic_vector (3 downto 0);
 	Reserve_Hand_Card_5	: in std_logic_vector (3 downto 0);
-	Reserve_Hand_Score  : in std_logic_vector (5 downto 0);
+	Reserve_Hand_Score      : in std_logic_vector (5 downto 0);
 
 	random_card  : in  std_logic_vector (3 downto 0);		-- Comms with RNG --
 	request_card : out std_logic;                         
 	round_end    : out std_logic;
 	new_card     : out std_logic_vector (3 downto 0);   -- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 
-	screen_type   : out std_logic_vector(2 downto 0);		-- Comms with Graphics Driver: needs to be altered --
-	
+	screen_type   : out std_logic_vector(2 downto 0);
 	menu_ready   : in std_logic;
 
 	Player1_Budget_New  : out  std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 so 11 bits --
@@ -248,9 +247,8 @@ begin
 					choose_players <= '0';
 					new_state <= player_action;
 				else
-					choose_bids <= '0';
+					choose_bids <= '0';   
 					choose_action <= '1';
-					new_state <= player_action;
 				end if;
 
 				-- Check whether starting cards have been dealt -- 
@@ -721,9 +719,11 @@ begin
 
 							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
 								Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
+								new_state <= game_setup
 							else
 								bids_placed <= '1';
 								Player_Turn_New <= "001";
+								new_state <= game_setup
 							end if;
 
 						elsif ( Player_Turn_In = "010" ) then
@@ -754,9 +754,11 @@ begin
 
 							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
 								Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
+								new_state <= game_setup
 							else
 								bids_placed <= '1';
 								Player_Turn_New <= "001";
+								new_state <= game_setup
 							end if;
 
 						elsif ( Player_Turn_In = "011" ) then
@@ -787,9 +789,11 @@ begin
 
 							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
 								Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
+								new_state <= game_setup
 							else
 								bids_placed <= '1';
 								Player_Turn_New <= "001";
+								new_state <= game_setup
 							end if;
 
 						elsif ( Player_Turn_In = "100" ) then
@@ -825,6 +829,7 @@ begin
 							end if;
 						end if;
 					end if;
+						
 				elsif ( choose_action = '1' ) then                 -- menu for choosing actions such as hit, hold etc --				
 					if ( switch_left = '1' ) then
 						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 6 --
