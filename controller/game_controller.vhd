@@ -353,24 +353,21 @@ begin
 						elsif ( Player1_Hand_Card_2 /= "0000" ) and ( Player1_Hand_Card_3 = "0000" ) then
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player1_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
-								-- draw even money pop up --
-					
-							elsif ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player1_Budget) >= ( unsigned(Player1_Bid_Value) /2) )  then 
-								insurance_selectable <= '1';
-								-- draw insurance menu --
-
-							elsif ( unsigned(Player1_Hand_Card_1) = unsigned(Player1_Hand_Card_2) ) and ( unsigned(Player1_Budget) >= unsigned(Player1_Bid_Value) ) then 
-								split_selectable <= '1';
-
-							elsif ( unsigned(Player1_Budget) >= unsigned(Player1_Bid_Value) ) and ( unsigned(Player1_Hand_Score) < 21 ) then  
-								double_selectable <= '1';
-								hit_selectable <= '1';
-								hold_selectable <= '1';
-
-							else 
-								hit_selectable <= '1';
-								hold_selectable <= '1';
 							end if;
+					
+							if ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player1_Budget) >= ( unsigned(Player1_Bid_Value) /2) )  then 
+								insurance_selectable <= '1';
+							end if;
+
+							if ( unsigned(Player1_Hand_Card_1) = unsigned(Player1_Hand_Card_2) ) and ( unsigned(Player1_Budget) >= unsigned(Player1_Bid_Value) ) then 
+								split_selectable <= '1';
+							end if;
+
+							if ( unsigned(Player1_Budget) >= unsigned(Player1_Bid_Value) ) and ( unsigned(Player1_Hand_Score) < 21 ) then  
+								double_selectable <= '1';
+							end if;
+								
+							hit_selectable <= '1';
 							new_state <= player_action;			
 
 						elsif ( Player1_Hand_Card_3 /= "0000" ) then
@@ -390,8 +387,8 @@ begin
 						if ( unsigned(Player1_Hand_Score) > 21) then
 							new_state <= player_action;
 						
-						elsif ( unsigned(split_player) = unsigned(Player_Turn_In) ) and ( split_player_turn = '0' ) then       -------------------- look at split player in a sec --------------------
-							if ( unsigned(Player1_Hand_Card_1) = 11 ) and ( Player1_Hand_Card_2 /= "0000" ) then        ------ inquire on seeing if Ace (signal?) ------
+						elsif ( unsigned(split_player) = unsigned(Player_Turn_In) ) and ( split_player_turn = '0' ) then   
+							if ( unsigned(Player1_Hand_Card_1) = 11 ) and ( Player1_Hand_Card_2 /= "0000" ) then    
 								new_state <= player_action;
 						
 							elsif ( unsigned(Player1_Hand_Score) = 21) then
@@ -415,27 +412,22 @@ begin
 						elsif ( Player2_Hand_Card_2 /= "0000" ) and ( Player2_Hand_Card_3 = "0000" ) then
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player2_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
-								new_state <= player_action;
-								-- draw even money pop up --
-					
-							elsif ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player2_Budget) >= (unsigned(Player2_Bid_Value)/2) ) then 
-								insurance_selectable <= '1';
-								new_state <= player_action;
-								-- draw insurance menu --
-
-							elsif ( unsigned(Player2_Hand_Card_1) = unsigned(Player2_Hand_Card_2)) and ( unsigned(Player2_Budget) >= unsigned(Player2_Bid_Value) ) then 
-								split_selectable <= '1';
-
-							elsif ( unsigned(Player2_Budget) >= unsigned(Player2_Bid_Value) ) and ( unsigned(Player2_Hand_Score) < 21 ) then  
-								double_selectable <= '1';
-								hit_selectable <= '1';
-								hold_selectable <= '1';
-
-							else 
-								hit_selectable <= '1';
-								hold_selectable <= '1';
-								new_state <= player_action;
 							end if;
+					
+							if ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player2_Budget) >= (unsigned(Player2_Bid_Value)/2) ) then 
+								insurance_selectable <= '1';
+							end if;
+
+							if ( unsigned(Player2_Hand_Card_1) = unsigned(Player2_Hand_Card_2)) and ( unsigned(Player2_Budget) >= unsigned(Player2_Bid_Value) ) then 
+								split_selectable <= '1';
+							end if;
+
+							if ( unsigned(Player2_Budget) >= unsigned(Player2_Bid_Value) ) and ( unsigned(Player2_Hand_Score) < 21 ) then  
+								double_selectable <= '1';
+							end if;
+								
+							hit_selectable <= '1';
+							new_state <= player_action;
 
 						elsif ( Player2_Hand_Card_3 /= "0000" ) then
 							if ( unsigned(Player2_Hand_Score) = 21 ) then
@@ -478,24 +470,21 @@ begin
 						elsif ( Player3_Hand_Card_2 /= "0000" ) and ( Player3_Hand_Card_3 = "0000" ) then
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player3_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
-								-- draw even money pop up --
-					
-							elsif ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player3_Budget) >= (unsigned(Player3_Bid_Value)/2) ) then 
-								insurance_selectable <= '1';
-								-- draw insurance menu --
-
-							elsif ( unsigned(Player3_Hand_Card_1) = unsigned(Player3_Hand_Card_2) ) and ( unsigned(Player3_Budget) >= unsigned(Player3_Bid_Value) ) then 
-								split_selectable <= '1';
-
-							elsif ( unsigned(Player3_Budget) >= unsigned(Player3_Bid_Value) ) and ( unsigned(Player3_Hand_Score) < 21 ) then  
-								double_selectable <= '1';
-								hit_selectable <= '1';
-								hold_selectable <= '1';
-
-							else 
-								hit_selectable <= '1';
-								hold_selectable <= '1';
 							end if;
+					
+							if ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player3_Budget) >= (unsigned(Player3_Bid_Value)/2) ) then 
+								insurance_selectable <= '1';
+							end if;
+
+							if ( unsigned(Player3_Hand_Card_1) = unsigned(Player3_Hand_Card_2) ) and ( unsigned(Player3_Budget) >= unsigned(Player3_Bid_Value) ) then 
+								split_selectable <= '1';
+							end if;
+
+							if ( unsigned(Player3_Budget) >= unsigned(Player3_Bid_Value) ) and ( unsigned(Player3_Hand_Score) < 21 ) then  
+								double_selectable <= '1';
+							end if;
+
+							hit_selectable <= '1';
 							new_state <= player_action;
 
 						elsif ( Player3_Hand_Card_3 /= "0000" ) then
@@ -539,24 +528,22 @@ begin
 						elsif ( Player4_Hand_Card_2 /= "0000" ) and ( Player4_Hand_Card_3 = "0000" ) then
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player4_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
-								-- draw even money pop up --
-					
-							elsif ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player4_Budget) >= ( unsigned(Player4_Bid_Value)/2) ) then 
-								insurance_selectable <= '1';
-								-- draw insurance menu --
-
-							elsif ( unsigned(Player4_Hand_Card_1) = unsigned(Player4_Hand_Card_2) ) and ( unsigned(Player4_Budget) >= unsigned(Player4_Bid_Value) ) then 
-								split_selectable <= '1';
-
-							elsif ( unsigned(Player4_Budget) >= unsigned(Player4_Bid_Value) ) and ( unsigned(Player4_Hand_Score) < 21 ) then  
-								double_selectable <= '1';
-								hit_selectable <= '1';
-								hold_selectable <= '1';
-
-							else 
-								hit_selectable <= '1';
-								hold_selectable <= '1';
 							end if;
+					
+							if ( unsigned(Dealer_Hand_Score) = 11 ) and ( unsigned(Player4_Budget) >= ( unsigned(Player4_Bid_Value)/2) ) then 
+								insurance_selectable <= '1';
+							end if;
+
+							if ( unsigned(Player4_Hand_Card_1) = unsigned(Player4_Hand_Card_2) ) and ( unsigned(Player4_Budget) >= unsigned(Player4_Bid_Value) ) then 
+								split_selectable <= '1';
+							end if;
+
+							if ( unsigned(Player4_Budget) >= unsigned(Player4_Bid_Value) ) and ( unsigned(Player4_Hand_Score) < 21 ) then  
+								double_selectable <= '1';
+							end if;
+								
+							hit_selectable <= '1';
+							hold_selectable <= '1';
 							new_state <= player_action;
 
 						elsif ( Player4_Hand_Card_3 /= "0000" ) then
