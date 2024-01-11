@@ -156,8 +156,8 @@ begin
 		Reserve_Hand_Card_1, Reserve_Hand_Card_2, Reserve_Hand_Card_3, Reserve_Hand_Card_4, Reserve_Hand_Card_5, Reserve_Hand_Score 
 		)
 
-
 	variable button : std_logic_vector (2 downto 0);
+	
 	begin
 		button(0) := button_left;
 		button(1) := button_right;
@@ -607,6 +607,7 @@ begin
 							new_state <= game_resolution;
 					else
 						score_screen <= '1';
+						choose_action <= '0';
 						new_state <= player_action;
 					end if;
 				end if;
