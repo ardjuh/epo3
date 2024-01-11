@@ -951,7 +951,7 @@ begin
 					new_state <= game_setup;
 							
 				elsif ( hold_selected = '1' ) then
-					if ( unsigned(Player_Turn_In) = unsigned(N_Players) ) and ( unsigned(split_player) /= unsigned(Player_Turn_In) )then
+					if ( unsigned(Player_Turn_In) = unsigned(N_Players) ) and ( unsigned(split_player) /= unsigned(Player_Turn_In) ) then
 						Player_Turn_New <= "101";
 
 					elsif ( unsigned(Player_Turn_In) = unsigned(N_Players) ) and ( split_player_turn = '1' ) then
