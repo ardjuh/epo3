@@ -45,7 +45,7 @@ begin
         if (card1 = "0001") then
             newScore := newScore + 11;
             aces     := aces + 1;
-        elsif (to_integer(unsigned(card1)) > 10)
+        elsif (to_integer(unsigned(card1)) > 10) then
             newScore := newScore + 10;
         else
             newScore := newScore + to_integer(unsigned(card1));
@@ -53,7 +53,7 @@ begin
         if (card2 = "0001") then
             newScore := newScore + 11;
             aces     := aces + 1;
-        elsif (to_integer(unsigned(card2)) > 10)
+        elsif (to_integer(unsigned(card2)) > 10) then
             newScore := newScore + 10;
         else
             newScore := newScore + to_integer(unsigned(card2));
@@ -61,7 +61,7 @@ begin
         if (card3 = "0001") then
             newScore := newScore + 11;
             aces     := aces + 1;
-        elsif (to_integer(unsigned(card3)) > 10)
+        elsif (to_integer(unsigned(card3)) > 10) then
             newScore := newScore + 10;
         else
             newScore := newScore + to_integer(unsigned(card3));
@@ -69,7 +69,7 @@ begin
         if (card4 = "0001") then
             newScore := newScore + 11;
             aces     := aces + 1;
-        elsif (to_integer(unsigned(card4)) > 10)
+        elsif (to_integer(unsigned(card4)) > 10) then
             newScore := newScore + 10;
         else
             newScore := newScore + to_integer(unsigned(card4));
@@ -77,58 +77,32 @@ begin
         if (card5 = "0001") then
             newScore := newScore + 11;
             aces     := aces + 1;
-        elsif (to_integer(unsigned(card5)) > 10)
+        elsif (to_integer(unsigned(card5)) > 10) then
             newScore := newScore + 10;
         else
             newScore := newScore + to_integer(unsigned(card5));
         end if;
-        if (newScore > 21) then
-            if (aces > 0) then
-                newScore := newScore - 10;
-                aces     := aces - 1;
-            else
-                null;
-            end if;
+        if (newScore > 21 and aces > 0) then
+            newScore := newScore - 10;
+            aces     := aces - 1;
         else
             null;
         end if;
-        if (newScore > 21) then
-            if (aces > 0) then
-                newScore := newScore - 10;
-                aces     := aces - 1;
-            else
-                null;
-            end if;
+        if (newScore > 21 and aces > 0) then
+            newScore := newScore - 10;
+            aces     := aces - 1;
         else
             null;
         end if;
-        if (newScore > 21) then
-            if (aces > 0) then
-                newScore := newScore - 10;
-                aces     := aces - 1;
-            else
-                null;
-            end if;
+        if (newScore > 21 and aces > 0) then
+            newScore := newScore - 10;
+            aces     := aces - 1;
         else
             null;
         end if;
-        if (newScore > 21) then
-            if (aces > 0) then
-                newScore := newScore - 10;
-                aces     := aces - 1;
-            else
-                null;
-            end if;
-        else
-            null;
-        end if;
-        if (newScore > 21) then -- max 5 aces
-            if (aces > 0) then
-                newScore := newScore - 10;
-                aces     := aces - 1;
-            else
-                null;
-            end if;
+        if (newScore > 21 and aces > 0) then
+            newScore := newScore - 10;
+            aces     := aces - 1;
         else
             null;
         end if;
