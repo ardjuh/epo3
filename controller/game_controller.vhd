@@ -67,11 +67,17 @@ entity controller is
 
 	random_card  : in  std_logic_vector (3 downto 0);		-- Comms with RNG --
 	request_card : out std_logic;                         
-	round_end    : out std_logic;
 	new_card     : out std_logic_vector (3 downto 0);   -- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 
-	screen_type   : out std_logic_vector(2 downto 0);
-	menu_ready   : in std_logic;
+	draw_screen     : out std_logic_vector(2 downto 0);  
+	cursor_position : out std_logic_vector(2 downto 0);
+	     
+	hold_option	  : out std_logic;     
+	hit_option 	  : out std_logic;
+	double_option 	  : out std_logic;
+	split_option 	  : out std_logic;
+	insurance_option  : out std_logic;
+	even_money_option : out std_logic;
 
 	Player1_Budget_New  : out  std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 so 11 bits --
 	Player2_Budget_New  : out  std_logic_vector (10 downto 0);
@@ -93,7 +99,7 @@ entity controller is
 	split      : out std_logic;
 	double     : out std_logic;
 
-	cursor_position : out std_logic_vector(2 downto 0);
+	round_end    : out std_logic;	     
 	global_reset : out std_logic
 	);
 end controller;
@@ -162,6 +168,15 @@ begin
 		button(1) := button_right;
 		button(2) := button_select;
 
+		cursor_position <= std_logic_vector(unsigned(cursor_screen_position));
+
+		hold_option	  <= std_logic(unsigned(hold_selectable));	      
+		hit_option 	  <= std_logic(unsigned(hit_selectable)); 	 
+		double_option  	  <= std_logic(unsigned(double_selectable)); 	
+		split_option	  <= std_logic(unsigned(split_selectable)); 	 
+		insurance_option  <= std_logic(unsigned(insurance_selectable));
+		even_money_option <= std_logic(unsigned(even_money_selectable)); 
+
 		if ( bids_placed = '1' ) then            ------------------------ note sure where to put this --------------------------
 			if ( Player1_Bid = "00" ) then
 				Player1_Bid_Value <= "00010";
@@ -222,6 +237,7 @@ begin
 				current_screen_position <= "001";
 
 				start_screen <= '1';
+				draw_screen <= "001";
 				if ( switch_select = '1' ) then
 					start_screen <= '0';
 					new_state <= game_setup;
@@ -240,15 +256,18 @@ begin
 
 				if ( N_Players = "000" ) then      -- player select condition --
 					choose_players <= '1';
+					draw_screen <= "010";
 					new_state <= player_action;
 
 				elsif ( bids_placed = '0' and N_Players /= "000" ) then	 -- bidding screen condition--
 					choose_bids <= '1';
+					draw_screen <= "011";
 					choose_players <= '0';
 					new_state <= player_action;
-				else
-					choose_bids <= '0';   
+				else  
 					choose_action <= '1';
+					draw_screen <= "100";
+					choose_bids <= '0'; 
 				end if;
 
 				-- Check whether starting cards have been dealt -- 
@@ -605,6 +624,7 @@ begin
 							new_state <= game_resolution;
 					else
 						score_screen <= '1';
+						draw_screen <= "101";
 						choose_action <= '0';
 						new_state <= player_action;
 					end if;
