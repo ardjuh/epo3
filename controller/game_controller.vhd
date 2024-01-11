@@ -739,10 +739,12 @@ begin
 
 							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
 								Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
+								enable <= '1';
 								new_state <= game_setup
 							else
 								bids_placed <= '1';
 								Player_Turn_New <= "001";
+								enable <= '1';
 								new_state <= game_setup
 							end if;
 
@@ -774,10 +776,12 @@ begin
 
 							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
 								Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
-								new_state <= game_setup
+								new_state <= game_setup;
+								enable <= '1';
 							else
 								bids_placed <= '1';
 								Player_Turn_New <= "001";
+								enable <= '1';
 								new_state <= game_setup
 							end if;
 
@@ -809,11 +813,13 @@ begin
 
 							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
 								Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
-								new_state <= game_setup
+								new_state <= game_setup;
+								enable <= '1';
 							else
 								bids_placed <= '1';
 								Player_Turn_New <= "001";
-								new_state <= game_setup
+								new_state <= game_setup;
+								enable <= '1';
 							end if;
 
 						elsif ( Player_Turn_In = "100" ) then
@@ -845,6 +851,7 @@ begin
 							if ( bid_successful = '1' ) then
 								bids_placed <= '1';                 -- sets player turn back to P1, bids placed=1 means the bid wont repeat after --
 								Player_Turn_New <= "001";
+								enable <= '1';
 								new_state <= game_setup;
 							end if;
 						end if;
