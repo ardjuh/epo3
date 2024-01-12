@@ -189,12 +189,29 @@ architecture behaviour of game_controller_tb is
 
 	signal random_card	: std_logic_vector (3 downto 0);	-- Comms with RNG --
 
-	-- out --
-	signal request_card	: std_logic;                         
+	-- out (test bench assigns to input because of missing components) --
 	signal new_card		: std_logic_vector (3 downto 0);	-- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 
+	signal Player1_Budget_New	: std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 so 11 bits --
+	signal Player2_Budget_New	: std_logic_vector (10 downto 0);
+	signal Player3_Budget_New	: std_logic_vector (10 downto 0);  
+	signal Player4_Budget_New	: std_logic_vector (10 downto 0);
+
+	signal Player1_Bid_New	: std_logic_vector (1 downto 0);	-- 2,6,10,20 = 4 options so 2 bits --
+	signal Player2_Bid_New	: std_logic_vector (1 downto 0);
+	signal Player3_Bid_New	: std_logic_vector (1 downto 0);
+	signal Player4_Bid_New	: std_logic_vector (1 downto 0);
+
+	signal Player_Turn_New	: std_logic_vector (2 downto 0);  	 -- outputs -> mem based on actions --
+	signal N_Players_New	: std_logic_vector (2 downto 0);
+
+	signal global_reset	: std_logic;
+
+	-- out (only to inspect)
 	signal draw_screen		: std_logic_vector(2 downto 0);  
 	signal cursor_position	: std_logic_vector(2 downto 0);
+
+	signal request_card	: std_logic;
 
 	signal hold_option			: std_logic;     
 	signal hit_option			: std_logic;
@@ -203,30 +220,17 @@ architecture behaviour of game_controller_tb is
 	signal insurance_option		: std_logic;
 	signal even_money_option	: std_logic;
 
-	signal Player1_Budget_New	: std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 so 11 bits --
-	signal Player2_Budget_New	: std_logic_vector (10 downto 0);
-	signal Player3_Budget_New	: std_logic_vector (10 downto 0);  
-	signal Player4_Budget_New	: std_logic_vector (10 downto 0);
-
-	signal Player1_Bid_New	: std_logic_vector (1 downto 0);  		 -- 2,6,10,20 = 4 options so 2 bits --
-	signal Player2_Bid_New	: std_logic_vector (1 downto 0);
-	signal Player3_Bid_New	: std_logic_vector (1 downto 0);
-	signal Player4_Bid_New	: std_logic_vector (1 downto 0);
-
-	signal Player_Turn_New	: std_logic_vector (2 downto 0);  	 -- outputs -> mem based on actions --
-	signal N_Players_New	: std_logic_vector (2 downto 0);
-	signal Receiving_Hand	: std_logic_vector (2 downto 0);  	 -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
-
 	signal enable		: std_logic;
 	signal even_money	: std_logic;
 	signal insurance	: std_logic;
 	signal split		: std_logic;
 	signal double		: std_logic;
 
-	signal round_end	: std_logic;	     
-	signal global_reset	: std_logic;
+	signal Receiving_Hand	: std_logic_vector (2 downto 0);  	 -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
 
-	-- internal --
+	signal round_end	: std_logic;
+
+	-- internal (only to inspects) --
 	signal state, new_state: controller_state;
 	signal switch_left, switch_right, switch_select : std_logic;
 
@@ -247,54 +251,167 @@ architecture behaviour of game_controller_tb is
 
 begin
    	-- 40 ns = 25 MHz
-	clk <=	'0' after 0 ns,
+	clk <=	
+		'0' after 0 ns,
 		'1' after 20 ns when clk /= '1' else '0' after 20 ns; -- 1 for 20, 60, 100 etc
 	
-	-- test bench --
-	--   time range 	: action: desired behaviour: graph observation
-	-- 0	< t < 120	: turn on with reset held for two clock cycles: everything null
-	-- 120	< t < 240	: let loose of reset: should remain on the start screen: everything null except reset
-	-- 240	< t < 360	: press button_select: should remain on the start screen: 
-	-- 240	< t < 360	: let go of button_select: state moves to game setup
-	-- 360	< t < 400	: select a player number: game setup recognizes player select, screen_select=player_select, screen_position=4 move to game setup
-	-- 480	< t < 600	: select a player number: move the cursor down to select a two player game: cursor should not yet move current_screen_position
-	-- 480	< t < 600	: select a player number: let go of button: cursor moves current_screen_position to 2 within one clock and state changes to user_input
-	-- 480	< t < 600	: select a player number: move the cursor up to select a single player game
-	-- 480	< t < 600	: select a player number: let go of button: cursor moves current_screen_position to 1 within one clock
-	-- 480	< t < 600	: select a player number: press select
-	-- 480	< t < 600	: select a player number: let go of button: state changes to game resolution
-	-- 480	< t < 600	: select a player number: let go of button: resolution enables memory save to store N-player and moves to game setup
-	-- 480	< t < 600	: select a player bid: game setup recognizes player bid menu and selects screen_out bid-selection and moves to user input
-	-- 480	< t < 600	: select a player bid: game setup recognizes player bid menu and selects screen_out bid-selection and moves to user input
+	--   time range 	: action : desired behaviour : graph observation
+	-- reset
+	--   0	< t <   90	: reset on : everything null except reset : second clock the other components see a global_reset, third clock global_reset goes to zero
+	--  90	< t <  230	: reset off : should remain on the start_screen: everything null
+	-- button_select on start_screen
+	--  230	< t <  430	: button_select on : should remain on the start_screen : only button_select and switch_select changes
+	--  430	< t <  630	: button_select off : state moves to game-setup, recognizes player select and ends in game-action
 
-	-- interactions with the controller --
-	reset <=	'1' after 0 ns,
-	   		'0' after 80 ns,
-	   		'1' after 720 ns, -- test if the reset works
-	   		'0' after 780 ns;
+	--  testing continous menu navigation for 4 options 
+	-- button_right on choose_action number of players
+	--  630	< t <  830	: button_right on : no change on screen : switch_right on
+	--  830	< t < 1030	: button_right off : cursor moves to 2 players  : current_screen_position changes, switch_right off, new_state player-action
+	-- 1030	< t < 1230	: button_right on : no change on screen : switch_right on
+	-- 1230	< t < 1430	: button_right off : cursor moves to 3 players  : current_screen_position changes, switch_right off, new_state player-action
+	-- 1430	< t < 1630	: button_right on : no change on screen : switch_right on
+	-- 1630	< t < 1830	: button_right off : cursor moves to 4 players  : current_screen_position changes, switch_right off, new_state player-action
+	-- 1830	< t < 2030	: button_right on : no change on screen : switch_right on
+	-- 2030	< t < 2230	: button_right off : cursor moves to 1 players  : current_screen_position changes, switch_right off, new_state player-action
+	-- 2230	< t < 2430	: button_right on : no change on screen : switch_right on
+	-- 2430	< t < 2630	: button_right off : cursor moves to 2 players  : current_screen_position changes, switch_right off, new_state player-action
+	--  button_left on choose_action number of players
+	-- 2630	< t < 2830	: button_left on : no change on screen : switch_left on
+	-- 2830	< t < 3030	: button_left off : cursor moves to 1 players  : current_screen_position changes, switch_left off, new_state player-action
+	-- 3030	< t < 3230	: button_left on : no change on screen : switch_left on
+	-- 3230	< t < 3430	: button_left off : cursor moves to 4 players  : current_screen_position changes, switch_left off, new_state player-action
+	-- 3430	< t < 3630	: button_left on : no change on screen : switch_left on
+	-- 3630	< t < 3830	: button_left off : cursor moves to 3 players  : current_screen_position changes, switch_left off, new_state player-action
+	-- 3830	< t < 4030	: button_left on : no change on screen : switch_left on
+	-- 4030	< t < 4230	: button_left off : cursor moves to 2 players  : current_screen_position changes, switch_left off, new_state player-action
+	-- 4230	< t < 4430	: button_left on : no change on screen : switch_left on
+	-- 4430	< t < 4630	: button_left off : cursor moves to 1 players  : current_screen_position changes, switch_left off, new_state player_action
+	--  button_select on choose_action number of players
+	-- 4630	< t < 4830	: button_select on : no change on screen : switch_select on 
+	-- 4830	< t < 5030	: button_select off : select single player game : new_state=game_resolution -> sets N_Players_New=1 , enable=1 , new_state=game_setup -> move to play_action bid screen
+	
+	--  button_left on choose_action player bid selection
+	-- 5030	< t < 5230	: button_left on : no change on screen : switch_left on
+	-- 5230	< t < 5430	: button_left off : cursor moves to 1 players
+	--  button_select on choose_action player bid selection
+	-- 5430	< t < 5630	: button_select on : no change on screen : switch_select on 
+	-- 5630	< t < 5830	: button_select off : select single player game : new_state=game_resolution -> sets N_Players_New=1 , enable=1 , new_state=game_setup -> move drawing cards
 
-	Player_Turn_In <=	'0' after 0 ns;
+	--  drawing cards
+	-- should be tested with Deck
 
-	N_Players <=	'0' after 0 ns;
 
-	button_select <=	'0' after 0 ns;
 
-	button_left <=	'0' after 0 ns;
+	-- interacting with the controller --
+	reset <=
+		'1' after 0 ns,
+		'0' after 90 ns; -- reset two clock cycles: first clock set global reset, second clock the other components see a reset
 
-	button_right <=	'0' after 0 ns;
+	button_select <=
+		-- reset --
+		'0' after 0 ns,
+		'1' after 230 ns,
+		'0' after 430 ns,
+		-- player select --
+		'1' after 4630 ns,
+		'0' after 4830 ns,
+		-- bid selection --
+		'1' after 5430 ns,
+		'0' after 5630 ns;
 
-	random_card <=	'0' after 0 ns;
+	button_right <=
+		'0' after 0 ns,
+		-- player select --
+		'1' after 630 ns,
+		'0' after 830 ns,
+		'1' after 1030 ns,
+		'0' after 1230 ns,
+		'1' after 1430 ns,
+		'0' after 1630 ns,
+		'1' after 1830 ns,
+		'0' after 2030 ns,
+		'1' after 2230 ns,
+		'0' after 2430 ns;
+
+	button_left <=
+		'0' after 0 ns,
+		-- player select --
+		'1' after 2630 ns,
+		'0' after 2830 ns,
+		'1' after 3030 ns,
+		'0' after 3230 ns,
+		'1' after 3430 ns,
+		'0' after 3630 ns,
+		'1' after 3830 ns,
+		'0' after 4030 ns,
+		'1' after 4230 ns,
+		'0' after 4430 ns,
+		-- bid selection --
+		'1' after 5030 ns,
+		'0' after 5230 ns;
+
+
+
+	random_card <=	"0000" after 0 ns;
 
 	-- emulate memory --
-	Player1_Budget <=	'0' after 0 ns;
-	Player2_Budget <=	'0' after 0 ns;
-	Player3_Budget <=	'0' after 0 ns;
-	Player4_Budget <=	'0' after 0 ns;
+	Player_Turn_In <=
+		"000" after 0 ns,
+		Player_Turn_New after 230 ns;
 
-	Player1_Bid <=	'0' after 0 ns;
-	Player2_Bid <=	'0' after 0 ns;
-	Player3_Bid <=	'0' after 0 ns;
-	Player4_Bid <=	'0' after 0 ns;
+	N_Players <=
+		"000" after 0 ns,
+		N_Players_New after 230 ns;
 
-	Player1_Hand_Card_1 <=	'0' after 0 ns;
+	Player1_Hand_Card_1 <=	"0000" after 0 ns;
+	Player1_Hand_Card_2 <=	"0000" after 0 ns;
+	Player1_Hand_Card_3 <=	"0000" after 0 ns;
+	Player1_Hand_Card_4 <=	"0000" after 0 ns;
+	Player1_Hand_Card_5 <=	"0000" after 0 ns;
+	Player1_Budget <=	"00000000000" after 0 ns;
+	Player1_Hand_Score <= "000000" after 0 ns;
+	Player1_Bid <=	"00" after 0 ns;
+
+	Player2_Hand_Card_1 <=	"0000" after 0 ns;
+	Player2_Hand_Card_2 <=	"0000" after 0 ns;
+	Player2_Hand_Card_3 <=	"0000" after 0 ns;
+	Player2_Hand_Card_4 <=	"0000" after 0 ns;
+	Player2_Hand_Card_5 <=	"0000" after 0 ns;
+	Player2_Budget <=	"00000000000" after 0 ns;
+	Player2_Hand_Score <= "000000" after 0 ns;
+	Player2_Bid <=	"00" after 0 ns;
+
+	Player3_Hand_Card_1 <=	"0000" after 0 ns;
+	Player3_Hand_Card_2 <=	"0000" after 0 ns;
+	Player3_Hand_Card_3 <=	"0000" after 0 ns;
+	Player3_Hand_Card_4 <=	"0000" after 0 ns;
+	Player3_Hand_Card_5 <=	"0000" after 0 ns;
+	Player3_Budget <=	"00000000000" after 0 ns;
+	Player3_Hand_Score <= "000000" after 0 ns;
+	Player3_Bid <=	"00" after 0 ns;
+
+	Player4_Hand_Card_1 <=	"0000" after 0 ns;
+	Player4_Hand_Card_2 <=	"0000" after 0 ns;
+	Player4_Hand_Card_3 <=	"0000" after 0 ns;
+	Player4_Hand_Card_4 <=	"0000" after 0 ns;
+	Player4_Hand_Card_5 <=	"0000" after 0 ns;
+	Player4_Budget <=	"00000000000" after 0 ns;
+	Player4_Hand_Score <= "000000" after 0 ns;
+	Player4_Bid <=	"00" after 0 ns;
+
+	Dealer_Hand_Card_1 <=	"0000" after 0 ns;
+	Dealer_Hand_Card_2 <=	"0000" after 0 ns;
+	Dealer_Hand_Card_3 <=	"0000" after 0 ns;
+	Dealer_Hand_Card_4 <=	"0000" after 0 ns;
+	Dealer_Hand_Card_5 <=	"0000" after 0 ns;
+	Dealer_Hand_Score <= "000000" after 0 ns;
+
+	Reserve_Hand_Card_1 <=	"0000" after 0 ns;
+	Reserve_Hand_Card_2 <=	"0000" after 0 ns;
+	Reserve_Hand_Card_3 <=	"0000" after 0 ns;
+	Reserve_Hand_Card_4 <=	"0000" after 0 ns;
+	Reserve_Hand_Card_5 <=	"0000" after 0 ns;
+	Reserve_Hand_Score <= "000000" after 0 ns;
+
+
 end behaviour;
