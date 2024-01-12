@@ -1043,6 +1043,31 @@ else return '0';
 end if;
  end function;
 
+
+function bet(
+	x           : integer range 0 to 84;
+        y           : integer range 0 to 38;
+	screentype  : std_logic_vector(1 downto 0)
+) return std_logic is
+	begin 
+		if (x >= 444 and x< 470 and screentype = 01) then
+			if ( x < 451) then
+				return small_letter(x-444, y-425, 2); --b
+			elsif (x <457) then
+				return small_letter(x-451, y-425, 5);--e
+			elsif (x <463) then
+				return small_letter(x-457, y-425, 20);--t
+			elsif (x<451) then
+				return small_card_char(x-444, y-434, 2);--2
+			elsif (x<451) then
+				return small_card_char(x-444, y-443,6);--6
+			elsif(x<451) then
+				return small_card_char(x-444, y-452, 10);--10
+			elsif(x<560) then
+				return small_card_char(x-444, y-461, 20);--20
+			else
+				return '0'
+				end if;
     function details(
         x           : integer range 0 to 84;
         y           : integer range 0 to 38;
@@ -1227,9 +1252,9 @@ begin
 			g <= 0;
 			b <= 0;
 		else
-                			r <= 15;
-                			g <= 15;
-                			b <= 15;
+                	r <= 15;
+                	g <= 15;
+                	b <= 15;
 		end if;
 	
 	   
