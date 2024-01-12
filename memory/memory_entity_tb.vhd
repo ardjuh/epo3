@@ -291,7 +291,7 @@ clk,
     '1' after 110 ns,
     '0' after 190 ns,
     '1' after 210 ns,
-    '0' after 130 ns;
+    '0' after 230 ns;
 
     player_in <= "000" after 0 ns,
     "010" after 90 ns,
