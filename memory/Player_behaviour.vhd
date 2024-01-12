@@ -13,7 +13,7 @@ begin
         if (rising_edge(clk)) then
             if (rst = '1') then
                 bid_out        <= "00";
-                money          <= "0000000000";
+                money          <= "0001100100";
                 insurance_out  <= '0';
                 doubledown_out <= '0';
             elsif (mem_rst = '1') then
