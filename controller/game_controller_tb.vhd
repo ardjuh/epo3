@@ -256,6 +256,7 @@ begin
 	-- 120	< t < 240	: let loose of reset: should remain on the start screen: everything null except reset
 	-- 240	< t < 360	: press button_select: should remain on the start screen: 
 	-- 240	< t < 360	: let go of button_select: switch to player select
+	-- 480	< t < 600	: select a player number
 
 	reset <=	'1' after 0 ns,
 	   		'0' after 80 ns,
