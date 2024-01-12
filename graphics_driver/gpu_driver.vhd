@@ -1301,7 +1301,7 @@ begin
                 r <= 2;
                 g <= 11;
                 b <= 2;
-            elsif (table(x_pos - 13, y_pos - 13, '1', 1, 2, 3, 4, 5, 123, '1', 6, 7, 8, 9, 10, 456, '1', 11, 12, 13, 1, 2, 789, '1', 3, 4, 5, 6, 7, 5) = '1') then
+            elsif (table(x_pos - 13, y_pos - 13, player1, card1_1, card1_2, card1_3, card1_4, card1_5, money1, player2, card2_1, card2_2, card2_3, card2_4, card2_5, money2, player3, card3_1, card3_2, card3_3, card3_4, card3_5, money3, player4, card4_1, card4_2, card4_3, card4_4, card4_5, money4) = '1') then
                 r <= 15;
                 g <= 15;
                 b <= 15;
