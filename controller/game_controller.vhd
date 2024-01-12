@@ -69,10 +69,9 @@ entity controller is
 	request_card	: out std_logic;                         
 	new_card	: out std_logic_vector (3 downto 0);	-- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 
-	draw_screen	: out std_logic_vector(2 downto 0);  
-	cursor_position	: out std_logic_vector(2 downto 0);
-
-	hold_option		: out std_logic;     
+	draw_screen_type  : out std_logic_vector(1 downto 0);  
+	cursor_position	  : out std_logic_vector(2 downto 0);
+    
 	hit_option		: out std_logic;
 	double_option		: out std_logic;
 	split_option		: out std_logic;
@@ -133,8 +132,7 @@ signal first_turn_over : std_logic;
 signal split_player : std_logic_vector (2 downto 0);  
 signal split_player_turn : std_logic;
 
-signal start_screen, choose_players, choose_bids, choose_action, score_screen : std_logic;
-
+signal start_screen, choose_action, score_screen : std_logic;
 signal current_screen_position : std_logic_vector(2 downto 0);
 
 begin
@@ -170,7 +168,6 @@ begin
 
 		cursor_position <= std_logic_vector(unsigned(cursor_screen_position));
 
-		hold_option	  <= std_logic(unsigned(hold_selectable));	      
 		hit_option 	  <= std_logic(unsigned(hit_selectable)); 	 
 		double_option  	  <= std_logic(unsigned(double_selectable)); 	
 		split_option	  <= std_logic(unsigned(split_selectable)); 	 
@@ -237,10 +234,8 @@ begin
 				current_screen_position <= "001";
 
 				start_screen <= '1';
-				draw_screen <= "001";
-				if ( switch_select = '1' ) then
-					start_screen <= '0';
-					new_state <= game_setup;
+				draw_screen_type <= "00";   ------------------------------------- adjust -------------------------------------
+				new_state <= player_action;
 				end if;
 					
 			when game_setup =>
@@ -254,25 +249,16 @@ begin
 				round_end <= '0';
 				bid_successful <= '0';     
 
-				if ( N_Players = "000" ) then      -- player select condition --
-					choose_players <= '1';
-					draw_screen <= "010";
+				if ( bids_placed = '0' ) and ( N_Players /= "000" ) then	 -- bidding screen condition--
+					draw_screen_type <= "01";    ----- 10 tells graphics cursor to track the bidding menu -----
 					new_state <= player_action;
-
-				elsif ( bids_placed = '0' and N_Players /= "000" ) then	 -- bidding screen condition--
-					choose_bids <= '1';
-					draw_screen <= "011";
-					choose_players <= '0';
+				elsif ( choose_action = '1' ) then
+					draw_screen_type <= "10";    ----- 10 tells graphics cursor to track the action menu -----
 					new_state <= player_action;
-				else  
-					choose_action <= '1';
-					draw_screen <= "100";
-					choose_bids <= '0'; 
-				end if;
 
 				-- Check whether starting cards have been dealt -- 
 				-- If yes, check which dealing phase we're in based on player count--
-				if ( N_Players = "001" ) and ( bids_placed = '1' ) then			    -- if 1 player total, switch phases based on Player 1 cards --
+				elsif ( N_Players = "001" ) and ( bids_placed = '1' ) then			    -- if 1 player total, switch phases based on Player 1 cards --
 					if ( Player1_Hand_Card_1 = "0000" ) then     -- Dealer receives a card after the last player received their first card --
 						first_card_deal <= '1';
 						dealer_card_deal <= '0';
@@ -624,17 +610,14 @@ begin
 							new_state <= game_resolution;
 					else
 						score_screen <= '1';
-						draw_screen <= "101";
+						draw_screen_type <= "11";
 						choose_action <= '0';
 						new_state <= player_action;
 					end if;
 				end if;
 		
 			when player_action =>
-				switch_select <= '0';	
-				switch_left <= '0';
-				switch_right <= '0';
-							
+					
 				if (button = "100") then 
 					new_state <= sela;
 				elsif (button = "001") then 
@@ -645,261 +628,272 @@ begin
 					new_state <= player_action;
 				end if;
 						
-				if ( choose_players = '1' ) then                              -- menu for choosing players --
-					if ( switch_left = '1' ) then
-						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 4 --
-							current_screen_position <= "100"; 
-							new_state <= player_action;
-						else
-							current_screen_position <= std_logic_vector(unsigned(current_screen_position) - 1);
-							new_state <= player_action;
-						end if;
-		
-					elsif ( switch_right = '1' ) then
-						if ( current_screen_position = "100" ) then         -- if at option 4, right moves to option 1 --
-							current_screen_position <= "001";
-							new_state <= player_action;
-						else
-							current_screen_position <= std_logic_vector(unsigned(current_screen_position) + 1);
-							new_state <= player_action;
-						end if;
-
-					elsif ( switch_select = '1' ) then        
-						if ( current_screen_position = "001" ) then
-							N_Players_New <= "001";
-							enable <= '1';
-							new_state <= game_setup;
-
-						elsif ( current_screen_position = "010" ) then
-							N_Players_New <= "010";
-							enable <= '1';
-							new_state <= game_setup;
-
-						elsif ( current_screen_position = "011" ) then
-							N_Players_New <= "011";
-							enable <= '1';
-							new_state <= game_setup;
-
-						elsif ( current_screen_position = "100" ) then
-							N_Players_New <= "100";
-							enable <= '1';
-							new_state <= game_setup;
-						else
-							new_state <= player_action;
-						end if;
-					end if;
-
-				elsif ( choose_bids = '1' ) then                              -- menu for choosing bids (near identical to choosing players) --
-					if ( switch_left = '1' ) then
-						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 4 --
-							current_screen_position <= "100"; 
-							new_state <= player_action;
-						else
-							current_screen_position <= std_logic_vector(unsigned(current_screen_position) - 1);
-							new_state <= player_action;
-						end if;
-		
-					elsif ( switch_right = '1' ) then
-						if ( current_screen_position = "100" ) then         -- if at option 4, right moves to option 1 --
-							current_screen_position <= "001";
-							new_state <= player_action;
-						else
-							current_screen_position <=  std_logic_vector(unsigned(current_screen_position) + 1);
-							new_state <= player_action;
-						end if;
-
-					elsif ( switch_select = '1' ) then         
-						if ( Player_Turn_In = "001" ) then
-							if ( current_screen_position = "001" ) and ( unsigned(Player1_Budget) >= 2 ) then
-								Player1_Bid_New <= "00";
-								bid_successful <= '1';
-								enable <= '1';
-								new_state <= game_setup;
-
-							elsif ( current_screen_position = "010" ) and ( unsigned(Player1_Budget) >= 6 ) then
-								Player1_Bid_New <= "01";
-								bid_successful <= '1';
-								enable <= '1';
-								new_state <= game_setup;
-
-							elsif ( current_screen_position = "011" ) and ( unsigned(Player1_Budget) >= 10 ) then
-								Player1_Bid_New <= "10";
-								bid_successful <= '1';
-								enable <= '1';
-								new_state <= game_setup;
-
-							elsif ( current_screen_position = "100" ) and ( unsigned(Player1_Budget) >= 20 ) then
-								Player1_Bid_New <= "11";
-								bid_successful <= '1';
-								enable <= '1';
-								new_state <= game_setup;
+				if ( start_screen = '1' ) then                              -- menu for choosing players --
+					if ( N_Players = "000" ) then
+						if ( switch_left = '1' ) then
+							if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 4 --
+								current_screen_position <= "100"; 
+								new_state <= player_action;
 							else
+								current_screen_position <= std_logic_vector(unsigned(current_screen_position) - 1);
+								new_state <= player_action;
+							end if;
+		
+						elsif ( switch_right = '1' ) then
+							if ( current_screen_position = "100" ) then         -- if at option 4, right moves to option 1 --
+								current_screen_position <= "001";
+								new_state <= player_action;
+							else
+								current_screen_position <= std_logic_vector(unsigned(current_screen_position) + 1);
 								new_state <= player_action;
 							end if;
 
-							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
-								Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
-								enable <= '1';
-								new_state <= game_setup;
-							else
-								bids_placed <= '1';
-								Player_Turn_New <= "001";
-								enable <= '1';
-								new_state <= game_setup;
-							end if;
-
-						elsif ( Player_Turn_In = "010" ) then
-							if ( current_screen_position = "001" ) and ( unsigned(Player2_Budget) >= 2 ) then
-								Player2_Bid_New <= "00";
-								bid_successful <= '1';
-								enable <= '1';
-								new_state <= game_setup;
-
-							elsif ( current_screen_position = "010" ) and ( unsigned(Player2_Budget) >= 6 ) then
-								Player2_Bid_New <= "01";
-								bid_successful <= '1';
-								enable <= '1';
-								new_state <= game_setup;
-
-							elsif ( current_screen_position = "011" ) and ( unsigned(Player2_Budget) >= 10 ) then
-								Player2_Bid_New <= "10";
-								bid_successful <= '1';
-								enable <= '1';
-								new_state <= game_setup;
-
-							elsif ( current_screen_position = "100" ) and ( unsigned(Player2_Budget) >= 20 ) then
-								Player2_Bid_New <= "11";
-								bid_successful <= '1';
-								enable <= '1';
-								new_state <= game_setup;
-							end if;
-
-							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
-								Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
-								new_state <= game_setup;
-								enable <= '1';
-							else
-								bids_placed <= '1';
-								Player_Turn_New <= "001";
-								enable <= '1';
-								new_state <= game_setup
-							end if;
-
-						elsif ( Player_Turn_In = "011" ) then
-							if ( current_screen_position = "001" ) and ( unsigned(Player3_Budget) >= 2 ) then
-								Player3_Bid_New <= "00";
-								bid_successful <= '1';
-								enable <= '1';
-								new_state <= game_setup;
-
-							elsif ( current_screen_position = "010" ) and ( unsigned(Player3_Budget) >= 6 ) then
-								Player3_Bid_New <= "01";
-								bid_successful <= '1';
-								enable <= '1';
-								new_state <= game_setup;
-
-							elsif ( current_screen_position = "011" ) and ( unsigned(Player3_Budget) >= 10 ) then
-								Player3_Bid_New <= "10";
-								bid_successful <= '1';
-								enable <= '1';
-								new_state <= game_setup;
-
-							elsif ( current_screen_position = "100" ) and ( unsigned(Player3_Budget) >= 20 ) then
-								Player3_Bid_New <= "11";
-								bid_successful <= '1';
-								enable <= '1';
-								new_state <= game_setup;
-							end if;
-
-							if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
-								Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
-								new_state <= game_setup;
-								enable <= '1';
-							else
-								bids_placed <= '1';
-								Player_Turn_New <= "001";
-								new_state <= game_setup;
-								enable <= '1';
-							end if;
-
-						elsif ( Player_Turn_In = "100" ) then
+						elsif ( switch_select = '1' ) then        
 							if ( current_screen_position = "001" ) then
-								Player4_Bid_New <= "00";
-								bid_successful <= '1';
+								N_Players_New <= "001";
 								enable <= '1';
 								new_state <= game_setup;
 
 							elsif ( current_screen_position = "010" ) then
-								Player4_Bid_New <= "01";
-								bid_successful <= '1';
+								N_Players_New <= "010";
 								enable <= '1';
 								new_state <= game_setup;
 
 							elsif ( current_screen_position = "011" ) then
-								Player4_Bid_New <= "10";
-								bid_successful <= '1';
+								N_Players_New <= "011";
 								enable <= '1';
 								new_state <= game_setup;
-
+	
 							elsif ( current_screen_position = "100" ) then
-								Player4_Bid_New <= "11";
-								bid_successful <= '1';
+								N_Players_New <= "100";
 								enable <= '1';
 								new_state <= game_setup;
-							end if;
-
-							if ( bid_successful = '1' ) then
-								bids_placed <= '1';                 -- sets player turn back to P1, bids placed=1 means the bid wont repeat after --
-								Player_Turn_New <= "001";
-								enable <= '1';
-								new_state <= game_setup;
-							end if;
+						else
+							new_state <= player_action;
+						end if;
+							
+					elsif ( N_Players /= "000" ) then
+						if ( switch_select = '1' ) then
+							choose_action <= '1';
+							draw_screen_type <= "10";     --- 10 says draw the bidding box ---
+							start_screen <= '0';
+							new_state <= game_setup;
 						end if;
 					end if;
-						
-				elsif ( choose_action = '1' ) then                 -- menu for choosing actions such as hit, hold etc --				
-					if ( switch_left = '1' ) then
-						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 6 --
-							current_screen_position <= "110";    
-						else
-							current_screen_position <= std_logic_vector(unsigned(current_screen_position) - 1);
-							new_state <= player_action;
-						end if;
+
+				elsif ( choose_action = '1' ) then 
+					if ( bids_placed = '0' ) then
+						if ( switch_left = '1' ) then
+							if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 4 --
+								current_screen_position <= "100"; 
+								new_state <= player_action;
+							else
+								current_screen_position <= std_logic_vector(unsigned(current_screen_position) - 1);
+								new_state <= player_action;
+							end if;
 		
-					elsif ( switch_right = '1' ) then
-						if ( current_screen_position = "110" ) then         -- if at option 6, right moves to option 1 --
-							current_screen_position <= "001";
-						else
-							current_screen_position <=  std_logic_vector(unsigned(current_screen_position) + 1);
-							new_state <= player_action;
+						elsif ( switch_right = '1' ) then
+							if ( current_screen_position = "100" ) then         -- if at option 4, right moves to option 1 --
+								current_screen_position <= "001";
+								new_state <= player_action;
+							else
+								current_screen_position <=  std_logic_vector(unsigned(current_screen_position) + 1);
+								new_state <= player_action;
+							end if;
+
+						elsif ( switch_select = '1' ) then         
+							if ( Player_Turn_In = "001" ) then
+								if ( current_screen_position = "001" ) and ( unsigned(Player1_Budget) >= 2 ) then
+									Player1_Bid_New <= "00";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+
+								elsif ( current_screen_position = "010" ) and ( unsigned(Player1_Budget) >= 6 ) then
+									Player1_Bid_New <= "01";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+
+								elsif ( current_screen_position = "011" ) and ( unsigned(Player1_Budget) >= 10 ) then
+									Player1_Bid_New <= "10";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+
+								elsif ( current_screen_position = "100" ) and ( unsigned(Player1_Budget) >= 20 ) then
+									Player1_Bid_New <= "11";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+								else
+									new_state <= player_action;
+								end if;
+
+								if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
+									Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
+									enable <= '1';
+									new_state <= game_setup;
+								else
+									bids_placed <= '1';
+									Player_Turn_New <= "001";
+									enable <= '1';
+									new_state <= game_setup;
+								end if;
+
+							elsif ( Player_Turn_In = "010" ) then
+								if ( current_screen_position = "001" ) and ( unsigned(Player2_Budget) >= 2 ) then
+									Player2_Bid_New <= "00";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+
+								elsif ( current_screen_position = "010" ) and ( unsigned(Player2_Budget) >= 6 ) then
+									Player2_Bid_New <= "01";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+
+								elsif ( current_screen_position = "011" ) and ( unsigned(Player2_Budget) >= 10 ) then
+									Player2_Bid_New <= "10";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+
+								elsif ( current_screen_position = "100" ) and ( unsigned(Player2_Budget) >= 20 ) then
+									Player2_Bid_New <= "11";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+								end if;
+
+								if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
+									Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
+									new_state <= game_setup;
+									enable <= '1';
+								else
+									bids_placed <= '1';
+									Player_Turn_New <= "001";
+									enable <= '1';
+									new_state <= game_setup
+								end if;
+
+							elsif ( Player_Turn_In = "011" ) then
+								if ( current_screen_position = "001" ) and ( unsigned(Player3_Budget) >= 2 ) then
+									Player3_Bid_New <= "00";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+
+								elsif ( current_screen_position = "010" ) and ( unsigned(Player3_Budget) >= 6 ) then
+									Player3_Bid_New <= "01";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+
+								elsif ( current_screen_position = "011" ) and ( unsigned(Player3_Budget) >= 10 ) then
+									Player3_Bid_New <= "10";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+
+								elsif ( current_screen_position = "100" ) and ( unsigned(Player3_Budget) >= 20 ) then
+									Player3_Bid_New <= "11";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+								end if;
+
+								if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
+									Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
+									new_state <= game_setup;
+									enable <= '1';
+								else
+									bids_placed <= '1';
+									Player_Turn_New <= "001";
+									new_state <= game_setup;
+									enable <= '1';
+								end if;
+
+							elsif ( Player_Turn_In = "100" ) then
+								if ( current_screen_position = "001" ) then
+									Player4_Bid_New <= "00";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+
+								elsif ( current_screen_position = "010" ) then
+									Player4_Bid_New <= "01";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+
+								elsif ( current_screen_position = "011" ) then
+									Player4_Bid_New <= "10";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+
+								elsif ( current_screen_position = "100" ) then
+									Player4_Bid_New <= "11";
+									bid_successful <= '1';
+									enable <= '1';
+									new_state <= game_setup;
+								end if;
+
+								if ( bid_successful = '1' ) then
+									bids_placed <= '1';                 -- sets player turn back to P1, bids placed=1 means the bid wont repeat after --
+									Player_Turn_New <= "001";
+									enable <= '1';
+									new_state <= game_setup;
+								end if;
+							end if;
 						end if;
 
-					elsif ( switch_select = '1' ) then  
-						if ( current_screen_position = "001" ) and ( hold_selectable = '1' ) then
-							hold_selected <= '1';
-							new_state <= game_resolution;
+					elsif ( bids_placed = '1' ) then				
+						if ( switch_left = '1' ) then
+							if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 6 --
+								current_screen_position <= "110";    
+							else
+								current_screen_position <= std_logic_vector(unsigned(current_screen_position) - 1);
+								new_state <= player_action;
+							end if;
+		
+						elsif ( switch_right = '1' ) then
+							if ( current_screen_position = "110" ) then         -- if at option 6, right moves to option 1 --
+								current_screen_position <= "001";
+							else
+								current_screen_position <=  std_logic_vector(unsigned(current_screen_position) + 1);
+								new_state <= player_action;
+							end if;
 
-						elsif ( current_screen_position = "010" ) and ( hit_selectable = '1' ) then
-							hit_selected <= '1';
-							new_state <= game_resolution;
+						elsif ( switch_select = '1' ) then  
+							if ( current_screen_position = "001" ) and ( hold_selectable = '1' ) then
+								hold_selected <= '1';
+								new_state <= game_resolution;
 
-						elsif ( current_screen_position = "011" ) and ( double_selectable = '1' ) then
-							double_selected <= '1';
-							new_state <= game_resolution;
+							elsif ( current_screen_position = "010" ) and ( hit_selectable = '1' ) then
+								hit_selected <= '1';
+								new_state <= game_resolution;
 
-						elsif ( current_screen_position = "100" ) and ( split_selectable = '1' ) then
-							split_selected <= '1';
-							new_state <= game_resolution;
+							elsif ( current_screen_position = "011" ) and ( double_selectable = '1' ) then
+								double_selected <= '1';
+								new_state <= game_resolution;
 
-						elsif ( current_screen_position = "101" ) and ( insurance_selectable = '1' ) then
-							insurance_selected <= '1';
-							new_state <= game_resolution;
+							elsif ( current_screen_position = "100" ) and ( split_selectable = '1' ) then
+								split_selected <= '1';
+								new_state <= game_resolution;
 
-						elsif ( current_screen_position = "110" ) and ( even_money_selectable = '1' ) then
-							even_money_selected <= '1';
-							new_state <= game_resolution;
-						else
-							new_state <= player_action;
+							elsif ( current_screen_position = "101" ) and ( insurance_selectable = '1' ) then
+								insurance_selected <= '1';
+								new_state <= game_resolution;
+
+							elsif ( current_screen_position = "110" ) and ( even_money_selectable = '1' ) then
+								even_money_selected <= '1';
+								new_state <= game_resolution;
+							else
+								new_state <= player_action;
+							end if;
 						end if;
 					end if;
 
