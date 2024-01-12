@@ -1,5 +1,5 @@
 library IEEE;
-use IEEE.std_logic_1163.all;
+use IEEE.std_logic_1164.all;
 
 entity memory_tb is
 end entity;
@@ -13,19 +13,19 @@ architecture memory_tb_arc of memory_tb is
             card_enable       : in std_logic;
             card              : in std_logic_vector(3 downto 0);
             insurance         : in std_logic;
-            insurance_enable  : in std_logic_vector;
+            insurance_enable  : in std_logic;
             doubledown        : in std_logic;
             doubledown_enable : in std_logic;
             win_type          : in std_logic_vector(1 downto 0); -- 0: normal, 1: insurance, 2: double down: 3: blackjack
             win_enable        : in std_logic;
             bid               : in std_logic_vector(1 downto 0); -- 0: 2, 1: 6, 2: 10, 3: 20
             bid_enable        : in std_logic;
-            player            : in std_logic_vector(2 downto 0); -- 0: geen player, 1-4: speler, 5: dealer, 6: split 
+            player_in            : in std_logic_vector(2 downto 0); -- 0: geen player, 1-4: speler, 5: dealer, 6: split 
             player_enable     : in std_logic;
             money             : in std_logic_vector(10 downto 0);
             split             : in std_logic;
 
-            player : out std_logic_vector(2 downto 0);
+            player_out : out std_logic_vector(2 downto 0);
 
             player1     : out std_logic;
             card1_1     : out std_logic_vector(3 downto 0);
@@ -38,6 +38,7 @@ architecture memory_tb_arc of memory_tb is
             split1      : out std_logic;
             insurance1  : out std_logic;
             doubledown1 : out std_logic;
+            score1   : std_logic_vector(4 downto 0);
 
             player2     : out std_logic;
             card2_1     : out std_logic_vector(3 downto 0);
@@ -50,6 +51,7 @@ architecture memory_tb_arc of memory_tb is
             split2      : out std_logic;
             insurance2  : out std_logic;
             doubledown2 : out std_logic;
+            score2   : std_logic_vector(4 downto 0);
 
             player3     : out std_logic;
             card3_1     : out std_logic_vector(3 downto 0);
@@ -62,6 +64,7 @@ architecture memory_tb_arc of memory_tb is
             split3      : out std_logic;
             insurance3  : out std_logic;
             doubledown3 : out std_logic;
+            score3   : std_logic_vector(4 downto 0);
 
             player4     : out std_logic;
             card4_1     : out std_logic_vector(3 downto 0);
@@ -74,6 +77,7 @@ architecture memory_tb_arc of memory_tb is
             split4      : out std_logic;
             insurance4  : out std_logic;
             doubledown4 : out std_logic;
+            score4   : std_logic_vector(4 downto 0)
 
             -- dealer
             card5_1 : out std_logic_vector(3 downto 0);
@@ -81,32 +85,34 @@ architecture memory_tb_arc of memory_tb is
             card5_3 : out std_logic_vector(3 downto 0);
             card5_4 : out std_logic_vector(3 downto 0);
             card5_5 : out std_logic_vector(3 downto 0);
+            score5   : std_logic_vector(4 downto 0);
 
             -- split
             card6_1 : out std_logic_vector(3 downto 0);
             card6_2 : out std_logic_vector(3 downto 0);
             card6_3 : out std_logic_vector(3 downto 0);
             card6_4 : out std_logic_vector(3 downto 0);
-            card6_5 : out std_logic_vector(3 downto 0)
+            card6_5 : out std_logic_vector(3 downto 0);
+            score6   : std_logic_vector(4 downto 0)
         );
     end component;
-    signal rst               : std_logic := '0';
-    signal card_enable       : std_logic := '0';
-    signal card              : std_logic_vector(3 downto 0) := "0000";
-    signal insurance         : std_logic := '0';
-    signal insurance_enable  : std_logic_vector;
-    signal doubledown        : std_logic := '0';
-    signal doubledown_enable : std_logic := '0';
-    signal win_type          : std_logic_vector(1 downto 0) := "00"; -- 0: normal, 1: insurance, 2: double down: 3: blackjack
-    signal win_enable        : std_logic := '0';
-    signal bid               : std_logic_vector(1 downto 0) := "00"; -- 0: 2, 1: 6, 2: 10, 3: 20
-    signal bid_enable        : std_logic := '0';
-    signal player            : std_logic_vector(2 downto 0) := "000"; -- 0: geen player, 1-4: speler, 5: dealer, 6: split 
-    signal player_enable     : std_logic := '0';
-    signal money             : std_logic_vector(10 downto 0) := "0000000000";
-    signal split             : std_logic := '0';
+    signal rst, clk          : std_logic;
+    signal card_enable       : std_logic;
+    signal card              : std_logic_vector(3 downto 0);
+    signal insurance         : std_logic;
+    signal insurance_enable  : std_logic;
+    signal doubledown        : std_logic;
+    signal doubledown_enable : std_logic;
+    signal win_type          : std_logic_vector(1 downto 0); -- 0: normal, 1: insurance, 2: double down: 3: blackjack
+    signal win_enable        : std_logic;
+    signal bid               : std_logic_vector(1 downto 0); -- 0: 2, 1: 6, 2: 10, 3: 20
+    signal bid_enable        : std_logic;
+    signal player_in            : std_logic_vector(2 downto 0); -- 0: geen player, 1-4: speler, 5: dealer, 6: split 
+    signal player_enable     : std_logic;
+    signal money             : std_logic_vector(10 downto 0);
+    signal split             : std_logic;
 
-    signal player : std_logic_vector(2 downto 0);
+    signal player_out : std_logic_vector(2 downto 0);
 
     signal player1     : std_logic;
     signal card1_1     : std_logic_vector(3 downto 0);
@@ -119,6 +125,7 @@ architecture memory_tb_arc of memory_tb is
     signal split1      : std_logic;
     signal insurance1  : std_logic;
     signal doubledown1 : std_logic;
+    signal score1   : std_logic_vector(4 downto 0);
 
     signal player2     : std_logic;
     signal card2_1     : std_logic_vector(3 downto 0);
@@ -131,6 +138,7 @@ architecture memory_tb_arc of memory_tb is
     signal split2      : std_logic;
     signal insurance2  : std_logic;
     signal doubledown2 : std_logic;
+    signal score2   : std_logic_vector(4 downto 0);
 
     signal player3     : std_logic;
     signal card3_1     : std_logic_vector(3 downto 0);
@@ -143,6 +151,7 @@ architecture memory_tb_arc of memory_tb is
     signal split3      : std_logic;
     signal insurance3  : std_logic;
     signal doubledown3 : std_logic;
+    signal score3   : std_logic_vector(4 downto 0);
 
     signal player4     : std_logic;
     signal card4_1     : std_logic_vector(3 downto 0);
@@ -155,6 +164,7 @@ architecture memory_tb_arc of memory_tb is
     signal split4      : std_logic;
     signal insurance4  : std_logic;
     signal doubledown4 : std_logic;
+    signal score4   : std_logic_vector(4 downto 0);
 
     -- dealer
     signal card5_1 : std_logic_vector(3 downto 0);
@@ -162,6 +172,7 @@ architecture memory_tb_arc of memory_tb is
     signal card5_3 : std_logic_vector(3 downto 0);
     signal card5_4 : std_logic_vector(3 downto 0);
     signal card5_5 : std_logic_vector(3 downto 0);
+    signal score5  : std_logic_vector(4 downto 0);
 
     -- split
     signal card6_1 : std_logic_vector(3 downto 0);
@@ -169,9 +180,11 @@ architecture memory_tb_arc of memory_tb is
     signal card6_3 : std_logic_vector(3 downto 0);
     signal card6_4 : std_logic_vector(3 downto 0);
     signal card6_5 : std_logic_vector(3 downto 0);
+    signal score6  : std_logic_vector(4 downto 0);
 begin
 
-    test : hand port map(
+    test : memory port map(
+clk,
         rst,
         card_enable,
         card,
@@ -183,12 +196,12 @@ begin
         win_enable,
         bid,
         bid_enable,
-        player,
+        player_in,
         player_enable,
         money,
         split,
 
-        player,
+        player_out,
 
         player1,
         card1_1,
@@ -252,6 +265,7 @@ begin
         card6_4,
         card6_5);
 
+   
     clk <= not clk after 10 ns;
 
     card <= "0000" after 0 ns,
@@ -266,7 +280,7 @@ begin
         "0110" after 190 ns,
         "0101" after 210 ns;
 
-    çard_enable <= '0' after 0 ns,
+    card_enable <= '0' after 0 ns,
     '1' after 30 ns,
     '0' after 90 ns,
     '1' after 110 ns,
@@ -274,8 +288,7 @@ begin
     '1' after 210 ns,
     '0' after 130 ns;
 
-    player <= "000" after 0 ns,
-
+    player_in <= "000" after 0 ns,
     "010" after 90 ns,
     "001" after 110 ns,
     "000" after 190 ns,
