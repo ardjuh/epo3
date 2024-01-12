@@ -3,14 +3,14 @@ use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.all;
 
 entity controller is
-	port(	clk		: in  std_logic;
-			reset	: in  std_logic;
+	port(	clk	: in  std_logic;
+		reset	: in  std_logic;
 
 	Player_Turn_In	: in std_logic_vector (2 downto 0);
-	N_Players		: in std_logic_vector (2 downto 0);
+	N_Players	: in std_logic_vector (2 downto 0);
 
 	button_select	: in  std_logic;  
-	button_left		: in  std_logic;						-- player inputs --
+	button_left	: in  std_logic;						-- player inputs --
 	button_right	: in  std_logic;
 
 	Player1_Budget	: in  std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 so 11 bits --
@@ -65,15 +65,15 @@ entity controller is
 	Reserve_Hand_Card_5	: in std_logic_vector (3 downto 0);
 	Reserve_Hand_Score	: in std_logic_vector (5 downto 0);
 
-	random_card		: in  std_logic_vector (3 downto 0);	-- Comms with RNG --
+	random_card	: in  std_logic_vector (3 downto 0);	-- Comms with RNG --
 	request_card	: out std_logic;                         
-	new_card		: out std_logic_vector (3 downto 0);	-- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
+	new_card	: out std_logic_vector (3 downto 0);	-- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 
-	draw_screen		: out std_logic_vector(2 downto 0);  
+	draw_screen	: out std_logic_vector(2 downto 0);  
 	cursor_position	: out std_logic_vector(2 downto 0);
 
-	hold_option			: out std_logic;     
-	hit_option			: out std_logic;
+	hold_option		: out std_logic;     
+	hit_option		: out std_logic;
 	double_option		: out std_logic;
 	split_option		: out std_logic;
 	insurance_option	: out std_logic;
@@ -99,7 +99,7 @@ entity controller is
 	split		: out std_logic;
 	double		: out std_logic;
 
-	round_end		: out std_logic;	     
+	round_end	: out std_logic;	     
 	global_reset	: out std_logic
 	);
 end controller;
