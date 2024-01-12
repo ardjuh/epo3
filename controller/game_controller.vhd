@@ -132,8 +132,7 @@ signal first_turn_over : std_logic;
 signal split_player : std_logic_vector (2 downto 0);  
 signal split_player_turn : std_logic;
 
-signal start_screen, choose_players, choose_bids, choose_action, score_screen : std_logic;
-
+signal start_screen, choose_action, score_screen : std_logic;
 signal current_screen_position : std_logic_vector(2 downto 0);
 
 begin
@@ -235,7 +234,7 @@ begin
 				current_screen_position <= "001";
 
 				start_screen <= '1';
-				draw_screen_type <= "01";   ------------------------------------- adjust -------------------------------------
+				draw_screen_type <= "00";   ------------------------------------- adjust -------------------------------------
 				new_state <= player_action;
 				end if;
 					
@@ -251,6 +250,10 @@ begin
 				bid_successful <= '0';     
 
 				if ( bids_placed = '0' ) and ( N_Players /= "000" ) then	 -- bidding screen condition--
+					draw_screen_type <= "01";    ----- 10 tells graphics cursor to track the bidding menu -----
+					new_state <= player_action;
+				elsif ( choose_action = '1' ) then
+					draw_screen_type <= "10";    ----- 10 tells graphics cursor to track the action menu -----
 					new_state <= player_action;
 
 				-- Check whether starting cards have been dealt -- 
@@ -607,7 +610,7 @@ begin
 							new_state <= game_resolution;
 					else
 						score_screen <= '1';
-						draw_screen <= "101";
+						draw_screen_type <= "11";
 						choose_action <= '0';
 						new_state <= player_action;
 					end if;
@@ -672,7 +675,7 @@ begin
 					elsif ( N_Players /= "000" ) then
 						if ( switch_select = '1' ) then
 							choose_action <= '1';
-							draw_screen_type <= "10";
+							draw_screen_type <= "10";     --- 10 says draw the bidding box ---
 							start_screen <= '0';
 							new_state <= game_setup;
 						end if;
