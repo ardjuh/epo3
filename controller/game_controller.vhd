@@ -1081,7 +1081,7 @@ begin
 				request_card <= '1';
                                 if ( random_card /= "0000" ) then
 				        require_card <= '0';
-					new_card <= random_card;
+					new_card <= std_logic_vector(unsigned(random_card));
 					card_received <= '1';
 			        else
 					require_card <= '1';
@@ -1096,7 +1096,7 @@ begin
 				request_card <= '0';
 				if ( random_card /= "0000" ) then
 				        require_card <= '0';
-					new_card <= random_card;
+					new_card <= std_logic_vector(unsigned(random_card));
 					card_received <= '1';
 			        else
 					require_card <= '1';
