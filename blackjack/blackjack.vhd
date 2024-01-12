@@ -255,7 +255,7 @@ end component;
 		 
 	signal bid1_signal, bid1_signal_new, bid2_signal, bid2_signal_new, bid3_signal, bid3_signal_new, bid4_signal, bid4_signal_new : std_logic_vector(1 downto 0); --bids per player
 	signal card1_1_signal, card1_2_signal, card1_3signal, card1_4_sigal, card1_5_signal, card2_1_signal, card2_2_signal, card2_3_signal, card2_4_signal, card2_5_signal, card3_1_signal, card3_2_signal, card3_3_signal, card3_4_signal, card3_5_signal, card4_1_signal, card4_2_signal, card4_3_signal, card4_4_signal, card4_5_signal, card5_1_signal, card5_2_signal, card5_3_signal, card5_4_signal, card5_5_signal, card6_1_signal, card6_2_signal, card6_3_signal, card6_4_signal, card6_5_signal : std_logic_vector(3 downto 0); -- hand cards of players including dealers hand
-	signal money1_signal, monet1_signal_new, money2_signal, money2_signal_new money3_signal, money3_signal_new, moneyd4_signal, money4_signal_new : std_logic_vector(10 downto 0); -- money of all 4 players
+	signal money1_signal, money1_signal_new, money2_signal, money2_signal_new money3_signal, money3_signal_new, moneyd4_signal, money4_signal_new : std_logic_vector(10 downto 0); -- money of all 4 players
 	signal split1_signal, split2_signal, split3_signal, split4_signal : std_logic;	 -- high if a player splits, low if a player does not split
 	signal insurance1_signal, insurance2_signal, insurance3_signal, insurance4_signal- : std_logic; -- if a players chooses insurance
 	signal double1, double2, double3, double4 : std_logic;
@@ -273,19 +273,19 @@ end component;
 begin
 	p1: memory 	port map(clk => clk, rst => reset, 
 				-- end roung
-				-- card_enable => enable_signal,??
+				--	card_enable => enable_signal,
 				card => new_card_signal,
 				--insurance
-				--insurance enable
+				insurance_enable => insurance_signal, doubledown_enable => double_signal, 
 				--doubledown
-				--doubledown enable
+				--doubledown_enable 
 				--win_type 
 				--win_type enable
 				--bid
-				-- bid_enable
+				--bid_enable
 				player_in => player_signal_new, 
 				player_out => player_signal,
-				-- player_enable
+				--player_enable 
 				-- money
 				-- split
 				player_a => player_a_signal, player_b => player_b_signal, player_c => player_c_signal,
