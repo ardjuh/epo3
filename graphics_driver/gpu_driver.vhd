@@ -994,27 +994,49 @@ architecture behavior of gpu_driver is
 	   	return '0';
  	    end if;
 
-	   if (y >= 72 and y <= 78 and screentype = "101") then
+	   if (y >= 22 and y <= 28 and screentype = "101") then
             if (x < 285) then
-                return small_letter(x - 279, y - 72, 6); --F
+                return small_letter(x - 279, y - 22, 6); --F
             elsif (x < 291) then
-                return small_letter(x - 285, y - 72, 9); --I
+                return small_letter(x - 285, y - 22, 9); --I
             elsif (x < 297) then
-                return small_letter(x - 291, y - 72, 14); --N
+                return small_letter(x - 291, y - 22, 14); --N
             elsif (x < 303) then
-                return small_letter(x - 297, y - 72, 9); --I
+                return small_letter(x - 297, y - 22, 9); --I
             elsif (x < 309) then
-                return small_letter(x - 303, y - 72, 19); --S
+                return small_letter(x - 303, y - 22, 19); --S
 	    elsif (x < 315) then
-		return small_letter(x-309, y-72, 8);--H
+		return small_letter(x-309, y-22, 8);--H
 	    elsif (x<321) then
-		return small_letter(x-315, y-72,5);--E
+		return small_letter(x-315, y-22,5);--E
 	    elsif (x< 327) then
-		return small_letter(x-321, y-71,4);--D
+		return small_letter(x-321, y-22,4);--D
  		else 
 	    return '0';
 	    end if;
-	   end if;
+		    if(y >= 72 and y <= 78) then
+			    if (x<285) then
+				    return small_letter(x-279, y-72, 16); -- P
+	 		    if (x<291) then
+				    return small_letter(x-285, y-72, 12;)--L
+			    if(x<297)then
+	   			    return small_letter(x-291, y-72, 1);--A
+			 if (x<303) then
+				 return small_letter(x-297, y-72, 25);	--Y
+			if (x<309) then
+				return small_letter(x-303, y-72, 0);	--SPACE
+			if (x<315) then
+			   	return small_letter(x-309, y-72,1);	--A
+			if (x<321)then
+			   	return small_letter(x-315, y-72, 7);	--G
+			if (x<327) then	    
+			   	return small_letter(x-321,y-72,1);	--A
+			if (x<333) then
+			   	return small_letter(x-327, y-72, 9);	--I
+			if(x<339) then
+			   	return small_letter(x-333, y-72, 14);	--N
+		    else return '0';	
+		   end if;
 	end if;
 
  end function;
