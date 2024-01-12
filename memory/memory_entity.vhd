@@ -3,9 +3,9 @@ use IEEE.std_logic_1164.all;
 
 entity memory is
     port (
-	clk		  : in std_logic;
+        clk               : in std_logic;
         rst               : in std_logic;
-	end_round		  : in std_logic;
+        end_round         : in std_logic;
         card_enable       : in std_logic;
         card              : in std_logic_vector(3 downto 0);
         insurance         : in std_logic;
@@ -15,7 +15,7 @@ entity memory is
         win_type          : in std_logic_vector(1 downto 0); -- 0: normal, 1: insurance, 2: double down: 3: blackjack
         win_enable        : in std_logic;
         bid               : in std_logic_vector(1 downto 0); -- 0: 2, 1: 6, 2: 10, 3: 20
-	bid_enable	       : in std_logic;
+        bid_enable        : in std_logic;
         player_in         : in std_logic_vector(2 downto 0); -- 0: geen player, 1-4: speler, 5: dealer, 6: split 
         player_enable     : in std_logic;
         money             : in std_logic_vector(9 downto 0);
