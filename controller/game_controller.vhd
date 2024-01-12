@@ -6,7 +6,7 @@ entity controller is
 	port(	clk	: in  std_logic;
 		reset	: in  std_logic;
 
-	Player_Turn_In	: in std_logic_vector (2 downto 0);
+	Player_Turn	: in std_logic_vector (2 downto 0);
 	N_Players	: in std_logic_vector (2 downto 0);
 
 	button_select	: in  std_logic;  
@@ -119,21 +119,21 @@ architecture behaviour of controller is
 				 );
 
 signal state, new_state: controller_state;
-signal switch_left, switch_right, switch_select : std_logic;
+signal switch_left, switch_right, switch_select : std_logic := '0';
 
-signal Player1_Bid_Value, Player2_Bid_Value, Player3_Bid_Value, Player4_Bid_Value : std_logic_vector (4 downto 0);
-signal bids_placed, bid_successful, require_card, card_received : std_logic;  
-signal first_card_deal, dealer_card_deal, second_card_deal : std_logic;
+signal Player1_Bid_Value, Player2_Bid_Value, Player3_Bid_Value, Player4_Bid_Value : std_logic_vector (4 downto 0) := "00000";
+signal bids_placed, bid_successful, require_card, card_received : std_logic := '0';  
 
-signal even_money_selected, insurance_selected, split_selected, double_selected, hit_selected, hold_selected : std_logic;
-signal even_money_selectable, insurance_selectable, split_selectable, double_selectable, hit_selectable, hold_selectable : std_logic;
-signal first_turn_over : std_logic;
+signal even_money_selected, insurance_selected, split_selected, double_selected, hit_selected, hold_selected : std_logic := '0';
+signal even_money_selectable, insurance_selectable, split_selectable, double_selectable, hit_selectable : std_logic := '0';
+signal hold_selectable : std_logic := '1';
+signal first_turn_over : std_logic := '0';
 
-signal split_player : std_logic_vector (2 downto 0);  
-signal split_player_turn : std_logic;
+signal split_player : std_logic_vector (2 downto 0) := "000";  
+signal split_player_turn : std_logic := '0';
 
-signal start_screen, choose_action, score_screen : std_logic;
-signal current_screen_position : std_logic_vector(2 downto 0);
+signal start_screen, choose_action, score_screen : std_logic := '0';
+signal current_screen_position, Player_Turn_In : unsigned(2 downto 0) := 1;
 
 begin
 	process (clk)
@@ -170,17 +170,18 @@ begin
 		new_card <= "0000";
 
 		Player1_Budget_New <= Player1_Budget;
-		Player2_Budget_New <= std_logic_vector(unsigned(Player2_Budget_New));
-		Player3_Budget_New <= std_logic_vector(unsigned(Player3_Budget_New));
-		Player4_Budget_New <= std_logic_vector(unsigned(Player4_Budget_New));
+		Player2_Budget_New <= Player2_Budget;
+		Player3_Budget_New <= Player3_Budget;
+		Player4_Budget_New <= Player4_Budget;
 
-		Player1_Bid_New <= std_logic_vector(unsigned(Player1_Bid_New));
-		Player2_Bid_New <= std_logic_vector(unsigned(Player2_Bid_New));
-		Player3_Bid_New <= std_logic_vector(unsigned(Player3_Bid_New));
-		Player4_Bid_New <= std_logic_vector(unsigned(Player4_Bid_New));
+		Player1_Bid_New <= Player1_Bid;
+		Player2_Bid_New <= Player2_Bid;
+		Player3_Bid_New <= Player3_Bid;
+		Player4_Bid_New <= Player4_Bid;
 
-		Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In));
-		N_Players_New <= std_logic_vector(unsigned(N_Players));
+		Player_Turn_In <= unsigned(Player_Turn);
+		Player_Turn_New <= std_logic_vector(Player_Turn_In);
+		N_Players_New <= N_Players;
 
 		enable <= '0';
 		even_money <= '0';
@@ -188,25 +189,18 @@ begin
 		split <= '0';
 		double <= '0';
 
-		cursor_position <= std_logic_vector(unsigned(cursor_screen_position));
+		cursor_position <= std_logic_vector(current_screen_position);
 		draw_screen_type <= "00";
-		hit_option 	  <= std_logic(unsigned(hit_selectable)); 	 
-		double_option  	  <= std_logic(unsigned(double_selectable)); 	
-		split_option	  <= std_logic(unsigned(split_selectable)); 	 
-		insurance_option  <= std_logic(unsigned(insurance_selectable));
-		even_money_option <= std_logic(unsigned(even_money_selectable));
-
-		even_money_selectable <= '0';
-		insurance_selectable <= '0';
-		split_selectable <= '0';
-		double_selectable <= '0';
-		hit_selectable <= '0';
-		hold_selectable <= '1';
+		hit_option 	  <= hit_selectable; 	 
+		double_option  	  <= double_selectable; 	
+		split_option	  <= split_selectable; 	 
+		insurance_option  <= insurance_selectable;
+		even_money_option <= even_money_selectable;
 
 		round_end <= '0';
 		global_reset <= '0';
 
-		if ( bids_placed = '1' ) then            ------------------------ note sure where to put this --------------------------
+		if ( bids_placed = '1' ) then   
 			if ( Player1_Bid = "00" ) then
 				Player1_Bid_Value <= "00010";
 			elsif ( Player1_Bid = "01" ) then
