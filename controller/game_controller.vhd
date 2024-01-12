@@ -119,21 +119,23 @@ architecture behaviour of controller is
 				 );
 
 signal state, new_state: controller_state;
-signal switch_left, switch_right, switch_select : std_logic := '0';
+signal switch_left, switch_right, switch_select : std_logic;
 
-signal Player1_Bid_Value, Player2_Bid_Value, Player3_Bid_Value, Player4_Bid_Value : std_logic_vector (4 downto 0) := "00000";
-signal bids_placed, bid_successful, require_card, card_received : std_logic := '0';  
+signal Player1_Bid_Value, Player2_Bid_Value, Player3_Bid_Value, Player4_Bid_Value : std_logic_vector (4 downto 0);
+signal bids_placed, bid_successful, require_card, card_received : std_logic;  
+signal first_card_deal, dealer_card_deal, second_card_deal : std_logic;
 
-signal even_money_selected, insurance_selected, split_selected, double_selected, hit_selected, hold_selected : std_logic := '0';
-signal even_money_selectable, insurance_selectable, split_selectable, double_selectable, hit_selectable : std_logic := '0';
-signal hold_selectable : std_logic := '1';
-signal first_turn_over : std_logic := '0';
+signal even_money_selected, insurance_selected, split_selected, double_selected, hit_selected, hold_selected : std_logic;
+signal even_money_selectable, insurance_selectable, split_selectable, double_selectable, hit_selectable, hold_selectable : std_logic;
+signal first_turn_over : std_logic;
 
-signal split_player : std_logic_vector (2 downto 0) := "000";  
-signal split_player_turn : std_logic := '0';
+signal split_player : std_logic_vector (2 downto 0);  
+signal split_player_turn : std_logic;
 
-signal start_screen, choose_action, score_screen : std_logic := '0';
-signal current_screen_position, Player_Turn_In : unsigned(2 downto 0) := 1;
+signal start_screen, choose_players, choose_bids, choose_action, score_screen : std_logic;
+
+signal current_screen_position, Player_Turn_In: unsigned(2 downto 0);
+
 
 begin
 	process (clk)
@@ -156,8 +158,15 @@ begin
 		Player_Turn_In, split_player_turn, first_turn_over, split_player,
 		Player1_Budget, Player2_Budget, Player3_Budget, Player4_Budget,
 		Player1_Bid, Player2_Bid, Player3_Bid, Player4_Bid,
-		Reserve_Hand_Card_1, Reserve_Hand_Card_2, Reserve_Hand_Card_3, Reserve_Hand_Card_4, Reserve_Hand_Card_5, Reserve_Hand_Score 
+		Reserve_Hand_Card_1, Reserve_Hand_Card_2, Reserve_Hand_Card_3, Reserve_Hand_Card_4, Reserve_Hand_Card_5, Reserve_Hand_Score,
+		Player1_Bid_Value, Player2_Bid_Value, Player3_Bid_Value, Player4_Bid_Value,
+		choose_players, current_screen_position, choose_bids, bid_successful, choose_action, 
+		hold_selectable, hit_selectable, double_selectable, split_selectable, insurance_selectable, even_money_selectable,
+		score_screen, first_card_deal, random_card, second_card_deal, dealer_card_deal, 
+		hold_selected, hit_selected, double_selected, split_selected, insurance_selected, even_money_selected,
+		card_received, require_card
 		)
+
 
 	variable button : std_logic_vector (2 downto 0);
 	
@@ -241,14 +250,7 @@ begin
 				Player4_Bid_Value <= "00010";
 			elsif ( Player4_Bid = "01" ) then
 				Player4_Bid_Value <= "00110";
-			elsif ( Player4_Bid = "10" ) then
-				Player4_Bid_Value <= "01010";
-			elsif ( Player4_Bid = "11" ) then
-				Player4_Bid_Value <= "10100";
-			else
-				Player4_Bid_Value <= "00000";
 			end if;
-		end if;
 
 		case state is
 			when reset_state =>
@@ -256,7 +258,7 @@ begin
 				start_screen <= '1';
 				draw_screen_type <= "00";   ------------------------------------- adjust -------------------------------------
 				new_state <= player_action;
-				end if;
+				
 					
 			when game_setup =>    
 					
@@ -394,7 +396,7 @@ begin
 						if ( unsigned(Player1_Hand_Score) > 21) then
 							new_state <= player_action;
 						
-						elsif ( unsigned(split_player) = unsigned(Player_Turn_In) ) and ( split_player_turn = '0' ) then   
+						elsif ( unsigned(split_player) = Player_Turn_In ) and ( split_player_turn = '0' ) then   
 							if ( unsigned(Player1_Hand_Card_1) = 11 ) and ( Player1_Hand_Card_2 /= "0000" ) then    
 								new_state <= player_action;
 						
@@ -453,7 +455,7 @@ begin
 						if ( unsigned(Player2_Hand_Score) > 21) then
 								new_state <= player_action;
 
-						elsif ( unsigned(split_player) = unsigned(Player_Turn_In) ) and ( split_player_turn = '0' ) then
+						elsif ( unsigned(split_player) = Player_Turn_In ) and ( split_player_turn = '0' ) then
 							if ( unsigned(Player2_Hand_Card_1) = 11 ) and ( Player2_Hand_Card_2 /= "0000" ) then
 								new_state <= player_action;
 						
@@ -511,7 +513,7 @@ begin
 						if ( unsigned(Player3_Hand_Score) > 21) then
 								new_state <= player_action;
 
-						elsif ( unsigned(split_player) = unsigned(Player_Turn_In) ) and ( split_player_turn = '0' ) then
+						elsif ( unsigned(split_player) = Player_Turn_In ) and ( split_player_turn = '0' ) then
 							if ( unsigned(Player3_Hand_Card_1) = 11 ) and ( Player3_Hand_Card_2 /= "0000" ) then
 								new_state <= player_action;
 						
@@ -573,7 +575,7 @@ begin
 						if ( unsigned(Player4_Hand_Score) > 21) then
 								new_state <= player_action;
 
-						elsif ( unsigned(split_player) = unsigned(Player_Turn_In) ) and ( split_player_turn = '0' ) then
+						elsif ( unsigned(split_player) = Player_Turn_In ) and ( split_player_turn = '0' ) then
 							if ( unsigned(Player4_Hand_Card_1) = 11 ) and ( Player4_Hand_Card_2 /= "0000" ) then
 								new_state <= player_action;
 						
@@ -590,7 +592,7 @@ begin
 					end if;
 						
 
-				elsif ( unsigned(split_player) = unsigned(Player_Turn_In) ) and ( split_player_turn = '1' ) then
+				elsif ( unsigned(split_player) = Player_Turn_In ) and ( split_player_turn = '1' ) then
 						if ( unsigned(Reserve_Hand_Card_1) = 11 ) and ( Reserve_Hand_Card_2 /= "0000" ) then
 								new_state <= player_action;
 					
@@ -639,7 +641,7 @@ begin
 								current_screen_position <= "100"; 
 								new_state <= player_action;
 							else
-								current_screen_position <= std_logic_vector(unsigned(current_screen_position) - 1);
+								current_screen_position <= current_screen_position - 1;
 								new_state <= player_action;
 							end if;
 		
@@ -648,7 +650,7 @@ begin
 								current_screen_position <= "001";
 								new_state <= player_action;
 							else
-								current_screen_position <= std_logic_vector(unsigned(current_screen_position) + 1);
+								current_screen_position <= current_screen_position + 1;
 								new_state <= player_action;
 							end if;
 
@@ -692,7 +694,7 @@ begin
 								current_screen_position <= "100"; 
 								new_state <= player_action;
 							else
-								current_screen_position <= std_logic_vector(unsigned(current_screen_position) - 1);
+								current_screen_position <= current_screen_position - 1;
 								new_state <= player_action;
 							end if;
 		
@@ -701,7 +703,7 @@ begin
 								current_screen_position <= "001";
 								new_state <= player_action;
 							else
-								current_screen_position <=  std_logic_vector(unsigned(current_screen_position) + 1);
+								current_screen_position <=  current_screen_position + 1;
 								new_state <= player_action;
 							end if;
 
@@ -734,8 +736,8 @@ begin
 									new_state <= player_action;
 								end if;
 
-								if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
-									Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
+								if ( unsigned(N_Players) > Player_Turn_In ) and ( bid_successful = '1' ) then
+									Player_Turn_New <= std_logic_vector(Player_Turn_In + 1);
 									enable <= '1';
 									new_state <= game_setup;
 								else
@@ -771,15 +773,15 @@ begin
 									new_state <= game_setup;
 								end if;
 
-								if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
-									Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
+								if ( unsigned(N_Players) > Player_Turn_In ) and ( bid_successful = '1' ) then
+									Player_Turn_New <= std_logic_vector(Player_Turn_In + 1);
 									new_state <= game_setup;
 									enable <= '1';
 								else
 									bids_placed <= '1';
 									Player_Turn_New <= "001";
 									enable <= '1';
-									new_state <= game_setup
+									new_state <= game_setup;
 								end if;
 
 							elsif ( Player_Turn_In = "011" ) then
@@ -808,8 +810,8 @@ begin
 									new_state <= game_setup;
 								end if;
 
-								if ( unsigned(N_Players) > unsigned(Player_Turn_In) ) and ( bid_successful = '1' ) then
-									Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
+								if ( unsigned(N_Players) > Player_Turn_In) and ( bid_successful = '1' ) then
+									Player_Turn_New <= std_logic_vector(Player_Turn_In + 1);
 									new_state <= game_setup;
 									enable <= '1';
 								else
@@ -818,6 +820,7 @@ begin
 									new_state <= game_setup;
 									enable <= '1';
 								end if;
+
 
 							elsif ( Player_Turn_In = "100" ) then
 								if ( current_screen_position = "001" ) then
@@ -859,7 +862,7 @@ begin
 							if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 6 --
 								current_screen_position <= "110";    
 							else
-								current_screen_position <= std_logic_vector(unsigned(current_screen_position) - 1);
+								current_screen_position <= current_screen_position - 1;
 								new_state <= player_action;
 							end if;
 		
@@ -867,7 +870,7 @@ begin
 							if ( current_screen_position = "110" ) then         -- if at option 6, right moves to option 1 --
 								current_screen_position <= "001";
 							else
-								current_screen_position <=  std_logic_vector(unsigned(current_screen_position) + 1);
+								current_screen_position <=  current_screen_position + 1;
 								new_state <= player_action;
 							end if;
 
@@ -906,7 +909,7 @@ begin
 						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 2 --
 							current_screen_position <= "010";    
 						else
-							current_screen_position <= std_logic_vector(unsigned(current_screen_position) - 1);
+							current_screen_position <= current_screen_position - 1;
 							new_state <= player_action;
 						end if;
 		
@@ -914,7 +917,7 @@ begin
 						if ( current_screen_position = "010" ) then         -- if at option 2, right moves to option 1 --
 							current_screen_position <= "001";
 						else
-							current_screen_position <= std_logic_vector(unsigned(current_screen_position) + 1);
+							current_screen_position <= current_screen_position + 1;
 							new_state <= player_action;
 						end if;
 
@@ -969,23 +972,23 @@ begin
 					new_state <= game_setup;
 
 				elsif ( split_selected = '1' ) then 
-					split_player <= Player_Turn_In;   --------------------- inquire ---------------------------
+					split_player <= std_logic_vector(Player_Turn_In);   --------------------- inquire ---------------------------
 					first_turn_over <= '1';
 					split <= '1';
 					enable <= '1';
 					new_state <= game_setup;
 							
 				elsif ( hold_selected = '1' ) then
-					if ( unsigned(Player_Turn_In) = unsigned(N_Players) ) and ( unsigned(split_player) /= unsigned(Player_Turn_In) ) then
+					if (Player_Turn_In = unsigned(N_Players) ) and ( unsigned(split_player) /= Player_Turn_In ) then
 						Player_Turn_New <= "101";
 
-					elsif ( unsigned(Player_Turn_In) = unsigned(N_Players) ) and ( split_player_turn = '1' ) then
+					elsif (Player_Turn_In = unsigned(N_Players) ) and ( split_player_turn = '1' ) then
 						Player_Turn_New <= "101";
 					
-					elsif ( unsigned(split_player) = unsigned(Player_Turn_In) ) and ( split_player_turn = '0' ) then
+					elsif ( unsigned(split_player) = Player_Turn_In ) and ( split_player_turn = '0' ) then
 						split_player_turn <= '1';
 					else
-						Player_Turn_New <= std_logic_vector(unsigned(Player_Turn_In) + 1);
+						Player_Turn_New <= std_logic_vector(Player_Turn_In + 1);
 					end if;
 					first_turn_over <= '0';
 					enable <= '1';
@@ -1054,7 +1057,7 @@ begin
 						end if;
 																  
 					elsif ( double_selected = '1' ) then 										  
-						Receiving_Hand <= Player_Turn_In;
+						Receiving_Hand <= std_logic_vector(Player_Turn_In);
 						double <= '1';
 						enable <= '1';
 						card_received <= '0';
@@ -1067,7 +1070,7 @@ begin
 							card_received <= '0';
 							new_state <= game_setup;
 						else
-							Receiving_Hand <= std_logic_vector(unsigned(Player_Turn_In));
+							Receiving_Hand <= std_logic_vector(Player_Turn_In);
 							enable <= '1';
 							card_received <= '0';
 							new_state <= game_setup;
@@ -1079,11 +1082,12 @@ begin
 				request_card <= '1';
                                 if ( random_card /= "0000" ) then
 				        require_card <= '0';
-					new_card <= std_logic_vector(unsigned(random_card));
+					new_card <= random_card;
 					card_received <= '1';
 			        else
 					require_card <= '1';
 				end if;
+
 				if ( require_card = '1' ) then
 					new_state <= pending_card_b;
 				else
@@ -1094,11 +1098,12 @@ begin
 				request_card <= '0';
 				if ( random_card /= "0000" ) then
 				        require_card <= '0';
-					new_card <= std_logic_vector(unsigned(random_card));
+					new_card <= random_card;
 					card_received <= '1';
 			        else
 					require_card <= '1';
 				end if;
+
 				if ( require_card = '1' ) then
 					new_state <= pending_card_b;
 				else
