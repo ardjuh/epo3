@@ -248,23 +248,18 @@ architecture behaviour of game_controller_tb is
 begin
    	-- 40 ns = 25 MHz
 	clk <=	'0' after 0 ns,
-			'1' after 20 ns when clk /= '1' else '0' after 20 ns; -- 1 for 20, 60, 100 etc
-
+		'1' after 20 ns when clk /= '1' else '0' after 20 ns; -- 1 for 20, 60, 100 etc
+	
 	-- test bench --
-	--
-	-- time range 		: action: desired behaviour: graph observation
-	--
+	--   time range 	: action: desired behaviour: graph observation
 	-- 0	< t < 120	: turn on with reset held for two clock cycles: everything null
 	-- 120	< t < 240	: let loose of reset: should remain on the start screen: everything null except reset
 	-- 240	< t < 360	: press button_select: should remain on the start screen: 
 	-- 240	< t < 360	: let go of button_select: switch to player select
 
-
-
-
-	reset	<=	'1' after 0 ns,
-	   			'0' after 80 ns,
-	   			'1' after 720 ns, -- test if the reset works
-	   			'0' after 780 ns;
+	reset <=	'1' after 0 ns,
+	   		'0' after 80 ns,
+	   		'1' after 720 ns, -- test if the reset works
+	   		'0' after 780 ns;
 
 end behaviour;
