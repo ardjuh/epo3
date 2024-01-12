@@ -93,21 +93,21 @@ architecture memory_tb_arc of memory_tb is
             score6   : out std_logic_vector(4 downto 0)
         );
     end component;
-    signal rst, clk, end_round          : std_logic;
-    signal card_enable       : std_logic;
-    signal card              : std_logic_vector(3 downto 0);
-    signal insurance         : std_logic;
-    signal insurance_enable  : std_logic;
-    signal doubledown        : std_logic;
-    signal doubledown_enable : std_logic;
-    signal win_type          : std_logic_vector(1 downto 0); -- 0: normal, 1: insurance, 2: double down: 3: blackjack
-    signal win_enable        : std_logic;
-    signal bid               : std_logic_vector(1 downto 0); -- 0: 2, 1: 6, 2: 10, 3: 20
-    signal bid_enable        : std_logic;
-    signal player_in            : std_logic_vector(2 downto 0); -- 0: geen player, 1-4: speler, 5: dealer, 6: split 
-    signal player_enable     : std_logic;
-    signal money             : std_logic_vector(9 downto 0);
-    signal split             : std_logic;
+    signal rst, clk, end_round          : std_logic := '0';
+    signal card_enable       : std_logic := '0';
+    signal card              : std_logic_vector(3 downto 0) := "0000";
+    signal insurance         : std_logic := '0';
+    signal insurance_enable  : std_logic := '0';
+    signal doubledown        : std_logic := '0';
+    signal doubledown_enable : std_logic := '0';
+    signal win_type          : std_logic_vector(1 downto 0) := "00"; -- 0: normal, 1: insurance, 2: double down: 3: blackjack
+    signal win_enable        : std_logic := '0';
+    signal bid               : std_logic_vector(1 downto 0) := "00"; -- 0: 2, 1: 6, 2: 10, 3: 20
+    signal bid_enable        : std_logic := '0';
+    signal player_in            : std_logic_vector(2 downto 0) := "000"; -- 0: geen player, 1-4: speler, 5: dealer, 6: split 
+    signal player_enable     : std_logic := '0';
+    signal money             : std_logic_vector(9 downto 0) := "0000000000";
+    signal split             : std_logic := '0';
 
     signal player_out : std_logic_vector(2 downto 0);
 
@@ -303,5 +303,4 @@ clk,
         '1' after 5 ns,
         '0' after 25 ns;
 
-    end_round <= '0';
 end architecture;
