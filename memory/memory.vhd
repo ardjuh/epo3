@@ -121,9 +121,14 @@ begin
             end case;
         end if;
 
-        case player_in is -- mss fout
+        
+    end process;
+
+    process (player_in)
+    begin
+        case player_in is 
             when "001" =>
-                bid_temp <= bid1; -- bid 1 is intern signaal
+                bid_temp <= bid1;
             when "010" =>
                 bid_temp <= bid2;
             when "011" =>
@@ -133,6 +138,121 @@ begin
             when others =>
                 null;
         end case;
+    end process;
+
+
+    process (insurance_enable, player_in)
+    begin
+        if (insurance_enable = '0') then
+            p1_i <= '0';
+            p2_i <= '0';
+            p3_i <= '0';
+            p4_i <= '0';
+        else
+            case player_in is
+                when "001" =>
+                    p1_i <= '1';
+                    p2_i <= '0';
+                    p3_i <= '0';
+                    p4_i <= '0';
+                when "010" =>
+                    p1_i <= '0';
+                    p2_i <= '1';
+                    p3_i <= '0';
+                    p4_i <= '0';
+                when "011" =>
+                    p1_i <= '0';
+                    p2_i <= '0';
+                    p3_i <= '1';
+                    p4_i <= '0';
+                when "100" =>
+                    p1_i <= '0';
+                    p2_i <= '0';
+                    p3_i <= '0';
+                    p4_i <= '1';
+                when others =>
+                    p1_i <= '0';
+                    p2_i <= '0';
+                    p3_i <= '0';
+                    p4_i <= '0';
+            end case;
+        end if;
+    end process;
+
+    process (doubledown_enable, player_in)
+    begin
+        if (doubledown_enable = '0') then
+            p1_d <= '0';
+            p2_d <= '0';
+            p3_d <= '0';
+            p4_d <= '0';
+        else
+            case player_in is
+                when "001" =>
+                    p1_d <= '1';
+                    p2_d <= '0';
+                    p3_d <= '0';
+                    p4_d <= '0';
+                when "010" =>
+                    p1_d <= '0';
+                    p2_d <= '1';
+                    p3_d <= '0';
+                    p4_d <= '0';
+                when "011" =>
+                    p1_d <= '0';
+                    p2_d <= '0';
+                    p3_d <= '1';
+                    p4_d <= '0';
+                when "100" =>
+                    p1_d <= '0';
+                    p2_d <= '0';
+                    p3_d <= '0';
+                    p4_d <= '1';
+                when others =>
+                    p1_d <= '0';
+                    p2_d <= '0';
+                    p3_d <= '0';
+                    p4_d <= '0';
+            end case;
+        end if;
+    end process;
+
+    process (bid_enable, player_in)
+    begin
+        if (bid_enable = '0') then
+            p1_b <= '0';
+            p1_b <= '0';
+            p1_b <= '0';
+            p1_b <= '0';
+        else
+            case player_in is
+                when "001" =>
+                    p1_b <= '1';
+                    p2_b <= '0';
+                    p3_b <= '0';
+                    p4_b <= '0';
+                when "010" =>
+                    p1_b <= '0';
+                    p2_b <= '1';
+                    p3_b <= '0';
+                    p4_b <= '0';
+                when "011" =>
+                    p1_b <= '0';
+                    p2_b <= '0';
+                    p3_b <= '1';
+                    p4_b <= '0';
+                when "100" =>
+                    p1_b <= '0';
+                    p2_b <= '0';
+                    p3_b <= '0';
+                    p4_b <= '1';
+                when others =>
+                    p1_b <= '0';
+                    p2_b <= '0';
+                    p3_b <= '0';
+                    p4_b <= '0';
+            end case;
+        end if;
     end process;
 
     process (win_enable)
