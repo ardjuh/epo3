@@ -10,7 +10,7 @@ entity gpu_driver is
         green : out std_logic_vector(3 downto 0);
         blue  : out std_logic_vector(3 downto 0);
 
-        player : in std_logic_vector (1 downto 0);
+        player : in std_logic_vector (2 downto 0);
 
         player_a : in std_logic;
         card1_1  : in std_logic_vector (3 downto 0);
