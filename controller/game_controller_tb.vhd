@@ -255,8 +255,20 @@ begin
 	-- 0	< t < 120	: turn on with reset held for two clock cycles: everything null
 	-- 120	< t < 240	: let loose of reset: should remain on the start screen: everything null except reset
 	-- 240	< t < 360	: press button_select: should remain on the start screen: 
-	-- 240	< t < 360	: let go of button_select: switch to player select
-	-- 480	< t < 600	: select a player number
+	-- 240	< t < 360	: let go of button_select: state moves to game setup
+	-- 360	< t < 400	: select a player number: game setup recognizes player select, screen_select=player_select, screen_position=4 move to game setup
+	-- 480	< t < 600	: select a player number: move the cursor down to select a two player game: cursor should not yet move current_screen_position
+	-- 480	< t < 600	: select a player number: let go of button: cursor moves current_screen_position to 2 within one clock and state changes to user_input
+	-- 480	< t < 600	: select a player number: move the cursor up to select a single player game
+	-- 480	< t < 600	: select a player number: let go of button: cursor moves current_screen_position to 1 within one clock
+	-- 480	< t < 600	: select a player number: press select
+	-- 480	< t < 600	: select a player number: let go of button: state changes to game resolution
+	-- 480	< t < 600	: select a player number: let go of button: resolution enables memory save to store N-player and moves to game setup
+	-- 480	< t < 600	: select a player bid: game setup recognizes player bid menu and selects screen_out bid-selection and moves to user input
+	-- 480	< t < 600	: select a player bid: game setup recognizes player bid menu and selects screen_out bid-selection and moves to user input
+	
+	
+	
 
 	reset <=	'1' after 0 ns,
 	   		'0' after 80 ns,
