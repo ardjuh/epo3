@@ -273,10 +273,22 @@ end component;
 begin
 	p1: memory 	port map(clk => clk, rst => reset, 
 				-- end roung
-				card_enable => enable_signal,
+				-- card_enable => enable_signal,??
 				card => new_card_signal,
 				--insurance
-				 
+				--insurance enable
+				--doubledown
+				--doubledown enable
+				--win_type 
+				--win_type enable
+				--bid
+				-- bid_enable
+				player_in => player_signal_new, 
+				player_out => player_signal,
+				-- player_enable
+				-- money
+				-- split
+				player_a => player_a_signal, player_b => player_b_signal, player_c => player_c_signal,
 				bid1 => bid1_signal, bid2 => bid2_signal, bid3 => bid3_signal, bid4 => bid4_signal, 
 				split1 => split1_signal, split2 => split2_signal, split3 => split3_signal, split4 => split4_signal,
 				insurance1 => insurance1_signal, insurance2 => insurance2_signal, insurance3 => insurance3_signal, insurance4 => insurance4_signal,
@@ -287,8 +299,7 @@ begin
 			    	card3_1 => card3_1_signal, card3_2 => card3_2_signal, card3_3 => card3_3_signal, card3_4 => card3_4_signal, card3_5 => card3_5_signal,
 			    	card4_1 => card4_1_signal, card4_2 => card4_2_signal, card4_3 => card4_3_signal, card4_4 => card4_4_signal, card4_5 => card4_5_signal,
 			    	card5_1 => card5_1_signal, card5_2 => card5_2_signal, card5_3 => card5_3_signal, card5_4 => card5_4_signal, card5_5 => card5_5_signal,
-				player_out => player_signal,
-				player_a => player_a_signal, player_b => player_b_signal, player_c => player_c_signal,
+				
 
 	p2: controller 	port map(clk => clk, reset => reset, 
 				 
