@@ -90,21 +90,21 @@ architecture memory_tb_arc of memory_tb is
             card6_5 : out std_logic_vector(3 downto 0)
         );
     end component;
-    signal rst               : std_logic;
-    signal card_enable       : std_logic;
-    signal card              : std_logic_vector(3 downto 0);
-    signal insurance         : std_logic;
+    signal rst               : std_logic := '0';
+    signal card_enable       : std_logic := '0';
+    signal card              : std_logic_vector(3 downto 0) := "0000";
+    signal insurance         : std_logic := '0';
     signal insurance_enable  : std_logic_vector;
-    signal doubledown        : std_logic;
-    signal doubledown_enable : std_logic;
-    signal win_type          : std_logic_vector(1 downto 0); -- 0: normal, 1: insurance, 2: double down: 3: blackjack
-    signal win_enable        : std_logic;
-    signal bid               : std_logic_vector(1 downto 0); -- 0: 2, 1: 6, 2: 10, 3: 20
-    signal bid_enable        : std_logic;
-    signal player            : std_logic_vector(2 downto 0); -- 0: geen player, 1-4: speler, 5: dealer, 6: split 
-    signal player_enable     : std_logic;
-    signal money             : std_logic_vector(10 downto 0);
-    signal split             : std_logic;
+    signal doubledown        : std_logic := '0';
+    signal doubledown_enable : std_logic := '0';
+    signal win_type          : std_logic_vector(1 downto 0) := "00"; -- 0: normal, 1: insurance, 2: double down: 3: blackjack
+    signal win_enable        : std_logic := '0';
+    signal bid               : std_logic_vector(1 downto 0) := "00"; -- 0: 2, 1: 6, 2: 10, 3: 20
+    signal bid_enable        : std_logic := '0';
+    signal player            : std_logic_vector(2 downto 0) := "000"; -- 0: geen player, 1-4: speler, 5: dealer, 6: split 
+    signal player_enable     : std_logic := '0';
+    signal money             : std_logic_vector(10 downto 0) := "0000000000";
+    signal split             : std_logic := '0';
 
     signal player : std_logic_vector(2 downto 0);
 
@@ -255,19 +255,31 @@ begin
     clk <= not clk after 10 ns;
 
     card <= "0000" after 0 ns,
-        "0100" after 50 ns,
-        "0110" after 70 ns,
-        "0101" after 85 ns,
-        "0110" after 125 ns,
-        "0101" after 165 ns;
+        "0100" after 30 ns,
+        "0110" after 50 ns,
+        "0101" after 70 ns,
+        "0110" after 90 ns,
+        "0101" after 110 ns,
+        "0100" after 130 ns,
+        "0110" after 150 ns,
+        "0101" after 170 ns,
+        "0110" after 190 ns,
+        "0101" after 210 ns;
 
-    enable <= '0' after 25 ns,
-        '1' after 50 ns,
-        '0' after 70 ns,
-        '1' after 85 ns,
-        '0' after 125 ns,
-        '1' after 165 ns,
-        '0' after 185 ns;
+    çard_enable <= '0' after 0 ns,
+    '1' after 30 ns,
+    '0' after 90 ns,
+    '1' after 110 ns,
+    '0' after 190 ns,
+    '1' after 210 ns,
+    '0' after 130 ns;
+
+    player <= "000" after 0 ns,
+
+    "010" after 90 ns,
+    "001" after 110 ns,
+    "000" after 190 ns,
+    "010" after 210 ns;
 
     rst <= '0' after 0 ns,
         '1' after 5 ns,
