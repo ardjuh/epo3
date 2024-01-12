@@ -266,13 +266,35 @@ begin
 	-- 480	< t < 600	: select a player number: let go of button: resolution enables memory save to store N-player and moves to game setup
 	-- 480	< t < 600	: select a player bid: game setup recognizes player bid menu and selects screen_out bid-selection and moves to user input
 	-- 480	< t < 600	: select a player bid: game setup recognizes player bid menu and selects screen_out bid-selection and moves to user input
-	
-	
-	
 
+	-- interactions with the controller --
 	reset <=	'1' after 0 ns,
 	   		'0' after 80 ns,
 	   		'1' after 720 ns, -- test if the reset works
 	   		'0' after 780 ns;
 
+	Player_Turn_In <=	'0' after 0 ns;
+
+	N_Players <=	'0' after 0 ns;
+
+	button_select <=	'0' after 0 ns;
+
+	button_left <=	'0' after 0 ns;
+
+	button_right <=	'0' after 0 ns;
+
+	random_card <=	'0' after 0 ns;
+
+	-- emulate memory --
+	Player1_Budget <=	'0' after 0 ns;
+	Player2_Budget <=	'0' after 0 ns;
+	Player3_Budget <=	'0' after 0 ns;
+	Player4_Budget <=	'0' after 0 ns;
+
+	Player1_Bid <=	'0' after 0 ns;
+	Player2_Bid <=	'0' after 0 ns;
+	Player3_Bid <=	'0' after 0 ns;
+	Player4_Bid <=	'0' after 0 ns;
+
+	Player1_Hand_Card_1 <=	'0' after 0 ns;
 end behaviour;
