@@ -272,7 +272,7 @@ end component;
 	signal cursor_position_signal: std_logic_vector(2 downto 0);
 begin
 	p1: memory 	port map(clk => clk, rst => reset, 
-				-- end roung
+				end_round => round_end_signal,
 				--	card_enable => enable_signal,
 				card => new_card_signal,
 				--insurance
@@ -287,7 +287,7 @@ begin
 				player_out => player_signal,
 				--player_enable 
 				-- money
-				-- split
+				split => split_signal,
 				player_a => player_a_signal, player_b => player_b_signal, player_c => player_c_signal,
 				bid1 => bid1_signal, bid2 => bid2_signal, bid3 => bid3_signal, bid4 => bid4_signal, 
 				split1 => split1_signal, split2 => split2_signal, split3 => split3_signal, split4 => split4_signal,
