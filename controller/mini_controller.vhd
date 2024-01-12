@@ -29,7 +29,6 @@ type mini_con_state is (
 	rightb,
 	reset_state,
 	player_action
-	game_resolution
 	);
 
 signal state, new_state : mini_con_state;
@@ -53,6 +52,10 @@ begin
 			button(0) := button_left;
 			button(1) := button_right;
 			button(2) := button_select;
+			
+			switch_select <= '0' ;	
+			switch_left <= '0' ;
+			switch_right <= '0' ;
 
 			case state is	
 
@@ -75,13 +78,13 @@ begin
 					if  (button = "100") then 
 						new_state <= selb;
 					else 
-						new_state <= game_resolution; 
+						new_state <= player_action; -- must be changed to game_resolution when pasting into controller. Is now player_action for testbench purposes
 					end if;
 					
 				when selb	=> 
 					switch_select <= '0' ; 	
 					if  (button = "100") then 
-						new_state <= game_resolution; 
+						new_state <= player_action; -- must be changed to game_resolution when pasting into controller. Is now player_action for testbench purposes
 					else 
 						new_state <= selb;
 					end if;
