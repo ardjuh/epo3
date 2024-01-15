@@ -29,52 +29,52 @@ entity game_controller is
 			Player1_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Player1_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Player1_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Player1_Hand_Score	: in std_logic_vector (5 downto 0);     -- Player can have 20 and draw a 10, so 30 points total possible --
+			Player1_Hand_Score	: in std_logic_vector (4 downto 0);     -- Player can have 20 and draw a 10, so 30 points total possible --
 	
 			Player2_Hand_Card_1	: in std_logic_vector (3 downto 0);
 			Player2_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Player2_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Player2_Hand_Card_4	: in std_logic_vector (3 downto 0);   
 			Player2_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Player2_Hand_Score	: in std_logic_vector (5 downto 0);
+			Player2_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 			Player3_Hand_Card_1	: in std_logic_vector (3 downto 0);
 			Player3_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Player3_Hand_Card_3	: in std_logic_vector (3 downto 0);   
 			Player3_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Player3_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Player3_Hand_Score	: in std_logic_vector (5 downto 0);
+			Player3_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 			Player4_Hand_Card_1	: in std_logic_vector (3 downto 0);
 			Player4_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Player4_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Player4_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Player4_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Player4_Hand_Score	: in std_logic_vector (5 downto 0);
+			Player4_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 			Dealer_Hand_Card_1	: in std_logic_vector (3 downto 0);
 			Dealer_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Dealer_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Dealer_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Dealer_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Dealer_Hand_Score	: in std_logic_vector (5 downto 0);
+			Dealer_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 			Reserve_Hand_Card_1	: in std_logic_vector (3 downto 0);	-- Reserve hand for Split. Only one player can split (low chance of multiple splits) --
 			Reserve_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Reserve_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Reserve_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Reserve_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Reserve_Hand_Score	: in std_logic_vector (5 downto 0);
+			Reserve_Hand_Score	: in std_logic_vector (4 downto 0);
 	
-			random_card		: in  std_logic_vector (3 downto 0);	-- Comms with RNG --
+			random_card	: in  std_logic_vector (3 downto 0);	-- Comms with RNG --
 			request_card	: out std_logic;                         
-			new_card		: out std_logic_vector (3 downto 0);	-- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
+			new_card	: out std_logic_vector (3 downto 0);	-- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 	
-			draw_screen		: out std_logic_vector(2 downto 0);  
+			draw_screen	: out std_logic_vector(2 downto 0);  
 			cursor_position	: out std_logic_vector(2 downto 0);
 	
-			hold_option			: out std_logic;     
-			hit_option			: out std_logic;
+			hold_option		: out std_logic;     
+			hit_option		: out std_logic;
 			double_option		: out std_logic;
 			split_option		: out std_logic;
 			insurance_option	: out std_logic;
