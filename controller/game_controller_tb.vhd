@@ -5,21 +5,6 @@ entity game_controller_tb is
 end entity game_controller_tb;
 
 architecture behaviour of game_controller_tb is
-	type game_controller_state is 
-		(	
-			reset_state,
-			game_setup,
-			player_action,
-			game_resolution,
-			pending_card_a,
-			pending_card_b,
-			sela,
-			selb,
-			lefta,
-			leftb,
-			righta,
-			rightb
-		);
 
 	component game_controller is
 		port(
@@ -125,15 +110,15 @@ architecture behaviour of game_controller_tb is
 	end component;
 
 	-- in --
-	signal clk		: std_logic;
+	signal clk	: std_logic;
 	signal reset	: std_logic;
 
 	signal Player_Turn	: std_logic_vector (2 downto 0);
-	signal N_Players		: std_logic_vector (2 downto 0);
+	signal N_Players	: std_logic_vector (2 downto 0);
 
 	signal button_select	: std_logic;
-	signal button_left		: std_logic;
-	signal button_right		: std_logic;
+	signal button_left	: std_logic;
+	signal button_right	: std_logic;
 
 	signal Player1_Budget	: std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 --
 	signal Player2_Budget	: std_logic_vector (10 downto 0);
@@ -150,14 +135,14 @@ architecture behaviour of game_controller_tb is
 	signal Player1_Hand_Card_3	: std_logic_vector (3 downto 0);
 	signal Player1_Hand_Card_4	: std_logic_vector (3 downto 0);
 	signal Player1_Hand_Card_5	: std_logic_vector (3 downto 0);
-	signal Player1_Hand_Score	: std_logic_vector (5 downto 0);	-- Player can have 20 and draw a 10, so 30 points total possible --
+	signal Player1_Hand_Score	: std_logic_vector (4 downto 0);	-- Player can have 20 and draw a 10, so 30 points total possible --
 
 	signal Player2_Hand_Card_1	: std_logic_vector (3 downto 0);
 	signal Player2_Hand_Card_2	: std_logic_vector (3 downto 0);
 	signal Player2_Hand_Card_3	: std_logic_vector (3 downto 0);
 	signal Player2_Hand_Card_4	: std_logic_vector (3 downto 0);   
 	signal Player2_Hand_Card_5	: std_logic_vector (3 downto 0);
-	signal Player2_Hand_Score	: std_logic_vector (5 downto 0);
+	signal Player2_Hand_Score	: std_logic_vector (4 downto 0);
 
 	signal Player3_Hand_Card_1	: std_logic_vector (3 downto 0);
 	signal Player3_Hand_Card_2	: std_logic_vector (3 downto 0);
@@ -178,14 +163,14 @@ architecture behaviour of game_controller_tb is
 	signal Dealer_Hand_Card_3	: std_logic_vector (3 downto 0);
 	signal Dealer_Hand_Card_4	: std_logic_vector (3 downto 0);
 	signal Dealer_Hand_Card_5	: std_logic_vector (3 downto 0);
-	signal Dealer_Hand_Score	: std_logic_vector (5 downto 0);
+	signal Dealer_Hand_Score	: std_logic_vector (4 downto 0);
 
 	signal Reserve_Hand_Card_1	: std_logic_vector (3 downto 0);
 	signal Reserve_Hand_Card_2	: std_logic_vector (3 downto 0);
 	signal Reserve_Hand_Card_3	: std_logic_vector (3 downto 0);
 	signal Reserve_Hand_Card_4	: std_logic_vector (3 downto 0);
 	signal Reserve_Hand_Card_5	: std_logic_vector (3 downto 0);
-	signal Reserve_Hand_Score	: std_logic_vector (5 downto 0);
+	signal Reserve_Hand_Score	: std_logic_vector (4 downto 0);
 
 	signal random_card	: std_logic_vector (3 downto 0);	-- Comms with RNG --
 
