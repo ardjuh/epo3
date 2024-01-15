@@ -100,7 +100,7 @@ entity game_controller is
 			split		: out std_logic;
 			double		: out std_logic;
 	
-			round_end		: out std_logic;	     
+			round_end	: out std_logic;	     
 			global_reset	: out std_logic
 		);
 end entity game_controller;
