@@ -23,14 +23,14 @@ architecture behaviour of game_controller_tb is
 
 	component game_controller_tb
 		port(
-			clk		: in  std_logic;
+			clk	: in  std_logic;
 			reset	: in  std_logic;
 	
-			Player_Turn_In	: in std_logic_vector (2 downto 0);
-			N_Players		: in std_logic_vector (2 downto 0);
+			Player_Turn	: in std_logic_vector (2 downto 0);
+			N_Players	: in std_logic_vector (2 downto 0);
 	
 			button_select	: in  std_logic;  
-			button_left		: in  std_logic;						-- player inputs --
+			button_left	: in  std_logic;						-- player inputs --
 			button_right	: in  std_logic;
 	
 			Player1_Budget	: in  std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 so 11 bits --
@@ -128,7 +128,7 @@ architecture behaviour of game_controller_tb is
 	signal clk		: std_logic;
 	signal reset	: std_logic;
 
-	signal Player_Turn_In	: std_logic_vector (2 downto 0);
+	signal Player_Turn	: std_logic_vector (2 downto 0);
 	signal N_Players		: std_logic_vector (2 downto 0);
 
 	signal button_select	: std_logic;
