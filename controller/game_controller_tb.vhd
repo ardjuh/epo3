@@ -70,15 +70,15 @@ architecture behaviour of game_controller_tb is
 			Reserve_Hand_Card_5	: in std_logic_vector (3 downto 0);
 			Reserve_Hand_Score	: in std_logic_vector (5 downto 0);
 	
-			random_card		: in  std_logic_vector (3 downto 0);	-- Comms with RNG --
+			random_card	: in  std_logic_vector (3 downto 0);	-- Comms with RNG --
 			request_card	: out std_logic;                         
-			new_card		: out std_logic_vector (3 downto 0);	-- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
+			new_card	: out std_logic_vector (3 downto 0);	-- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 	
-			draw_screen		: out std_logic_vector(2 downto 0);  
+			draw_screen	: out std_logic_vector(2 downto 0);  
 			cursor_position	: out std_logic_vector(2 downto 0);
 	
-			hold_option			: out std_logic;     
-			hit_option			: out std_logic;
+			hold_option		: out std_logic;     
+			hit_option		: out std_logic;
 			double_option		: out std_logic;
 			split_option		: out std_logic;
 			insurance_option	: out std_logic;
@@ -104,7 +104,7 @@ architecture behaviour of game_controller_tb is
 			split		: out std_logic;
 			double		: out std_logic;
 	
-			round_end		: out std_logic;	     
+			round_end	: out std_logic;	     
 			global_reset	: out std_logic
 		);
 	end component;
