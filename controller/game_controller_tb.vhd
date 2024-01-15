@@ -5,7 +5,7 @@ entity game_controller_tb is
 end entity game_controller_tb;
 
 architecture behaviour of game_controller_tb is
-	type controller_state is 
+	type game_controller_state is 
 		(	
 			reset_state,
 			game_setup,
@@ -21,7 +21,7 @@ architecture behaviour of game_controller_tb is
 			rightb
 		);
 
-	component game_controller_tb
+	component game_controller is
 		port(
 			clk	: in  std_logic;
 			reset	: in  std_logic;
