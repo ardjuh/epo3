@@ -70,33 +70,37 @@ begin
         else
             case player_in is
                 when "001" =>
-                    h1 <= '1';
-                    h2 <= '0';
-                    h3 <= '0';
-                    h4 <= '0';
-                    h5 <= '0';
-                    h6 <= '0';
+                    h1       <= '1';
+                    h2       <= '0';
+                    h3       <= '0';
+                    h4       <= '0';
+                    h5       <= '0';
+                    h6       <= '0';
+                    bid_temp <= bid1; -- bid 1 is intern signaal
                 when "010" =>
-                    h1 <= '0';
-                    h2 <= '1';
-                    h3 <= '0';
-                    h4 <= '0';
-                    h5 <= '0';
-                    h6 <= '0';
+                    h1       <= '0';
+                    h2       <= '1';
+                    h3       <= '0';
+                    h4       <= '0';
+                    h5       <= '0';
+                    h6       <= '0';
+                    bid_temp <= bid2;
                 when "011" =>
-                    h1 <= '0';
-                    h2 <= '0';
-                    h3 <= '1';
-                    h4 <= '0';
-                    h5 <= '0';
-                    h6 <= '0';
+                    h1       <= '0';
+                    h2       <= '0';
+                    h3       <= '1';
+                    h4       <= '0';
+                    h5       <= '0';
+                    h6       <= '0';
+                    bid_temp <= bid3;
                 when "100" =>
-                    h1 <= '0';
-                    h2 <= '0';
-                    h3 <= '0';
-                    h4 <= '1';
-                    h5 <= '0';
-                    h6 <= '0';
+                    h1       <= '0';
+                    h2       <= '0';
+                    h3       <= '0';
+                    h4       <= '1';
+                    h5       <= '0';
+                    h6       <= '0';
+                    bid_temp <= bid4;
                 when "101" =>
                     h1 <= '0';
                     h2 <= '0';
@@ -120,24 +124,6 @@ begin
                     h6 <= '0';
             end case;
         end if;
-
-        
-    end process;
-
-    process (player_in)
-    begin
-        case player_in is 
-            when "001" =>
-                bid_temp <= bid1;
-            when "010" =>
-                bid_temp <= bid2;
-            when "011" =>
-                bid_temp <= bid3;
-            when "100" =>
-                bid_temp <= bid4;
-            when others =>
-                null;
-        end case;
     end process;
 
 
