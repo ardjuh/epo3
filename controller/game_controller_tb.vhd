@@ -149,14 +149,14 @@ architecture behaviour of game_controller_tb is
 	signal Player3_Hand_Card_3	: std_logic_vector (3 downto 0);   
 	signal Player3_Hand_Card_4	: std_logic_vector (3 downto 0);
 	signal Player3_Hand_Card_5	: std_logic_vector (3 downto 0);
-	signal Player3_Hand_Score	: std_logic_vector (5 downto 0);
+	signal Player3_Hand_Score	: std_logic_vector (4 downto 0);
 
 	signal Player4_Hand_Card_1	: std_logic_vector (3 downto 0);
 	signal Player4_Hand_Card_2	: std_logic_vector (3 downto 0);
 	signal Player4_Hand_Card_3	: std_logic_vector (3 downto 0);
 	signal Player4_Hand_Card_4	: std_logic_vector (3 downto 0);
 	signal Player4_Hand_Card_5	: std_logic_vector (3 downto 0);
-	signal Player4_Hand_Score	: std_logic_vector (5 downto 0);
+	signal Player4_Hand_Score	: std_logic_vector (4 downto 0);
 
 	signal Dealer_Hand_Card_1	: std_logic_vector (3 downto 0);
 	signal Dealer_Hand_Card_2	: std_logic_vector (3 downto 0);
