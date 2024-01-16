@@ -104,6 +104,12 @@ entity game_cont is
 			Receiving_Hand	: out std_logic_vector (2 downto 0);  	 -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
 			
 			enable		: out std_logic;
+			bid_enable      : out std_logic;
+			Player1_Broke   : out std_logic;
+			Player2_Broke   : out std_logic;
+			Player3_Broke   : out std_logic;
+			Player4_Broke   : out std_logic;
+			
 			even_money	: out std_logic;
 			insurance	: out std_logic;
 			split		: out std_logic;
@@ -192,16 +198,14 @@ component controller
 				random_card	: in  std_logic_vector (3 downto 0);	-- Comms with RNG --
 				request_card	: out std_logic;                         
 				new_card	: out std_logic_vector (3 downto 0);	-- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
-	
-				draw_screen		: out std_logic_vector(2 downto 0);  
+
 				cursor_position	: out std_logic_vector(2 downto 0);
 				draw_screen_type : out std_logic_vector(1 downto 0);
-	
-				hold_option		: out std_logic;     
+   
 				hit_option		: out std_logic;
 				double_option		: out std_logic;
 				split_option		: out std_logic;
-				insurance_option		: out std_logic;
+				insurance_option	: out std_logic;
 				even_money_option	: out std_logic;
 	
 				Player1_Bid_New	: out std_logic_vector (1 downto 0);  		 -- 2,6,10,20 = 4 options so 2 bits --
@@ -215,17 +219,23 @@ component controller
 				Player4_win_type : out std_logic_vector (2 downto 0);
 	
 				Player_Turn_New	: out std_logic_vector (2 downto 0);  	 -- outputs -> mem based on actions --
-				N_Players_New		: out std_logic_vector (2 downto 0);
-				Receiving_Hand		: out std_logic_vector (2 downto 0);  	 -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
+				N_Players_New	: out std_logic_vector (2 downto 0);
+				Receiving_Hand	: out std_logic_vector (2 downto 0);  	 -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
 	
 				enable		: out std_logic;
-				even_money		: out std_logic;
-				insurance		: out std_logic;
+				bid_enable      : out std_logic;
+				Player1_Broke   : out std_logic;
+				Player2_Broke   : out std_logic;
+				Player3_Broke   : out std_logic;
+				Player4_Broke   : out std_logic;
+		     
+				even_money	: out std_logic;
+				insurance	: out std_logic;
 				split		: out std_logic;
 				double		: out std_logic;
 		
-				round_end		: out std_logic;	     
-				global_reset		: out std_logic
+				round_end	: out std_logic;	     
+				global_reset	: out std_logic
 			);
 	end component;
 
@@ -346,6 +356,12 @@ component controller
 						Receiving_Hand	=> Receiving_Hand,  	 -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
 	
 						enable	=> enable,
+						bid_enable      => bid_enable,
+						Player1_Broke   => Player1_Broke,
+						Player2_Broke   => Player2_Broke,
+						Player3_Broke   => Player3_Broke,
+						Player4_Broke   => Player4_Broke,
+				   
 						even_money => even_money,
 						insurance => insurance,
 						split	=> split,
