@@ -64,7 +64,7 @@ begin
                 h5 <= '0';
                 h6 <= '0';
                 bid_temp <= bid1;
-                win_type_temp <= bid1;
+                win_type_temp <= win_type1;
             when "010" =>
                 h1 <= '0';
                 h2 <= '1';
@@ -73,6 +73,7 @@ begin
                 h5 <= '0';
                 h6 <= '0';
                 bid_temp <= bid2;
+                win_type_temp <= win_type2;
             when "011" =>
                 h1 <= '0';
                 h2 <= '0';
@@ -81,6 +82,7 @@ begin
                 h5 <= '0';
                 h6 <= '0';
                 bid_temp <= bid3;
+                win_type_temp <= win_type3;
             when "100" =>
                 h1 <= '0';
                 h2 <= '0';
@@ -89,6 +91,7 @@ begin
                 h5 <= '0';
                 h6 <= '0';
                 bid_temp <= bid4;
+                win_type_temp <= win_type4;
             when "101" =>
                 h1 <= '0';
                 h2 <= '0';
@@ -117,7 +120,7 @@ begin
     begin
         case bid_temp is
             when "00" =>
-                case win_type is -- 00 = win, 01 = blackjack_win, 10 = insurance_win, 11 = doubledown_win * /
+                case win_type_temp is -- 00 = win, 01 = blackjack_win, 10 = insurance_win, 11 = doubledown_win * /
                     when "00" =>
                         profit <= "0000100";
                     when "01" =>
@@ -130,7 +133,7 @@ begin
                         profit <= "0000000";
                 end case;
             when "01" =>
-                case win_type is
+                case win_type_temp is
                     when "00" =>
                         profit <= "0001100";
                     when "01" =>
@@ -143,7 +146,7 @@ begin
                         profit <= "0000000";
                 end case;
             when "10" =>
-                case win_type is
+                case win_type_temp is
                     when "00" =>
                         profit <= "0010100";
                     when "01" =>
@@ -156,7 +159,7 @@ begin
                         profit <= "0000000";
                 end case;
             when "11" =>
-                case win_type is
+                case win_type_temp is
                     when "00" =>
                         profit <= "0101000";
                     when "01" =>
