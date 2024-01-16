@@ -837,10 +837,11 @@ architecture behavior of gpu_driver is
         em        : std_logic := '0';
         double    : std_logic := '0';
         insurance : std_logic := '0';
+	hit       : std_logic := '0';
         split     : std_logic := '0'
     ) return std_logic is
     begin --hit
-        if (y_pos >= 22 and y_pos <= 28) then
+        if (y_pos >= 22 and y_pos <= 28 and hit = '1') then
             if (x_pos >= 80 and x_pos < 98) then -- HIT
                 if (x_pos < 86) then
                     return small_letter(x_pos - 80, y_pos - 22, 8);
