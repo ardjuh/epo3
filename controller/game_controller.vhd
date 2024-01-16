@@ -23,7 +23,17 @@ entity controller is
 			Player2_Bid	: in std_logic_vector (1 downto 0);		-- Value of Initial Bid = 2,6,10,20 -> 00,01,10,11 (Internal signal Bid_Value) --
 			Player3_Bid	: in std_logic_vector (1 downto 0);		-- Controller never needs the augmented value of Bid as Double/Insurance/Split --
 			Player4_Bid	: in std_logic_vector (1 downto 0);		-- are Turn 1 actions (If Mem Controller does end-round calculations) --
-	
+
+			Player1_Insured : in std_logic;
+			Player2_Insured : in std_logic;
+			Player3_Insured : in std_logic;
+			Player4_Insured : in std_logic;
+
+			Player1_Doubled_Down : in std_logic;
+			Player2_Doubled_Down : in std_logic;
+			Player3_Doubled_Down : in std_logic;
+			Player4_Doubled_Down : in std_logic;
+			
 			Player1_Hand_Card_1	: in std_logic_vector (3 downto 0);	-- Each card is a 4-bit vector --
 			Player1_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Player1_Hand_Card_3	: in std_logic_vector (3 downto 0);
@@ -155,7 +165,8 @@ begin
 		hold_selectable, hit_selectable, double_selectable, split_selectable, insurance_selectable, even_money_selectable,
 		score_screen, first_card_deal, random_card, second_card_deal, dealer_card_deal, 
 		hold_selected, hit_selected, double_selected, split_selected, insurance_selected, even_money_selected,
-		card_received, require_card
+		card_received, require_card, Player1_Insured, Player2_Insured, Player3_Insured, Player4_Insured, Player1_Doubled_Down,
+		Player2_Doubled_Down, Player3_Doubled_Down, Player4_Doubled_Down
 		)
 	
 	begin
@@ -232,6 +243,12 @@ begin
 				Player4_Bid_Value <= "00010";
 			elsif ( Player4_Bid = "01" ) then
 				Player4_Bid_Value <= "00110";
+			elsif ( Player4_Bid = "10" ) then
+				Player4_Bid_Value <= "01010";
+			elsif ( Player4_Bid = "11" ) then
+				Player4_Bid_Value <= "10100";
+			else
+				Player3_Bid_Value <= "00000";
 			end if;
 		end if;
 
