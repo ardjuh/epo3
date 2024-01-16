@@ -40,11 +40,10 @@ architecture behavior of memory is
         doubledown_out : out std_logic);
     end component;
 
-    signal h1, h2, h3, h4, h5, h6                                                                                                 : std_logic                    := '0';
-    signal p1_p, p1_s, p1_b, p1_i, p1_d, p2_p, p2_s, p2_b, p2_i, p2_d, p3_p, p3_s, p3_b, p3_i, p3_d, p4_p, p4_s, p4_b, p4_i, p4_d : std_logic                    := '0';
-    signal profit                                                                                                                 : std_logic_vector(6 downto 0) := "0000000";
-    signal stake                                                                                                                  : std_logic_vector(4 downto 0) := "00000";
-    signal bid_temp                                                                                                               : std_logic_vector(1 downto 0) := "00";
+    signal h1, h2, h3, h4, h5, h6 : std_logic                    := '0';
+    signal profit                 : std_logic_vector(6 downto 0) := "0000000";
+    signal stake                  : std_logic_vector(4 downto 0) := "00000";
+    signal bid_temp               : std_logic_vector(1 downto 0) := "00";
 begin
     h1_l : hand port map(clk => clk, rst => rst or end_round, enable => h1, card => card, card1 => card1_1, card2 => card1_2, card3 => card1_3, card4 => card1_4, card5 => card1_5, score => score1);
     h2_l : hand port map(clk => clk, rst => rst or end_round, enable => h2, card => card, card1 => card2_1, card2 => card2_2, card3 => card2_3, card4 => card2_4, card5 => card2_5, score => score2);
@@ -58,68 +57,59 @@ begin
     p3_l : player port map(clk => clk, rst => rst, mem_rst => end_round, profit_enable => p3_p, profit => profit, stake_enable => p3_s, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p3_b, insurance_enable => p3_i, doubledown_enable => p3_d, bid_out => bid3, money => money3, insurance_out => insurance3, doubledown_out => doubledown3);
     p4_l : player port map(clk => clk, rst => rst, mem_rst => end_round, profit_enable => p4_p, profit => profit, stake_enable => p4_s, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p4_b, insurance_enable => p4_i, doubledown_enable => p4_d, bid_out => bid4, money => money4, insurance_out => insurance4, doubledown_out => doubledown4);
 
-    process (player_in, card_enable)
+    process (player_in)
     begin
-        if (card_enable = '0') then
-            h1 <= '0';
-            h2 <= '0';
-            h3 <= '0';
-            h4 <= '0';
-            h5 <= '0';
-            h6 <= '0';
-        else
-            case player_in is
-                when "001" =>
-                    h1 <= '1';
-                    h2 <= '0';
-                    h3 <= '0';
-                    h4 <= '0';
-                    h5 <= '0';
-                    h6 <= '0';
-                when "010" =>
-                    h1 <= '0';
-                    h2 <= '1';
-                    h3 <= '0';
-                    h4 <= '0';
-                    h5 <= '0';
-                    h6 <= '0';
-                when "011" =>
-                    h1 <= '0';
-                    h2 <= '0';
-                    h3 <= '1';
-                    h4 <= '0';
-                    h5 <= '0';
-                    h6 <= '0';
-                when "100" =>
-                    h1 <= '0';
-                    h2 <= '0';
-                    h3 <= '0';
-                    h4 <= '1';
-                    h5 <= '0';
-                    h6 <= '0';
-                when "101" =>
-                    h1 <= '0';
-                    h2 <= '0';
-                    h3 <= '0';
-                    h4 <= '0';
-                    h5 <= '1';
-                    h6 <= '0';
-                when "110" =>
-                    h1 <= '0';
-                    h2 <= '0';
-                    h3 <= '0';
-                    h4 <= '0';
-                    h5 <= '0';
-                    h6 <= '1';
-                when others =>
-                    h1 <= '0';
-                    h2 <= '0';
-                    h3 <= '0';
-                    h4 <= '0';
-                    h5 <= '0';
-                    h6 <= '0';
-            end case;
-        end if;
+        case player_in is
+            when "001" =>
+                h1 <= '1';
+                h2 <= '0';
+                h3 <= '0';
+                h4 <= '0';
+                h5 <= '0';
+                h6 <= '0';
+            when "010" =>
+                h1 <= '0';
+                h2 <= '1';
+                h3 <= '0';
+                h4 <= '0';
+                h5 <= '0';
+                h6 <= '0';
+            when "011" =>
+                h1 <= '0';
+                h2 <= '0';
+                h3 <= '1';
+                h4 <= '0';
+                h5 <= '0';
+                h6 <= '0';
+            when "100" =>
+                h1 <= '0';
+                h2 <= '0';
+                h3 <= '0';
+                h4 <= '1';
+                h5 <= '0';
+                h6 <= '0';
+            when "101" =>
+                h1 <= '0';
+                h2 <= '0';
+                h3 <= '0';
+                h4 <= '0';
+                h5 <= '1';
+                h6 <= '0';
+            when "110" =>
+                h1 <= '0';
+                h2 <= '0';
+                h3 <= '0';
+                h4 <= '0';
+                h5 <= '0';
+                h6 <= '1';
+            when others =>
+                h1 <= '0';
+                h2 <= '0';
+                h3 <= '0';
+                h4 <= '0';
+                h5 <= '0';
+                h6 <= '0';
+        end case;
     end process;
 
 
