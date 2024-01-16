@@ -8,6 +8,40 @@ architecture behavior of gpu_driver is
     signal r     : integer range 0 to 15;
     signal g     : integer range 0 to 15;
     signal b     : integer range 0 to 15;
+    signal money_a : integer range 0 to 999;
+    signal money_b : integer range 0 to 999;
+    signal money_c : integer range 0 to 999;
+    signal money_d : integer range 0 to 999;
+    signal carda_1 : integer range 0 to 13;
+    signal carda_2 : integer range 0 to 13;
+    signal carda_3 : integer range 0 to 13;
+    signal carda_4 : integer range 0 to 13;
+    signal carda_5 : integer range 0 to 13;
+
+    signal cardb_1 : integer range 0 to 13;
+    signal cardb_2 : integer range 0 to 13;
+    signal cardb_3 : integer range 0 to 13;
+    signal cardb_4 : integer range 0 to 13;
+    signal cardb_5 : integer range 0 to 13;
+
+    signal cardc_1 : integer range 0 to 13;
+    signal cardc_2 : integer range 0 to 13;
+    signal cardc_3 : integer range 0 to 13;
+    signal cardc_4 : integer range 0 to 13;
+    signal cardc_5 : integer range 0 to 13;
+
+    signal cardd_1 : integer range 0 to 13;
+    signal cardd_2 : integer range 0 to 13;
+    signal cardd_3 : integer range 0 to 13;
+    signal cardd_4 : integer range 0 to 13;
+    signal cardd_5 : integer range 0 to 13;
+
+    signal carde_1 : integer range 0 to 13;
+    signal carde_2 : integer range 0 to 13;
+    signal carde_3 : integer range 0 to 13;
+    signal carde_4 : integer range 0 to 13;
+    signal carde_5 : integer range 0 to 13;
+
 
     -- Display a small letter 5x7
     function small_letter (
@@ -538,7 +572,7 @@ architecture behavior of gpu_driver is
         end if;
     end function;
 
-    function table (
+ impure   function table (
         x        : integer range 0 to 115;
         y        : integer range 0 to 45;
         player_a : std_logic;
@@ -632,11 +666,11 @@ architecture behavior of gpu_driver is
             elsif (x < 48) then
                 return small_letter(x - 42, y - 11, 0); --Space
             elsif (x < 54) then
-                return small_number(x - 48, y - 11, money1/100); --Player money
+                return small_number(x - 48, y - 11, money_a/100); --Player money
             elsif (x < 60) then
-                return small_number(x - 54, y - 11, (money1/10) mod 10);
+                return small_number(x - 54, y - 11, (money_a/10) mod 10);
             elsif (x < 66) then
-                return small_number(x - 60, y - 11, money1 mod 10);
+                return small_number(x - 60, y - 11, money_a mod 10);
             elsif (x < 78) then
                 return '0'; --Space
             elsif (x < 84 and card1_1 > 0) then
@@ -670,11 +704,11 @@ architecture behavior of gpu_driver is
             elsif (x < 48) then
                 return small_letter(x - 42, y - 20, 0); --Space
             elsif (x < 54) then
-                return small_number(x - 48, y - 20, money2/100); --Player money
+                return small_number(x - 48, y - 20, money_b/100); --Player money
             elsif (x < 60) then
-                return small_number(x - 54, y - 20, (money2/10) mod 10);
+                return small_number(x - 54, y - 20, (money_b/10) mod 10);
             elsif (x < 66) then
-                return small_number(x - 60, y - 20, money2 mod 10);
+                return small_number(x - 60, y - 20, money_b mod 10);
             elsif (x < 78) then
                 return '0'; --Space
             elsif (x < 84 and card1_1 > 0) then
@@ -708,11 +742,11 @@ architecture behavior of gpu_driver is
             elsif (x < 48) then
                 return small_letter(x - 42, y - 29, 0); --Space
             elsif (x < 54) then
-                return small_number(x - 48, y - 29, money3/100); --Player money
+                return small_number(x - 48, y - 29, money_c/100); --Player money
             elsif (x < 60) then
-                return small_number(x - 54, y - 29, (money3/10) mod 10);
+                return small_number(x - 54, y - 29, (money_c/10) mod 10);
             elsif (x < 66) then
-                return small_number(x - 60, y - 29, money3 mod 10);
+                return small_number(x - 60, y - 29, money_c mod 10);
             elsif (x < 78) then
                 return '0'; --Space
             elsif (x < 84 and card1_1 > 0) then
@@ -746,11 +780,11 @@ architecture behavior of gpu_driver is
             elsif (x < 48) then
                 return small_letter(x - 42, y - 38, 0); --Space
             elsif (x < 54) then
-                return small_number(x - 48, y - 38, money4/100); --Player money
+                return small_number(x - 48, y - 38, money_d/100); --Player money
             elsif (x < 60) then
-                return small_number(x - 54, y - 38, (money4/10) mod 10);
+                return small_number(x - 54, y - 38, (money_d/10) mod 10);
             elsif (x < 66) then
-                return small_number(x - 60, y - 38, money4 mod 10);
+                return small_number(x - 60, y - 38, money_d mod 10);
             elsif (x < 78) then
                 return '0'; --Space
             elsif (x < 84 and card1_1 > 0) then
@@ -834,6 +868,8 @@ architecture behavior of gpu_driver is
     function action_menu (
         x_pos     : integer range 0 to 639;
         y_pos     : integer range 0 to 99;
+	hit	  : std_logic := '0';
+	hold	  : std_logic := '0';
         em        : std_logic := '0';
         double    : std_logic := '0';
         insurance : std_logic := '0';
@@ -1257,8 +1293,44 @@ y_pos <= to_integer(unsigned(v_pos)) - 32;
 red   <= std_logic_vector(to_unsigned(r, 4));
 green <= std_logic_vector(to_unsigned(g, 4));
 blue  <= std_logic_vector(to_unsigned(b, 4));
+
+money_a <= to_integer(unsigned(money1));
+money_b <= to_integer(unsigned(money2));
+money_c <= to_integer(unsigned(money3));
+money_d <= to_integer(unsigned(money4));
+
+carda_1 <= to_integer(unsigned(card1_1));
+carda_2 <= to_integer(unsigned(card1_2));
+carda_3 <= to_integer(unsigned(card1_3));
+carda_4 <= to_integer(unsigned(card1_4));
+carda_5 <= to_integer(unsigned(card1_5));
+
+cardb_1 <= to_integer(unsigned(card2_1));
+cardb_2 <= to_integer(unsigned(card2_2));
+cardb_3 <= to_integer(unsigned(card2_3));
+cardb_4 <= to_integer(unsigned(card2_4));
+cardb_5 <= to_integer(unsigned(card2_5));
+
+cardc_1 <= to_integer(unsigned(card3_1));
+cardc_2 <= to_integer(unsigned(card3_2));
+cardc_3 <= to_integer(unsigned(card3_3));
+cardc_4 <= to_integer(unsigned(card3_4));
+cardc_5 <= to_integer(unsigned(card3_5));
+
+cardd_1 <= to_integer(unsigned(card4_1));
+cardd_2 <= to_integer(unsigned(card4_2));
+cardd_3 <= to_integer(unsigned(card4_3));
+cardd_4 <= to_integer(unsigned(card4_4));
+cardd_5 <= to_integer(unsigned(card4_5));
+
+carde_1 <= to_integer(unsigned(card5_1));
+carde_2 <= to_integer(unsigned(card5_2));
+carde_3 <= to_integer(unsigned(card5_3));
+carde_4 <= to_integer(unsigned(card5_4));
+carde_5 <= to_integer(unsigned(card5_5));
 -- The process that splits the screen in sections
-process (x_pos, y_pos, screentype, split1, split2, split3, split4, player, cursor, card1_1, card1_2, card1_3, card1_4, card1_5, card2_1, card2_2, card2_3, card2_4, card2_5, card3_1, card3_2)
+process (x_pos, y_pos, screentype, split1, split2, split3, split4, player, cursor, carda_1, carda_2, carda_3, carda_4, carda_5, cardb_1, cardb_2, cardb_3, cardb_4, cardb_5, cardc_1, cardc_2, cardc_3, cardc_4, cardc_5, cardd_1, cardd_2, cardd_3, cardd_4, cardd_5, carde_1, carde_2, carde_3, carde_4, carde_5,
+money_a, money_b, money_c, money_d, hit, hold, em, double, insurance, split, bet1,bet2,bet3,bet4, doubledown1, doubledown2, doubledown3, doubledown4, insurance1, insurance2, insurance3, insurance4)
 begin
     if (x_pos < 0 or x_pos > 639 or y_pos < 0 or y_pos > 479) then
 
@@ -1362,8 +1434,8 @@ begin
                 g <= 0;
                 b <= 0;
             end if;
-				elsif (x_pos>= 50 and y_pos >= 137 and x_pos <= 161 and y_pos < 190 ) then
-					if (table(x_pos - 50, y_pos - 190, '1', 0, 0, 0, 0, 0, 123, '1', 0, 0, 0, 0, 0, 456, '1', 0, 0, 0, 0, 0, 789, '1', 0, 0, 0,0, 0, 0) = '1') then
+				elsif (x_pos>= 50 and y_pos >= 137 and x_pos <= 161 and y_pos <=189 ) then
+					if (table(x_pos - 50, y_pos - 190, '1', 0, 0, 0, 0, 0, money_a, '1', 0, 0, 0, 0, 0, money_b, '1', 0, 0, 0, 0, 0, money_c, '1', 0, 0, 0,0, 0, money_d) = '1') then
 						r <= 15;
 						g <= 15;
 						b <= 15;
@@ -1374,20 +1446,20 @@ begin
 					end if;
         end if;
     elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 10 and x_pos <= 109) then -- Player hand
-        if (player = "000" and cards(x_pos - 10, y_pos - 362, carda_1, carda_2, carda_3, carda_4, carda_5) = '1') then
+        if (player ="000" and cards(x_pos - 10, y_pos - 362, carda_1, carda_2, carda_3, carda_4, carda_5) = '1') then
             r <= 0;
             g <= 0;
             b <= 0;
-        elsif (player = "001" and cards(x_pos - 10, y_pos - 362, cardb_1, cardb_2, cardb_3, cardb_4, cardb_5) = '1') then
-            r <= 0;
+		  elsif (player ="001" and cards(x_pos - 10, y_pos - 362, cardb_1, cardb_2, cardb_3, cardb_4, cardb_5) = '1') then
+		      r <= 0;
             g <= 0;
             b <= 0;
-        elsif (player = "010" and cards(x_pos - 10, y_pos - 362, cardc_1, cardc_2, cardc_3, cardc_4, cardc_5) = '1') then
-            r <= 0;
+		  elsif (player ="010" and cards(x_pos - 10, y_pos - 362, cardc_1, cardc_2, cardc_3, cardc_4, cardc_5) = '1') then
+		      r <= 0;
             g <= 0;
             b <= 0;
-	elsif (player = "011" and cards(x_pos - 10, y_pos - 362, cardd_1, cardd_2, cardd_3, cardd_4, cardd_5) = '1') then
-            r <= 0;
+		  elsif (player ="011" and cards(x_pos - 10, y_pos - 362, cardd_1, cardd_2, cardd_3, cardd_4, cardd_5) = '1') then
+		      r <= 0;
             g <= 0;
             b <= 0;
         else
@@ -1395,7 +1467,7 @@ begin
             g <= 15;
             b <= 15;
         end if;
-    elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219) then
+     elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219) then
         if (player = "000" and split1 = '1' and cards(x_pos - 120, y_pos - 362, carda_1, carda_2, carda_3, carda_4, carda_5, '1') = '1') then -- Player hand with split
                 r <= 0;
                 g <= 0;
@@ -1412,7 +1484,7 @@ begin
 		r <= 0;
                 g <= 0;
                 b <= 0;  
-	elsif ((player = "000" and split1 = '1') or (player = "001" and split2 = '1') or (player = "010" and split3 = '1') or player = "011" and split4 = '1')) then
+	elsif ((player = "000" and split1 = '1') or (player = "001" and split2 = '1') or (player = "010" and split3 = '1') or (player = "011" and split4 = '1')) then
                 r <= 15;
                 g <= 15;
                 b <= 15;
@@ -1422,7 +1494,7 @@ begin
             b <= 2;
         end if;
     elsif (y_pos >= 10 and y_pos < 118 and x_pos < 630 and x_pos >= 530) then -- Dealer hand
-        if (cards(x_pos - 530, y_pos - 10, 10, 4, 7) = '1') then
+        if (cards(x_pos - 530, y_pos - 10, carde_1, carde_2, carde_3, carde_4, carde_5) = '1') then
             r <= 0;
             g <= 0;
             b <= 0;
@@ -1432,7 +1504,7 @@ begin
             b <= 15;
         end if;
          elsif (y_pos >= 180 and y_pos < 280) then -- Action menu
-				if (action_menu(x_pos, y_pos - 180, '1', '1', '1', '1') = '1') then
+				if (action_menu(x_pos, y_pos - 180, hit, hold, em, double, insurance, split) = '1') then
 					if (y_pos >= 202 and y_pos <= 208) then
             		if (cursor = "001" and x_pos >= 80 and x_pos < 98) then --hit
 							r <= 8;
@@ -1486,10 +1558,23 @@ begin
             r <= 0;
             g <= 0;
             b <= 0;
-        elsif (details(x_pos - 545, y_pos - 430, 1, 100, "01", '1', '0') = '1') then
+        elsif (player = "000" and details(x_pos - 545, y_pos - 430, 1, money_a, bet1, doubledown1, insurance1) = '1') then
             r <= 15;
             g <= 15;
             b <= 15;
+	elsif (player = "001" and details(x_pos - 545, y_pos - 430, 2, money_b, bet2, doubledown2, insurance2) = '1') then
+            r <= 15;
+            g <= 15;
+            b <= 15;
+	elsif (player = "010" and details(x_pos - 545, y_pos - 430, 3, money_c, bet3, doubledown3, insurance3) = '1') then
+            r <= 15;
+            g <= 15;
+            b <= 15;
+	elsif (player = "011" and details(x_pos - 545, y_pos - 430, 4, money_c, bet4, doubledown4, insurance4) = '1') then
+            r <= 15;
+            g <= 15;
+            b <= 15;
+	
         else
             r <= 2;
             g <= 11;
@@ -1504,7 +1589,7 @@ begin
             r <= 2;
             g <= 11;
             b <= 2;
-        elsif (table(x_pos - 13, y_pos - 13, '1', 1, 2, 3, 4, 5, 123, '1', 6, 7, 8, 9, 10, 456, '1', 11, 12, 13, 1, 2, 789, '1', 3, 4, 5, 6, 7, 5) = '1') then
+        elsif (table(x_pos - 13, y_pos - 13, '1', carda_1, carda_2, carda_3, carda_4, carda_5,money_a, '1', cardb_1, cardb_2, cardb_3, cardb_4, cardb_5, money_b, '1', cardc_1, cardc_2, cardc_3, cardc_4, cardc_5, money_c, '1', cardd_1, cardd_2, cardd_3,cardd_4, cardd_5,money_d) = '1') then
             r <= 15;
             g <= 15;
             b <= 15;
