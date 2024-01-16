@@ -20,19 +20,14 @@ architecture behavior of memory is
         clk     : in std_logic;
         rst     : in std_logic;
         mem_rst : in std_logic;
+        enable  : in std_logic;
 
-        profit_enable : in std_logic;
-        stake_enable  : in std_logic;
-        profit        : in std_logic_vector(6 downto 0);
-        stake         : in std_logic_vector(4 downto 0);
+        profit : in std_logic_vector(6 downto 0);
+        stake  : in std_logic_vector(4 downto 0);
 
         bid_in        : in std_logic_vector(1 downto 0);
         insurance_in  : in std_logic;
         doubledown_in : in std_logic;
-
-        bid_enable        : in std_logic;
-        insurance_enable  : in std_logic;
-        doubledown_enable : in std_logic;
 
         bid_out        : out std_logic_vector(1 downto 0);
         money          : out std_logic_vector(9 downto 0);
@@ -118,15 +113,6 @@ begin
         end case;
     end process;
 
-
-
-
-
-
-
-
-
-
     process (win_type)
     begin
         case bid_temp is
@@ -186,7 +172,7 @@ begin
                 profit <= "0000000";
         end case;
 
-        if (bid_enable = '1') then
+        if (doubledown_in = '1') then
             case bid_temp is
                 when "00" =>
                     stake <= "00010";
@@ -212,69 +198,6 @@ begin
                 when others =>
                     stake <= "00000";
             end case;
-        end if;
-
-        if (win_enable = '1') then --miss timing issue omdat twee aanpassing tijdens clock
-            case player_in is
-                when "000" =>
-                    p1_p <= '1';
-                    p2_p <= '0';
-                    p3_p <= '0';
-                    p4_p <= '0';
-                when "001" =>
-                    p1_p <= '0';
-                    p2_p <= '1';
-                    p3_p <= '0';
-                    p4_p <= '0';
-                when "010" =>
-                    p1_p <= '0';
-                    p2_p <= '0';
-                    p3_p <= '1';
-                    p4_p <= '0';
-                when "011" =>
-                    p1_p <= '0';
-                    p2_p <= '0';
-                    p3_p <= '0';
-                    p4_p <= '1';
-                when others =>
-                    null;
-            end case;
-        else
-            p1_p <= '0';
-            p2_p <= '0';
-            p3_p <= '0';
-            p4_p <= '0';
-        end if;
-        if (insurance_enable = '1' or bid_enable = '1') then --miss timing issue omdat twee aanpassing tijdens clock
-            case player_in is
-                when "000" =>
-                    p1_s <= '1';
-                    p1_s <= '0';
-                    p1_s <= '0';
-                    p1_s <= '0';
-                when "001" =>
-                    p1_s <= '0';
-                    p1_s <= '1';
-                    p1_s <= '0';
-                    p1_s <= '0';
-                when "010" =>
-                    p1_s <= '0';
-                    p1_s <= '0';
-                    p1_s <= '1';
-                    p1_s <= '0';
-                when "011" =>
-                    p1_s <= '0';
-                    p1_s <= '0';
-                    p1_s <= '0';
-                    p1_s <= '1';
-                when others =>
-                    null;
-            end case;
-        else
-            p1_s <= '0';
-            p1_s <= '0';
-            p1_s <= '0';
-            p1_s <= '0';
         end if;
     end process;
 end behavior;

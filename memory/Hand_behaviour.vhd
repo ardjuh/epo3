@@ -13,7 +13,7 @@ begin
                 card3 <= "0000";
                 card4 <= "0000";
                 card5 <= "0000";
-            elsif (enable = '1') then
+            elsif (enable = '1' and card /= "0000") then
                 if (card1 = "0000") then
                     card1 <= card;
                 elsif (card2 = "0000") then
