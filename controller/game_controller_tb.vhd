@@ -1,12 +1,12 @@
 library IEEE;
 use IEEE.std_logic_1164.ALL;
 
-entity game_controller_tb is
-end entity game_controller_tb;
+entity controller_tb is
+end entity controller_tb;
 
-architecture behaviour of game_controller_tb is
+architecture behaviour of controller_tb is
 
-	component game_controller is
+	component controller is
 		port(
 			clk	: in  std_logic;
 			reset	: in  std_logic;
@@ -120,10 +120,10 @@ architecture behaviour of game_controller_tb is
 	signal button_left	: std_logic;
 	signal button_right	: std_logic;
 
-	signal Player1_Budget	: std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 --
-	signal Player2_Budget	: std_logic_vector (10 downto 0);
-	signal Player3_Budget	: std_logic_vector (10 downto 0);  
-	signal Player4_Budget	: std_logic_vector (10 downto 0);
+	signal Player1_Budget	: std_logic_vector (9 downto 0);	-- base budget is 100, score limit chosen as 1000 --
+	signal Player2_Budget	: std_logic_vector (9 downto 0);
+	signal Player3_Budget	: std_logic_vector (9 downto 0);  
+	signal Player4_Budget	: std_logic_vector (9 downto 0);
 
 	signal Player1_Bid	: std_logic_vector (1 downto 0);		-- Bid and Budget required to determine if Insurance/Double are possible --
 	signal Player2_Bid	: std_logic_vector (1 downto 0);		-- Value of Initial Bid = 2,6,10,20 -> 00,01,10,11 (Internal signal Bid_Value) --
@@ -177,10 +177,10 @@ architecture behaviour of game_controller_tb is
 	-- out (test bench assigns to input because of missing components) --
 	signal new_card		: std_logic_vector (3 downto 0);	-- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 
-	signal Player1_Budget_New	: std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 so 11 bits --
-	signal Player2_Budget_New	: std_logic_vector (10 downto 0);
-	signal Player3_Budget_New	: std_logic_vector (10 downto 0);  
-	signal Player4_Budget_New	: std_logic_vector (10 downto 0);
+	signal Player1_Budget_New	: std_logic_vector (9 downto 0);	-- base budget is 100, score limit chosen as 1000 so 11 bits --
+	signal Player2_Budget_New	: std_logic_vector (9 downto 0);
+	signal Player3_Budget_New	: std_logic_vector (9 downto 0);  
+	signal Player4_Budget_New	: std_logic_vector (9 downto 0);
 
 	signal Player1_Bid_New	: std_logic_vector (1 downto 0);	-- 2,6,10,20 = 4 options so 2 bits --
 	signal Player2_Bid_New	: std_logic_vector (1 downto 0);
@@ -215,25 +215,6 @@ architecture behaviour of game_controller_tb is
 
 	signal round_end	: std_logic;
 
-	-- internal (only to inspects) --
-	signal state, new_state: controller_state;
-	signal switch_left, switch_right, switch_select : std_logic;
-
-	signal Player1_Bid_Value, Player2_Bid_Value, Player3_Bid_Value, Player4_Bid_Value : std_logic_vector (4 downto 0);
-	signal bids_placed, bid_successful, require_card, card_received : std_logic;  
-	signal first_card_deal, dealer_card_deal, second_card_deal : std_logic;
-
-	signal even_money_selected, insurance_selected, split_selected, double_selected, hit_selected, hold_selected : std_logic;
-	signal even_money_selectable, insurance_selectable, split_selectable, double_selectable, hit_selectable, hold_selectable : std_logic;
-	signal first_turn_over : std_logic;
-
-	signal split_player : std_logic_vector (2 downto 0);  
-	signal split_player_turn : std_logic;
-
-	signal start_screen, choose_players, choose_bids, choose_action, score_screen : std_logic;
-
-	signal current_screen_position : std_logic_vector(2 downto 0);
-
 begin
    	-- 40 ns = 25 MHz
 	clk <=	
@@ -247,6 +228,8 @@ begin
 	-- button_select on start_screen
 	--  230	< t <  430	: button_select on : should remain on the start_screen : only button_select and switch_select changes
 	--  430	< t <  830	: button_select off : state moves to game-setup, recognizes player select and ends in game-action
+-- removed action up top since start has changed
+
 
 	--  testing continous menu navigation for 4 options; start 2 players
 	-- button_right on choose_action number of players
@@ -280,7 +263,7 @@ begin
 	--  9230 < t <  9630	: button_left off : cursor moves to bid 20 : current_screen_position=100
 	-- button_select on choose_action player bid selection player 1
 	--  9630 < t < 10030	: button_select on
-	-- 10030 < t < 10430	: button_select off : nothing happens
+	-- 10030 < t < 10430	: button_select off : nothing should happen
 	--    player 1 bids 2
 	--  button_right on choose_action player bid selection player 1
 	-- 10430 < t < 10830	: button_right on
@@ -300,7 +283,30 @@ begin
 	-- should be tested with Deck and memory
 	-- drawing cards should fill all hands up to second card & one for dealer, and hand over turn to first player
 
-	--  test blackjack player 1: play even
+	--  test without dealing phase
+	-- player 1 blackjack, player 2 20, dealer 17.
+	-- 13630 < t < 14030 : player 1 card 1, a 10.
+	-- 14030 < t < 14430 : player 2 card 1, a K.
+	-- 14430 < t < 14830 : dealer card 1, a Q.
+	-- 15230 < t < 15630 : player 1 card 2, an A.
+	-- 15630 < t < 16030 : player 2 card 2, a J.
+	-- test if player 1 can only select hold.
+	-- 16430 < t < 16830 : button_right on : no change on screen : switch_right on
+	-- 17230	< t < 17630	: button_right off : cursor moves to hit : current_screen_position=010, switch_right off
+	-- 17630	< t < 18030	: button_select on : no change on screen : switch_select on 
+	-- 18030	< t < 18430	: button_select off : select hit not possible for blackjack, nothing should happen
+	-- 18430 < t < 18830	: button_left on
+	-- 18830 < t < 19230	: button_left off : cursor moves to hold : current_screen_position=001
+	-- 19230	< t < 19630	: button_select on : no change on screen : switch_select on 
+	-- 19630	< t < 20030	: button_select off : select hold, turn should go to player 2
+	-- hold for player 2
+	-- 20030 < t < 20430 : button select on : no change on screen : switch_select on 
+	-- 20830	< t < 21230	: button_select off : select hold, turn should go to dealer
+	-- 21230 < t < 21630 : dealer card 2, a 7.
+	-- round end, select round end button
+	-- 21630 < t < 22030 : button select on : no change on screen : switch_select on 
+	-- 22430	< t < 22830	: button_select off : select round end, turn should go to bidding phase
+	-- player 1 should now have 5 as budget (0000000101) and player 2 should have 12 (0000001100)
 
 
 	-- interacting with the controller --
@@ -321,7 +327,10 @@ begin
 		'0' after 7630 ns,
 		-- bid selection: round 1 player 1 --
 		'1' after 8830 ns,
-		'0' after 9230 ns;
+		'0' after 9230 ns,
+		-- go from hit to hold p1
+		'1' after 18430 ns,
+		'0' after 18830 ns;
 
 	button_right <=
 		'0' after 0 ns,
@@ -341,13 +350,15 @@ begin
 		'0' after 10830 ns,
 		-- bid selection: round 1 player 2 --
 		'1' after 12030 ns,
-		'0' after 12430 ns;
+		'0' after 12430 ns,
+		-- test if hit doesn work for blackjack
+		'1' after 16430 ns,
+		'0' after 16830 ns;
 
 	button_select <=
 		-- reset --
 		'0' after 0 ns,
-		'1' after 230 ns,
-		'0' after 430 ns,
+
 		-- player select --
 		'1' after 8030 ns,
 		'0' after 8430 ns,
@@ -358,7 +369,20 @@ begin
 		'0' after 11630 ns,
 		-- bid selection: round 1 player 2 --
 		'1' after 12830 ns,
-		'0' after 13230 ns;
+		'0' after 13230 ns,
+		-- test if hit doesn work for blackjack
+		'1' after 17630 ns,
+		'0' after 18030 ns,
+		-- select hold p1
+		'1' after 19230 ns,
+		'0' after 19630 ns,
+		-- selet hold p2,
+		'1' after 20030 ns,
+		'0' after 20830 ns,
+		-- select round end
+		'1' after 21630 ns,
+		'0' after 22430 ns;
+		
 
 	-- emulate memory --
 	Player_Turn <=
@@ -369,66 +393,111 @@ begin
 		"000" after 0 ns,
 		N_Players_New after 230 ns;
 
-	Player1_Hand_Card_1 <=	"0000" after 0 ns;
-	Player1_Hand_Card_2 <=	"0000" after 0 ns;
-	Player1_Hand_Card_3 <=	"0000" after 0 ns;
-	Player1_Hand_Card_4 <=	"0000" after 0 ns;
-	Player1_Hand_Card_5 <=	"0000" after 0 ns;
-	Player1_Budget <=	"00000001010" after 0 ns;
-	Player1_Hand_Score <=	-- round 1 player 1 --
-							"000000" after 0 ns;
-	Player1_Bid <=	"00" after 0 ns,
-					Player1_Bid_New after 230 ns;
+	Player1_Hand_Card_1 <=		"0000" after 0 ns,
+				"1010" after 13630 ns;
 
-	Player2_Hand_Card_1 <=	"0000" after 0 ns;
-	Player2_Hand_Card_2 <=	"0000" after 0 ns;
+	Player1_Hand_Card_2 <=		"0000" after 0 ns,
+				"0001" after 15230 ns;
+
+	Player1_Hand_Card_3 <=	"0000" after 0 ns;
+
+	Player1_Hand_Card_4 <=	"0000" after 0 ns;
+
+	Player1_Hand_Card_5 <=	"0000" after 0 ns;
+
+	Player1_Budget <=	"0000001010" after 0 ns;
+
+	Player1_Hand_Score <=		"00000" after 0 ns;
+
+	Player1_Bid <=		"00" after 0 ns,
+			"00" after 0 ns;
+	
+
+	Player2_Hand_Card_1 <=		"0000" after 0 ns,
+				"1101" after 14030 ns;
+
+	Player2_Hand_Card_2 <=		"0000" after 0 ns,
+				"1011" after 15630 ns;
+
 	Player2_Hand_Card_3 <=	"0000" after 0 ns;
+
 	Player2_Hand_Card_4 <=	"0000" after 0 ns;
+
 	Player2_Hand_Card_5 <=	"0000" after 0 ns;
-	Player2_Budget <=	"00000010100" after 0 ns;
+
+	Player2_Budget <=	"0000010100" after 0 ns;
+
 	Player2_Hand_Score <= "00000" after 0 ns;
-	Player2_Bid <=	"00" after 0 ns,
-					Player2_Bid_New after 230 ns;
+
+	Player2_Bid <=		"00" after 0 ns,
+			"00" after 0 ns;
+	
 
 	Player3_Hand_Card_1 <=	"0000" after 0 ns;
+
 	Player3_Hand_Card_2 <=	"0000" after 0 ns;
+
 	Player3_Hand_Card_3 <=	"0000" after 0 ns;
+
 	Player3_Hand_Card_4 <=	"0000" after 0 ns;
+
 	Player3_Hand_Card_5 <=	"0000" after 0 ns;
-	Player3_Budget <=	"00000000000" after 0 ns;
-	Player3_Hand_Score <= "000000" after 0 ns;
-	Player3_Bid <=	"00" after 0 ns,
-					Player3_Bid_New after 230 ns;
+
+	Player3_Budget <=	"0000000000" after 0 ns;
+
+	Player3_Hand_Score <= "00000" after 0 ns;
+
+	Player3_Bid <=	"00" after 0 ns;
+	
 
 	Player4_Hand_Card_1 <=	"0000" after 0 ns;
-	Player4_Hand_Card_2 <=	"0000" after 0 ns;
-	Player4_Hand_Card_3 <=	"0000" after 0 ns;
-	Player4_Hand_Card_4 <=	"0000" after 0 ns;
-	Player4_Hand_Card_5 <=	"0000" after 0 ns;
-	Player4_Budget <=	"00000000000" after 0 ns;
-	Player4_Hand_Score <= "000000" after 0 ns;
-	Player4_Bid <=	"00" after 0 ns,
-					Player4_Bid_New after 230 ns;
 
-	Dealer_Hand_Card_1 <=	"0000" after 0 ns;
+	Player4_Hand_Card_2 <=	"0000" after 0 ns;
+
+	Player4_Hand_Card_3 <=	"0000" after 0 ns;
+
+	Player4_Hand_Card_4 <=	"0000" after 0 ns;
+
+	Player4_Hand_Card_5 <=	"0000" after 0 ns;
+
+	Player4_Budget <=	"0000000000" after 0 ns;
+
+	Player4_Hand_Score <= "00000" after 0 ns;
+
+	Player4_Bid <=	"00" after 0 ns;
+	
+
+	Dealer_Hand_Card_1 <=			"0000" after 0 ns,
+				"1100" after 14430 ns;
+
 	Dealer_Hand_Card_2 <=	"0000" after 0 ns;
+
 	Dealer_Hand_Card_3 <=	"0000" after 0 ns;
+
 	Dealer_Hand_Card_4 <=	"0000" after 0 ns;
+
 	Dealer_Hand_Card_5 <=	"0000" after 0 ns;
-	Dealer_Hand_Score <= "000000" after 0 ns;
+
+	Dealer_Hand_Score <= "00000" after 0 ns;
 
 	Reserve_Hand_Card_1 <=	"0000" after 0 ns;
+
 	Reserve_Hand_Card_2 <=	"0000" after 0 ns;
+
 	Reserve_Hand_Card_3 <=	"0000" after 0 ns;
+
 	Reserve_Hand_Card_4 <=	"0000" after 0 ns;
+
 	Reserve_Hand_Card_5 <=	"0000" after 0 ns;
-	Reserve_Hand_Score <= "000000" after 0 ns;
+
+	Reserve_Hand_Score <= "00000" after 0 ns;
 
 	-- unused
 	random_card <=	"0000" after 0 ns;
 
-	Player1_Budget_New <=	"0000" after 0 ns;
-	Player2_Budget_New <=	"0000" after 0 ns;
-	Player3_Budget_New <=	"0000" after 0 ns;
-	Player4_Budget_New <=	"0000" after 0 ns;
+	Player1_Budget_New <=	"0000000000" after 0 ns;
+	Player2_Budget_New <=	"0000000000" after 0 ns;
+	Player3_Budget_New <=	"0000000000" after 0 ns;
+	Player4_Budget_New <=	"0000000000" after 0 ns;
+
 end behaviour;
