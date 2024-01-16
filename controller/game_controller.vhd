@@ -72,8 +72,7 @@ entity game_controller is
 	
 			draw_screen	: out std_logic_vector(2 downto 0);  
 			cursor_position	: out std_logic_vector(2 downto 0);
-	
-			hold_option		: out std_logic;     
+	   
 			hit_option		: out std_logic;
 			double_option		: out std_logic;
 			split_option		: out std_logic;
