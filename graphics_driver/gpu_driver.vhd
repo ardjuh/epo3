@@ -1002,7 +1002,7 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (screentype = "01") then
-            if (y >= 0 and y < 46 and x > 443) then
+            if (y >= 0 and y < 48 and x > 443) then
                 if (x < 450 and y < 7) then
                     return small_letter(x - 444, y, 2); --b
                 elsif (x < 456 and y < 7) then
@@ -1035,46 +1035,44 @@ architecture behavior of gpu_driver is
         elsif (screentype = "11") then
             if (y >= 22 and y <= 28 and x > 278) then
                 if (x < 285) then
-                    return small_letter(x - 279, y - 22, 6); --F
+                    return small_letter(x - 279, y - 22, 5); --E
                 elsif (x < 291) then
-                    return small_letter(x - 285, y - 22, 9); --I
+                    return small_letter(x - 285, y - 22, 14); --N
                 elsif (x < 297) then
-                    return small_letter(x - 291, y - 22, 14); --N
+                    return small_letter(x - 291, y - 22, 4); --D
                 elsif (x < 303) then
-                    return small_letter(x - 297, y - 22, 9); --I
+                    return small_letter(x - 297, y - 22, 0); --SPACE
                 elsif (x < 309) then
-                    return small_letter(x - 303, y - 22, 19); --S
+                    return small_letter(x - 303, y - 22, 18); --R
                 elsif (x < 315) then
-                    return small_letter(x - 309, y - 22, 8);--H
+                    return small_letter(x - 309, y - 22, 15);--O
                 elsif (x < 321) then
-                    return small_letter(x - 315, y - 22, 5);--E
+                    return small_letter(x - 315, y - 22, 21);--U
                 elsif (x < 327) then
-                    return small_letter(x - 321, y - 22, 4);--D
+                    return small_letter(x - 321, y - 22, 14);--N
+					 elsif (x < 333) then
+                    return small_letter(x - 327, y - 22, 4);--D
                 else
                     return '0';
                 end if;
                     elsif (y >= 72 and y <= 78) then
                         if (x > 278) then
                         if (x < 285) then
-                            return small_letter(x - 279, y - 72, 16); -- P
+                            return small_letter(x - 279, y - 72, 5); -- E
                         elsif (x < 291) then
-                            return small_letter(x - 285, y - 72, 12);--L
+                            return small_letter(x - 285, y - 72, 14);--N
                         elsif (x < 297) then
-                            return small_letter(x - 291, y - 72, 1);--A
+                            return small_letter(x - 291, y - 72, 4);--D
                         elsif (x < 303) then
-                            return small_letter(x - 297, y - 72, 25); --Y
+                            return small_letter(x - 297, y - 72, 0); --SPACE
                         elsif (x < 309) then
-                            return small_letter(x - 303, y - 72, 0); --SPACE
+                            return small_letter(x - 303, y - 72, 7); --G
                         elsif (x < 315) then
                             return small_letter(x - 309, y - 72, 1); --A
                         elsif (x < 321) then
-                            return small_letter(x - 315, y - 72, 7); --G
+                            return small_letter(x - 315, y - 72, 13); --M
                         elsif (x < 327) then
-                            return small_letter(x - 321, y - 72, 1); --A
-                        elsif (x < 333) then
-                            return small_letter(x - 327, y - 72, 9); --I
-                        elsif (x < 339) then
-                            return small_letter(x - 333, y - 72, 14); --N
+                            return small_letter(x - 321, y - 72, 5); --E
                         else
                             return '0';
                         end if;
@@ -1260,7 +1258,7 @@ red   <= std_logic_vector(to_unsigned(r, 4));
 green <= std_logic_vector(to_unsigned(g, 4));
 blue  <= std_logic_vector(to_unsigned(b, 4));
 -- The process that splits the screen in sections
-process (x_pos, y_pos, screentype, split1, split2, split3, split4, player, cursor)
+process (x_pos, y_pos, screentype, split1, split2, split3, split4, player, cursor, card1_1, card1_2, card1_3, card1_4, card1_5, card2_1, card2_2, card2_3, card2_4, card2_5, card3_1, card3_2)
 begin
     if (x_pos < 0 or x_pos > 639 or y_pos < 0 or y_pos > 479) then
 
@@ -1277,21 +1275,21 @@ begin
 			if (begin_menu(x_pos, y_pos - 190,"00")='1') then
 				if (y_pos >= 212 and y_pos <= 218) then
 					if (cursor = "001" and x_pos > 320 and x_pos < 327) then
-						r <= 8;
+						r <= 10;
 						g <= 0;
-						b <= 8;
+						b <= 0;
 					elsif(cursor = "010" and x_pos > 332 and x_pos < 339) then
-						r <= 8;
+						r <= 10;
 						g <= 0;
-						b <= 8;
+						b <= 0;
 					elsif(cursor = "011" and x_pos > 344 and x_pos < 351) then
-						r <= 8;
+						r <= 10;
 						g <= 0;
-						b <= 8;
+						b <= 0;
 					elsif(cursor = "100" and x_pos > 355 and x_pos < 362) then
-						r <= 8;
+						r <= 10;
 						g <= 0;
-						b <= 8;
+						b <= 0;
 					else
 						r <= 15;
 						g <= 15;
@@ -1310,22 +1308,35 @@ begin
 			end if;
 		end if;
 		
-    elsif (screentype = "01") then
-        if (x_pos >= 440 and x_pos < 467 and y_pos < 479 and y_pos >= 430) then -- bet
-            if (begin_menu(x_pos, y_pos - 432, "01") = '1') then
+    elsif (screentype = "01" and x_pos >= 440 and x_pos < 467 and y_pos < 479 and y_pos >= 430) then --bet
+		  if ( begin_menu(x_pos, y_pos - 432, "01") = '1') then
+			    if(cursor = "001" and y_pos>=441 and y_pos<=447 and x_pos >= 440 and x_pos <451) then
+				    r <= 10;
+			    	    g <= 0;
+		    		    b <= 0;
+			    elsif(cursor= "010" and y_pos>=450 and y_pos<= 456 and x_pos >= 440 and x_pos <451) then
+				    r <= 10;
+			    	    g <= 0;
+		    		    b <= 0;
+			    elsif(cursor = "011" and y_pos >=459 and y_pos<=465 and x_pos >= 440 and x_pos <456) then
+				    r <= 10;
+			    	    g <= 0;
+		    		    b <= 0;
+		    	    elsif(cursor = "100" and y_pos >= 468 and y_pos<= 474 and x_pos >= 440 and x_pos <456)then 
+				    r <= 10;
+			    	    g <= 0;
+		    		    b <= 0;
+			     else
                 r <= 15;
                 g <= 15;
                 b <= 15;
+		end if;
             else
                 r <= 4;
                 g <= 4;
                 b <= 4;
             end if;
-        else
-            r <= 2;
-            g <= 11;
-            b <= 2;
-        end if;
+		  
 		  elsif (screentype = "11") then
         r <= 0;
         g <= 0;
@@ -1333,14 +1344,34 @@ begin
 
         if (x_pos >= 0 and y_pos >= 190 and y_pos <= 290) then
             if (begin_menu(x_pos, y_pos - 190, "11") = '1') then --end
-                r <= 15;
-                g <= 15;
-                b <= 15;
+					if (y_pos > 260 and cursor = "010") then
+                r <= 10;
+                g <= 0;
+                b <= 0;
+					 elsif (y_pos < 260 and cursor = "001") then
+                r <= 10;
+                g <= 0;
+                b <= 0;
+					else
+					r <=15 ;
+					g <=15;
+					b <= 15;
+					end if;
             else
                 r <= 0;
                 g <= 0;
                 b <= 0;
             end if;
+				elsif (x_pos>= 50 and y_pos >= 190 and x_pos <= 161 and y_pos <=242 ) then
+					if (table(x_pos - 50, y_pos - 190, '1', 0, 0, 0, 0, 0, 123, '1', 0, 0, 0, 0, 0, 456, '1', 0, 0, 0, 0, 0, 789, '1', 0, 0, 0,0, 0, 0) = '1') then
+						r <= 15;
+						g <= 15;
+						b <= 15;
+					else 
+						r <= 0;
+						g <= 0;
+						b <= 0;
+					end if;
         end if;
     elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 10 and x_pos <= 109) then -- Player hand
         if (cards(x_pos - 10, y_pos - 362, 13, 3, 6, 2, 5) = '1') then
@@ -1379,52 +1410,55 @@ begin
             b <= 15;
         end if;
          elsif (y_pos >= 180 and y_pos < 280) then -- Action menu
-	   if (action_menu(x_pos, y_pos - 180, '1', '1', '1', '1') = '1') then
-		if (y_pos >= 22 and y_pos <= 28) then
+				if (action_menu(x_pos, y_pos - 180, '1', '1', '1', '1') = '1') then
+					if (y_pos >= 202 and y_pos <= 208) then
             		if (cursor = "001" and x_pos >= 80 and x_pos < 98) then --hit
-				r <= 8;
-				g <= 0;
-				b <= 8;
-			elsif (cursor = "010" and x_pos >= 293 and x_pos < 329 and double = '1') then --double
-				r <= 8;
-				g <= 0;
-				b <= 8;
-			elsif (cursor = "011" and x_pos >= 507 and x_pos < 567 and em = '1') then --even money
-				r <= 8;
-				g <= 0;
-				b <= 8;
-			else 
-				r <= 15;
+							r <= 8;
+							g <= 0;
+							b <= 0;
+						elsif (cursor = "010" and x_pos >= 293 and x_pos < 329) then --double
+							r <= 8;
+							g <= 0;
+							b <= 0;
+						elsif (cursor = "011" and x_pos >= 507 and x_pos < 567) then --even money
+							r <= 8;
+							g <= 0;
+							b <= 0;
+						else 
+							r <= 15;
                 		g <= 15;
                 		b <= 15;
-			end if;
-		elsif (y_pos >= 72 and y_pos <= 78) then
-            		if (x_pos >= 80 and x_pos < 104) then -- HOLD
+						end if;
+					elsif (y_pos >= 252 and y_pos <= 258) then
+            		if (cursor = "100" and x_pos >= 80 and x_pos < 104) then -- HOLD
                 		r <= 8;
                 		g <= 0;
-                		b <= 8;
-			elsif (x_pos >= 293 and x_pos < 323 and split = '1') then -- SPLIT
+                		b <= 0;
+						elsif (cursor = "101" and x_pos >= 293 and x_pos < 323) then -- SPLIT
                 		r <= 8;
                 		g <= 0;
-                		b <= 8;
-			elsif (x_pos >= 507 and x_pos < 561 and insurance = '1') then -- INSURANCE
+                		b <= 0;
+						elsif (cursor = "110" and x_pos >= 507 and x_pos  < 561 ) then -- INSURANCE
                 		r <= 8;
                 		g <= 0;
-                		b <= 8;
-	    		else
+                		b <= 0;
+						else
                 		r <= 15;
                 		g <= 15;
                 		b <= 15;
-			end if;
-            	else
-                	r <= 15;
-                	g <= 15;
-                	b <= 15;
-	  else
-                r <= 4;
-                g <= 4;
-                b <= 4;
-          end if;
+					end if;
+            else
+             	r <= 15;
+              	g <= 15;
+              	b <= 15;
+				end if;
+			else
+				r <= 4;
+				g <= 4;
+            b <= 4;
+         end if;
+			 
+			 
     elsif (x_pos < 630 and x_pos >= 544 and y_pos < 470 and y_pos >= 429) then -- Details
         if (x_pos = 544 or x_pos = 629 or y_pos = 429 or y_pos = 469) then
             r <= 0;
