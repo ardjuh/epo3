@@ -71,6 +71,27 @@ entity gpu_driver is
         card5_2     : in std_logic_vector (3 downto 0);
         card5_3     : in std_logic_vector (3 downto 0);
         card5_4     : in std_logic_vector (3 downto 0);
-        card5_5     : in std_logic_vector (3 downto 0)
+        card5_5     : in std_logic_vector (3 downto 0);
+		   split1_1: in std_logic_vector (3 downto 0);
+		  split1_2: in std_logic_vector (3 downto 0);
+		  split1_3 : in std_logic_vector (3 downto 0);
+		  split1_4: in std_logic_vector (3 downto 0);
+		  split1_5: in std_logic_vector (3 downto 0);
+		  
+split2_1: in std_logic_vector (3 downto 0);
+ split2_2: in std_logic_vector (3 downto 0);
+ split2_3: in std_logic_vector (3 downto 0);
+ split2_4: in std_logic_vector (3 downto 0);
+ split2_5: in std_logic_vector (3 downto 0);
+ split3_1: in std_logic_vector (3 downto 0);
+ split3_2: in std_logic_vector (3 downto 0);
+ split3_3: in std_logic_vector (3 downto 0);
+ split3_4: in std_logic_vector (3 downto 0);
+ split3_5: in std_logic_vector (3 downto 0);
+ split4_1: in std_logic_vector (3 downto 0);
+ split4_2: in std_logic_vector (3 downto 0);
+ split4_3: in std_logic_vector (3 downto 0);
+ split4_4: in std_logic_vector (3 downto 0);
+ split4_5 : in std_logic_vector (3 downto 0)
     );
 end entity gpu_driver;
