@@ -48,12 +48,12 @@ begin
     h5_l : hand port map(clk => clk, rst => rst or end_round, enable => h5, card => card_in, card1 => card5_1_out, card2 => card5_2_out, card3 => card5_3_out, card4 => card5_4_out, card5 => card5_5_out, score => score5_out);
     h6_l : hand port map(clk => clk, rst => rst or end_round, enable => h6, card => card_in, card1 => card6_1_out, card2 => card6_2_out, card3 => card6_3_out, card4 => card6_4_out, card5 => card6_5_out, score => score6_out);
 
-    p1_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h1, profit => profit, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid1_out, money => money1_out, insurance_out => insurance1_out, doubledown_out => doubledown1_out);
-    p2_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h2, profit => profit, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid2_out, money => money2_out, insurance_out => insurance2_out, doubledown_out => doubledown2_out);
-    p3_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h3, profit => profit, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid3_out, money => money3_out, insurance_out => insurance3_out, doubledown_out => doubledown3_out);
-    p4_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h4, profit => profit, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid4_out, money => money4_out, insurance_out => insurance4_out, doubledown_out => doubledown4_out);
+    p1_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h1, profit => profit, stake => stake, bid_in => bid1_in, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid1_out, money => money1_out, insurance_out => insurance1_out, doubledown_out => doubledown1_out);
+    p2_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h2, profit => profit, stake => stake, bid_in => bid2_in, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid2_out, money => money2_out, insurance_out => insurance2_out, doubledown_out => doubledown2_out);
+    p3_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h3, profit => profit, stake => stake, bid_in => bid3_in, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid3_out, money => money3_out, insurance_out => insurance3_out, doubledown_out => doubledown3_out);
+    p4_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h4, profit => profit, stake => stake, bid_in => bid4_in, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid4_out, money => money4_out, insurance_out => insurance4_out, doubledown_out => doubledown4_out);
 
-    process (player_in, bid1, bid2, bid3, bid4, win_type1, win_type2, win_type3, win_type4)
+    process (player_in, bid1_in, bid2_in, bid3_in, bid4_in, win_type1_in, win_type2_in, win_type3_in, win_type4_in)
     begin
         case player_in is
             when "001" =>
@@ -63,8 +63,8 @@ begin
                 h4            <= '0';
                 h5            <= '0';
                 h6            <= '0';
-                bid_temp      <= bid1;
-                win_type_temp <= win_type1;
+                bid_temp      <= bid1_in;
+                win_type_temp <= win_type1_in;
             when "010" =>
                 h1            <= '0';
                 h2            <= '1';
@@ -72,8 +72,8 @@ begin
                 h4            <= '0';
                 h5            <= '0';
                 h6            <= '0';
-                bid_temp      <= bid2;
-                win_type_temp <= win_type2;
+                bid_temp      <= bid2_in;
+                win_type_temp <= win_type2_in;
             when "011" =>
                 h1            <= '0';
                 h2            <= '0';
@@ -81,8 +81,8 @@ begin
                 h4            <= '0';
                 h5            <= '0';
                 h6            <= '0';
-                bid_temp      <= bid3;
-                win_type_temp <= win_type3;
+                bid_temp      <= bid3_in;
+                win_type_temp <= win_type3_in;
             when "100" =>
                 h1            <= '0';
                 h2            <= '0';
@@ -90,8 +90,8 @@ begin
                 h4            <= '1';
                 h5            <= '0';
                 h6            <= '0';
-                bid_temp      <= bid4;
-                win_type_temp <= win_type4;
+                bid_temp      <= bid4_in;
+                win_type_temp <= win_type4_in;
             when "101" =>
                 h1            <= '0';
                 h2            <= '0';
