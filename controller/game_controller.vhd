@@ -23,6 +23,16 @@ entity controller is
 			Player2_Bid	: in std_logic_vector (1 downto 0);		-- Value of Initial Bid = 2,6,10,20 -> 00,01,10,11 (Internal signal Bid_Value) --
 			Player3_Bid	: in std_logic_vector (1 downto 0);		-- Controller never needs the augmented value of Bid as Double/Insurance/Split --
 			Player4_Bid	: in std_logic_vector (1 downto 0);		-- are Turn 1 actions (If Mem Controller does end-round calculations) --
+
+			Player1_Insured : in std_logic;
+			Player2_Insured : in std_logic;
+			Player3_Insured : in std_logic;
+			Player4_Insured : in std_logic;
+
+			Player1_Doubled_Down : in std_logic;
+			Player2_Doubled_Down : in std_logic;
+			Player3_Doubled_Down : in std_logic;
+			Player4_Doubled_Down : in std_logic;
 	
 			Player1_Hand_Card_1	: in std_logic_vector (3 downto 0);	-- Each card is a 4-bit vector --
 			Player1_Hand_Card_2	: in std_logic_vector (3 downto 0);
@@ -79,11 +89,6 @@ entity controller is
 			insurance_option	: out std_logic;
 			even_money_option	: out std_logic;
 	
-			Player1_Budget_New	: out  std_logic_vector (9 downto 0);	-- base budget is 100, score limit chosen as 1000 so 10 bits --
-			Player2_Budget_New	: out  std_logic_vector (9 downto 0);
-			Player3_Budget_New	: out  std_logic_vector (9 downto 0);  
-			Player4_Budget_New	: out  std_logic_vector (9 downto 0);
-	
 			Player1_Bid_New	: out std_logic_vector (1 downto 0);  		 -- 2,6,10,20 = 4 options so 2 bits --
 			Player2_Bid_New	: out std_logic_vector (1 downto 0);
 			Player3_Bid_New	: out std_logic_vector (1 downto 0);
@@ -92,7 +97,7 @@ entity controller is
 			Player_Turn_New	: out std_logic_vector (2 downto 0);  	 -- outputs -> mem based on actions --
 			N_Players_New	: out std_logic_vector (2 downto 0);
 			Receiving_Hand	: out std_logic_vector (2 downto 0);  	 -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
-	
+			
 			enable		: out std_logic;
 			even_money	: out std_logic;
 			insurance	: out std_logic;
@@ -167,7 +172,8 @@ begin
 		hold_selectable, hit_selectable, double_selectable, split_selectable, insurance_selectable, even_money_selectable,
 		score_screen, first_card_deal, random_card, second_card_deal, dealer_card_deal, 
 		hold_selected, hit_selected, double_selected, split_selected, insurance_selected, even_money_selected,
-		card_received, require_card
+		card_received, require_card, Player1_Insured, Player2_Insured, Player3_Insured, Player4_Insured, Player1_Doubled_Down,
+		Player2_Doubled_Down, Player3_Doubled_Down, Player4_Doubled_Down
 		)
 
 
@@ -624,7 +630,117 @@ begin
 						score_screen <= '1';
 						draw_screen_type <= "11";
 						choose_action <= '0';
-						new_state <= player_action;
+						enable <= '1';
+
+						if ( unsigned(Dealer_Hand_Score) = 21 ) and ( Dealer_Hand_Card_3 = "0000" ) then
+							if ( Player1_Insured = '1' ) then
+								Player1_win_type <= "001";
+								new_state <= game_setup;
+
+							elsif ( Player2_Insured = '1' ) then
+								Player2_win_type <= "001";
+								new_state <= game_setup;
+
+							elsif ( Player3_Insured = '1' ) then
+								Player3_win_type <= "001";
+								new_state <= game_setup;
+								
+							elsif ( Player4_Insured = '1' ) then
+								Player4_win_type <= "001";
+								new_state <= game_setup;
+							end if;
+
+						elsif( unsigned(Player1_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
+								Player1_win_type <= "001";
+								new_state <= game_setup;
+
+						elsif ( unsigned(Player1_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
+								Player2_win_type <= "001";
+								new_state <= game_setup;
+
+						elsif ( unsigned(Player3_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
+								Player3_win_type <= "001";
+								new_state <= game_setup;
+
+						elsif ( unsigned(Player4_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
+								Player4_win_type <= "001";
+								new_state <= game_setup;
+
+						elsif ( unsigned(Player4_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
+								Player4_win_type <= "001";
+								new_state <= game_setup;
+
+						elsif ( unsigned(Reserve_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
+							if ( split_player = "001" ) then
+								Player1_win_type <= "001";
+								new_state <= game_setup;
+
+							elsif ( split_player = "010" ) then
+								Player2_win_type <= "001";
+								new_state <= game_setup;
+
+							elsif ( split_player = "011" ) then
+								Player3_win_type <= "001";
+								new_state <= game_setup;
+
+							elsif ( split_player = "100" ) then
+								Player4_win_type <= "001";
+								new_state <= game_setup;
+ 
+						elsif ( unsigned(Player1_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
+							if ( Player1_Doubled_Down = '1' ) then
+								Player1_win_type <= "010";
+								new_state <= game_setup;
+							else
+								Player1_win_type <= "100";
+								new_state <= game_setup;
+							end if;
+
+						elsif ( unsigned(Player2_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
+							if ( Player2_Doubled_Down = '1' ) then
+								Player2_win_type <= "010";
+								new_state <= game_setup;
+							else
+								Player2_win_type <= "100";
+								new_state <= game_setup;
+							end if;
+
+						elsif ( unsigned(Player3_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
+							if ( Player3_Doubled_Down = '1' ) then
+								Player3_win_type <= "010";
+								new_state <= game_setup;
+							else
+								Player3_win_type <= "100";
+								new_state <= game_setup;
+							end if;
+
+						elsif ( unsigned(Player4_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
+							if ( Player4_Doubled_Down = '1' ) then
+								Player4_win_type <= "010";
+								new_state <= game_setup;
+							else
+								Player4_win_type <= "100";
+								new_state <= game_setup;
+							end if;
+
+						elsif ( unsigned(Reserve_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
+							if ( split_player = "001" ) then
+								Player1_win_type <= "100";
+								new_state <= game_setup;
+
+							elsif ( split_player = "010" ) then
+								Player2_win_type <= "100";
+								new_state <= game_setup;
+
+							elsif ( split_player = "011" ) then
+								Player3_win_type <= "100";
+								new_state <= game_setup;
+
+							elsif ( split_player = "100" ) then
+								Player4_win_type <= "100";
+								new_state <= game_setup;
+							end if;
+						end if;
 					end if;
 				end if;
 		
