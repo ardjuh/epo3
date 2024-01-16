@@ -51,11 +51,11 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (letter = 6) then -- F
-            -- if (x = 0 or y = 0 or (y = 3 and x < 3)) then
-            --     return '1';
-            -- else
-            --     return '0';
-            -- end if;
+             if (x = 0 or y = 0 or (y = 3 and x < 3)) then
+                 return '1';
+             else
+                 return '0';
+            end if;
             return '0';
         elsif (letter = 7) then -- G
             if ((x = 0 and (y > 0 and y < 6)) or ((y = 0 or y = 6) and x > 0 and x < 4) or (x = 4 and (y = 1 or y = 5 or y = 6)) or (y = 3 and x > 2)) then
@@ -576,7 +576,7 @@ architecture behavior of gpu_driver is
     begin
         if (y < 7) then
             if (x < 6) then
-                return small_letter(x, y, 16); --P
+                return small_letter(x, y, 6); --P
             elsif (x < 12) then
                 return small_letter(x - 6, y, 12); --L
             elsif (x < 18) then
@@ -941,356 +941,354 @@ architecture behavior of gpu_driver is
     end function;
 
     function begin_menu(
-        x     : integer range 0 to 639;
-        y     : integer range 0 to 479;
-	screentype	  : std_logic_vector (1 downto 0) :="00"
-	) return std_logic is
-	begin
-	if (y >= 22 and y <= 28 and screentype = "00") then
-		if (x > 278) then
-			if (x < 285) then
-				return small_letter(x - 279, y - 22, 16); --P
-            elsif (x < 291) then
-                return small_letter(x - 285, y - 22, 12); --L
-            elsif (x < 297) then
-                return small_letter(x - 291, y - 22, 1); --A
-            elsif (x < 303) then
-                return small_letter(x - 297, y - 22, 25); --Y
-            elsif (x < 309) then
-                return small_letter(x - 303, y - 22, 5); --E
-            elsif (x < 315) then
-                return small_letter(x - 309, y - 22, 18); --R
-            elsif (x < 321) then
-		return small_letter(x- 315, y - 22, 0); --Space
-	    elsif (x < 327) then
-		return small_number(x - 321, y - 22, 1); --1
-	    elsif (x < 333) then
-		return small_letter(x - 327, y - 22, 0); --Space
-            elsif (x < 339) then
-		return small_number(x - 333, y - 22, 2); --2
-            elsif (x < 345) then
-		return small_letter(x - 339, y - 22, 0); --Space
-            elsif (x < 351) then
-		return small_number(x - 345, y - 22, 3); --3
-            elsif (x < 357) then
-		return small_letter(x - 351, y - 22, 0); --Space
-            elsif (x < 363) then
-		return small_number(x - 357, y - 22, 4); --4
-	    else
-                return '0';
-	    end if;
-		else return '0';
-		end if;
-
-	    elsif (y >= 72 and y <= 78) then
-		if ( x > 278) then
-            if (x < 285) then
-                return small_letter(x - 279, y - 72, 19); --S
-            elsif (x < 291) then
-                return small_letter(x - 285, y - 72, 20); --T
-            elsif (x < 297) then
-                return small_letter(x - 291, y - 72, 1); --A
-            elsif (x < 303) then
-                return small_letter(x - 297, y - 72, 18); --R
-            elsif (x < 309) then
-                return small_letter(x - 303, y - 72, 20); --T
-	    else 
-	   	return '0';
- 	    end if;
-		else return '0';
-		end if;
-		if (screentype = "01") then
-			if (x >= 444 and x< 470) then
-			if ( x < 451) then
-				return small_letter(x-444, y, 2); --b
-			elsif (x <457) then
-				return small_letter(x-451, y, 5);--e
-			elsif (x <463) then
-				return small_letter(x-457, y, 20);--t
-			elsif (x<451) then
-				return small_number(x-444, y-9, 2);--2
-			elsif (x<451) then
-				return small_number(x-444, y-18,6);--6
-			elsif(x<451) then
-				return small_number(x-444, y-27, 1);--1
-			elsif(x<457) then
-				return small_number(x-451, y-27, 0);--0
-			elsif(x<560) then
-				return small_number(x-444, y-36, 2);--2
-			elsif(x<566) then
-				return small_number(x-451, y-36, 0);--0
-			else
-				return '0';
-				end if;
-			else
-				return '0';
-				end if;
-			else
-				return '0';
-		end if;
-	   if (y >= 22 and y <= 28 and screentype = "11") then
-		if ( x > 278) then
-            if (x < 285) then
-                return small_letter(x - 279, y - 22, 6); --F
-            elsif (x < 291) then
-                return small_letter(x - 285, y - 22, 9); --I
-            elsif (x < 297) then
-                return small_letter(x - 291, y - 22, 14); --N
-            elsif (x < 303) then
-                return small_letter(x - 297, y - 22, 9); --I
-            elsif (x < 309) then
-                return small_letter(x - 303, y - 22, 19); --S
-	    elsif (x < 315) then
-		return small_letter(x-309, y-22, 8);--H
-	    elsif (x<321) then
-		return small_letter(x-315, y-22,5);--E
-	    elsif (x< 327) then
-		return small_letter(x-321, y-22,4);--D
- 		else 
-	    return '0';
-	    end if;
-		else return '0';
-		end if;
-		if (screentype = "1") then
-		    if(y >= 72 and y <= 78) then
-				if ( x > 278) then
-			    elsif (x<285) then
-				    return small_letter(x-279, y-72, 16); -- P
-	 		    elsif (x<291) then
-				    return small_letter(x-285, y-72, 12);--L
-			    elsif(x<297)then
-	   			    return small_letter(x-291, y-72, 1);--A
-			 elsif (x<303) then
-				 return small_letter(x-297, y-72, 25);	--Y
-			elsif (x<309) then
-				return small_letter(x-303, y-72, 0);	--SPACE
-			elsif (x<315) then
-			   	return small_letter(x-309, y-72,1);	--A
-			elsif (x<321)then
-			   	return small_letter(x-315, y-72, 7);	--G
-			elsif (x<327) then	    
-			   	return small_letter(x-321,y-72,1);	--A
-			elsif (x<333) then
-			   	return small_letter(x-327, y-72, 9);	--I
-			elsif(x<339) then
-			   	return small_letter(x-333, y-72, 14);	--N
-		    	else return '0';	
-		   	end if;
-			else return '0';	
-		   	end if;
-		else return '0';
-		end if;
-		
-
-	else return  '0';
-	end if;
-else return '0';
-end if;
- end function;
-
-
-
-
-
-    function details(
-        x           : integer range 0 to 84;
-        y           : integer range 0 to 38;
-        player      : integer range 1 to 4;
-        money       : integer range 0 to 999;
-        bet         : std_logic_vector(1 downto 0);
-        double_down : std_logic := '0';
-        insurance   : std_logic := '0'
+        x          : integer range 0 to 639;
+        y          : integer range 0 to 479;
+        screentype : std_logic_vector (1 downto 0) := "00"
     ) return std_logic is
     begin
-        if (x >= 3 and x < 51 and y >= 3 and y < 10) then -- Player {{player}}
-            if (x < 9) then
-                return small_letter(x - 3, y - 3, 16);
-            elsif (x < 15) then
-                return small_letter(x - 9, y - 3, 12);
-            elsif (x < 21) then
-                return small_letter(x - 15, y - 3, 1);
-            elsif (x < 27) then
-                return small_letter(x - 21, y - 3, 25);
-            elsif (x < 33) then
-                return small_letter(x - 27, y - 3, 5);
-            elsif (x < 39) then
-                return small_letter(x - 33, y - 3, 18);
-            elsif (x < 45) then
-                return '0';
-            else
-                return small_number(x - 45, y - 3, player);
-            end if;
-        elsif (x >= 3 and x < 63 and y >= 12 and y < 19) then -- Money: {{money}}
-            if (x < 9) then
-                return small_letter(x - 3, y - 12, 13);
-            elsif (x < 15) then
-                return small_letter(x - 9, y - 12, 15);
-            elsif (x < 21) then
-                return small_letter(x - 15, y - 12, 14);
-            elsif (x < 27) then
-                return small_letter(x - 21, y - 12, 5);
-            elsif (x < 33) then
-                return small_letter(x - 27, y - 12, 25);
-            elsif (x < 39) then
-                return small_letter(x - 33, y - 12, 27);
-            elsif (x < 45) then
-                return '0';
-            elsif (x < 51) then
-                return small_number(x - 45, y - 12, money / 100);
-            elsif (x < 57) then
-                return small_number(x - 51, y - 12, (money / 10) mod 10);
-            else
-                return small_number(x - 57, y - 12, money mod 10);
-            end if;
-        elsif (x >= 3 and x < 45 and y >= 21 and y < 28) then -- Bet: {{bet}}
-            if (x < 9) then
-                return small_letter(x - 3, y - 21, 2);
-            elsif (x < 15) then
-                return small_letter(x - 9, y - 21, 5);
-            elsif (x < 21) then
-                return small_letter(x - 15, y - 21, 20);
-            elsif (x < 27) then
-                return small_letter(x - 21, y - 21, 27);
-            elsif (x < 33) then
-                return '0';
-            elsif (double_down = '1') then
-                case bet is
-                    when "00" =>
-                        if (x < 39) then
-                            return small_number(x - 33, y - 21, 4);
-                        else
-                            return '0';
-                        end if;
-                    when "01" =>
-                        if (x < 39) then
-                            return small_number(x - 33, y - 21, 1);
-                        else
-                            return small_number(x - 39, y - 21, 2);
-                        end if;
-                    when "10" =>
-                        if (x < 39) then
-                            return small_number(x - 33, y - 21, 2);
-                        else
-                            return small_number(x - 39, y - 21, 0);
-                        end if;
-                    when others =>
-                        if (x < 39) then
-                            return small_number(x - 33, y - 21, 4);
-                        else
-                            return small_number(x - 39, y - 21, 0);
-                        end if;
-                end case;
-            else
-                case bet is
-                    when "00" =>
-                        if (x < 39) then
-                            return small_number(x - 33, y - 21, 2);
-                        else
-                            return '0';
-                        end if;
-                    when "01" =>
-                        if (x < 39) then
-                            return small_number(x - 33, y - 21, 6);
-                        else
-                            return '0';
-                        end if;
-                    when "10" =>
-                        if (x < 39) then
-                            return small_number(x - 33, y - 21, 1);
-                        else
-                            return small_number(x - 39, y - 21, 0);
-                        end if;
-                    when others =>
-                        if (x < 39) then
-                            return small_number(x - 33, y - 21, 2);
-                        else
-                            return small_number(x - 39, y - 21, 0);
-                        end if;
-                end case;
-            end if;
-        elsif (x >= 3 and x < 87 and y >= 30 and y < 37) then -- Insurance: {{insurance}}
-            if (x < 9) then
-                return small_letter(x - 3, y - 30, 9);
-            elsif (x < 15) then
-                return small_letter(x - 9, y - 30, 14);
-            elsif (x < 21) then
-                return small_letter(x - 15, y - 30, 19);
-            elsif (x < 27) then
-                return small_letter(x - 21, y - 30, 21);
-            elsif (x < 33) then
-                return small_letter(x - 27, y - 30, 18);
-            elsif (x < 39) then
-                return small_letter(x - 33, y - 30, 1);
-            elsif (x < 45) then
-                return small_letter(x - 39, y - 30, 14);
-            elsif (x < 51) then
-                return small_letter(x - 45, y - 30, 3);
-            elsif (x < 57) then
-                return small_letter(x - 51, y - 30, 5);
-            elsif (x < 63) then
-                return small_letter(x - 57, y - 30, 27);
-            elsif (x < 69) then
-                return '0';
-            elsif (insurance = '1') then -- Yes
-                if (x < 75) then
-                    return small_letter(x - 69, y - 30, 25);
-                elsif (x < 81) then
-                    return small_letter(x - 75, y - 30, 5);
-                else
-                    return small_letter(x - 81, y - 30, 19);
-                end if;
-            else -- No
-                if (x < 75) then
-                    return small_letter(x - 69, y - 30, 14);
-                elsif (x < 81) then
-                    return small_letter(x - 75, y - 30, 15);
+        if (screentype = "00") then
+            if (y >= 22 and y <= 28 and x > 278) then
+                if (x < 285) then
+                    return small_letter(x - 279, y - 22, 16); --P
+                elsif (x < 291) then
+                    return small_letter(x - 285, y - 22, 12); --L
+                elsif (x < 297) then
+                    return small_letter(x - 291, y - 22, 1); --A
+                elsif (x < 303) then
+                    return small_letter(x - 297, y - 22, 25); --Y
+                elsif (x < 309) then
+                    return small_letter(x - 303, y - 22, 5); --E
+                elsif (x < 315) then
+                    return small_letter(x - 309, y - 22, 18); --R
+                elsif (x < 321) then
+                    return small_letter(x - 315, y - 22, 0); --Space
+                elsif (x < 327) then
+                    return small_number(x - 321, y - 22, 1); --1
+                elsif (x < 333) then
+                    return small_letter(x - 327, y - 22, 0); --Space
+                elsif (x < 339) then
+                    return small_number(x - 333, y - 22, 2); --2
+                elsif (x < 345) then
+                    return small_letter(x - 339, y - 22, 0); --Space
+                elsif (x < 351) then
+                    return small_number(x - 345, y - 22, 3); --3
+                elsif (x < 357) then
+                    return small_letter(x - 351, y - 22, 0); --Space
+                elsif (x < 363) then
+                    return small_number(x - 357, y - 22, 4); --4
                 else
                     return '0';
                 end if;
+
+            elsif (y >= 72 and y <= 78) then
+                if (x > 278) then
+                    if (x < 285) then
+                        return small_letter(x - 279, y - 72, 19); --S
+                    elsif (x < 291) then
+                        return small_letter(x - 285, y - 72, 20); --T
+                    elsif (x < 297) then
+                        return small_letter(x - 291, y - 72, 1); --A
+                    elsif (x < 303) then
+                        return small_letter(x - 297, y - 72, 18); --R
+                    elsif (x < 309) then
+                        return small_letter(x - 303, y - 72, 20); --T
+                    else
+                        return '0';
+                    end if;
+                else
+                    return '0';
+                end if;
+            else
+                return '0';
             end if;
+        elsif (screentype = "01") then
+            if (y >= 0 and y < 46 and x > 443) then
+                if (x < 450 and y < 7) then
+                    return small_letter(x - 444, y, 2); --b
+                elsif (x < 456 and y < 7) then
+                    return small_letter(x - 450, y, 5);--e
+                elsif (x < 462 and y < 7) then
+                    return small_letter(x - 456, y, 20);--t
+					 
+                elsif (x < 450 and y>=9 and y<= 16) then
+                    return small_number(x - 444, y - 9, 2);--2
+						  
+                elsif (x < 450 and y>=18 and y<= 24) then
+                    return small_number(x - 444, y - 18, 6);--6
+						  
+                elsif (x < 450 and y>=27 and y<= 33) then
+                    return small_number(x - 444, y - 27, 1);--1
+                elsif (x < 456 and y>=27 and y<= 33) then
+                    return small_number(x - 450, y - 27, 0);--0
+						  
+                elsif (x < 450 and y>=36 and y<= 43) then
+                    return small_number(x - 444, y - 36, 2);--2
+                elsif (x < 456 and y>=36 and y<= 43) then
+                    return small_number(x - 450, y - 36, 0);--0
+
+                else
+                    return '0';
+                end if;
+            else
+                return '0';
+            end if;
+        elsif (screentype = "11") then
+            if (y >= 22 and y <= 28 and x > 278) then
+                if (x < 285) then
+                    return small_letter(x - 279, y - 22, 6); --F
+                elsif (x < 291) then
+                    return small_letter(x - 285, y - 22, 9); --I
+                elsif (x < 297) then
+                    return small_letter(x - 291, y - 22, 14); --N
+                elsif (x < 303) then
+                    return small_letter(x - 297, y - 22, 9); --I
+                elsif (x < 309) then
+                    return small_letter(x - 303, y - 22, 19); --S
+                elsif (x < 315) then
+                    return small_letter(x - 309, y - 22, 8);--H
+                elsif (x < 321) then
+                    return small_letter(x - 315, y - 22, 5);--E
+                elsif (x < 327) then
+                    return small_letter(x - 321, y - 22, 4);--D
+                else
+                    return '0';
+                end if;
+                    elsif (y >= 72 and y <= 78) then
+                        if (x > 278) then
+                        if (x < 285) then
+                            return small_letter(x - 279, y - 72, 16); -- P
+                        elsif (x < 291) then
+                            return small_letter(x - 285, y - 72, 12);--L
+                        elsif (x < 297) then
+                            return small_letter(x - 291, y - 72, 1);--A
+                        elsif (x < 303) then
+                            return small_letter(x - 297, y - 72, 25); --Y
+                        elsif (x < 309) then
+                            return small_letter(x - 303, y - 72, 0); --SPACE
+                        elsif (x < 315) then
+                            return small_letter(x - 309, y - 72, 1); --A
+                        elsif (x < 321) then
+                            return small_letter(x - 315, y - 72, 7); --G
+                        elsif (x < 327) then
+                            return small_letter(x - 321, y - 72, 1); --A
+                        elsif (x < 333) then
+                            return small_letter(x - 327, y - 72, 9); --I
+                        elsif (x < 339) then
+                            return small_letter(x - 333, y - 72, 14); --N
+                        else
+                            return '0';
+                        end if;
+                    else
+                        return '0';
+                    end if;
+		else
+                        return '0';
+                    end if;
         else
             return '0';
         end if;
-    end function;
+    
+end function;
+
+function details(
+    x           : integer range 0 to 84;
+    y           : integer range 0 to 38;
+    player      : integer range 1 to 4;
+    money       : integer range 0 to 999;
+    bet         : std_logic_vector(1 downto 0);
+    double_down : std_logic := '0';
+    insurance   : std_logic := '0'
+) return std_logic is
+begin
+    if (x >= 3 and x < 51 and y >= 3 and y < 10) then -- Player {{player}}
+        if (x < 9) then
+            return small_letter(x - 3, y - 3, 16);
+        elsif (x < 15) then
+            return small_letter(x - 9, y - 3, 12);
+        elsif (x < 21) then
+            return small_letter(x - 15, y - 3, 1);
+        elsif (x < 27) then
+            return small_letter(x - 21, y - 3, 25);
+        elsif (x < 33) then
+            return small_letter(x - 27, y - 3, 5);
+        elsif (x < 39) then
+            return small_letter(x - 33, y - 3, 18);
+        elsif (x < 45) then
+            return '0';
+        else
+            return small_number(x - 45, y - 3, player);
+        end if;
+    elsif (x >= 3 and x < 63 and y >= 12 and y < 19) then -- Money: {{money}}
+        if (x < 9) then
+            return small_letter(x - 3, y - 12, 13);
+        elsif (x < 15) then
+            return small_letter(x - 9, y - 12, 15);
+        elsif (x < 21) then
+            return small_letter(x - 15, y - 12, 14);
+        elsif (x < 27) then
+            return small_letter(x - 21, y - 12, 5);
+        elsif (x < 33) then
+            return small_letter(x - 27, y - 12, 25);
+        elsif (x < 39) then
+            return small_letter(x - 33, y - 12, 27);
+        elsif (x < 45) then
+            return '0';
+        elsif (x < 51) then
+            return small_number(x - 45, y - 12, money / 100);
+        elsif (x < 57) then
+            return small_number(x - 51, y - 12, (money / 10) mod 10);
+        else
+            return small_number(x - 57, y - 12, money mod 10);
+        end if;
+    elsif (x >= 3 and x < 45 and y >= 21 and y < 28) then -- Bet: {{bet}}
+        if (x < 9) then
+            return small_letter(x - 3, y - 21, 2);
+        elsif (x < 15) then
+            return small_letter(x - 9, y - 21, 5);
+        elsif (x < 21) then
+            return small_letter(x - 15, y - 21, 20);
+        elsif (x < 27) then
+            return small_letter(x - 21, y - 21, 27);
+        elsif (x < 33) then
+            return '0';
+        elsif (double_down = '1') then
+            case bet is
+                when "00" =>
+                    if (x < 39) then
+                        return small_number(x - 33, y - 21, 4);
+                    else
+                        return '0';
+                    end if;
+                when "01" =>
+                    if (x < 39) then
+                        return small_number(x - 33, y - 21, 1);
+                    else
+                        return small_number(x - 39, y - 21, 2);
+                    end if;
+                when "10" =>
+                    if (x < 39) then
+                        return small_number(x - 33, y - 21, 2);
+                    else
+                        return small_number(x - 39, y - 21, 0);
+                    end if;
+                when others =>
+                    if (x < 39) then
+                        return small_number(x - 33, y - 21, 4);
+                    else
+                        return small_number(x - 39, y - 21, 0);
+                    end if;
+            end case;
+        else
+            case bet is
+                when "00" =>
+                    if (x < 39) then
+                        return small_number(x - 33, y - 21, 2);
+                    else
+                        return '0';
+                    end if;
+                when "01" =>
+                    if (x < 39) then
+                        return small_number(x - 33, y - 21, 6);
+                    else
+                        return '0';
+                    end if;
+                when "10" =>
+                    if (x < 39) then
+                        return small_number(x - 33, y - 21, 1);
+                    else
+                        return small_number(x - 39, y - 21, 0);
+                    end if;
+                when others =>
+                    if (x < 39) then
+                        return small_number(x - 33, y - 21, 2);
+                    else
+                        return small_number(x - 39, y - 21, 0);
+                    end if;
+            end case;
+        end if;
+    elsif (x >= 3 and x < 87 and y >= 30 and y < 37) then -- Insurance: {{insurance}}
+        if (x < 9) then
+            return small_letter(x - 3, y - 30, 9);
+        elsif (x < 15) then
+            return small_letter(x - 9, y - 30, 14);
+        elsif (x < 21) then
+            return small_letter(x - 15, y - 30, 19);
+        elsif (x < 27) then
+            return small_letter(x - 21, y - 30, 21);
+        elsif (x < 33) then
+            return small_letter(x - 27, y - 30, 18);
+        elsif (x < 39) then
+            return small_letter(x - 33, y - 30, 1);
+        elsif (x < 45) then
+            return small_letter(x - 39, y - 30, 14);
+        elsif (x < 51) then
+            return small_letter(x - 45, y - 30, 3);
+        elsif (x < 57) then
+            return small_letter(x - 51, y - 30, 5);
+        elsif (x < 63) then
+            return small_letter(x - 57, y - 30, 27);
+        elsif (x < 69) then
+            return '0';
+        elsif (insurance = '1') then -- Yes
+            if (x < 75) then
+                return small_letter(x - 69, y - 30, 25);
+            elsif (x < 81) then
+                return small_letter(x - 75, y - 30, 5);
+            else
+                return small_letter(x - 81, y - 30, 19);
+            end if;
+        else -- No
+            if (x < 75) then
+                return small_letter(x - 69, y - 30, 14);
+            elsif (x < 81) then
+                return small_letter(x - 75, y - 30, 15);
+            else
+                return '0';
+            end if;
+        end if;
+    else
+        return '0';
+    end if;
+end function;
 
 begin
-    -- Convert the position signals to unsigned and subtract the offset
-    x_pos <= to_integer(unsigned(h_pos)) - 145;
-    y_pos <= to_integer(unsigned(v_pos)) - 32;
-    -- Convert the color signals to unsigned
-    red   <= std_logic_vector(to_unsigned(r, 4));
-    green <= std_logic_vector(to_unsigned(g, 4));
-    blue  <= std_logic_vector(to_unsigned(b, 4));
-    -- The process that splits the screen in sections
-    process (x_pos, y_pos, screentype, split1, split2, split3, split4, player, cursor)
-    begin
-        if (x_pos < 0 or x_pos > 639 or y_pos < 0 or y_pos > 479) then
+-- Convert the position signals to unsigned and subtract the offset
+x_pos <= to_integer(unsigned(h_pos)) - 145;
+y_pos <= to_integer(unsigned(v_pos)) - 32;
+-- Convert the color signals to unsigned
+red   <= std_logic_vector(to_unsigned(r, 4));
+green <= std_logic_vector(to_unsigned(g, 4));
+blue  <= std_logic_vector(to_unsigned(b, 4));
+-- The process that splits the screen in sections
+process (x_pos, y_pos, screentype, split1, split2, split3, split4, player, cursor)
+begin
+    if (x_pos < 0 or x_pos > 639 or y_pos < 0 or y_pos > 479) then
 
-		r <= 0;
-		g <= 0;
-		b <= 0;
+        r <= 0;
+        g <= 0;
+        b <= 0;
 
-	elsif (screentype = "00") then
+    	elsif (screentype = "00") then
 		r <= 0;
-                g <= 0;
-                b <= 0;
+      g <= 0;
+      b <= 0;
 	
     		if (x_pos >= 0 and y_pos >= 190 and y_pos <= 290) then 
 			if (begin_menu(x_pos, y_pos - 190,"00")='1') then
-				if (y >= 22 and y <= 28) then
-					if (cursor = "001" and x > 320 and x < 327) then
+				if (y_pos >= 212 and y_pos <= 218) then
+					if (cursor = "001" and x_pos > 320 and x_pos < 327) then
 						r <= 8;
 						g <= 0;
 						b <= 8;
-					elsif(cursor = "010" and x > 332 and x < 349) then
+					elsif(cursor = "010" and x_pos > 332 and x_pos < 339) then
 						r <= 8;
 						g <= 0;
 						b <= 8;
-					elsif(cursor = "011" and x > 354 and x < 361) then
+					elsif(cursor = "011" and x_pos > 344 and x_pos < 351) then
 						r <= 8;
 						g <= 0;
 						b <= 8;
-					elsif(cursor = "100" and x > 365 and x < 372) then
+					elsif(cursor = "100" and x_pos > 355 and x_pos < 362) then
 						r <= 8;
 						g <= 0;
 						b <= 8;
@@ -1311,37 +1309,52 @@ begin
                 	b <= 0;
 			end if;
 		end if;
-	
-	   
-        elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 10 and x_pos <= 109) then -- Player hand
-            if (cards(x_pos - 10, y_pos - 362, 13, 3, 6, 2, 5) = '1') then
-                r <= 0;
-                g <= 0;
-                b <= 0;
-            else
+		
+    elsif (screentype = "01") then
+        if (x_pos >= 440 and x_pos < 467 and y_pos < 479 and y_pos >= 430) then -- bet
+            if (begin_menu(x_pos, y_pos - 432, "01") = '1') then
                 r <= 15;
                 g <= 15;
                 b <= 15;
+            else
+                r <= 4;
+                g <= 4;
+                b <= 4;
             end if;
+        else
+            r <= 2;
+            g <= 11;
+            b <= 2;
+        end if;
+		  elsif (screentype = "11") then
+        r <= 0;
+        g <= 0;
+        b <= 0;
 
-        elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219) then
-            if ((player = "00" and split1 = '1') or (player = "01" and split2 = '1') or (player = "10" and split3 = '1') or (player = "11" and split4 = '1')) then -- Player hand with split
-                if (cards(x_pos - 120, y_pos - 362, 11, 13, 12, 11, 10, '1') = '1') then
-                    r <= 0;
-                    g <= 0;
-                    b <= 0;
-                else
-                    r <= 15;
-                    g <= 15;
-                    b <= 15;
-                end if;
+        if (x_pos >= 0 and y_pos >= 190 and y_pos <= 290) then
+            if (begin_menu(x_pos, y_pos - 190, "11") = '1') then --end
+                r <= 15;
+                g <= 15;
+                b <= 15;
             else
-                r <= 2;
-                g <= 11;
-                b <= 2;
+                r <= 0;
+                g <= 0;
+                b <= 0;
             end if;
-        elsif (y_pos >= 10 and y_pos < 118 and x_pos < 630 and x_pos >= 530) then -- Dealer hand
-            if (cards(x_pos - 530, y_pos - 10, 10, 4, 7) = '1') then
+        end if;
+    elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 10 and x_pos <= 109) then -- Player hand
+        if (cards(x_pos - 10, y_pos - 362, 13, 3, 6, 2, 5) = '1') then
+            r <= 0;
+            g <= 0;
+            b <= 0;
+        else
+            r <= 15;
+            g <= 15;
+            b <= 15;
+        end if;
+    elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219) then
+        if ((player = "00" and split1 = '1') or (player = "01" and split2 = '1') or (player = "10" and split3 = '1') or (player = "11" and split4 = '1')) then -- Player hand with split
+            if (cards(x_pos - 120, y_pos - 362, 11, 13, 12, 11, 10, '1') = '1') then
                 r <= 0;
                 g <= 0;
                 b <= 0;
@@ -1350,7 +1363,22 @@ begin
                 g <= 15;
                 b <= 15;
             end if;
-        elsif (y_pos >= 180 and y_pos < 280) then -- Action menu
+        else
+            r <= 2;
+            g <= 11;
+            b <= 2;
+        end if;
+    elsif (y_pos >= 10 and y_pos < 118 and x_pos < 630 and x_pos >= 530) then -- Dealer hand
+        if (cards(x_pos - 530, y_pos - 10, 10, 4, 7) = '1') then
+            r <= 0;
+            g <= 0;
+            b <= 0;
+        else
+            r <= 15;
+            g <= 15;
+            b <= 15;
+        end if;
+         elsif (y_pos >= 180 and y_pos < 280) then -- Action menu
 	   if (action_menu(x_pos, y_pos - 180, '1', '1', '1', '1') = '1') then
 		if (y_pos >= 22 and y_pos <= 28) then
             		if (cursor = "001" and x_pos >= 80 and x_pos < 98) then --hit
@@ -1397,58 +1425,43 @@ begin
                 g <= 4;
                 b <= 4;
           end if;
-
- elsif (x_pos < 462 and x_pos >= 444 and y_pos < 470 and y_pos >= 432) then -- bet
-            if (x_pos = 443 or x_pos = 463 or y_pos = 426 or y_pos = 469) then
-                r <= 0;
-                g <= 0;
-                b <= 0;
-            elsif (begin_menu(x_pos, y_pos, "01") = '1') then
-                r <= 15;
-                g <= 15;
-                b <= 15;
-	    else
-		r <=2;
-		g <=11;
-		b <=2;
- 	end if;
-
-        elsif (x_pos < 630 and x_pos >= 544 and y_pos < 470 and y_pos >= 429) then -- Details
-            if (x_pos = 544 or x_pos = 629 or y_pos = 429 or y_pos = 469) then
-                r <= 0;
-                g <= 0;
-                b <= 0;
-            elsif (details(x_pos - 545, y_pos - 430, 1, 100, "01", '1', '0') = '1') then
-                r <= 15;
-                g <= 15;
-                b <= 15;
-            else
-                r <= 2;
-                g <= 11;
-                b <= 2;
-            end if;
-        elsif (x_pos >= 10 and y_pos >= 10 and x_pos < 122 and y_pos < 62) then -- Table
-            if (x_pos = 10 or x_pos = 121 or y_pos = 10 or y_pos = 61) then
-                r <= 0;
-                g <= 0;
-                b <= 0;
-            elsif (x_pos <= 12 or x_pos >= 138 or y_pos <= 12 or y_pos >= 59) then
-                r <= 2;
-                g <= 11;
-                b <= 2;
-            elsif (table(x_pos - 13, y_pos - 13, '1', 1, 2, 3, 4, 5, 123, '1', 6, 7, 8, 9, 10, 456, '1', 11, 12, 13, 1, 2, 789, '1', 3, 4, 5, 6, 7, 5) = '1') then
-                r <= 15;
-                g <= 15;
-                b <= 15;
-            else
-                r <= 2;
-                g <= 11;
-                b <= 2;
-            end if;
+    elsif (x_pos < 630 and x_pos >= 544 and y_pos < 470 and y_pos >= 429) then -- Details
+        if (x_pos = 544 or x_pos = 629 or y_pos = 429 or y_pos = 469) then
+            r <= 0;
+            g <= 0;
+            b <= 0;
+        elsif (details(x_pos - 545, y_pos - 430, 1, 100, "01", '1', '0') = '1') then
+            r <= 15;
+            g <= 15;
+            b <= 15;
         else
             r <= 2;
             g <= 11;
             b <= 2;
         end if;
-    end process;
+    elsif (x_pos >= 10 and y_pos >= 10 and x_pos < 122 and y_pos < 62) then -- Table
+        if (x_pos = 10 or x_pos = 121 or y_pos = 10 or y_pos = 61) then
+            r <= 0;
+            g <= 0;
+            b <= 0;
+        elsif (x_pos <= 12 or x_pos >= 138 or y_pos <= 12 or y_pos >= 59) then
+            r <= 2;
+            g <= 11;
+            b <= 2;
+        elsif (table(x_pos - 13, y_pos - 13, '1', 1, 2, 3, 4, 5, 123, '1', 6, 7, 8, 9, 10, 456, '1', 11, 12, 13, 1, 2, 789, '1', 3, 4, 5, 6, 7, 5) = '1') then
+            r <= 15;
+            g <= 15;
+            b <= 15;
+        else
+            r <= 2;
+            g <= 11;
+            b <= 2;
+        end if;
+    else
+        r <= 2;
+        g <= 11;
+        b <= 2;
+    end if;
+
+end process;
 end architecture;
