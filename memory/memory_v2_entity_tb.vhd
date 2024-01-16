@@ -4,10 +4,11 @@ use IEEE.std_logic_1164.all;
 architecture memory_tb_arc of memory_v2_tb is
     component memory_v2 is
         port (
-            clk       : in std_logic;
-            rst       : in std_logic;
-            enable    : in std_logic;
-            player_in : in std_logic_vector(2 downto 0);
+            clk        : in std_logic;
+            rst        : in std_logic;
+            enable     : in std_logic;
+            bid_enable : in std_logic;
+            player_in  : in std_logic_vector(2 downto 0);
 
             insurance  : in std_logic;
             doubledown : in std_logic;
@@ -106,10 +107,11 @@ architecture memory_tb_arc of memory_v2_tb is
             score6_out  : out std_logic_vector(4 downto 0)
         );
     end component;
-    signal clk       : std_logic                    := '0';
-    signal rst       : std_logic                    := '0';
-    signal enable    : std_logic                    := '0';
-    signal player_in : std_logic_vector(2 downto 0) := "000";
+    signal clk        : std_logic                    := '0';
+    signal rst        : std_logic                    := '0';
+    signal enable     : std_logic                    := '0';
+    signal bid_enable : std_logic                    := '0';
+    signal player_in  : std_logic_vector(2 downto 0) := "000";
 
     signal insurance  : std_logic                    := '0';
     signal doubledown : std_logic                    := '0';
@@ -211,6 +213,7 @@ begin
         clk,
         rst,
         enable,
+        bid_enable,
         player_in,
 
         insurance,
