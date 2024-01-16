@@ -99,7 +99,10 @@ entity game_controller is
 			Receiving_Hand	: out std_logic_vector (2 downto 0);  	 -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
 	
 			enable	  : out std_logic;
-			win_type  : out std_logic_vector (2 downto 0);
+			Player1_win_type  : out std_logic_vector (2 downto 0);
+			Player2_win_type  : out std_logic_vector (2 downto 0);
+			Player3_win_type  : out std_logic_vector (2 downto 0);
+			Player4_win_type  : out std_logic_vector (2 downto 0);
 			
 			even_money  : out std_logic;
 			insurance   : out std_logic;
@@ -367,7 +370,7 @@ begin
 		
 						elsif ( Player1_Hand_Card_2 /= "0000" ) and ( Player1_Hand_Card_3 = "0000" ) then
 							if ( unsigned(Dealer_Hand_Score) < 10 ) and ( unsigned(Player1_Hand_Score) = 21 ) then
-								win_type <= "011";
+								Player1_win_type <= "011";
 								new_state <= player_action;
 							end if; 
 							
@@ -431,7 +434,7 @@ begin
 					
 						elsif ( Player2_Hand_Card_2 /= "0000" ) and ( Player2_Hand_Card_3 = "0000" ) then
 							if ( unsigned(Dealer_Hand_Score) < 10 ) and ( unsigned(Player2_Hand_Score) = 21 ) then
-								win_type <= "011";
+								Player2_win_type <= "011";
 								new_state <= player_action;
 							end if; 
 								
@@ -494,7 +497,7 @@ begin
 					
 						elsif ( Player3_Hand_Card_2 /= "0000" ) and ( Player3_Hand_Card_3 = "0000" ) then
 							if ( unsigned(Dealer_Hand_Score) < 10 ) and ( unsigned(Player3_Hand_Score) = 21 ) then
-								win_type <= "011";
+								Player3_win_type <= "011";
 								new_state <= player_action;
 							end if; 
 								
@@ -557,7 +560,7 @@ begin
 					
 						elsif ( Player4_Hand_Card_2 /= "0000" ) and ( Player4_Hand_Card_3 = "0000" ) then
 							if ( unsigned(Dealer_Hand_Score) < 10 ) and ( unsigned(Player4_Hand_Score) = 21 ) then
-								win_type <= "011";
+								player4_win_type <= "011";
 								new_state <= player_action;
 							end if; 
 								
@@ -644,6 +647,11 @@ begin
 						score_screen <= '1';
 						draw_screen_type <= "11";
 						choose_action <= '0';
+
+						if ( unsigned(Player1_Score) > unsigned(Dealer_Score) ) then
+							if ( Player1_Insured = '1' ) then
+								win_type <= 
+							
 						new_state <= player_action;
 					end if;
 				end if;
