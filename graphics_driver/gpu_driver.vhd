@@ -1366,9 +1366,9 @@ begin
 				g <= 0;
 				b <= 8;
 			else 
-				r <= 4;
-                		g <= 4;
-                		b <= 4;
+				r <= 15;
+                		g <= 15;
+                		b <= 15;
 			end if;
 		elsif (y_pos >= 72 and y_pos <= 78) then
             		if (x_pos >= 80 and x_pos < 104) then -- HOLD
@@ -1384,9 +1384,9 @@ begin
                 		g <= 0;
                 		b <= 8;
 	    		else
-                		r <= 4;
-                		g <= 4;
-                		b <= 4;
+                		r <= 15;
+                		g <= 15;
+                		b <= 15;
 			end if;
             	else
                 	r <= 15;
