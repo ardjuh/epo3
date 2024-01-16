@@ -39,7 +39,7 @@ architecture behavior of memory is
     signal profit                 : std_logic_vector(6 downto 0) := "0000000";
     signal stake                  : std_logic_vector(4 downto 0) := "00000";
     signal bid_temp               : std_logic_vector(1 downto 0) := "000";
-    signal win_type_temp               : std_logic_vector(1 downto 0) := "000";
+    signal win_type_temp          : std_logic_vector(1 downto 0) := "000";
 begin
     h1_l : hand port map(clk => clk, rst => rst or end_round, enable => h1, card => card_in, card1 => card1_1, card2 => card1_2, card3 => card1_3, card4 => card1_4, card5 => card1_5, score => score1);
     h2_l : hand port map(clk => clk, rst => rst or end_round, enable => h2, card => card_in, card1 => card2_1, card2 => card2_2, card3 => card2_3, card4 => card2_4, card5 => card2_5, score => score2);
@@ -53,71 +53,80 @@ begin
     p3_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h3, profit => profit, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid3, money => money3, insurance_out => insurance3, doubledown_out => doubledown3);
     p4_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h4, profit => profit, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid4, money => money4, insurance_out => insurance4, doubledown_out => doubledown4);
 
-    process (player_in)
+    process (player_in, bid1, bid2, bid3, bid4, win_type1, win_type2, win_type3, win_type4)
     begin
         case player_in is
             when "001" =>
-                h1 <= '1';
-                h2 <= '0';
-                h3 <= '0';
-                h4 <= '0';
-                h5 <= '0';
-                h6 <= '0';
-                bid_temp <= bid1;
-                win_type_temp <= bid1;
+                h1            <= '1';
+                h2            <= '0';
+                h3            <= '0';
+                h4            <= '0';
+                h5            <= '0';
+                h6            <= '0';
+                bid_temp      <= bid1;
+                win_type_temp <= win_type1;
             when "010" =>
-                h1 <= '0';
-                h2 <= '1';
-                h3 <= '0';
-                h4 <= '0';
-                h5 <= '0';
-                h6 <= '0';
-                bid_temp <= bid2;
+                h1            <= '0';
+                h2            <= '1';
+                h3            <= '0';
+                h4            <= '0';
+                h5            <= '0';
+                h6            <= '0';
+                bid_temp      <= bid2;
+                win_type_temp <= win_type2;
             when "011" =>
-                h1 <= '0';
-                h2 <= '0';
-                h3 <= '1';
-                h4 <= '0';
-                h5 <= '0';
-                h6 <= '0';
-                bid_temp <= bid3;
+                h1            <= '0';
+                h2            <= '0';
+                h3            <= '1';
+                h4            <= '0';
+                h5            <= '0';
+                h6            <= '0';
+                bid_temp      <= bid3;
+                win_type_temp <= win_type3;
             when "100" =>
-                h1 <= '0';
-                h2 <= '0';
-                h3 <= '0';
-                h4 <= '1';
-                h5 <= '0';
-                h6 <= '0';
-                bid_temp <= bid4;
+                h1            <= '0';
+                h2            <= '0';
+                h3            <= '0';
+                h4            <= '1';
+                h5            <= '0';
+                h6            <= '0';
+                bid_temp      <= bid4;
+                win_type_temp <= win_type4;
             when "101" =>
-                h1 <= '0';
-                h2 <= '0';
-                h3 <= '0';
-                h4 <= '0';
-                h5 <= '1';
-                h6 <= '0';
+                h1            <= '0';
+                h2            <= '0';
+                h3            <= '0';
+                h4            <= '0';
+                h5            <= '1';
+                h6            <= '0';
+                bid_temp      <= "000";
+                win_type_temp <= "000";
             when "110" =>
-                h1 <= '0';
-                h2 <= '0';
-                h3 <= '0';
-                h4 <= '0';
-                h5 <= '0';
-                h6 <= '1';
+                h1            <= '0';
+                h2            <= '0';
+                h3            <= '0';
+                h4            <= '0';
+                h5            <= '0';
+                h6            <= '1';
+                bid_temp      <= "000";
+                win_type_temp <= "000";
             when others =>
-                h1 <= '0';
-                h2 <= '0';
-                h3 <= '0';
-                h4 <= '0';
-                h5 <= '0';
-                h6 <= '0';
+                h1            <= '0';
+                h2            <= '0';
+                h3            <= '0';
+                h4            <= '0';
+                h5            <= '0';
+                h6            <= '0';
+                bid_temp      <= "000";
+                win_type_temp <= "000";
         end case;
     end process;
 
-    process (win_type)
+    process (win_type, bid_temp, win_type_temp, doubledown_in)
     begin
         case bid_temp is
             when "00" =>
-                case win_type is -- 00 = win, 01 = blackjack_win, 10 = insurance_win, 11 = doubledown_win * /
+                case win_type_temp is -- 00 = win, 01 = blackjack_win, 10 = insurance_win, 11 = doubledown_win * /
                     when "00" =>
                         profit <= "0000100";
                     when "01" =>
@@ -130,7 +139,7 @@ begin
                         profit <= "0000000";
                 end case;
             when "01" =>
-                case win_type is
+                case win_type_temp is
                     when "00" =>
                         profit <= "0001100";
                     when "01" =>
@@ -143,7 +152,7 @@ begin
                         profit <= "0000000";
                 end case;
             when "10" =>
-                case win_type is
+                case win_type_temp is
                     when "00" =>
                         profit <= "0010100";
                     when "01" =>
@@ -156,7 +165,7 @@ begin
                         profit <= "0000000";
                 end case;
             when "11" =>
-                case win_type is
+                case win_type_temp is
                     when "00" =>
                         profit <= "0101000";
                     when "01" =>
