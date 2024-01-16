@@ -135,7 +135,7 @@ signal split_player_turn : std_logic;
 
 signal start_screen, choose_players, choose_bids, choose_action, score_screen : std_logic;
 
-signal current_screen_position, Player_Turn_In: unsigned(2 downto 0);
+signal current_screen_position, new_current_screen_position, Player_Turn_In: unsigned(2 downto 0);
 
 
 begin
@@ -181,6 +181,11 @@ begin
 		request_card <= '0';
 		new_card <= "0000";
 
+		Player1_Budget_New <= Player1_Budget;
+		Player2_Budget_New <= Player2_Budget;
+		Player3_Budget_New <= Player3_Budget;
+		Player4_Budget_New <= Player4_Budget;
+
 		Player1_Bid_New <= Player1_Bid;
 		Player2_Bid_New <= Player2_Bid;
 		Player3_Bid_New <= Player3_Bid;
@@ -191,15 +196,13 @@ begin
 		N_Players_New <= N_Players;
 
 		enable <= '0';
-		win_type <= "000";
-
 		even_money <= '0';
 		insurance <= '0';
 		split <= '0';
 		double <= '0';
 
-		current_screen_position <= "001";                        ------ remember in reset process -----------
-		cursor_position <= std_logic_vector(current_screen_position);
+		new_current_screen_position <= "001";
+		cursor_position <= std_logic_vector(current_screen_position); ------- dit mag niet je assigned en read een signal
 
 		draw_screen_type <= "00";
 		hit_option 	  <= hit_selectable; 	 
@@ -257,12 +260,12 @@ begin
 
 		case state is
 			when reset_state =>
-			
 				global_reset <= '1';
 				start_screen <= '1';
-				draw_screen_type <= "00";  
+				draw_screen_type <= "00";   ------------------------------------- adjust -------------------------------------
 				new_state <= player_action;
-						
+				
+					
 			when game_setup =>    
 					
 				if ( bids_placed = '0' ) and ( N_Players /= "000" ) then	 -- bidding screen condition--
@@ -363,11 +366,6 @@ begin
 							new_state <= player_action;
 		
 						elsif ( Player1_Hand_Card_2 /= "0000" ) and ( Player1_Hand_Card_3 = "0000" ) then
-							if ( unsigned(Dealer_Hand_Score) < 10 ) and ( unsigned(Player1_Hand_Score) = 21 ) then
-								Player1_win_type <= "011";
-								new_state <= player_action;
-							end if; 
-							
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player1_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
 							end if;
@@ -427,11 +425,6 @@ begin
 								new_state <= player_action;
 					
 						elsif ( Player2_Hand_Card_2 /= "0000" ) and ( Player2_Hand_Card_3 = "0000" ) then
-							if ( unsigned(Dealer_Hand_Score) < 10 ) and ( unsigned(Player2_Hand_Score) = 21 ) then
-								Player2_win_type <= "011";
-								new_state <= player_action;
-							end if; 
-								
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player2_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
 							end if;
@@ -490,11 +483,6 @@ begin
 								new_state <= player_action;
 					
 						elsif ( Player3_Hand_Card_2 /= "0000" ) and ( Player3_Hand_Card_3 = "0000" ) then
-							if ( unsigned(Dealer_Hand_Score) < 10 ) and ( unsigned(Player3_Hand_Score) = 21 ) then
-								Player3_win_type <= "011";
-								new_state <= player_action;
-							end if; 
-								
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player3_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
 							end if;
@@ -553,11 +541,6 @@ begin
 								new_state <= player_action;
 					
 						elsif ( Player4_Hand_Card_2 /= "0000" ) and ( Player4_Hand_Card_3 = "0000" ) then
-							if ( unsigned(Dealer_Hand_Score) < 10 ) and ( unsigned(Player4_Hand_Score) = 21 ) then
-								player4_win_type <= "011";
-								new_state <= player_action;
-							end if; 
-								
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player4_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
 							end if;
@@ -641,117 +624,7 @@ begin
 						score_screen <= '1';
 						draw_screen_type <= "11";
 						choose_action <= '0';
-						enable <= '1';
-
-						if ( unsigned(Dealer_Hand_Score) = 21 ) and ( Dealer_Hand_Card_3 = "0000" ) then
-							if ( Player1_Insured = '1' ) then
-								Player1_win_type <= "001";
-								new_state <= game_setup;
-
-							elsif ( Player2_Insured = '1' ) then
-								Player2_win_type <= "001";
-								new_state <= game_setup;
-
-							elsif ( Player3_Insured = '1' ) then
-								Player3_win_type <= "001";
-								new_state <= game_setup;
-								
-							elsif ( Player4_Insured = '1' ) then
-								Player4_win_type <= "001";
-								new_state <= game_setup;
-							end if;
-
-						elsif( unsigned(Player1_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
-								Player1_win_type <= "001";
-								new_state <= game_setup;
-
-						elsif ( unsigned(Player1_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
-								Player2_win_type <= "001";
-								new_state <= game_setup;
-
-						elsif ( unsigned(Player3_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
-								Player3_win_type <= "001";
-								new_state <= game_setup;
-
-						elsif ( unsigned(Player4_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
-								Player4_win_type <= "001";
-								new_state <= game_setup;
-
-						elsif ( unsigned(Player4_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
-								Player4_win_type <= "001";
-								new_state <= game_setup;
-
-						elsif ( unsigned(Reserve_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
-							if ( split_player = "001" ) then
-								Player1_win_type <= "001";
-								new_state <= game_setup;
-
-							elsif ( split_player = "010" ) then
-								Player2_win_type <= "001";
-								new_state <= game_setup;
-
-							elsif ( split_player = "011" ) then
-								Player3_win_type <= "001";
-								new_state <= game_setup;
-
-							elsif ( split_player = "100" ) then
-								Player4_win_type <= "001";
-								new_state <= game_setup;
- 
-						elsif ( unsigned(Player1_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
-							if ( Player1_Doubled_Down = '1' ) then
-								Player1_win_type <= "010";
-								new_state <= game_setup;
-							else
-								Player1_win_type <= "100";
-								new_state <= game_setup;
-							end if;
-
-						elsif ( unsigned(Player2_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
-							if ( Player2_Doubled_Down = '1' ) then
-								Player2_win_type <= "010";
-								new_state <= game_setup;
-							else
-								Player2_win_type <= "100";
-								new_state <= game_setup;
-							end if;
-
-						elsif ( unsigned(Player3_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
-							if ( Player3_Doubled_Down = '1' ) then
-								Player3_win_type <= "010";
-								new_state <= game_setup;
-							else
-								Player3_win_type <= "100";
-								new_state <= game_setup;
-							end if;
-
-						elsif ( unsigned(Player4_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
-							if ( Player4_Doubled_Down = '1' ) then
-								Player4_win_type <= "010";
-								new_state <= game_setup;
-							else
-								Player4_win_type <= "100";
-								new_state <= game_setup;
-							end if;
-
-						elsif ( unsigned(Reserve_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
-							if ( split_player = "001" ) then
-								Player1_win_type <= "100";
-								new_state <= game_setup;
-
-							elsif ( split_player = "010" ) then
-								Player2_win_type <= "100";
-								new_state <= game_setup;
-
-							elsif ( split_player = "011" ) then
-								Player3_win_type <= "100";
-								new_state <= game_setup;
-
-							elsif ( split_player = "100" ) then
-								Player4_win_type <= "100";
-								new_state <= game_setup;
-							end if;
-						end if;
+						new_state <= player_action;
 					end if;
 				end if;
 		
@@ -768,19 +641,19 @@ begin
 					if ( N_Players = "000" ) then
 						if ( switch_left = '1' ) then
 							if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 4 --
-								current_screen_position <= "100"; 
+								new_current_screen_position <= "100"; 
 								new_state <= player_action;
 							else
-								current_screen_position <= current_screen_position - 1;
+								new_current_screen_position <= current_screen_position - 1;
 								new_state <= player_action;
 							end if;
 		
 						elsif ( switch_right = '1' ) then
 							if ( current_screen_position = "100" ) then         -- if at option 4, right moves to option 1 --
-								current_screen_position <= "001";
+								new_current_screen_position <= "001";
 								new_state <= player_action;
 							else
-								current_screen_position <= current_screen_position + 1;
+								new_current_screen_position <= current_screen_position + 1;
 								new_state <= player_action;
 							end if;
 
@@ -821,19 +694,19 @@ begin
 					if ( bids_placed = '0' ) then
 						if ( switch_left = '1' ) then
 							if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 4 --
-								current_screen_position <= "100"; 
+								new_current_screen_position <= "100"; 
 								new_state <= player_action;
 							else
-								current_screen_position <= current_screen_position - 1;
+								new_current_screen_position <= current_screen_position - 1;
 								new_state <= player_action;
 							end if;
 		
 						elsif ( switch_right = '1' ) then
 							if ( current_screen_position = "100" ) then         -- if at option 4, right moves to option 1 --
-								current_screen_position <= "001";
+								new_current_screen_position <= "001";
 								new_state <= player_action;
 							else
-								current_screen_position <=  current_screen_position + 1;
+								new_current_screen_position <=  current_screen_position + 1;
 								new_state <= player_action;
 							end if;
 
@@ -990,19 +863,19 @@ begin
 					elsif ( bids_placed = '1' ) then				
 						if ( switch_left = '1' ) then
 							if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 6 --
-								current_screen_position <= "110"; 
-								new_state <= player_action;
+								new_current_screen_position <= "110";  
+								new_state <= player_action;  
 							else
-								current_screen_position <= current_screen_position - 1;
+								new_current_screen_position <= current_screen_position - 1;
 								new_state <= player_action;
 							end if;
 		
 						elsif ( switch_right = '1' ) then
 							if ( current_screen_position = "110" ) then         -- if at option 6, right moves to option 1 --
-								current_screen_position <= "001";
+								new_current_screen_position <= "001";
 								new_state <= player_action;
 							else
-								current_screen_position <=  current_screen_position + 1;
+								new_current_screen_position <=  current_screen_position + 1;
 								new_state <= player_action;
 							end if;
 
@@ -1039,8 +912,8 @@ begin
 				elsif ( score_screen = '1' ) then 
 					if ( switch_left = '1' ) then
 						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 2 --
-							current_screen_position <= "010";    
-							new_state <= player_action;
+							new_current_screen_position <= "010"; 
+							new_state <= player_action;   
 						else
 							current_screen_position <= current_screen_position - 1;
 							new_state <= player_action;
@@ -1048,10 +921,10 @@ begin
 		
 					elsif ( switch_right = '1' ) then
 						if ( current_screen_position = "010" ) then         -- if at option 2, right moves to option 1 --
-							current_screen_position <= "001";
+							new_current_screen_position <= "001";
 							new_state <= player_action;
 						else
-							current_screen_position <= current_screen_position + 1;
+							new_current_screen_position <= current_screen_position + 1;
 							new_state <= player_action;
 						end if;
 
