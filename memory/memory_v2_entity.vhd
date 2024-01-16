@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 
-entity memory is
+entity memory_v2 is
     port (
         clk        : in std_logic;
         rst        : in std_logic;
@@ -13,6 +13,7 @@ entity memory is
         doubledown : in std_logic;
         split      : in std_logic;
         end_round  : in std_logic;
+	card_in	   : in std_logic_vector(3 downto 0);
 
         player_a_in  : in std_logic;
         win_type1_in : in std_logic_vector(2 downto 0); -- 0: niet gewonnen, 1: insurance, 2: double down, 3: blackjack, 4 : normal
@@ -104,4 +105,4 @@ entity memory is
         card6_5_out : out std_logic_vector(3 downto 0);
         score6_out  : out std_logic_vector(4 downto 0)
     );
-end entity memory;
+end entity memory_v2;
