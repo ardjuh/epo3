@@ -824,25 +824,30 @@ begin
 								if ( current_screen_position = "001" ) and ( unsigned(Player1_Budget) >= 2 ) then
 									Player1_Bid_New <= "00";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
 
 								elsif ( current_screen_position = "010" ) and ( unsigned(Player1_Budget) >= 6 ) then
 									Player1_Bid_New <= "01";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
 
 								elsif ( current_screen_position = "011" ) and ( unsigned(Player1_Budget) >= 10 ) then
 									Player1_Bid_New <= "10";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
 
 								elsif ( current_screen_position = "100" ) and ( unsigned(Player1_Budget) >= 20 ) then
 									Player1_Bid_New <= "11";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
+									new_state <= game_setup;
+
+								elsif ( unsigned(Player1_Budget) < 2 ) then
+									Player1_Broke <= '1';
+									bid_successful <= '1';
 									new_state <= game_setup;
 								else
 									new_state <= player_action;
@@ -863,26 +868,33 @@ begin
 								if ( current_screen_position = "001" ) and ( unsigned(Player2_Budget) >= 2 ) then
 									Player2_Bid_New <= "00";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
 
 								elsif ( current_screen_position = "010" ) and ( unsigned(Player2_Budget) >= 6 ) then
 									Player2_Bid_New <= "01";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
 
 								elsif ( current_screen_position = "011" ) and ( unsigned(Player2_Budget) >= 10 ) then
 									Player2_Bid_New <= "10";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
 
 								elsif ( current_screen_position = "100" ) and ( unsigned(Player2_Budget) >= 20 ) then
 									Player2_Bid_New <= "11";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
+								
+								elsif ( unsigned(Player2_Budget) < 2 ) then
+									Player2_Broke <= '1';
+									bid_successful <= '1';
+									new_state <= game_setup;
+								else
+									new_state <= player_action;
 								end if;
 
 								if ( unsigned(N_Players) > Player_Turn_In ) and ( bid_successful = '1' ) then
@@ -900,26 +912,33 @@ begin
 								if ( current_screen_position = "001" ) and ( unsigned(Player3_Budget) >= 2 ) then
 									Player3_Bid_New <= "00";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
 
 								elsif ( current_screen_position = "010" ) and ( unsigned(Player3_Budget) >= 6 ) then
 									Player3_Bid_New <= "01";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
 
 								elsif ( current_screen_position = "011" ) and ( unsigned(Player3_Budget) >= 10 ) then
 									Player3_Bid_New <= "10";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
 
 								elsif ( current_screen_position = "100" ) and ( unsigned(Player3_Budget) >= 20 ) then
 									Player3_Bid_New <= "11";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
+								
+								elsif ( unsigned(Player3_Budget) < 2 ) then
+									Player3_Broke <= '1';
+									bid_successful <= '1';
+									new_state <= game_setup;
+								else
+									new_state <= player_action;
 								end if;
 
 								if ( unsigned(N_Players) > Player_Turn_In) and ( bid_successful = '1' ) then
@@ -938,26 +957,33 @@ begin
 								if ( current_screen_position = "001" ) then
 									Player4_Bid_New <= "00";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
 
 								elsif ( current_screen_position = "010" ) then
 									Player4_Bid_New <= "01";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
 
 								elsif ( current_screen_position = "011" ) then
 									Player4_Bid_New <= "10";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
 
 								elsif ( current_screen_position = "100" ) then
 									Player4_Bid_New <= "11";
 									bid_successful <= '1';
-									enable <= '1';
+									bid_enable <= '1';
 									new_state <= game_setup;
+								
+								elsif ( unsigned(Player4_Budget) < 2 ) then
+									Player4_Broke <= '1';
+									bid_successful <= '1';
+									new_state <= game_setup;
+								else
+									new_state <= player_action;
 								end if;
 
 								if ( bid_successful = '1' ) then
