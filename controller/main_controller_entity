@@ -2,7 +2,7 @@ library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.all;
 
-entity controller is
+entity game_cont is
 		port(
 			clk	: in  std_logic;
 			reset	: in  std_logic;
@@ -107,7 +107,7 @@ entity controller is
 			round_end	: out std_logic;	     
 			global_reset	: out std_logic
 		);
-end controller;
+end game_cont;
 
 architecture behaviour of game_cont is
 
