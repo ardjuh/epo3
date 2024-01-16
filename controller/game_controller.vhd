@@ -990,7 +990,8 @@ begin
 					elsif ( bids_placed = '1' ) then				
 						if ( switch_left = '1' ) then
 							if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 6 --
-								current_screen_position <= "110";    
+								current_screen_position <= "110"; 
+								new_state <= player_action;
 							else
 								current_screen_position <= current_screen_position - 1;
 								new_state <= player_action;
@@ -999,6 +1000,7 @@ begin
 						elsif ( switch_right = '1' ) then
 							if ( current_screen_position = "110" ) then         -- if at option 6, right moves to option 1 --
 								current_screen_position <= "001";
+								new_state <= player_action;
 							else
 								current_screen_position <=  current_screen_position + 1;
 								new_state <= player_action;
@@ -1038,6 +1040,7 @@ begin
 					if ( switch_left = '1' ) then
 						if ( current_screen_position = "001" ) then     -- if at option 1, left moves to option 2 --
 							current_screen_position <= "010";    
+							new_state <= player_action;
 						else
 							current_screen_position <= current_screen_position - 1;
 							new_state <= player_action;
@@ -1046,6 +1049,7 @@ begin
 					elsif ( switch_right = '1' ) then
 						if ( current_screen_position = "010" ) then         -- if at option 2, right moves to option 1 --
 							current_screen_position <= "001";
+							new_state <= player_action;
 						else
 							current_screen_position <= current_screen_position + 1;
 							new_state <= player_action;
