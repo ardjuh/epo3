@@ -41,6 +41,30 @@ architecture behavior of gpu_driver is
     signal carde_3 : integer range 0 to 13;
     signal carde_4 : integer range 0 to 13;
     signal carde_5 : integer range 0 to 13;
+	 
+	 signal splita_1: integer range 0 to 13;
+	 signal splita_2: integer range 0 to 13;
+	 signal splita_3: integer range 0 to 13;
+	 signal splita_4: integer range 0 to 13;
+	 signal splita_5: integer range 0 to 13;
+	 
+	 signal splitb_1: integer range 0 to 13;
+	 signal splitb_2: integer range 0 to 13;
+	 signal splitb_3: integer range 0 to 13;
+	 signal splitb_4: integer range 0 to 13;
+	 signal splitb_5: integer range 0 to 13;
+	 
+	 signal splitc_1: integer range 0 to 13;
+	 signal splitc_2: integer range 0 to 13;
+	 signal splitc_3: integer range 0 to 13;
+	 signal splitc_4: integer range 0 to 13;
+	 signal splitc_5: integer range 0 to 13;
+	 
+	 signal splitd_1: integer range 0 to 13;
+	 signal splitd_2: integer range 0 to 13;
+	 signal splitd_3: integer range 0 to 13;
+	 signal splitd_4: integer range 0 to 13;
+	 signal splitd_5: integer range 0 to 13;
 
 
     -- Display a small letter 5x7
@@ -1328,9 +1352,34 @@ carde_2 <= to_integer(unsigned(card5_2));
 carde_3 <= to_integer(unsigned(card5_3));
 carde_4 <= to_integer(unsigned(card5_4));
 carde_5 <= to_integer(unsigned(card5_5));
+
+splita_1 <= to_integer(unsigned(split1_1));
+splita_2 <= to_integer(unsigned(split1_2));
+splita_3 <= to_integer(unsigned(split1_3));
+splita_4 <= to_integer(unsigned(split1_4));
+splita_5 <= to_integer(unsigned(split1_5));
+
+splitb_1 <= to_integer(unsigned(split2_1));
+splitb_2 <= to_integer(unsigned(split2_2));
+splitb_3 <= to_integer(unsigned(split2_3));
+splitb_4 <= to_integer(unsigned(split2_4));
+splitb_5 <= to_integer(unsigned(split2_5));
+
+splitc_1 <= to_integer(unsigned(split3_1));
+splitc_2 <= to_integer(unsigned(split3_2));
+splitc_3 <= to_integer(unsigned(split3_3));
+splitc_4 <= to_integer(unsigned(split3_4));
+splitc_5 <= to_integer(unsigned(split3_5));
+
+splitd_1 <= to_integer(unsigned(split4_1));
+splitd_2 <= to_integer(unsigned(split4_2));
+splitd_3 <= to_integer(unsigned(split4_3));
+splitd_4 <= to_integer(unsigned(split4_4));
+splitd_5 <= to_integer(unsigned(split4_5));
 -- The process that splits the screen in sections
 process (x_pos, y_pos, screentype, split1, split2, split3, split4, player, cursor, carda_1, carda_2, carda_3, carda_4, carda_5, cardb_1, cardb_2, cardb_3, cardb_4, cardb_5, cardc_1, cardc_2, cardc_3, cardc_4, cardc_5, cardd_1, cardd_2, cardd_3, cardd_4, cardd_5, carde_1, carde_2, carde_3, carde_4, carde_5,
-money_a, money_b, money_c, money_d, hit, hold, em, double, insurance, split, bet1,bet2,bet3,bet4, doubledown1, doubledown2, doubledown3, doubledown4, insurance1, insurance2, insurance3, insurance4)
+money_a, money_b, money_c, money_d, hit, hold, em, double, insurance, split, bet1,bet2,bet3,bet4, doubledown1, doubledown2, doubledown3, doubledown4, insurance1, insurance2, insurance3, insurance4,splita_1, splita_2, splita_3, splita_4, splita_5,
+splitb_1, splitb_2, splitb_3, splitb_4, splitb_5, splitc_1, splitc_2, splitc_3, splitc_4, splitc_5, splitd_1, splitd_2, splitd_3, splitd_4, splitd_5)
 begin
     if (x_pos < 0 or x_pos > 639 or y_pos < 0 or y_pos > 479) then
 
@@ -1468,19 +1517,19 @@ begin
             b <= 15;
         end if;
      elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219) then
-        if (player = "000" and split1 = '1' and cards(x_pos - 120, y_pos - 362, carda_1, carda_2, carda_3, carda_4, carda_5, '1') = '1') then -- Player hand with split
+        if (player = "000" and split1 = '1' and cards(x_pos - 120, y_pos - 362, splita_1, splita_2, splita_3, splita_4, splita_5, '1') = '1') then -- Player hand with split
                 r <= 0;
                 g <= 0;
                 b <= 0;
-	elsif (player = "001" and split2 = '1' and cards(x_pos - 120, y_pos - 362, cardb_1, cardb_2, cardb_3, cardb_4, cardb_5, '1') = '1') then
+	elsif (player = "001" and split2 = '1' and cards(x_pos - 120, y_pos - 362, splitb_1, splitb_2, splitb_3, splitb_4, splitb_5, '1') = '1') then
 		r <= 0;
                 g <= 0;
                 b <= 0;
-	elsif (player = "010" and split3 = '1' and cards(x_pos - 120, y_pos - 362, cardc_1, cardc_2, cardc_3, cardc_4, cardc_5, '1') = '1') then
+	elsif (player = "010" and split3 = '1' and cards(x_pos - 120, y_pos - 362, splitc_1, splitc_2, splitc_3, splitc_4, splitc_5, '1') = '1') then
 		r <= 0;
                 g <= 0;
                 b <= 0;
-	elsif (player = "011" and split4 = '1' and cards(x_pos - 120, y_pos - 362, cardd_1, cardd_2, cardd_3, cardd_4, cardd_5, '1') = '1') then
+	elsif (player = "011" and split4 = '1' and cards(x_pos - 120, y_pos - 362, splitd_1, splitd_2, splitd_3, splitd_4, splitd_5, '1') = '1') then
 		r <= 0;
                 g <= 0;
                 b <= 0;  
