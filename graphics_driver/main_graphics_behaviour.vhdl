@@ -74,7 +74,28 @@ component gpu_driver     port (
         card5_2 : in std_logic_vector (3 downto 0);
         card5_3 : in std_logic_vector (3 downto 0);
         card5_4 : in std_logic_vector (3 downto 0);
-        card5_5 : in std_logic_vector (3 downto 0)
+        card5_5 : in std_logic_vector (3 downto 0);
+		  		  split1_1: in std_logic_vector (3 downto 0);
+		  split1_2: in std_logic_vector (3 downto 0);
+		  split1_3 : in std_logic_vector (3 downto 0);
+		  split1_4: in std_logic_vector (3 downto 0);
+		  split1_5: in std_logic_vector (3 downto 0);
+		  
+split2_1: in std_logic_vector (3 downto 0);
+ split2_2: in std_logic_vector (3 downto 0);
+ split2_3: in std_logic_vector (3 downto 0);
+ split2_4: in std_logic_vector (3 downto 0);
+ split2_5: in std_logic_vector (3 downto 0);
+ split3_1: in std_logic_vector (3 downto 0);
+ split3_2: in std_logic_vector (3 downto 0);
+ split3_3: in std_logic_vector (3 downto 0);
+ split3_4: in std_logic_vector (3 downto 0);
+ split3_5: in std_logic_vector (3 downto 0);
+ split4_1: in std_logic_vector (3 downto 0);
+ split4_2: in std_logic_vector (3 downto 0);
+ split4_3: in std_logic_vector (3 downto 0);
+ split4_4: in std_logic_vector (3 downto 0);
+ split4_5 : in std_logic_vector (3 downto 0)
 	);
 end component;
 
@@ -89,7 +110,8 @@ signal red, green, blue: std_logic_vector (3 downto 0);
 begin
 	vga: vga_driver_combined port map(clk => clk, reset => reset, x_pos => x_pos_i, y_pos => y_pos_i, H_sync => H_sync_i, V_sync => V_sync_i);
 
-	gpu: gpu_driver port map(h_pos => x_pos_i, v_pos => y_pos_i, red => red, green => green, blue => blue, player => player, screentype => screentype, cursor => cursor, player_a => player_a, card1_1 => card1_1, card1_2 => card1_2, card1_3 => card1_3, card1_4 => card1_4, card1_5 => card1_5, money1 => money1, split1 => split1, bet1 => bet1, insurance1 => insurance1, doubledown1 => doubledown1, player_b => player_b, card2_1 => card2_1, card2_2 => card2_2, card2_3 => card2_3, card2_4 => card2_4, card2_5 => card2_5, money2 => money2, split2 => split2, bet2 => bet2, insurance2 => insurance2, doubledown2 => doubledown2, player_c => player_c, card3_1 => card3_1, card3_2 => card3_2, card3_3 => card3_3, card3_4 => card3_4, card3_5 => card3_5, money3 => money3, split3 => split3,bet3 => bet3, insurance3 => insurance3, doubledown3 => doubledown3, player_d => player_d, card4_1 => card4_1, card4_2 => card4_2, card4_3 => card4_3, card4_4 => card4_4, card4_5 => card4_5, money4 => money4, split4 => split4, bet4 => bet4,  insurance4 => insurance4, doubledown4 => doubledown4, card5_1 => card5_1, card5_2 => card5_2, card5_3 => card5_3, card5_4 => card5_4, card5_5 => card5_5);
+	gpu: gpu_driver port map(h_pos => x_pos_i, v_pos => y_pos_i, red => red, green => green, blue => blue, player => player, screentype => screentype, cursor => cursor, player_a => player_a, card1_1 => card1_1, card1_2 => card1_2, card1_3 => card1_3, card1_4 => card1_4, card1_5 => card1_5, money1 => money1, split1 => split1, bet1 => bet1, insurance1 => insurance1, doubledown1 => doubledown1, player_b => player_b, card2_1 => card2_1, card2_2 => card2_2, card2_3 => card2_3, card2_4 => card2_4, card2_5 => card2_5, money2 => money2, split2 => split2, bet2 => bet2, insurance2 => insurance2, doubledown2 => doubledown2, player_c => player_c, card3_1 => card3_1, card3_2 => card3_2, card3_3 => card3_3, card3_4 => card3_4, card3_5 => card3_5, money3 => money3, split3 => split3,bet3 => bet3, insurance3 => insurance3, doubledown3 => doubledown3, player_d => player_d, card4_1 => card4_1, card4_2 => card4_2, card4_3 => card4_3, card4_4 => card4_4, card4_5 => card4_5, money4 => money4, split4 => split4, bet4 => bet4,  insurance4 => insurance4, doubledown4 => doubledown4, card5_1 => card5_1, card5_2 => card5_2, card5_3 => card5_3, card5_4 => card5_4, card5_5 => card5_5, split1_1 => split1_1, split1_2 => split1_2, split1_3 => split1_3, split1_4 => split1_4, split1_5 => split1_5,
+	split2_1 => split2_1, split2_2 => split2_2, split2_3 => split2_3, split2_4 => split2_4, split2_5 => split2_5,split3_1 => split3_1, split3_2 => split3_2, split3_3 => split3_3, split3_4 => split3_4, split3_5 => split3_5, split4_1 => split4_1, split4_2 => split4_2, split4_3 => split4_3, split4_4 => split4_4, split4_5 => split4_5);
 
 vga_vsync <= V_sync_i;
 vga_hsync <= H_sync_i;
