@@ -3,10 +3,11 @@ use IEEE.std_logic_1164.all;
 
 entity memory is
     port (
-        clk       : in std_logic;
-        rst       : in std_logic;
-        enable    : in std_logic;
-        player_in : in std_logic_vector(2 downto 0);
+        clk        : in std_logic;
+        rst        : in std_logic;
+        enable     : in std_logic;
+        bid_enable : in std_logic;
+        player_in  : in std_logic_vector(2 downto 0);
 
         insurance  : in std_logic;
         doubledown : in std_logic;
