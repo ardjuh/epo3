@@ -121,4 +121,164 @@ begin
             end case;
         end if;
     end process;
+
+
+
+
+
+
+
+
+
+
+    process (win_type)
+    begin
+        case bid_temp is
+            when "00" =>
+                case win_type is -- 00 = win, 01 = blackjack_win, 10 = insurance_win, 11 = doubledown_win * /
+                    when "00" =>
+                        profit <= "0000100";
+                    when "01" =>
+                        profit <= "0000101";
+                    when "10" =>
+                        profit <= "0000011";
+                    when "11" =>
+                        profit <= "0001000";
+                    when others =>
+                        profit <= "0000000";
+                end case;
+            when "01" =>
+                case win_type is
+                    when "00" =>
+                        profit <= "0001100";
+                    when "01" =>
+                        profit <= "0001111";
+                    when "10" =>
+                        profit <= "0001001";
+                    when "11" =>
+                        profit <= "0011000";
+                    when others =>
+                        profit <= "0000000";
+                end case;
+            when "10" =>
+                case win_type is
+                    when "00" =>
+                        profit <= "0010100";
+                    when "01" =>
+                        profit <= "0011001";
+                    when "10" =>
+                        profit <= "0001111";
+                    when "11" =>
+                        profit <= "0101000";
+                    when others =>
+                        profit <= "0000000";
+                end case;
+            when "11" =>
+                case win_type is
+                    when "00" =>
+                        profit <= "0101000";
+                    when "01" =>
+                        profit <= "0110010";
+                    when "10" =>
+                        profit <= "0001110";
+                    when "11" =>
+                        profit <= "1010000";
+                    when others =>
+                        profit <= "0000000";
+                end case;
+            when others =>
+                profit <= "0000000";
+        end case;
+
+        if (bid_enable = '1') then
+            case bid_temp is
+                when "00" =>
+                    stake <= "00010";
+                when "01" =>
+                    stake <= "00110";
+                when "10" =>
+                    stake <= "01010";
+                when "11" =>
+                    stake <= "10100";
+                when others =>
+                    stake <= "00000";
+            end case;
+        else
+            case bid_temp is
+                when "00" =>
+                    stake <= "00001";
+                when "01" =>
+                    stake <= "00011";
+                when "10" =>
+                    stake <= "00101";
+                when "11" =>
+                    stake <= "01010";
+                when others =>
+                    stake <= "00000";
+            end case;
+        end if;
+
+        if (win_enable = '1') then --miss timing issue omdat twee aanpassing tijdens clock
+            case player_in is
+                when "000" =>
+                    p1_p <= '1';
+                    p2_p <= '0';
+                    p3_p <= '0';
+                    p4_p <= '0';
+                when "001" =>
+                    p1_p <= '0';
+                    p2_p <= '1';
+                    p3_p <= '0';
+                    p4_p <= '0';
+                when "010" =>
+                    p1_p <= '0';
+                    p2_p <= '0';
+                    p3_p <= '1';
+                    p4_p <= '0';
+                when "011" =>
+                    p1_p <= '0';
+                    p2_p <= '0';
+                    p3_p <= '0';
+                    p4_p <= '1';
+                when others =>
+                    null;
+            end case;
+        else
+            p1_p <= '0';
+            p2_p <= '0';
+            p3_p <= '0';
+            p4_p <= '0';
+        end if;
+        if (insurance_enable = '1' or bid_enable = '1') then --miss timing issue omdat twee aanpassing tijdens clock
+            case player_in is
+                when "000" =>
+                    p1_s <= '1';
+                    p1_s <= '0';
+                    p1_s <= '0';
+                    p1_s <= '0';
+                when "001" =>
+                    p1_s <= '0';
+                    p1_s <= '1';
+                    p1_s <= '0';
+                    p1_s <= '0';
+                when "010" =>
+                    p1_s <= '0';
+                    p1_s <= '0';
+                    p1_s <= '1';
+                    p1_s <= '0';
+                when "011" =>
+                    p1_s <= '0';
+                    p1_s <= '0';
+                    p1_s <= '0';
+                    p1_s <= '1';
+                when others =>
+                    null;
+            end case;
+        else
+            p1_s <= '0';
+            p1_s <= '0';
+            p1_s <= '0';
+            p1_s <= '0';
+        end if;
+    end process;
 end behavior;
