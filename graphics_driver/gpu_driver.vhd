@@ -1050,13 +1050,10 @@ architecture behavior of gpu_driver is
                     return small_letter(x - 315, y - 22, 5);--E
                 elsif (x < 327) then
                     return small_letter(x - 321, y - 22, 4);--D
-                    return '0';
-
                 else
                     return '0';
                 end if;
-                if (screentype = "11") then
-                    if (y >= 72 and y <= 78) then
+                    elsif (y >= 72 and y <= 78) then
                         if (x > 278) then
                         elsif (x < 285) then
                             return small_letter(x - 279, y - 72, 16); -- P
