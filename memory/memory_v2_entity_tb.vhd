@@ -12,6 +12,8 @@ architecture memory_tb_arc of memory_tb is
             insurance  : in std_logic;
             doubledown : in std_logic;
             split      : in std_logic;
+            end_round  : in std_logic;
+            card_in    : in std_logic_vector(3 downto 0);
 
             player_a_in : in std_logic;
             win_type1   : in std_logic_vector(2 downto 0); -- 0: niet gewonnen, 1: insurance, 2: double down, 3: blackjack, 4 : normal
@@ -349,16 +351,10 @@ begin
         "010" after 90 ns,
         "001" after 210 ns;
 
-
-
-    
-
     insurance <= '0' after 0 ns,
         '1' after 50 ns,
         '0' after 130 ns,
         '1' after 150 ns,
         '0' after 190 ns,
         '1' after 250 ns,
-
-
-end architecture;
+    end architecture;
