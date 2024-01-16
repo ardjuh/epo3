@@ -1396,16 +1396,26 @@ begin
             b <= 15;
         end if;
     elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219) then
-        if ((player = "00" and split1 = '1') or (player = "01" and split2 = '1') or (player = "10" and split3 = '1') or (player = "11" and split4 = '1')) then -- Player hand with split
-            if (cards(x_pos - 120, y_pos - 362, 11, 13, 12, 11, 10, '1') = '1') then
+        if (player = "000" and split1 = '1' and cards(x_pos - 120, y_pos - 362, carda_1, carda_2, carda_3, carda_4, carda_5, '1') = '1') then -- Player hand with split
                 r <= 0;
                 g <= 0;
                 b <= 0;
-            else
+	elsif (player = "001" and split2 = '1' and cards(x_pos - 120, y_pos - 362, cardb_1, cardb_2, cardb_3, cardb_4, cardb_5, '1') = '1') then
+		r <= 0;
+                g <= 0;
+                b <= 0;
+	elsif (player = "010" and split3 = '1' and cards(x_pos - 120, y_pos - 362, cardc_1, cardc_2, cardc_3, cardc_4, cardc_5, '1') = '1') then
+		r <= 0;
+                g <= 0;
+                b <= 0;
+	elsif (player = "011" and split4 = '1' and cards(x_pos - 120, y_pos - 362, cardd_1, cardd_2, cardd_3, cardd_4, cardd_5, '1') = '1') then
+		r <= 0;
+                g <= 0;
+                b <= 0;  
+	elsif ((player = "000" and split1 = '1') or (player = "001" and split2 = '1') or (player = "010" and split3 = '1') or player = "011" and split4 = '1')) then
                 r <= 15;
                 g <= 15;
                 b <= 15;
-            end if;
         else
             r <= 2;
             g <= 11;
