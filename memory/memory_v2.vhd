@@ -122,7 +122,7 @@ begin
         end case;
     end process;
 
-    process (win_type, bid_temp, win_type_temp, doubledown_in)
+    process (bid_temp, win_type_temp, doubledown_in)
     begin
         case bid_temp is
             when "00" =>
