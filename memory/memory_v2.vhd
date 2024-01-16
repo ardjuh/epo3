@@ -23,7 +23,7 @@ architecture behavior of memory_v2 is
         enable  : in std_logic;
 
         profit : in std_logic_vector(6 downto 0);
-        stake  : in std_logic_vector(4 downto 0);
+        bid  : in std_logic_vector(4 downto 0);
 
         bid_in        : in std_logic_vector(1 downto 0);
         insurance_in  : in std_logic;
@@ -37,7 +37,7 @@ architecture behavior of memory_v2 is
 
     signal h1, h2, h3, h4, h5, h6 : std_logic                    := '0';
     signal profit                 : std_logic_vector(6 downto 0) := "0000000";
-    signal stake                  : std_logic_vector(4 downto 0) := "00000";
+    signal bid                  : std_logic_vector(4 downto 0) := "00000";
     signal bid_temp               : std_logic_vector(1 downto 0) := "00";
     signal win_type_temp          : std_logic_vector(2 downto 0) := "000";
 begin
@@ -48,10 +48,10 @@ begin
     h5_l : hand port map(clk => clk, rst => rst or end_round, enable => h5, card => card_in, card1 => card5_1_out, card2 => card5_2_out, card3 => card5_3_out, card4 => card5_4_out, card5 => card5_5_out, score => score5_out);
     h6_l : hand port map(clk => clk, rst => rst or end_round, enable => h6, card => card_in, card1 => card6_1_out, card2 => card6_2_out, card3 => card6_3_out, card4 => card6_4_out, card5 => card6_5_out, score => score6_out);
 
-    p1_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h1, profit => profit, stake => stake, bid_in => bid1_in, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid1_out, money => money1_out, insurance_out => insurance1_out, doubledown_out => doubledown1_out);
-    p2_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h2, profit => profit, stake => stake, bid_in => bid2_in, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid2_out, money => money2_out, insurance_out => insurance2_out, doubledown_out => doubledown2_out);
-    p3_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h3, profit => profit, stake => stake, bid_in => bid3_in, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid3_out, money => money3_out, insurance_out => insurance3_out, doubledown_out => doubledown3_out);
-    p4_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h4, profit => profit, stake => stake, bid_in => bid4_in, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid4_out, money => money4_out, insurance_out => insurance4_out, doubledown_out => doubledown4_out);
+    p1_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h1, profit => profit, bid => bid, bid_in => bid1_in, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid1_out, money => money1_out, insurance_out => insurance1_out, doubledown_out => doubledown1_out);
+    p2_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h2, profit => profit, bid => bid, bid_in => bid2_in, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid2_out, money => money2_out, insurance_out => insurance2_out, doubledown_out => doubledown2_out);
+    p3_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h3, profit => profit, bid => bid, bid_in => bid3_in, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid3_out, money => money3_out, insurance_out => insurance3_out, doubledown_out => doubledown3_out);
+    p4_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h4, profit => profit, bid => bid, bid_in => bid4_in, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid4_out, money => money4_out, insurance_out => insurance4_out, doubledown_out => doubledown4_out);
 
     process (player_in, bid1_in, bid2_in, bid3_in, bid4_in, win_type1_in, win_type2_in, win_type3_in, win_type4_in)
     begin
@@ -184,28 +184,28 @@ begin
         if (doubledown = '1') then
             case bid_temp is
                 when "00" =>
-                    stake <= "00010";
+                    bid <= "00010";
                 when "01" =>
-                    stake <= "00110";
+                    bid <= "00110";
                 when "10" =>
-                    stake <= "01010";
+                    bid <= "01010";
                 when "11" =>
-                    stake <= "10100";
+                    bid <= "10100";
                 when others =>
-                    stake <= "00000";
+                    bid <= "00000";
             end case;
         else
             case bid_temp is
                 when "00" =>
-                    stake <= "00001";
+                    bid <= "00001";
                 when "01" =>
-                    stake <= "00011";
+                    bid <= "00011";
                 when "10" =>
-                    stake <= "00101";
+                    bid <= "00101";
                 when "11" =>
-                    stake <= "01010";
+                    bid <= "01010";
                 when others =>
-                    stake <= "00000";
+                    bid <= "00000";
             end case;
         end if;
     end process;

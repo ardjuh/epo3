@@ -9,9 +9,9 @@ architecture behaviour of player_tb is
             rst                  : in std_logic;
             memrst               : in std_logic;
             profit_enable        : in std_logic;
-            stake_enable         : in std_logic;
+            bid_enable           : in std_logic;
             profit               : in std_logic_vector(6 downto 0);
-            stake                : in std_logic_vector(4 downto 0);
+            bid                  : in std_logic_vector(4 downto 0);
             bid_in               : in std_logic_vector(1 downto 0);
             insurance_in         : in std_logic;
             doubledown_in        : in std_logic;
@@ -27,9 +27,9 @@ architecture behaviour of player_tb is
     signal rst                  : std_logic                    := '0';
     signal memrst               : std_logic                    := '0';
     signal profit_enable        : std_logic                    := '0';
-    signal stake_enable         : std_logic                    := '0';
+    signal bid_enable           : std_logic                    := '0';
     signal profit               : std_logic_vector(6 downto 0) := "0000000";
-    signal stake                : std_logic_vector(4 downto 0) := "00000";
+    signal bid                  : std_logic_vector(4 downto 0) := "00000";
     signal bid_in               : std_logic_vector(1 downto 0) := "00";
     signal insurance_in         : std_logic                    := '0';
     signal doubledown_in        : std_logic                    := '0';
@@ -41,7 +41,7 @@ architecture behaviour of player_tb is
     signal insurance_out        : std_logic                    := '0';
     signal doubledown_out       : std_logic                    := '0';
 begin
-    test : player port map(clk, rst, memrst, profit_enable, stake_enable, profit, stake, bid_in, insurance_in, doubledown_in, bid_in_enable, insurance_in_enable, doubledown_in_enable, bid_out, money, insurance_out, doubledown_out);
+    test : player port map(clk, rst, memrst, profit_enable, bid_enable, profit, bid, bid_in, insurance_in, doubledown_in, bid_in_enable, insurance_in_enable, doubledown_in_enable, bid_out, money, insurance_out, doubledown_out);
 
     clk <= not clk after 10 ns;
     rst <= '0' after 0 ns,

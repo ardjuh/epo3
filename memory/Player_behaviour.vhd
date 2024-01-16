@@ -24,9 +24,11 @@ begin
                 doubledown_out <= '0';
                 player_out     <= '1';
                 split_out      <= '0';
+            elsif (bid_enable = '1') then
+                bid_out <= bid_in;
+                money   <= std_logic_vector(unsigned(money_sig) - unsigned(bid));
             elsif (enable = '1') then
-                money          <= std_logic_vector(unsigned(money_sig) + unsigned(profit) - unsigned(stake));
-                bid_out        <= bid_in;
+                money          <= std_logic_vector(unsigned(money_sig) + unsigned(profit));
                 player_out     <= player_in and player_out;
                 insurance_out  <= insurance_in or insurance_out;
                 doubledown_out <= doubledown_in or doubledown_out;
