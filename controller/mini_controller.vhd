@@ -72,53 +72,53 @@ begin
                     new_state <= player_action;
                 end if;
 
-            when sela =>
-                switch_select <= '1';
-                if (button = "100") then
-                    new_state <= selb;
-                else
-                    new_state <= player_action; -- must be changed to game_resolution when pasting into controller. Is now player_action for testbench purposes
-                end if;
-
-            when selb =>
-                switch_select <= '0';
-                if (button = "100") then
-                    new_state <= player_action; -- must be changed to game_resolution when pasting into controller. Is now player_action for testbench purposes
-                else
-                    new_state <= selb;
-                end if;
-
-            when lefta =>
-                switch_left <= '1';
-                if (button = "001") then
-                    new_state <= leftb;
-                else
-                    new_state <= player_action;
-                end if;
-
-            when leftb =>
-                switch_left <= '0';
-                if (button = "001") then
-                    new_state <= player_action;
-                else
-                    new_state <= leftb;
-                end if;
-
-            when righta =>
-                switch_right <= '1';
-                if (button = "010") then
-                    new_state <= rightb;
-                else
-                    new_state <= player_action;
-                end if;
-
-            when rightb =>
-                switch_right <= '0';
-                if (button = "010") then
-                    new_state <= player_action;
-                else
-                    new_state <= rightb;
-                end if;
+			when sela => 
+				switch_select <= '1' ; 	
+				if  (button = "100") then 
+					new_state <= selb;
+				else 
+					new_state <= player_action; 
+				end if;
+					
+			when selb => 
+				switch_select <= '0' ; 	
+				if  (button = "100") then 
+					new_state <= selb; 
+				else 
+					new_state <= player_action;
+				end if;
+					
+			when lefta => 
+				switch_left <= '1' ;	
+				if  (button = "001") then 
+					new_state <= leftb;
+				else 
+					new_state <= player_action;
+				end if;
+					
+			when leftb =>
+				 switch_left <= '0';
+				if (button = "001") then 
+					new_state <= leftb;
+				else 
+					new_state <= player_action;
+				end if;
+					
+			when righta => 
+				switch_right <= '1' ;	
+				if (button = "010") then
+				 	new_state <= rightb;
+				else 
+					new_state <= player_action;
+				end if;
+					
+			when rightb => 
+				switch_right <= '0' ;
+				if (button = "010") then 
+					new_state <= rightb;
+				else 
+					new_state <= player_action;
+	        		end if;
 
             when reset_state =>
                 switch_right  <= '0';
