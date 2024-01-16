@@ -13,6 +13,7 @@ architecture memory_tb_arc of memory_tb is
             doubledown : in std_logic;
             split      : in std_logic;
             end_round  : in std_logic;
+            card_in    : in std_logic_vector(3 downto 0);
 
             player_a_in  : in std_logic;
             win_type1_in : in std_logic_vector(2 downto 0); -- 0: niet gewonnen, 1: insurance, 2: double down, 3: blackjack, 4 : normal
