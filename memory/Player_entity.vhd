@@ -12,8 +12,13 @@ entity player is
         bid_in         : in std_logic_vector(1 downto 0);
         insurance_in   : in std_logic;
         doubledown_in  : in std_logic;
+        player_in      : in std_logic;
+        split_in       : in std_logic;
         bid_out        : out std_logic_vector(1 downto 0);
         money          : out std_logic_vector(9 downto 0);
         insurance_out  : out std_logic;
-        doubledown_out : out std_logic);
+        doubledown_out : out std_logic;
+        player_out     : out std_logic;
+        split_out      : out std_logic;
+    );
 end player;
