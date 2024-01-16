@@ -43,7 +43,8 @@ architecture behavior of memory is
     signal h1, h2, h3, h4, h5, h6 : std_logic                    := '0';
     signal profit                 : std_logic_vector(6 downto 0) := "0000000";
     signal stake                  : std_logic_vector(4 downto 0) := "00000";
-    signal bid_temp               : std_logic_vector(1 downto 0) := "00";
+    signal bid_temp               : std_logic_vector(1 downto 0) := "000";
+    signal win_type_temp               : std_logic_vector(1 downto 0) := "000";
 begin
     h1_l : hand port map(clk => clk, rst => rst or end_round, enable => h1, card => card, card1 => card1_1, card2 => card1_2, card3 => card1_3, card4 => card1_4, card5 => card1_5, score => score1);
     h2_l : hand port map(clk => clk, rst => rst or end_round, enable => h2, card => card, card1 => card2_1, card2 => card2_2, card3 => card2_3, card4 => card2_4, card5 => card2_5, score => score2);
@@ -67,6 +68,8 @@ begin
                 h4 <= '0';
                 h5 <= '0';
                 h6 <= '0';
+                bid_temp <= bid1;
+                win_type_temp <= bid1;
             when "010" =>
                 h1 <= '0';
                 h2 <= '1';
@@ -74,6 +77,7 @@ begin
                 h4 <= '0';
                 h5 <= '0';
                 h6 <= '0';
+                bid_temp <= bid2;
             when "011" =>
                 h1 <= '0';
                 h2 <= '0';
@@ -81,6 +85,7 @@ begin
                 h4 <= '0';
                 h5 <= '0';
                 h6 <= '0';
+                bid_temp <= bid3;
             when "100" =>
                 h1 <= '0';
                 h2 <= '0';
@@ -88,6 +93,7 @@ begin
                 h4 <= '1';
                 h5 <= '0';
                 h6 <= '0';
+                bid_temp <= bid4;
             when "101" =>
                 h1 <= '0';
                 h2 <= '0';
