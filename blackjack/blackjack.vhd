@@ -322,11 +322,12 @@ begin
 				
 
 	p2: controller 	port map(clk => clk, reset => reset, 
+
+				------------------ -- from and to memory --------------
+				Player_Turn => player_turn_in_signal --which player is at turn, comes from mem
+				N_Players => player_current_signal, -- how many players 
 				 
-				Player_Turn_In => player_turn_in_signal, 
-				N_Players => player_signal,
-				 
-				switch_select => select_signal, switch_left => left_signal, switch_right => right_signal,
+				button_select => select_signal, button_left => left_signal, button_right => right_signal,
 
 				Player1_Budget => money1_signal, Player2_Budget => money2_signal, Player3_Budget => money3_signal, Player4_Budget => money4_signal,
 				Player1_Bid => bid1_signal, Player2_Bid => bid2_signal, Player3_Bid => bid3_signal, Player4_Bid => bid4_signal, 
@@ -335,26 +336,30 @@ begin
 				Player2_Hand_Card_1 => card2_1_signal, Player2_Hand_Card_2 => card2_2_signal, Player2_Hand_Card_3 => card2_3_signal, Player2_Hand_Card_4 => card2_4_signal, Player2_Hand_Card_5 => card2_5_signal,
 				Player3_Hand_Card_1 => card3_1_signal, Player3_Hand_Card_2 => card3_2_signal, Player3_Hand_Card_3 => card3_3_signal, Player3_Hand_Card_4 => card3_4_signal, Player3_Hand_Card_5 => card3_5_signal,
 				Player4_Hand_Card_1 => card4_1_signal, Player4_Hand_Card_2 => card4_2_signal, Player4_Hand_Card_3 => card4_3_signal, Player4_Hand_Card_4 => card4_4_signal, Player4_Hand_Card_5 => card4_5_signal,
-				 
 				Dealer_Hand_Card_1 => card5_1_signal, Dealer_Hand_Card_2 => card5_2_signal, Dealer_Hand_Card_3 => card5_3_signal, Dealer_Hand_Card_4 => card5_4_signal, Dealer_Hand_Card_5 => card5_5_signal,
-
 				Reserve_Hand_Card_1 => card6_1_signal, Reserve_Hand_Card_2 => card6_2_signal, Reserve_Hand_Card_3 => card6_3_signal, Reserve_Hand_Card_4 => card6_4_signal, Reserve_Hand_Card_5 => card6_5_signal,
-				
-				random_card => random_card_signal, request_card => request_card_signal, round_end => round_end_signal,
-				new_card => new_card_signal,
-				draw_screen_type => draw_screen_signal, cursor_position => cursor_position_signal,
-				 
-				hit_option => hit_option_signal, double_option => double_option_signal, split_option => split_option_signal, insurance_option => insurance_option_signal, even_money_option => even_money_option_signal,
-				 
+				Player1_Hand_Score => player1_score, Player2_Hand_Score => player2_Score, Player3_Hand_Score => player3_score, Player4_Hand_Score => player4_score, Dealer_Hand_Score => dealer_score, Reserve_Hand_Score => split_score, 
+
 				Player1_Budget_New => money1_signal_new, Player2_Budget_New => money2_signal_new, Player3_Budget_New => money3_signal_new, Player4_Budget_New => money4_signal_new,
 				Player1_Bid_New => bid1_signal_new, Player2_Bid_New => bid2_signal_new, Player3_Bid_New => bid3_signal_new, Player4_Bid_New => bid4_signal_new,
 
 				Player_Turn_New => player_turn_new_signal,
 				N_Players_New => player_signal_new,
-				-- receiving hand?
+
 				enable => enable_signal,
 				even_money => even_money_signal, insurance => insurance_signal, split => split_signal, double => double_signal,
-				round_end => round_end_signal,
+				round_end => round_end_signal, 
+				
+				-- RNG--
+				random_card => random_card_signal, request_card => request_card_signal, round_end => round_end_signal,
+				new_card => new_card_signal,
+
+				 --GPU--
+				draw_screen_type => draw_screen_signal, cursor_position => cursor_position_signal, 
+				hit_option => hit_option_signal, double_option => double_option_signal, split_option => split_option_signal, insurance_option => insurance_option_signal, even_money_option => even_money_option_signal,
+				 
+			
+				-- receiving hand?
 				-- global reset?
 							
 				 
