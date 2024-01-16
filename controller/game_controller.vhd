@@ -39,42 +39,42 @@ entity controller is
 			Player1_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Player1_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Player1_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Player1_Hand_Score		: in std_logic_vector (4 downto 0);     -- Player can have 20 and draw a 10, so 30 points total possible --
+			Player1_Hand_Score	: in std_logic_vector (4 downto 0);     -- Player can have 20 and draw a 10, so 30 points total possible --
 	
 			Player2_Hand_Card_1	: in std_logic_vector (3 downto 0);
 			Player2_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Player2_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Player2_Hand_Card_4	: in std_logic_vector (3 downto 0);   
 			Player2_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Player2_Hand_Score		: in std_logic_vector (4 downto 0);
+			Player2_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 			Player3_Hand_Card_1	: in std_logic_vector (3 downto 0);
 			Player3_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Player3_Hand_Card_3	: in std_logic_vector (3 downto 0);   
 			Player3_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Player3_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Player3_Hand_Score		: in std_logic_vector (4 downto 0);
+			Player3_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 			Player4_Hand_Card_1	: in std_logic_vector (3 downto 0);
 			Player4_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Player4_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Player4_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Player4_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Player4_Hand_Score		: in std_logic_vector (4 downto 0);
-	
+			Player4_Hand_Score	: in std_logic_vector (4 downto 0);
+
 			Dealer_Hand_Card_1	: in std_logic_vector (3 downto 0);
 			Dealer_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Dealer_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Dealer_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Dealer_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Dealer_Hand_Score		: in std_logic_vector (4 downto 0);
+			Dealer_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 			Reserve_Hand_Card_1	: in std_logic_vector (3 downto 0);	-- Reserve hand for Split. Only one player can split (low chance of multiple splits) --
 			Reserve_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Reserve_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Reserve_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Reserve_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Reserve_Hand_Score		: in std_logic_vector (4 downto 0);
+			Reserve_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 			random_card	: in  std_logic_vector (3 downto 0);	-- Comms with RNG --
 			request_card	: out std_logic;                         
@@ -93,6 +93,11 @@ entity controller is
 			Player2_Bid_New	: out std_logic_vector (1 downto 0);
 			Player3_Bid_New	: out std_logic_vector (1 downto 0);
 			Player4_Bid_New	: out std_logic_vector (1 downto 0);
+
+			Player1_win_type : out std_logic_vector (2 downto 0);
+			Player2_win_type : out std_logic_vector (2 downto 0);
+			Player3_win_type : out std_logic_vector (2 downto 0);
+			Player4_win_type : out std_logic_vector (2 downto 0);
 	
 			Player_Turn_New	: out std_logic_vector (2 downto 0);  	 -- outputs -> mem based on actions --
 			N_Players_New	: out std_logic_vector (2 downto 0);
@@ -731,6 +736,7 @@ begin
 						end if;
 					end if;
 				end if;
+			end if;
 		
 			when player_action =>
 						
