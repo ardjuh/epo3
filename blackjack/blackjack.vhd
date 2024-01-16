@@ -353,7 +353,7 @@ begin
 				insurance1 => insurance1_signal, insurance2 => insurance2_signal, insurance3 => insurance3_signal, insurance4 => insurance4_signal,
 				doubledown1 => double1, doubledown2 => double2, doubledown3 => double3, doubledown4 => double4,
 				player => player_signal,
-				hold_option => hold_option_signal, hit_option => hit_option_signal, double_option => double_option_signal, split_option => split_option_signal, insurance_option => insurance_option_signal, even_money_option => even_money_option_signal,
+				hold_option => hold_option_signal, hit_option => hit_option_signal, double => double_option_signal, split => split_option_signal, insurance => insurance_option_signal, em => even_money_option_signal,
 				screentype => draw_screen_signal, cursor_position => cursor_position_signal);
 
 	p5: top_entity_rcm port map(clk => clk, reset => reset, request_card => request_card_signal, round_end => round_end_signal, random_card => random_card_signal);
