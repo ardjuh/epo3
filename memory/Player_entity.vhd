@@ -20,6 +20,6 @@ entity player is
         insurance_out  : out std_logic;
         doubledown_out : out std_logic;
         player_out     : out std_logic;
-        split_out      : out std_logic;
+        split_out      : out std_logic
     );
 end player;
