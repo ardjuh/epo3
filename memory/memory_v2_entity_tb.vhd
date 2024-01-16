@@ -13,7 +13,6 @@ architecture memory_tb_arc of memory_tb is
             doubledown : in std_logic;
             split      : in std_logic;
             end_round  : in std_logic;
-            card_in    : in std_logic_vector(3 downto 0);
 
             player_a_in  : in std_logic;
             win_type1_in : in std_logic_vector(2 downto 0); -- 0: niet gewonnen, 1: insurance, 2: double down, 3: blackjack, 4 : normal
@@ -43,12 +42,12 @@ architecture memory_tb_arc of memory_tb is
             card1_3_out     : out std_logic_vector(3 downto 0);
             card1_4_out     : out std_logic_vector(3 downto 0);
             card1_5_out     : out std_logic_vector(3 downto 0);
+            score1_out      : out std_logic_vector(4 downto 0);
             money1_out      : out std_logic_vector(9 downto 0);
             bid1_out        : out std_logic_vector(1 downto 0);
             split1_out      : out std_logic;
             insurance1_out  : out std_logic;
             doubledown1_out : out std_logic;
-            score1_out      : out std_logic_vector(4 downto 0);
 
             player_b_out    : out std_logic;
             card2_1_out     : out std_logic_vector(3 downto 0);
@@ -56,12 +55,12 @@ architecture memory_tb_arc of memory_tb is
             card2_3_out     : out std_logic_vector(3 downto 0);
             card2_4_out     : out std_logic_vector(3 downto 0);
             card2_5_out     : out std_logic_vector(3 downto 0);
+            score2_out      : out std_logic_vector(4 downto 0);
             money2_out      : out std_logic_vector(9 downto 0);
             bid2_out        : out std_logic_vector(1 downto 0);
             split2_out      : out std_logic;
             insurance2_out  : out std_logic;
             doubledown2_out : out std_logic;
-            score2_out      : out std_logic_vector(4 downto 0);
 
             player_c_out    : out std_logic;
             card3_1_out     : out std_logic_vector(3 downto 0);
@@ -69,12 +68,12 @@ architecture memory_tb_arc of memory_tb is
             card3_3_out     : out std_logic_vector(3 downto 0);
             card3_4_out     : out std_logic_vector(3 downto 0);
             card3_5_out     : out std_logic_vector(3 downto 0);
+            score3_out      : out std_logic_vector(4 downto 0);
             money3_out      : out std_logic_vector(9 downto 0);
             bid3_out        : out std_logic_vector(1 downto 0);
             split3_out      : out std_logic;
             insurance3_out  : out std_logic;
             doubledown3_out : out std_logic;
-            score3_out      : out std_logic_vector(4 downto 0);
 
             player_d_out    : out std_logic;
             card4_1_out     : out std_logic_vector(3 downto 0);
@@ -82,12 +81,12 @@ architecture memory_tb_arc of memory_tb is
             card4_3_out     : out std_logic_vector(3 downto 0);
             card4_4_out     : out std_logic_vector(3 downto 0);
             card4_5_out     : out std_logic_vector(3 downto 0);
+            score4_out      : out std_logic_vector(4 downto 0);
             money4_out      : out std_logic_vector(9 downto 0);
             bid4_out        : out std_logic_vector(1 downto 0);
             split4_out      : out std_logic;
             insurance4_out  : out std_logic;
             doubledown4_out : out std_logic;
-            score4_out      : out std_logic_vector(4 downto 0);
 
             -- dealer
             card5_1_out : out std_logic_vector(3 downto 0);
@@ -247,12 +246,12 @@ begin
         card1_3_out,
         card1_4_out,
         card1_5_out,
+        score1_out,
         money1_out,
         bid1_out,
         split1_out,
         insurance1_out,
         doubledown1_out,
-        score1_out,
 
         player2_out,
         card2_1_out,
@@ -260,12 +259,12 @@ begin
         card2_3_out,
         card2_4_out,
         card2_5_out,
+        score2_out,
         money2_out,
         bid2_out,
         split2_out,
         insurance2_out,
         doubledown2_out,
-        score2_out,
 
         player3_out,
         card3_1_out,
@@ -273,12 +272,12 @@ begin
         card3_3_out,
         card3_4_out,
         card3_5_out,
+        score3_out,
         money3_out,
         bid3_out,
         split3_out,
         insurance3_out,
         doubledown3_out,
-        score3_out,
 
         player4_out,
         card4_1_out,
@@ -286,12 +285,12 @@ begin
         card4_3_out,
         card4_4_out,
         card4_5_out,
+        score4_out,
         money4_out,
         bid4_out,
         split4_out,
         insurance4_out,
         doubledown4_out,
-        score4_out,
 
         -- dealer
         card5_1_out,
