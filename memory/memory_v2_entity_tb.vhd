@@ -16,22 +16,22 @@ architecture memory_tb_arc of memory_tb is
             card_in    : in std_logic_vector(3 downto 0);
 
             player_a_in : in std_logic;
-            win_type1   : in std_logic_vector(2 downto 0); -- 0: niet gewonnen, 1: insurance, 2: double down, 3: blackjack, 4 : normal
+            win_type1_in   : in std_logic_vector(2 downto 0); -- 0: niet gewonnen, 1: insurance, 2: double down, 3: blackjack, 4 : normal
             money1_in   : in std_logic_vector(9 downto 0);
             bid1_in     : in std_logic_vector(1 downto 0);
 
             player_b_in : in std_logic;
-            win_type2   : in std_logic_vector(2 downto 0);
+            win_type2_in   : in std_logic_vector(2 downto 0);
             money2_in   : in std_logic_vector(9 downto 0);
             bid2_in     : in std_logic_vector(1 downto 0);
 
             player_c_in : in std_logic;
-            win_type3   : in std_logic_vector(2 downto 0);
+            win_type3_in   : in std_logic_vector(2 downto 0);
             money3_in   : in std_logic_vector(9 downto 0);
             bid3_in     : in std_logic_vector(1 downto 0);
 
             player_d_in : in std_logic;
-            win_type4   : in std_logic_vector(2 downto 0);
+            win_type4_in   : in std_logic_vector(2 downto 0);
             money4_in   : in std_logic_vector(9 downto 0);
             bid4_in     : in std_logic_vector(1 downto 0);
 
@@ -114,24 +114,26 @@ architecture memory_tb_arc of memory_tb is
     signal insurance  : std_logic := '0';
     signal doubledown : std_logic := '0';
     signal split      : std_logic := '0';
+    signal end_round  : std_logic := '0';
+    signal card_in    : std_logic_vector(3 downto 0) := "0000";
 
     signal player_a_in : std_logic                    := '0';
-    signal win_type1   : std_logic_vector(2 downto 0) := "000";
+    signal win_type1_in   : std_logic_vector(2 downto 0) := "000";
     signal money1_in   : std_logic_vector(9 downto 0) := "0000000000";
     signal bid1_in     : std_logic_vector(1 downto 0) := "00";
 
     signal player_b_in : std_logic                    := '0';
-    signal win_type2   : std_logic_vector(2 downto 0) := "000";
+    signal win_type2_in   : std_logic_vector(2 downto 0) := "000";
     signal money2_in   : std_logic_vector(9 downto 0) := "0000000000";
     signal bid2_in     : std_logic_vector(1 downto 0) := "00";
 
     signal player_c_in : std_logic                    := '0';
-    signal win_type3   : std_logic_vector(2 downto 0) := "000";
+    signal win_type3_in   : std_logic_vector(2 downto 0) := "000";
     signal money3_in   : std_logic_vector(9 downto 0) := "0000000000";
     signal bid3_in     : std_logic_vector(1 downto 0) := "00";
 
     signal player_d_in : std_logic                    := '0';
-    signal win_type4   : std_logic_vector(2 downto 0) := "000";
+    signal win_type4_in   : std_logic_vector(2 downto 0) := "000";
     signal money4_in   : std_logic_vector(9 downto 0) := "0000000000";
     signal bid4_in     : std_logic_vector(1 downto 0) := "00";
     signal player_out  : std_logic_vector(2 downto 0);
@@ -214,24 +216,26 @@ begin
         insurance,
         doubledown,
         split,
+	end_round,
+	card_in,
 
         player_a_in,
-        win_type1,
+        win_type1_in,
         money1_in,
         bid1_in,
 
         player_b_in,
-        win_type2,
+        win_type2_in,
         money2_in,
         bid2_in,
 
         player_c_in,
-        win_type3,
+        win_type3_in,
         money3_in,
         bid3_in,
 
         player_d_in,
-        win_type4,
+        win_type4_in,
         money4_in,
         bid4_in,
 
@@ -307,7 +311,7 @@ begin
     );
     clk <= not clk after 10 ns;
 
-    card <= "0000" after 0 ns,
+    card_in <= "0000" after 0 ns,
         "0100" after 30 ns,
         "0110" after 50 ns,
         "0101" after 70 ns,
@@ -344,7 +348,7 @@ begin
         "10" after 90 ns,
         "01" after 210 ns;
 
-    win_type2 <= "000" after 0 ns,
+    win_type2_in <= "000" after 0 ns,
         "001" after 30 ns,
         "010" after 50 ns,
         "001" after 70 ns,
@@ -356,5 +360,5 @@ begin
         '0' after 130 ns,
         '1' after 150 ns,
         '0' after 190 ns,
-        '1' after 250 ns,
+        '1' after 250 ns;
     end architecture;
