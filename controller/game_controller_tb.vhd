@@ -27,7 +27,17 @@ architecture behaviour of controller_tb is
 			Player2_Bid	: in std_logic_vector (1 downto 0);		-- Value of Initial Bid = 2,6,10,20 -> 00,01,10,11 (Internal signal Bid_Value) --
 			Player3_Bid	: in std_logic_vector (1 downto 0);		-- Controller never needs the augmented value of Bid as Double/Insurance/Split --
 			Player4_Bid	: in std_logic_vector (1 downto 0);		-- are Turn 1 actions (If Mem Controller does end-round calculations) --
-	
+
+			Player1_Insured : in std_logic;
+			Player2_Insured : in std_logic;
+			Player3_Insured : in std_logic;
+			Player4_Insured : in std_logic;
+
+			Player1_Doubled_Down : in std_logic;
+			Player2_Doubled_Down : in std_logic;
+			Player3_Doubled_Down : in std_logic;
+			Player4_Doubled_Down : in std_logic;
+			
 			Player1_Hand_Card_1	: in std_logic_vector (3 downto 0);	-- Each card is a 4-bit vector --
 			Player1_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Player1_Hand_Card_3	: in std_logic_vector (3 downto 0);
@@ -123,6 +133,16 @@ end component;
 	signal Player2_Bid	: std_logic_vector (1 downto 0);		-- Value of Initial Bid = 2,6,10,20 -> 00,01,10,11 (Internal signal Bid_Value) --
 	signal Player3_Bid	: std_logic_vector (1 downto 0);		-- Controller never needs the augmented value of Bid as Double/Insurance/Split --
 	signal Player4_Bid	: std_logic_vector (1 downto 0);		-- are Turn 1 actions (If Mem Controller does end-round calculations) --
+
+	signal Player1_Insured :  std_logic;
+	signal Player2_Insured :  std_logic;
+	signal Player3_Insured :  std_logic;
+	signal Player4_Insured :  std_logic;
+
+	signal Player1_Doubled_Down : in std_logic;
+	signal Player2_Doubled_Down : in std_logic;
+	signal Player3_Doubled_Down : in std_logic;
+	signal Player4_Doubled_Down : in std_logic;
 
 	signal Player1_Hand_Card_1	: std_logic_vector (3 downto 0);	-- Each card is a 4-bit vector --
 	signal Player1_Hand_Card_2	: std_logic_vector (3 downto 0);
