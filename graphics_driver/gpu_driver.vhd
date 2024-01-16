@@ -1374,7 +1374,19 @@ begin
 					end if;
         end if;
     elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 10 and x_pos <= 109) then -- Player hand
-        if (cards(x_pos - 10, y_pos - 362, 13, 3, 6, 2, 5) = '1') then
+        if (player = "001" and cards(x_pos - 10, y_pos - 362, carda_1, carda_2, carda_3, carda_4, carda_5) = '1') then
+            r <= 0;
+            g <= 0;
+            b <= 0;
+        elsif (player = "010" and cards(x_pos - 10, y_pos - 362, cardb_1, cardb_2, cardb_3, cardb_4, cardb_5) = '1') then
+            r <= 0;
+            g <= 0;
+            b <= 0;
+        elsif (player = "011" and cards(x_pos - 10, y_pos - 362, cardc_1, cardc_2, cardc_3, cardc_4, cardc_5) = '1') then
+            r <= 0;
+            g <= 0;
+            b <= 0;
+	elsif (player = "100" and cards(x_pos - 10, y_pos - 362, cardd_1, cardd_2, cardd_3, cardd_4, cardd_5) = '1') then
             r <= 0;
             g <= 0;
             b <= 0;
