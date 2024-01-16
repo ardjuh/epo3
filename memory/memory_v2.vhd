@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-architecture behavior of memory is
+architecture behavior of memory_v2 is
     component hand port (
         clk    : in std_logic;
         rst    : in std_logic;
@@ -38,8 +38,8 @@ architecture behavior of memory is
     signal h1, h2, h3, h4, h5, h6 : std_logic                    := '0';
     signal profit                 : std_logic_vector(6 downto 0) := "0000000";
     signal stake                  : std_logic_vector(4 downto 0) := "00000";
-    signal bid_temp               : std_logic_vector(1 downto 0) := "000";
-    signal win_type_temp          : std_logic_vector(1 downto 0) := "000";
+    signal bid_temp               : std_logic_vector(1 downto 0) := "00";
+    signal win_type_temp          : std_logic_vector(2 downto 0) := "000";
 begin
     h1_l : hand port map(clk => clk, rst => rst or end_round, enable => h1, card => card_in, card1 => card1_1_out, card2 => card1_2_out, card3 => card1_3_out, card4 => card1_4_out, card5 => card1_5_out, score => score1_out);
     h2_l : hand port map(clk => clk, rst => rst or end_round, enable => h2, card => card_in, card1 => card2_1_out, card2 => card2_2_out, card3 => card2_3_out, card4 => card2_4_out, card5 => card2_5_out, score => score2_out);
@@ -99,7 +99,7 @@ begin
                 h4            <= '0';
                 h5            <= '1';
                 h6            <= '0';
-                bid_temp      <= "000";
+                bid_temp      <= "00";
                 win_type_temp <= "000";
             when "110" =>
                 h1            <= '0';
@@ -108,7 +108,7 @@ begin
                 h4            <= '0';
                 h5            <= '0';
                 h6            <= '1';
-                bid_temp      <= "000";
+                bid_temp      <= "00";
                 win_type_temp <= "000";
             when others =>
                 h1            <= '0';
@@ -117,63 +117,63 @@ begin
                 h4            <= '0';
                 h5            <= '0';
                 h6            <= '0';
-                bid_temp      <= "000";
+                bid_temp      <= "00";
                 win_type_temp <= "000";
         end case;
     end process;
 
-    process (bid_temp, win_type_temp, doubledown_in)
+    process (bid_temp, win_type_temp, doubledown)
     begin
         case bid_temp is
             when "00" =>
                 case win_type_temp is -- 00 = win, 01 = blackjack_win, 10 = insurance_win, 11 = doubledown_win * /
-                    when "00" =>
-                        profit <= "0000100";
-                    when "01" =>
+                    when "001" =>
                         profit <= "0000101";
-                    when "10" =>
+                    when "010" =>
                         profit <= "0000011";
-                    when "11" =>
+                    when "011" =>
                         profit <= "0001000";
+		    when "100" =>
+                        profit <= "0000100";
                     when others =>
                         profit <= "0000000";
                 end case;
             when "01" =>
                 case win_type_temp is
-                    when "00" =>
-                        profit <= "0001100";
-                    when "01" =>
+                    when "001" =>
                         profit <= "0001111";
-                    when "10" =>
+                    when "010" =>
                         profit <= "0001001";
-                    when "11" =>
+                    when "011" =>
                         profit <= "0011000";
+		    when "100" =>
+                        profit <= "0001100";
                     when others =>
                         profit <= "0000000";
                 end case;
             when "10" =>
                 case win_type_temp is
-                    when "00" =>
-                        profit <= "0010100";
-                    when "01" =>
+                    when "001" =>
                         profit <= "0011001";
-                    when "10" =>
+                    when "010" =>
                         profit <= "0001111";
-                    when "11" =>
+                    when "011" =>
                         profit <= "0101000";
+                    when "100" =>
+                        profit <= "0010100";
                     when others =>
                         profit <= "0000000";
                 end case;
             when "11" =>
                 case win_type_temp is
-                    when "00" =>
-                        profit <= "0101000";
-                    when "01" =>
+                    when "001" =>
                         profit <= "0110010";
-                    when "10" =>
+                    when "010" =>
                         profit <= "0001110";
-                    when "11" =>
+                    when "011" =>
                         profit <= "1010000";
+                    when "100" =>
+                        profit <= "0101000";
                     when others =>
                         profit <= "0000000";
                 end case;
@@ -181,7 +181,7 @@ begin
                 profit <= "0000000";
         end case;
 
-        if (doubledown_in = '1') then
+        if (doubledown = '1') then
             case bid_temp is
                 when "00" =>
                     stake <= "00010";
