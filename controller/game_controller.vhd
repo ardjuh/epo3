@@ -80,10 +80,10 @@ entity game_controller is
 			insurance_option	: out std_logic;
 			even_money_option	: out std_logic;
 	
-			Player1_Budget_New	: out  std_logic_vector (10 downto 0);	-- base budget is 100, score limit chosen as 1000 so 11 bits --
-			Player2_Budget_New	: out  std_logic_vector (10 downto 0);
-			Player3_Budget_New	: out  std_logic_vector (10 downto 0);  
-			Player4_Budget_New	: out  std_logic_vector (10 downto 0);
+			Player1_Budget_New	: out  std_logic_vector (9 downto 0);	-- base budget is 100, score limit chosen as 1000 so 11 bits --
+			Player2_Budget_New	: out  std_logic_vector (9 downto 0);
+			Player3_Budget_New	: out  std_logic_vector (9 downto 0);  
+			Player4_Budget_New	: out  std_logic_vector (9 downto 0);
 	
 			Player1_Bid_New	: out std_logic_vector (1 downto 0);  		 -- 2,6,10,20 = 4 options so 2 bits --
 			Player2_Bid_New	: out std_logic_vector (1 downto 0);
