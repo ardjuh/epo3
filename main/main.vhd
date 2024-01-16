@@ -20,7 +20,10 @@ architecture behaviour of main is
             red    : out std_logic_vector(3 downto 0);
             green  : out std_logic_vector(3 downto 0);
             blue   : out std_logic_vector(3 downto 0);
-            player : in std_logic_vector (1 downto 0);
+            player : in std_logic_vector (4 downto 0);
+
+            screentype : in std_logic_vector (1 downto 0);
+            cursor : in std_logic_vector (2 downto 0);
 
             player_a : in std_logic;
             card1_1  : in std_logic_vector (3 downto 0);
@@ -70,7 +73,7 @@ architecture behaviour of main is
 begin
     vga : vga_driver_combined port map(clk => clk, reset => reset, x_pos => x_pos_i, y_pos => y_pos_i, H_sync => H_sync_i, V_sync => V_sync_i);
 
-    gpu : gpu_driver port map(h_pos => x_pos_i, v_pos => y_pos_i, red => red, green => green, blue => blue, player => player, player_a => player_a, card1_1 => card1_1, card1_2 => card1_2, card1_3 => card1_3, card1_4 => card1_4, card1_5 => card1_5, money1 => money1, split1 => split1, player_b => player_b, card2_1 => card2_1, card2_2 => card2_2, card2_3 => card2_3, card2_4 => card2_4, card2_5 => card2_5, money2 => money2, split2 => split2, player_c => player_c, card3_1 => card3_1, card3_2 => card3_2, card3_3 => card3_3, card3_4 => card3_4, card3_5 => card3_5, money3 => money3, split3 => split3, player_d => player_d, card4_1 => card4_1, card4_2 => card4_2, card4_3 => card4_3, card4_4 => card4_4, card4_5 => card4_5, money4 => money4, split4 => split4);
+    gpu : gpu_driver port map(h_pos => x_pos_i, v_pos => y_pos_i, red => red, green => green, blue => blue, player => player, screentype => screentype, cursor => cursor, player_a => player_a, card1_1 => card1_1, card1_2 => card1_2, card1_3 => card1_3, card1_4 => card1_4, card1_5 => card1_5, money1 => money1, split1 => split1, player_b => player_b, card2_1 => card2_1, card2_2 => card2_2, card2_3 => card2_3, card2_4 => card2_4, card2_5 => card2_5, money2 => money2, split2 => split2, player_c => player_c, card3_1 => card3_1, card3_2 => card3_2, card3_3 => card3_3, card3_4 => card3_4, card3_5 => card3_5, money3 => money3, split3 => split3, player_d => player_d, card4_1 => card4_1, card4_2 => card4_2, card4_3 => card4_3, card4_4 => card4_4, card4_5 => card4_5, money4 => money4, split4 => split4);
 
     vga_vsync <= V_sync_i;
     vga_hsync <= H_sync_i;
