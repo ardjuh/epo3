@@ -640,11 +640,58 @@ begin
 						draw_screen_type <= "11";
 						choose_action <= '0';
 
-						if ( unsigned(Player1_Score) > unsigned(Dealer_Score) ) then
+						if ( unsigned(Dealer_Hand_Score) = 21 ) and ( Dealer_Hand_Card_3 = "0000" ) then
 							if ( Player1_Insured = '1' ) then
-								win_type <= 
-							
-						new_state <= player_action;
+								Player1_win_type <= "001";							end if;
+
+							elsif ( Player2_Insured = '1' ) then
+								Player2_win_type <= "001";
+
+							elsif ( Player3_Insured = '1' ) then
+								Player3_win_type <= "001";
+								
+							elsif ( Player4_Insured = '1' ) then
+								Player4_win_type <= "001";
+							end if;
+						else 
+							if ( unsigned(Player1_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
+								if ( Player1_Doubled_Down = '1' ) then
+									Player1_win_type <= "010";
+								else
+									Player1_win_type <= "100";
+								end if;
+							end if;
+
+							if ( unsigned(Player2_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
+								if ( Player2_Doubled_Down = '1' ) then
+									Player2_win_type <= "010";
+								else
+									Player2_win_type <= "100";
+								end if;
+							end if;
+
+							if ( unsigned(Player3_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
+								if ( Player3_Doubled_Down = '1' ) then
+									Player3_win_type <= "010";
+								else
+									Player3_win_type <= "100";
+								end if;
+							end if;
+
+							if ( unsigned(Player4_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
+								if ( Player4_Doubled_Down = '1' ) then
+									Player4_win_type <= "010";
+								else
+									Player4_win_type <= "100";
+								end if;
+							end if;
+
+							if ( unsigned(Reserve_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
+								if ( split_player = "001" ) then
+									Player1_win_type <= "
+								end if;
+							end if;
+						end if;
 					end if;
 				end if;
 		
