@@ -108,6 +108,12 @@ component game_cont is
 			Receiving_Hand	: out std_logic_vector (2 downto 0);  	 -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
 			
 			enable		: out std_logic;
+			bid_enable      : out std_logic;
+			Player1_Broke   : out std_logic;
+			Player2_Broke   : out std_logic;
+			Player3_Broke   : out std_logic;
+			Player4_Broke   : out std_logic;
+			
 			even_money	: out std_logic;
 			insurance	: out std_logic;
 			split		: out std_logic;
@@ -222,6 +228,11 @@ end component;
 	signal even_money_option : std_logic;
 
 	signal enable		: std_logic;
+	signal bid_enable     	:  std_logic;
+	signal Player1_Broke  	:  std_logic;
+	signal Player2_Broke  	:  std_logic;
+	signal Player3_Broke  	:  std_logic;
+	signal Player4_Broke  	:  std_logic;
 
 	signal even_money	: std_logic;
 	signal insurance	: std_logic;
