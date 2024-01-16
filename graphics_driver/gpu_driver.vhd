@@ -1362,7 +1362,7 @@ begin
                 g <= 0;
                 b <= 0;
             end if;
-				elsif (x_pos>= 50 and y_pos >= 190 and x_pos <= 161 and y_pos <=242 ) then
+				elsif (x_pos>= 50 and y_pos >= 137 and x_pos <= 161 and y_pos < 190 ) then
 					if (table(x_pos - 50, y_pos - 190, '1', 0, 0, 0, 0, 0, 123, '1', 0, 0, 0, 0, 0, 456, '1', 0, 0, 0, 0, 0, 789, '1', 0, 0, 0,0, 0, 0) = '1') then
 						r <= 15;
 						g <= 15;
