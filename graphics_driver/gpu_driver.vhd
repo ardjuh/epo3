@@ -1267,16 +1267,10 @@ blue  <= std_logic_vector(to_unsigned(b, 4));
 process (x_pos, y_pos, screentype, split1, split2, split3, split4, player)
 begin
     if (x_pos < 0 or x_pos > 639 or y_pos < 0 or y_pos > 479) then
-
         r <= 0;
         g <= 0;
         b <= 0;
-
     elsif (screentype = "00") then
-        r <= 0;
-        g <= 0;
-        b <= 0;
-
         if (x_pos >= 0 and y_pos >= 190 and y_pos <= 290) then
             if (begin_menu(x_pos, y_pos - 190, "00") = '1') then --start
                 r <= 15;
@@ -1287,6 +1281,10 @@ begin
                 g <= 0;
                 b <= 0;
             end if;
+        else
+            r <= 0;
+            g <= 0;
+            b <= 0;
         end if;
     elsif (screentype = "01") then
         if (x_pos >= 444 and x_pos < 452 and y_pos < 470 and y_pos >= 432) then -- bet
