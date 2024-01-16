@@ -41,17 +41,17 @@ architecture behavior of memory is
     signal bid_temp               : std_logic_vector(1 downto 0) := "000";
     signal win_type_temp               : std_logic_vector(1 downto 0) := "000";
 begin
-    h1_l : hand port map(clk => clk, rst => rst or end_round, enable => h1, card => card, card1 => card1_1, card2 => card1_2, card3 => card1_3, card4 => card1_4, card5 => card1_5, score => score1);
-    h2_l : hand port map(clk => clk, rst => rst or end_round, enable => h2, card => card, card1 => card2_1, card2 => card2_2, card3 => card2_3, card4 => card2_4, card5 => card2_5, score => score2);
-    h3_l : hand port map(clk => clk, rst => rst or end_round, enable => h3, card => card, card1 => card3_1, card2 => card3_2, card3 => card3_3, card4 => card3_4, card5 => card3_5, score => score3);
-    h4_l : hand port map(clk => clk, rst => rst or end_round, enable => h4, card => card, card1 => card4_1, card2 => card4_2, card3 => card4_3, card4 => card4_4, card5 => card4_5, score => score4);
-    h5_l : hand port map(clk => clk, rst => rst or end_round, enable => h5, card => card, card1 => card5_1, card2 => card5_2, card3 => card5_3, card4 => card5_4, card5 => card5_5, score => score5);
-    h6_l : hand port map(clk => clk, rst => rst or end_round, enable => h6, card => card, card1 => card6_1, card2 => card6_2, card3 => card6_3, card4 => card6_4, card5 => card6_5, score => score6);
+    h1_l : hand port map(clk => clk, rst => rst or end_round, enable => h1, card => card_in, card1 => card1_1, card2 => card1_2, card3 => card1_3, card4 => card1_4, card5 => card1_5, score => score1);
+    h2_l : hand port map(clk => clk, rst => rst or end_round, enable => h2, card => card_in, card1 => card2_1, card2 => card2_2, card3 => card2_3, card4 => card2_4, card5 => card2_5, score => score2);
+    h3_l : hand port map(clk => clk, rst => rst or end_round, enable => h3, card => card_in, card1 => card3_1, card2 => card3_2, card3 => card3_3, card4 => card3_4, card5 => card3_5, score => score3);
+    h4_l : hand port map(clk => clk, rst => rst or end_round, enable => h4, card => card_in, card1 => card4_1, card2 => card4_2, card3 => card4_3, card4 => card4_4, card5 => card4_5, score => score4);
+    h5_l : hand port map(clk => clk, rst => rst or end_round, enable => h5, card => card_in, card1 => card5_1, card2 => card5_2, card3 => card5_3, card4 => card5_4, card5 => card5_5, score => score5);
+    h6_l : hand port map(clk => clk, rst => rst or end_round, enable => h6, card => card_in, card1 => card6_1, card2 => card6_2, card3 => card6_3, card4 => card6_4, card5 => card6_5, score => score6);
 
-    p1_l : player port map(clk => clk, rst => rst, mem_rst => end_round, profit_enable => p1_p, profit => profit, stake_enable => p1_s, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p1_b, insurance_enable => p1_i, doubledown_enable => p1_d, bid_out => bid1, money => money1, insurance_out => insurance1, doubledown_out => doubledown1);
-    p2_l : player port map(clk => clk, rst => rst, mem_rst => end_round, profit_enable => p2_p, profit => profit, stake_enable => p2_s, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p2_b, insurance_enable => p2_i, doubledown_enable => p2_d, bid_out => bid2, money => money2, insurance_out => insurance2, doubledown_out => doubledown2);
-    p3_l : player port map(clk => clk, rst => rst, mem_rst => end_round, profit_enable => p3_p, profit => profit, stake_enable => p3_s, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p3_b, insurance_enable => p3_i, doubledown_enable => p3_d, bid_out => bid3, money => money3, insurance_out => insurance3, doubledown_out => doubledown3);
-    p4_l : player port map(clk => clk, rst => rst, mem_rst => end_round, profit_enable => p4_p, profit => profit, stake_enable => p4_s, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_enable => p4_b, insurance_enable => p4_i, doubledown_enable => p4_d, bid_out => bid4, money => money4, insurance_out => insurance4, doubledown_out => doubledown4);
+    p1_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h1, profit => profit, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid1, money => money1, insurance_out => insurance1, doubledown_out => doubledown1);
+    p2_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h2, profit => profit, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid2, money => money2, insurance_out => insurance2, doubledown_out => doubledown2);
+    p3_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h3, profit => profit, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid3, money => money3, insurance_out => insurance3, doubledown_out => doubledown3);
+    p4_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h4, profit => profit, stake => stake, bid_in => bid, insurance_in => insurance, doubledown_in => doubledown, bid_out => bid4, money => money4, insurance_out => insurance4, doubledown_out => doubledown4);
 
     process (player_in)
     begin
