@@ -70,15 +70,13 @@ entity controller is
 			request_card	: out std_logic;                         
 			new_card	: out std_logic_vector (3 downto 0);	-- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 	
-			draw_screen		: out std_logic_vector(2 downto 0);  
 			cursor_position	: out std_logic_vector(2 downto 0);
 			draw_screen_type : out std_logic_vector(1 downto 0);
-	
-			hold_option		: out std_logic;     
+	 
 			hit_option		: out std_logic;
 			double_option		: out std_logic;
 			split_option		: out std_logic;
-			insurance_option		: out std_logic;
+			insurance_option	: out std_logic;
 			even_money_option	: out std_logic;
 	
 			Player1_Budget_New	: out  std_logic_vector (9 downto 0);	-- base budget is 100, score limit chosen as 1000 so 10 bits --
@@ -92,17 +90,17 @@ entity controller is
 			Player4_Bid_New	: out std_logic_vector (1 downto 0);
 	
 			Player_Turn_New	: out std_logic_vector (2 downto 0);  	 -- outputs -> mem based on actions --
-			N_Players_New		: out std_logic_vector (2 downto 0);
-			Receiving_Hand		: out std_logic_vector (2 downto 0);  	 -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
+			N_Players_New	: out std_logic_vector (2 downto 0);
+			Receiving_Hand	: out std_logic_vector (2 downto 0);  	 -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
 	
 			enable		: out std_logic;
-			even_money		: out std_logic;
-			insurance		: out std_logic;
+			even_money	: out std_logic;
+			insurance	: out std_logic;
 			split		: out std_logic;
 			double		: out std_logic;
 	
-			round_end		: out std_logic;	     
-			global_reset		: out std_logic
+			round_end	: out std_logic;	     
+			global_reset	: out std_logic
 		);
 end controller;
 
@@ -639,50 +637,63 @@ begin
 						score_screen <= '1';
 						draw_screen_type <= "11";
 						choose_action <= '0';
+						enable <= '1';
 
 						if ( unsigned(Dealer_Hand_Score) = 21 ) and ( Dealer_Hand_Card_3 = "0000" ) then
 							if ( Player1_Insured = '1' ) then
-								Player1_win_type <= "001";							end if;
+								Player1_win_type <= "001";
+								new_state <= game_setup;
 
 							elsif ( Player2_Insured = '1' ) then
 								Player2_win_type <= "001";
+								new_state <= game_setup;
 
 							elsif ( Player3_Insured = '1' ) then
 								Player3_win_type <= "001";
+								new_state <= game_setup;
 								
 							elsif ( Player4_Insured = '1' ) then
 								Player4_win_type <= "001";
+								new_state <= game_setup;
 							end if;
 						else 
 							if ( unsigned(Player1_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
 								if ( Player1_Doubled_Down = '1' ) then
 									Player1_win_type <= "010";
+									new_state <= game_setup;
 								else
 									Player1_win_type <= "100";
+									new_state <= game_setup;
 								end if;
 							end if;
 
 							if ( unsigned(Player2_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
 								if ( Player2_Doubled_Down = '1' ) then
 									Player2_win_type <= "010";
+									new_state <= game_setup;
 								else
 									Player2_win_type <= "100";
+									new_state <= game_setup;
 								end if;
 							end if;
 
 							if ( unsigned(Player3_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
 								if ( Player3_Doubled_Down = '1' ) then
 									Player3_win_type <= "010";
+									new_state <= game_setup;
 								else
 									Player3_win_type <= "100";
+									new_state <= game_setup;
 								end if;
 							end if;
 
 							if ( unsigned(Player4_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
 								if ( Player4_Doubled_Down = '1' ) then
 									Player4_win_type <= "010";
+									new_state <= game_setup;
 								else
 									Player4_win_type <= "100";
+									new_state <= game_setup;
 								end if;
 							end if;
 
@@ -1188,15 +1199,15 @@ begin
 				if  (button = "100") then 
 					new_state <= selb;
 				else 
-					new_state <= game_resolution; 
+					new_state <= player_action; 
 				end if;
 					
 			when selb => 
 				switch_select <= '0' ; 	
 				if  (button = "100") then 
-					new_state <= game_resolution; 
+					new_state <= selb; 
 				else 
-					new_state <= selb;
+					new_state <= player_action;
 				end if;
 					
 			when lefta => 
@@ -1210,9 +1221,9 @@ begin
 			when leftb =>
 				 switch_left <= '0';
 				if (button = "001") then 
-					new_state <= player_action;
-				else 
 					new_state <= leftb;
+				else 
+					new_state <= player_action;
 				end if;
 					
 			when righta => 
@@ -1226,10 +1237,10 @@ begin
 			when rightb => 
 				switch_right <= '0' ;
 				if (button = "010") then 
-					new_state <= player_action;
-				else 
 					new_state <= rightb;
-	        			end if;
+				else 
+					new_state <= player_action;
+	        		end if;
             end case;
       end process;
 end architecture;
