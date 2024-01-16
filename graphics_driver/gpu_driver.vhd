@@ -1002,25 +1002,30 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (screentype = "01") then
-            if (y >= 0 and y <= 36 and x > 443) then
-                if (x < 450) then
+            if (y >= 0 and y < 46 and x > 443) then
+                if (x < 450 and y < 7) then
                     return small_letter(x - 444, y, 2); --b
-                elsif (x < 456) then
-                    return small_letter(x - 451, y, 5);--e
-                elsif (x < 462) then
-                    return small_letter(x - 457, y, 20);--t
-                elsif (x < 450) then
+                elsif (x < 456 and y < 7) then
+                    return small_letter(x - 450, y, 5);--e
+                elsif (x < 462 and y < 7) then
+                    return small_letter(x - 456, y, 20);--t
+					 
+                elsif (x < 450 and y>=9 and y<= 16) then
                     return small_number(x - 444, y - 9, 2);--2
-                elsif (x < 450) then
+						  
+                elsif (x < 450 and y>=18 and y<= 24) then
                     return small_number(x - 444, y - 18, 6);--6
-                elsif (x < 450) then
+						  
+                elsif (x < 450 and y>=27 and y<= 33) then
                     return small_number(x - 444, y - 27, 1);--1
-                elsif (x < 456) then
+                elsif (x < 456 and y>=27 and y<= 33) then
                     return small_number(x - 450, y - 27, 0);--0
-                elsif (x < 450) then
+						  
+                elsif (x < 450 and y>=36 and y<= 43) then
                     return small_number(x - 444, y - 36, 2);--2
-                elsif (x < 456) then
+                elsif (x < 456 and y>=36 and y<= 43) then
                     return small_number(x - 450, y - 36, 0);--0
+
                 else
                     return '0';
                 end if;
@@ -1050,7 +1055,7 @@ architecture behavior of gpu_driver is
                 else
                     return '0';
                 end if;
-                if (screentype = "1") then
+                if (screentype = "11") then
                     if (y >= 72 and y <= 78) then
                         if (x > 278) then
                         elsif (x < 285) then
@@ -1089,9 +1094,7 @@ architecture behavior of gpu_driver is
         else
             return '0';
         end if;
-    else
-        return '0';
-    end if;
+    
 end function;
 
 function details(
@@ -1267,10 +1270,16 @@ blue  <= std_logic_vector(to_unsigned(b, 4));
 process (x_pos, y_pos, screentype, split1, split2, split3, split4, player)
 begin
     if (x_pos < 0 or x_pos > 639 or y_pos < 0 or y_pos > 479) then
+
         r <= 0;
         g <= 0;
         b <= 0;
+
     elsif (screentype = "00") then
+        r <= 0;
+        g <= 0;
+        b <= 0;
+
         if (x_pos >= 0 and y_pos >= 190 and y_pos <= 290) then
             if (begin_menu(x_pos, y_pos - 190, "00") = '1') then --start
                 r <= 15;
@@ -1281,13 +1290,9 @@ begin
                 g <= 0;
                 b <= 0;
             end if;
-        else
-            r <= 0;
-            g <= 0;
-            b <= 0;
         end if;
     elsif (screentype = "01") then
-        if (x_pos >= 444 and x_pos < 452 and y_pos < 470 and y_pos >= 432) then -- bet
+        if (x_pos >= 440 and x_pos < 467 and y_pos < 479 and y_pos >= 430) then -- bet
             if (begin_menu(x_pos, y_pos - 432, "01") = '1') then
                 r <= 15;
                 g <= 15;
@@ -1301,6 +1306,22 @@ begin
             r <= 2;
             g <= 11;
             b <= 2;
+        end if;
+		  elsif (screentype = "11") then
+        r <= 0;
+        g <= 0;
+        b <= 0;
+
+        if (x_pos >= 0 and y_pos >= 190 and y_pos <= 290) then
+            if (begin_menu(x_pos, y_pos - 190, "11") = '1') then --end
+                r <= 15;
+                g <= 15;
+                b <= 15;
+            else
+                r <= 0;
+                g <= 0;
+                b <= 0;
+            end if;
         end if;
     elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 10 and x_pos <= 109) then -- Player hand
         if (cards(x_pos - 10, y_pos - 362, 13, 3, 6, 2, 5) = '1') then
