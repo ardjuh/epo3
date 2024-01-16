@@ -1262,7 +1262,7 @@ begin
     green <= std_logic_vector(to_unsigned(g, 4));
     blue  <= std_logic_vector(to_unsigned(b, 4));
     -- The process that splits the screen in sections
-    process (x_pos, y_pos, screentype, split1, split2, split3, split4,player)
+    process (x_pos, y_pos, screentype, split1, split2, split3, split4, player, cursor)
     begin
         if (x_pos < 0 or x_pos > 639 or y_pos < 0 or y_pos > 479) then
 
@@ -1271,19 +1271,44 @@ begin
 		b <= 0;
 
 	elsif (screentype = "00") then
-		        r <= 0;
-                			g <= 0;
-                			b <= 0;
-
+		r <= 0;
+                g <= 0;
+                b <= 0;
+	
     		if (x_pos >= 0 and y_pos >= 190 and y_pos <= 290) then 
 			if (begin_menu(x_pos, y_pos - 190,"00")='1') then
-				r <= 15;
-				g <= 15;
-				b <= 15;
+				if (y >= 22 and y <= 28) then
+					if (cursor = "001" and x > 320 and x < 327) then
+						r <= 8;
+						g <= 0;
+						b <= 8;
+					elsif(cursor = "010" and x > 332 and x < 349) then
+						r <= 8;
+						g <= 0;
+						b <= 8;
+					elsif(cursor = "011" and x > 354 and x < 361) then
+						r <= 8;
+						g <= 0;
+						b <= 8;
+					elsif(cursor = "100" and x > 365 and x < 372) then
+						r <= 8;
+						g <= 0;
+						b <= 8;
+					else
+						r <= 15;
+						g <= 15;
+						b <= 15;
+					end if;	
+				
+				else
+					r <= 15;
+					g <= 15;
+					b <= 15;
+		    		end if;
 			else
-                				r <= 0;
-                				g <= 0;
-                				b <= 0;
+                	r <= 0;
+                	g <= 0;
+                	b <= 0;
 			end if;
 		end if;
 	
@@ -1326,15 +1351,52 @@ begin
                 b <= 15;
             end if;
         elsif (y_pos >= 180 and y_pos < 280) then -- Action menu
-            if (action_menu(x_pos, y_pos - 180, '1', '1', '1', '1') = '1') then
-                r <= 15;
-                g <= 15;
-                b <= 15;
-            else
+	   if (action_menu(x_pos, y_pos - 180, '1', '1', '1', '1') = '1') then
+		if (y_pos >= 22 and y_pos <= 28) then
+            		if (cursor = "001" and x_pos >= 80 and x_pos < 98) then --hit
+				r <= 8;
+				g <= 0;
+				b <= 8;
+			elsif (cursor = "010" and x_pos >= 293 and x_pos < 329 and double = '1') then --double
+				r <= 8;
+				g <= 0;
+				b <= 8;
+			elsif (cursor = "011" and x_pos >= 507 and x_pos < 567 and em = '1') then --even money
+				r <= 8;
+				g <= 0;
+				b <= 8;
+			else 
+				r <= 4;
+                		g <= 4;
+                		b <= 4;
+			end if;
+		elsif (y_pos >= 72 and y_pos <= 78) then
+            		if (x_pos >= 80 and x_pos < 104) then -- HOLD
+                		r <= 8;
+                		g <= 0;
+                		b <= 8;
+			elsif (x_pos >= 293 and x_pos < 323 and split = '1') then -- SPLIT
+                		r <= 8;
+                		g <= 0;
+                		b <= 8;
+			elsif (x_pos >= 507 and x_pos < 561 and insurance = '1') then -- INSURANCE
+                		r <= 8;
+                		g <= 0;
+                		b <= 8;
+	    		else
+                		r <= 4;
+                		g <= 4;
+                		b <= 4;
+			end if;
+            	else
+                	r <= 15;
+                	g <= 15;
+                	b <= 15;
+	  else
                 r <= 4;
                 g <= 4;
                 b <= 4;
-            end if;
+          end if;
 
  elsif (x_pos < 462 and x_pos >= 444 and y_pos < 470 and y_pos >= 432) then -- bet
             if (x_pos = 443 or x_pos = 463 or y_pos = 426 or y_pos = 469) then
