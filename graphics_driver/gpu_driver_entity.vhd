@@ -12,6 +12,12 @@ entity gpu_driver is
 
         player : in std_logic_vector (2 downto 0);
 
+        em : in std_logic;
+        double : in std_logic;
+        insurance : in std_logic;
+        split : in std_logic;
+        hit   : in std_logic;
+
         player_a    : in std_logic;
         card1_1     : in std_logic_vector (3 downto 0);
         card1_2     : in std_logic_vector (3 downto 0);
