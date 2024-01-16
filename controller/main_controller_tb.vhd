@@ -6,7 +6,7 @@ end entity controller_tb;
 
 architecture behaviour of controller_tb is
 
-	component controller is
+component game_cont is
 		port(
 			clk	: in  std_logic;
 			reset	: in  std_logic;
@@ -14,9 +14,9 @@ architecture behaviour of controller_tb is
 			Player_Turn	: in std_logic_vector (2 downto 0);
 			N_Players	: in std_logic_vector (2 downto 0);
 	
-			switch_select	: in  std_logic;  
-			switch_left	: in  std_logic;						-- player inputs --
-			switch_right	: in  std_logic;
+			button_select	: in  std_logic;  
+			button_left	: in  std_logic;						-- player inputs --
+			button_right	: in  std_logic;
 	
 			Player1_Budget	: in  std_logic_vector (9 downto 0);	-- base budget is 100, score limit chosen as 1000 so 10 bits --
 			Player2_Budget	: in  std_logic_vector (9 downto 0);
@@ -37,48 +37,48 @@ architecture behaviour of controller_tb is
 			Player2_Doubled_Down : in std_logic;
 			Player3_Doubled_Down : in std_logic;
 			Player4_Doubled_Down : in std_logic;
-			
+	
 			Player1_Hand_Card_1	: in std_logic_vector (3 downto 0);	-- Each card is a 4-bit vector --
 			Player1_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Player1_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Player1_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Player1_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Player1_Hand_Score		: in std_logic_vector (4 downto 0);     -- Player can have 20 and draw a 10, so 30 points total possible --
+			Player1_Hand_Score	: in std_logic_vector (4 downto 0);     -- Player can have 20 and draw a 10, so 30 points total possible --
 	
 			Player2_Hand_Card_1	: in std_logic_vector (3 downto 0);
 			Player2_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Player2_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Player2_Hand_Card_4	: in std_logic_vector (3 downto 0);   
 			Player2_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Player2_Hand_Score		: in std_logic_vector (4 downto 0);
+			Player2_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 			Player3_Hand_Card_1	: in std_logic_vector (3 downto 0);
 			Player3_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Player3_Hand_Card_3	: in std_logic_vector (3 downto 0);   
 			Player3_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Player3_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Player3_Hand_Score		: in std_logic_vector (4 downto 0);
+			Player3_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 			Player4_Hand_Card_1	: in std_logic_vector (3 downto 0);
 			Player4_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Player4_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Player4_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Player4_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Player4_Hand_Score		: in std_logic_vector (4 downto 0);
+			Player4_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 			Dealer_Hand_Card_1	: in std_logic_vector (3 downto 0);
 			Dealer_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Dealer_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Dealer_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Dealer_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Dealer_Hand_Score		: in std_logic_vector (4 downto 0);
+			Dealer_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 			Reserve_Hand_Card_1	: in std_logic_vector (3 downto 0);	-- Reserve hand for Split. Only one player can split (low chance of multiple splits) --
 			Reserve_Hand_Card_2	: in std_logic_vector (3 downto 0);
 			Reserve_Hand_Card_3	: in std_logic_vector (3 downto 0);
 			Reserve_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Reserve_Hand_Card_5	: in std_logic_vector (3 downto 0);
-			Reserve_Hand_Score		: in std_logic_vector (4 downto 0);
+			Reserve_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 			random_card	: in  std_logic_vector (3 downto 0);	-- Comms with RNG --
 			request_card	: out std_logic;                         
@@ -86,22 +86,27 @@ architecture behaviour of controller_tb is
 	
 			cursor_position	: out std_logic_vector(2 downto 0);
 			draw_screen_type : out std_logic_vector(1 downto 0);
-	    
+	 
 			hit_option		: out std_logic;
 			double_option		: out std_logic;
 			split_option		: out std_logic;
 			insurance_option	: out std_logic;
 			even_money_option	: out std_logic;
-
+	
 			Player1_Bid_New	: out std_logic_vector (1 downto 0);  		 -- 2,6,10,20 = 4 options so 2 bits --
 			Player2_Bid_New	: out std_logic_vector (1 downto 0);
 			Player3_Bid_New	: out std_logic_vector (1 downto 0);
 			Player4_Bid_New	: out std_logic_vector (1 downto 0);
+
+			Player1_win_type : out std_logic_vector (2 downto 0);
+			Player2_win_type : out std_logic_vector (2 downto 0);
+			Player3_win_type : out std_logic_vector (2 downto 0);
+			Player4_win_type : out std_logic_vector (2 downto 0);
 	
 			Player_Turn_New	: out std_logic_vector (2 downto 0);  	 -- outputs -> mem based on actions --
 			N_Players_New	: out std_logic_vector (2 downto 0);
 			Receiving_Hand	: out std_logic_vector (2 downto 0);  	 -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
-	
+			
 			enable		: out std_logic;
 			even_money	: out std_logic;
 			insurance	: out std_logic;
@@ -113,12 +118,11 @@ architecture behaviour of controller_tb is
 		);
 end component;
 
-	-- in --
 	signal clk	: std_logic;
 	signal reset	: std_logic;
 
-	signal Player_Turn	: std_logic_vector (2 downto 0);
-	signal N_Players	: std_logic_vector (2 downto 0);
+	signal Player_Turn	: std_logic_vector (2 downto 0):= "001";
+	signal N_Players	: std_logic_vector (2 downto 0):= "000";
 
 	signal button_select	: std_logic;
 	signal button_left	: std_logic;
@@ -139,10 +143,10 @@ end component;
 	signal Player3_Insured :  std_logic;
 	signal Player4_Insured :  std_logic;
 
-	signal Player1_Doubled_Down : in std_logic;
-	signal Player2_Doubled_Down : in std_logic;
-	signal Player3_Doubled_Down : in std_logic;
-	signal Player4_Doubled_Down : in std_logic;
+	signal Player1_Doubled_Down :  std_logic;
+	signal Player2_Doubled_Down :  std_logic;
+	signal Player3_Doubled_Down :  std_logic;
+	signal Player4_Doubled_Down :  std_logic;
 
 	signal Player1_Hand_Card_1	: std_logic_vector (3 downto 0);	-- Each card is a 4-bit vector --
 	signal Player1_Hand_Card_2	: std_logic_vector (3 downto 0);
@@ -191,35 +195,34 @@ end component;
 	-- out (test bench assigns to input because of missing components) --
 	signal new_card		: std_logic_vector (3 downto 0);	-- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 
-	signal Player1_Budget_New	: std_logic_vector (9 downto 0);	-- base budget is 100, score limit chosen as 1000 so 11 bits --
-	signal Player2_Budget_New	: std_logic_vector (9 downto 0);
-	signal Player3_Budget_New	: std_logic_vector (9 downto 0);  
-	signal Player4_Budget_New	: std_logic_vector (9 downto 0);
-
 	signal Player1_Bid_New	: std_logic_vector (1 downto 0);	-- 2,6,10,20 = 4 options so 2 bits --
 	signal Player2_Bid_New	: std_logic_vector (1 downto 0);
 	signal Player3_Bid_New	: std_logic_vector (1 downto 0);
 	signal Player4_Bid_New	: std_logic_vector (1 downto 0);
+
+	signal Player1_win_type : std_logic_vector (2 downto 0);
+	signal Player2_win_type : std_logic_vector (2 downto 0);
+	signal Player3_win_type : std_logic_vector (2 downto 0);
+	signal Player4_win_type : std_logic_vector (2 downto 0);
 
 	signal Player_Turn_New	: std_logic_vector (2 downto 0);  	 -- outputs -> mem based on actions --
 	signal N_Players_New	: std_logic_vector (2 downto 0);
 
 	signal global_reset	: std_logic;
 
-	-- out (only to inspect)
-	signal draw_screen		: std_logic_vector(2 downto 0);  
+	signal draw_screen_type	: std_logic_vector(1 downto 0);  
 	signal cursor_position	: std_logic_vector(2 downto 0);
 
 	signal request_card	: std_logic;
-
-	signal hold_option			: std_logic;     
-	signal hit_option			: std_logic;
-	signal double_option		: std_logic;
-	signal split_option			: std_logic;
-	signal insurance_option		: std_logic;
-	signal even_money_option	: std_logic;
+    
+	signal hit_option	 : std_logic;
+	signal double_option	 : std_logic;
+	signal split_option	 : std_logic;
+	signal insurance_option	 : std_logic;
+	signal even_money_option : std_logic;
 
 	signal enable		: std_logic;
+
 	signal even_money	: std_logic;
 	signal insurance	: std_logic;
 	signal split		: std_logic;
@@ -509,9 +512,6 @@ begin
 	-- unused
 	random_card <=	"0000" after 0 ns;
 
-	Player1_Budget_New <=	"0000000000" after 0 ns;
-	Player2_Budget_New <=	"0000000000" after 0 ns;
-	Player3_Budget_New <=	"0000000000" after 0 ns;
-	Player4_Budget_New <=	"0000000000" after 0 ns;
+end behaviour;
 
 end behaviour;
