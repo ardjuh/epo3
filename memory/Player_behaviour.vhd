@@ -21,8 +21,7 @@ begin
                 insurance_out  <= '0';
                 doubledown_out <= '0';
             elsif (enable = '1') then
-                money          <= std_logic_vector(unsigned(money_sig) + unsigned(profit));
-                money          <= std_logic_vector(unsigned(money_sig) - unsigned(stake));
+                money          <= std_logic_vector(unsigned(money_sig) + unsigned(profit) - unsigned(stake));
                 bid_out        <= bid_in;
                 insurance_out  <= insurance_in or insurance_out;
                 doubledown_out <= doubledown_in or doubledown_out;
