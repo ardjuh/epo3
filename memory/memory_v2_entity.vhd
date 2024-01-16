@@ -8,21 +8,26 @@ entity memory is
         enable    : in std_logic;
         player_in : in std_logic_vector(2 downto 0);
 
-        player_a_in    : in std_logic;
-        money1_in      : in std_logic_vector(9 downto 0);
-        bid1_in        : in std_logic_vector(1 downto 0);
+        insurance  : in std_logic;
+        doubledown : in std_logic;
+        win_type   : in std_logic_vector(2 downto 0); -- 0: niet gewonnen, 1: insurance, 2: double down, 3: blackjack, 4 : normal
+        split      : in std_logic;
 
-        player_b_in    : in std_logic;
-        money2_in      : in std_logic_vector(9 downto 0);
-        bid2_in        : in std_logic_vector(1 downto 0);
+        player_a_in : in std_logic;
+        money1_in   : in std_logic_vector(9 downto 0);
+        bid1_in     : in std_logic_vector(1 downto 0);
 
-        player_c_in    : in std_logic;
-        money3_in      : in std_logic_vector(9 downto 0);
-        bid3_in        : in std_logic_vector(1 downto 0);
+        player_b_in : in std_logic;
+        money2_in   : in std_logic_vector(9 downto 0);
+        bid2_in     : in std_logic_vector(1 downto 0);
 
-        player_d_in    : in std_logic;
-        money4_in      : in std_logic_vector(9 downto 0);
-        bid4_in        : in std_logic_vector(1 downto 0);
+        player_c_in : in std_logic;
+        money3_in   : in std_logic_vector(9 downto 0);
+        bid3_in     : in std_logic_vector(1 downto 0);
+
+        player_d_in : in std_logic;
+        money4_in   : in std_logic_vector(9 downto 0);
+        bid4_in     : in std_logic_vector(1 downto 0);
 
         player_out : out std_logic_vector(2 downto 0);
 
