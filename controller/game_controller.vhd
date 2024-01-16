@@ -65,6 +65,16 @@ entity game_controller is
 			Reserve_Hand_Card_4	: in std_logic_vector (3 downto 0);
 			Reserve_Hand_Card_5	: in std_logic_vector (3 downto 0);
 			Reserve_Hand_Score	: in std_logic_vector (4 downto 0);
+
+			Player1_Insured  :  in std_logic;            ---- bound to insuranceN_out from MEM ----
+			Player2_Insured  :  in std_logic;
+			Player3_Insured  :  in std_logic;
+			Player4_Insured  :  in std_logic;
+
+			Player1_Double_Down  :  in std_logic;            ---- bound to double_downN_out from MEM ----
+			Player1_Double_Down  :  in std_logic;
+			Player1_Double_Down  :  in std_logic;
+			Player1_Double_Down  :  in std_logic;
 	
 			random_card	: in  std_logic_vector (3 downto 0);	-- Comms with RNG --
 			request_card	: out std_logic;                         
@@ -73,11 +83,11 @@ entity game_controller is
 			draw_screen	: out std_logic_vector(2 downto 0);  
 			cursor_position	: out std_logic_vector(2 downto 0);
 	   
-			hit_option		: out std_logic;
-			double_option		: out std_logic;
-			split_option		: out std_logic;
-			insurance_option	: out std_logic;
-			even_money_option	: out std_logic;
+			hit_option	   : out std_logic;
+			double_option	   : out std_logic;
+			split_option   	   : out std_logic;
+			insurance_option   : out std_logic;
+			even_money_option  : out std_logic;
 	
 			Player1_Bid_New	: out std_logic_vector (1 downto 0);  		 -- 2,6,10,20 = 4 options so 2 bits --
 			Player2_Bid_New	: out std_logic_vector (1 downto 0);
@@ -88,11 +98,13 @@ entity game_controller is
 			N_Players_New	: out std_logic_vector (2 downto 0);
 			Receiving_Hand	: out std_logic_vector (2 downto 0);  	 -- pointer to which hand the new card is added to (3 bits for 1, 2, 3, 4, dealer, reserve--
 	
-			enable		: out std_logic;
-			even_money	: out std_logic;
-			insurance	: out std_logic;
-			split		: out std_logic;
-			double		: out std_logic;
+			enable	  : out std_logic;
+			win_type  : out std_logic_vector (2 downto 0);
+			
+			even_money  : out std_logic;
+			insurance   : out std_logic;
+			split	    : out std_logic;
+			double	    : out std_logic;
 	
 			round_end	: out std_logic;	     
 			global_reset	: out std_logic
@@ -184,6 +196,8 @@ begin
 		N_Players_New <= N_Players;
 
 		enable <= '0';
+		win_type <= "000";
+
 		even_money <= '0';
 		insurance <= '0';
 		split <= '0';
@@ -246,12 +260,12 @@ begin
 
 		case state is
 			when reset_state =>
+			
 				global_reset <= '1';
 				start_screen <= '1';
-				draw_screen_type <= "00";   ------------------------------------- adjust -------------------------------------
+				draw_screen_type <= "00";  
 				new_state <= player_action;
-				
-					
+						
 			when game_setup =>    
 					
 				if ( bids_placed = '0' ) and ( N_Players /= "000" ) then	 -- bidding screen condition--
@@ -352,6 +366,11 @@ begin
 							new_state <= player_action;
 		
 						elsif ( Player1_Hand_Card_2 /= "0000" ) and ( Player1_Hand_Card_3 = "0000" ) then
+							if ( unsigned(Dealer_Hand_Score) < 10 ) and ( unsigned(Player1_Hand_Score) = 21 ) then
+								win_type <= "011";
+								new_state <= player_action;
+							end if; 
+							
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player1_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
 							end if;
@@ -411,6 +430,11 @@ begin
 								new_state <= player_action;
 					
 						elsif ( Player2_Hand_Card_2 /= "0000" ) and ( Player2_Hand_Card_3 = "0000" ) then
+							if ( unsigned(Dealer_Hand_Score) < 10 ) and ( unsigned(Player2_Hand_Score) = 21 ) then
+								win_type <= "011";
+								new_state <= player_action;
+							end if; 
+								
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player2_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
 							end if;
@@ -469,6 +493,11 @@ begin
 								new_state <= player_action;
 					
 						elsif ( Player3_Hand_Card_2 /= "0000" ) and ( Player3_Hand_Card_3 = "0000" ) then
+							if ( unsigned(Dealer_Hand_Score) < 10 ) and ( unsigned(Player3_Hand_Score) = 21 ) then
+								win_type <= "011";
+								new_state <= player_action;
+							end if; 
+								
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player3_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
 							end if;
@@ -527,6 +556,11 @@ begin
 								new_state <= player_action;
 					
 						elsif ( Player4_Hand_Card_2 /= "0000" ) and ( Player4_Hand_Card_3 = "0000" ) then
+							if ( unsigned(Dealer_Hand_Score) < 10 ) and ( unsigned(Player4_Hand_Score) = 21 ) then
+								win_type <= "011";
+								new_state <= player_action;
+							end if; 
+								
 							if ( unsigned(Dealer_Hand_Score) > 9 ) and ( unsigned(Player4_Hand_Score) = 21 ) then
 								even_money_selectable <= '1';
 							end if;
