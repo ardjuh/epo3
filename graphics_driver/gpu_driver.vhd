@@ -942,13 +942,14 @@ architecture behavior of gpu_driver is
 
     function begin_menu(
         x     : integer range 0 to 639;
-        y     : integer range 0 to 99;
-	screentype	  : std_logic_vector (2 downto 0) :="000"
+        y     : integer range 0 to 479;
+	screentype	  : std_logic_vector (1 downto 0) :="00"
 	) return std_logic is
 	begin
-	if (y >= 22 and y <= 28 and screentype = "000") then
-            if (x < 285) then
-                return small_letter(x - 279, y - 22, 16); --P
+	if (y >= 22 and y <= 28 and screentype = "00") then
+		if (x > 278) then
+			if (x < 285) then
+				return small_letter(x - 279, y - 22, 16); --P
             elsif (x < 291) then
                 return small_letter(x - 285, y - 22, 12); --L
             elsif (x < 297) then
@@ -978,8 +979,11 @@ architecture behavior of gpu_driver is
 	    else
                 return '0';
 	    end if;
+		else return '0';
+		end if;
 
 	    elsif (y >= 72 and y <= 78) then
+		if ( x > 278) then
             if (x < 285) then
                 return small_letter(x - 279, y - 72, 19); --S
             elsif (x < 291) then
@@ -993,8 +997,42 @@ architecture behavior of gpu_driver is
 	    else 
 	   	return '0';
  	    end if;
-
-	   if (y >= 22 and y <= 28 and screentype = "101") then
+		else return '0';
+		end if;
+		if (screentype = "01") then
+			if (y >=0 and y <=36) then
+			if (x>443) then
+			if ( x < 450) then
+				return small_letter(x-444, y, 2); --b
+			elsif (x <456) then
+				return small_letter(x-451, y, 5);--e
+			elsif (x <462) then
+				return small_letter(x-457, y, 20);--t
+			elsif (x<450) then
+				return small_number(x-444, y-9, 2);--2
+			elsif (x<450) then
+				return small_number(x-444, y-18,6);--6
+			elsif(x<450) then
+				return small_number(x-444, y-27, 1);--1
+			elsif(x<456) then
+				return small_number(x-450, y-27, 0);--0
+			elsif(x<450) then
+				return small_number(x-444, y-36, 2);--2
+			elsif(x<456) then
+				return small_number(x-450, y-36, 0);--0
+			else
+				return '0';
+				end if;
+			else
+				return '0';
+				end if;
+			else
+				return '0';
+				end if;
+			else return '0';
+		end if;
+	   if (y >= 22 and y <= 28 and screentype = "11") then
+		if ( x > 278) then
             if (x < 285) then
                 return small_letter(x - 279, y - 22, 6); --F
             elsif (x < 291) then
@@ -1011,10 +1049,13 @@ architecture behavior of gpu_driver is
 		return small_letter(x-315, y-22,5);--E
 	    elsif (x< 327) then
 		return small_letter(x-321, y-22,4);--D
- 		else 
 	    return '0';
-	    end if;
+
+		else return '0';
+		end if;
+		if (screentype = "1") then
 		    if(y >= 72 and y <= 78) then
+				if ( x > 278) then
 			    elsif (x<285) then
 				    return small_letter(x-279, y-72, 16); -- P
 	 		    elsif (x<291) then
@@ -1037,6 +1078,13 @@ architecture behavior of gpu_driver is
 			   	return small_letter(x-333, y-72, 14);	--N
 		    	else return '0';	
 		   	end if;
+			else return '0';	
+		   	end if;
+		else return '0';
+		end if;
+		else return '0';
+		end if;
+
 	else return  '0';
 	end if;
 else return '0';
@@ -1044,30 +1092,9 @@ end if;
  end function;
 
 
-function bet(
-	x           : integer range 0 to 84;
-        y           : integer range 0 to 38;
-	screentype  : std_logic_vector(1 downto 0)
-) return std_logic is
-	begin 
-		if (x >= 444 and x< 470 and screentype = 01) then
-			if ( x < 451) then
-				return small_letter(x-444, y-425, 2); --b
-			elsif (x <457) then
-				return small_letter(x-451, y-425, 5);--e
-			elsif (x <463) then
-				return small_letter(x-457, y-425, 20);--t
-			elsif (x<451) then
-				return small_card_char(x-444, y-434, 2);--2
-			elsif (x<451) then
-				return small_card_char(x-444, y-443,6);--6
-			elsif(x<451) then
-				return small_card_char(x-444, y-452, 10);--10
-			elsif(x<560) then
-				return small_card_char(x-444, y-461, 20);--20
-			else
-				return '0'
-				end if;
+
+
+
     function details(
         x           : integer range 0 to 84;
         y           : integer range 0 to 38;
@@ -1158,7 +1185,7 @@ function bet(
                 end case;
             else
                 case bet is
-                    when "00" =>
+                    when "00" => 
                         if (x < 39) then
                             return small_number(x - 33, y - 21, 2);
                         else
@@ -1222,7 +1249,7 @@ function bet(
                     return small_letter(x - 75, y - 30, 15);
                 else
                     return '0';
-                end if;
+                end if;	  
             end if;
         else
             return '0';
@@ -1238,7 +1265,7 @@ begin
     green <= std_logic_vector(to_unsigned(g, 4));
     blue  <= std_logic_vector(to_unsigned(b, 4));
     -- The process that splits the screen in sections
-    process (x_pos, y_pos)
+    process (x_pos, y_pos, screentype, split1, split2, split3, split4,player)
     begin
         if (x_pos < 0 or x_pos > 639 or y_pos < 0 or y_pos > 479) then
 
@@ -1246,18 +1273,38 @@ begin
 		g <= 0;
 		b <= 0;
 
-    	elsif (x_pos >= 279 and y_pos <= 99) then 
-		if (begin_menu(x_pos, y_pos,"000")='1') then
-			r <= 0;
-			g <= 0;
-			b <= 0;
-		else
-                	r <= 15;
-                	g <= 15;
-                	b <= 15;
+	elsif (screentype = "00") then
+		        r <= 0;
+                			g <= 0;
+                			b <= 0;
+
+    		if (x_pos >= 0 and y_pos >= 190 and y_pos <= 290) then 
+			if (begin_menu(x_pos, y_pos - 190,"00")='1') then --start
+				r <= 15;
+				g <= 15;
+				b <= 15;
+			else
+                				r <= 0;
+                				g <= 0;
+                				b <= 0;
+			end if;
 		end if;
-	
-	   
+	elsif (screentype = "01") then
+		r <= 2;
+		g <= 11;
+		b <= 2;
+	   if (x_pos >= 444 and x_pos < 452 and y_pos < 470 and y_pos >= 432) then -- bet
+            if (begin_menu(x_pos, y_pos - 432, "01") = '1') then
+                r <= 15;
+                g <= 15;
+                b <= 15;
+	    else
+		r <=4;
+		g <=4;
+		b <=4;
+ 	end if;
+	end if;
+
         elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 10 and x_pos <= 109) then -- Player hand
             if (cards(x_pos - 10, y_pos - 362, 13, 3, 6, 2, 5) = '1') then
                 r <= 0;
@@ -1305,6 +1352,8 @@ begin
                 g <= 4;
                 b <= 4;
             end if;
+
+ 
         elsif (x_pos < 630 and x_pos >= 544 and y_pos < 470 and y_pos >= 429) then -- Details
             if (x_pos = 544 or x_pos = 629 or y_pos = 429 or y_pos = 469) then
                 r <= 0;
@@ -1342,5 +1391,6 @@ begin
             g <= 11;
             b <= 2;
         end if;
+
     end process;
 end architecture;
