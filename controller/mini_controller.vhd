@@ -2,7 +2,7 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
-entity mini_con is
+entity mini_cont is
     port (
         clk           : in std_logic;
         reset         : in std_logic;
@@ -13,11 +13,11 @@ entity mini_con is
         switch_left   : out std_logic;
         switch_right  : out std_logic;
         switch_select : out std_logic);
-end mini_con;
+end mini_cont;
 
-architecture behaviour of mini_con is
+architecture behaviour of mini_cont is
 
-    type mini_con_state is (
+    type mini_cont_state is (
         sela,
         selb,
         --	upa,
@@ -32,7 +32,7 @@ architecture behaviour of mini_con is
         player_action
     );
 
-    signal state, new_state : mini_con_state;
+    signal state, new_state : mini_cont_state;
 begin
     process (clk)
     begin
