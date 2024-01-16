@@ -374,10 +374,9 @@ begin
 	Player1_Hand_Card_3 <=	"0000" after 0 ns;
 	Player1_Hand_Card_4 <=	"0000" after 0 ns;
 	Player1_Hand_Card_5 <=	"0000" after 0 ns;
-	Player1_Budget <=	"00000000000" after 0 ns;
-	Player1_Hand_Score <= 
-		-- bid selection: round 1 player 1 --
-		"001010" after 0 ns;
+	Player1_Budget <=	"00000001010" after 0 ns;
+	Player1_Hand_Score <=	-- round 1 player 1 --
+							"000000" after 0 ns;
 	Player1_Bid <=	"00" after 0 ns,
 					Player1_Bid_New after 230 ns;
 
@@ -386,8 +385,8 @@ begin
 	Player2_Hand_Card_3 <=	"0000" after 0 ns;
 	Player2_Hand_Card_4 <=	"0000" after 0 ns;
 	Player2_Hand_Card_5 <=	"0000" after 0 ns;
-	Player2_Budget <=	"00000000000" after 0 ns;
-	Player2_Hand_Score <= "000000" after 0 ns;
+	Player2_Budget <=	"00000010100" after 0 ns;
+	Player2_Hand_Score <= "00000" after 0 ns;
 	Player2_Bid <=	"00" after 0 ns,
 					Player2_Bid_New after 230 ns;
 
