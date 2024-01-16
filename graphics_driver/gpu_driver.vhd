@@ -1313,9 +1313,30 @@ begin
     elsif (screentype = "01") then
         if (x_pos >= 440 and x_pos < 467 and y_pos < 479 and y_pos >= 430) then -- bet
             if (begin_menu(x_pos, y_pos - 432, "01") = '1') then
+		    if(x_pos >= 440 and x_pos <451) then
+			    if(cursor = "001" and y_pos>=9 and y_pos<=16) then
+				    r <= 8;
+			    	    g <= 0;
+		    		    b <= 8;
+			    elsif(cursor= "010" and y_pos>=18 and y_pos<= 24) then
+				    r <= 8;
+			    	    g <= 0;
+		    		    b <= 8;
+			    elsif(cursor = "011" and y_pos >=27 and y_pos<=33) then
+				    r <= 8;
+			    	    g <= 0;
+		    		    b <= 8;
+		    	    elsif(cursor = "100" and y_pos >= 36 and y_pos<= 43 )then 
+				    r <= 8;
+			    	    g <= 0;
+		    		    b <= 8;
+			     else
+
+
                 r <= 15;
                 g <= 15;
                 b <= 15;
+		end if;
             else
                 r <= 4;
                 g <= 4;
