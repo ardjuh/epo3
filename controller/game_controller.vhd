@@ -195,6 +195,12 @@ begin
 		N_Players_New <= N_Players;
 
 		enable <= '0';
+		bid_enable <= '0';
+		Player1_Broke <= '0';
+		Player2_Broke <= '0';
+		Player3_Broke <= '0';
+		Player4_Broke <= '0';
+
 		even_money <= '0';
 		insurance <= '0';
 		split <= '0';
