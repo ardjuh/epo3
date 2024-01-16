@@ -196,7 +196,9 @@ begin
 		split <= '0';
 		double <= '0';
 
+		current_screen_position <= "001";                        ------ remember in reset process -----------
 		cursor_position <= std_logic_vector(current_screen_position);
+
 		draw_screen_type <= "00";
 		hit_option 	  <= hit_selectable; 	 
 		double_option  	  <= double_selectable; 	
@@ -661,8 +663,9 @@ begin
 								if ( Player1_Doubled_Down = '1' ) then
 									Player1_win_type <= "010";
 									new_state <= game_setup;
-								else
-									Player1_win_type <= "100";
+							
+								elsif ( split_player /= "
+									
 									new_state <= game_setup;
 								end if;
 							end if;
