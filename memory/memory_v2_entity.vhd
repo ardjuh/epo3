@@ -11,7 +11,8 @@ entity memory is
         insurance  : in std_logic;
         doubledown : in std_logic;
         split      : in std_logic;
-        
+        end_round  : in std_logic;
+
         player_a_in : in std_logic;
         win_type1   : in std_logic_vector(2 downto 0); -- 0: niet gewonnen, 1: insurance, 2: double down, 3: blackjack, 4 : normal
         money1_in   : in std_logic_vector(9 downto 0);
