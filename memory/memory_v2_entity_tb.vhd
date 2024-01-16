@@ -1,8 +1,8 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 
-architecture memory_tb_arc of memory_tb is
-    component memory is
+architecture memory_tb_arc of memory_v2_tb is
+    component memory_v2 is
         port (
             clk       : in std_logic;
             rst       : in std_logic;
@@ -207,7 +207,7 @@ architecture memory_tb_arc of memory_tb is
     signal score6_out  : std_logic_vector(4 downto 0);
 begin
 
-    test : memory port map(
+    test : memory_v2 port map(
         clk,
         rst,
         enable,
