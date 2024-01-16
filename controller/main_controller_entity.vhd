@@ -93,6 +93,11 @@ entity game_cont is
 			Player2_Bid_New	: out std_logic_vector (1 downto 0);
 			Player3_Bid_New	: out std_logic_vector (1 downto 0);
 			Player4_Bid_New	: out std_logic_vector (1 downto 0);
+
+			Player1_win_type : out std_logic_vector (2 downto 0);
+			Player2_win_type : out std_logic_vector (2 downto 0);
+			Player3_win_type : out std_logic_vector (2 downto 0);
+			Player4_win_type : out std_logic_vector (2 downto 0);
 	
 			Player_Turn_New	: out std_logic_vector (2 downto 0);  	 -- outputs -> mem based on actions --
 			N_Players_New	: out std_logic_vector (2 downto 0);
@@ -147,42 +152,42 @@ component controller
 				Player1_Hand_Card_3	: in std_logic_vector (3 downto 0);
 				Player1_Hand_Card_4	: in std_logic_vector (3 downto 0);
 				Player1_Hand_Card_5	: in std_logic_vector (3 downto 0);
-				Player1_Hand_Score		: in std_logic_vector (4 downto 0);     -- Player can have 20 and draw a 10, so 30 points total possible --
+				Player1_Hand_Score	: in std_logic_vector (4 downto 0);     -- Player can have 20 and draw a 10, so 30 points total possible --
 	
 				Player2_Hand_Card_1	: in std_logic_vector (3 downto 0);
 				Player2_Hand_Card_2	: in std_logic_vector (3 downto 0);
 				Player2_Hand_Card_3	: in std_logic_vector (3 downto 0);
 				Player2_Hand_Card_4	: in std_logic_vector (3 downto 0);   
 				Player2_Hand_Card_5	: in std_logic_vector (3 downto 0);
-				Player2_Hand_Score		: in std_logic_vector (4 downto 0);
+				Player2_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 				Player3_Hand_Card_1	: in std_logic_vector (3 downto 0);
 				Player3_Hand_Card_2	: in std_logic_vector (3 downto 0);
 				Player3_Hand_Card_3	: in std_logic_vector (3 downto 0);   
 				Player3_Hand_Card_4	: in std_logic_vector (3 downto 0);
 				Player3_Hand_Card_5	: in std_logic_vector (3 downto 0);
-				Player3_Hand_Score		: in std_logic_vector (4 downto 0);
+				Player3_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 				Player4_Hand_Card_1	: in std_logic_vector (3 downto 0);
 				Player4_Hand_Card_2	: in std_logic_vector (3 downto 0);
 				Player4_Hand_Card_3	: in std_logic_vector (3 downto 0);
 				Player4_Hand_Card_4	: in std_logic_vector (3 downto 0);
 				Player4_Hand_Card_5	: in std_logic_vector (3 downto 0);
-				Player4_Hand_Score		: in std_logic_vector (4 downto 0);
+				Player4_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 				Dealer_Hand_Card_1	: in std_logic_vector (3 downto 0);
 				Dealer_Hand_Card_2	: in std_logic_vector (3 downto 0);
 				Dealer_Hand_Card_3	: in std_logic_vector (3 downto 0);
 				Dealer_Hand_Card_4	: in std_logic_vector (3 downto 0);
 				Dealer_Hand_Card_5	: in std_logic_vector (3 downto 0);
-				Dealer_Hand_Score		: in std_logic_vector (4 downto 0);
+				Dealer_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 				Reserve_Hand_Card_1	: in std_logic_vector (3 downto 0);	-- Reserve hand for Split. Only one player can split (low chance of multiple splits) --
 				Reserve_Hand_Card_2	: in std_logic_vector (3 downto 0);
 				Reserve_Hand_Card_3	: in std_logic_vector (3 downto 0);
 				Reserve_Hand_Card_4	: in std_logic_vector (3 downto 0);
 				Reserve_Hand_Card_5	: in std_logic_vector (3 downto 0);
-				Reserve_Hand_Score		: in std_logic_vector (4 downto 0);
+				Reserve_Hand_Score	: in std_logic_vector (4 downto 0);
 	
 				random_card	: in  std_logic_vector (3 downto 0);	-- Comms with RNG --
 				request_card	: out std_logic;                         
@@ -203,6 +208,11 @@ component controller
 				Player2_Bid_New	: out std_logic_vector (1 downto 0);
 				Player3_Bid_New	: out std_logic_vector (1 downto 0);
 				Player4_Bid_New	: out std_logic_vector (1 downto 0);
+
+				Player1_win_type : out std_logic_vector (2 downto 0);
+				Player2_win_type : out std_logic_vector (2 downto 0);
+				Player3_win_type : out std_logic_vector (2 downto 0);
+				Player4_win_type : out std_logic_vector (2 downto 0);
 	
 				Player_Turn_New	: out std_logic_vector (2 downto 0);  	 -- outputs -> mem based on actions --
 				N_Players_New		: out std_logic_vector (2 downto 0);
@@ -232,7 +242,10 @@ component controller
 			);
 	end component;
 
+	signal sig_select, sig_left, sig_right, reset_global : std_logic;
+
 	begin
+
 	
 	lbl1: controller port map ( 		clk => clk,
 						reset => reset,
@@ -309,8 +322,8 @@ component controller
 						request_card => request_card,                        
 						new_card => new_card,	-- Mem Controller determines where the new card goes from Receiving Hand and Hand Cards --
 
-						cursor_position	=> cursor_position
-						draw_screen_type => draw_screen_type
+						cursor_position	=> cursor_position,
+						draw_screen_type => draw_screen_type,
 		      
 						hit_option => hit_option,
 						double_option => double_option,
@@ -322,6 +335,11 @@ component controller
 						Player2_Bid_New	=> Player2_Bid_New,
 						Player3_Bid_New	=> Player3_Bid_New,
 						Player4_Bid_New	=> Player4_Bid_New,
+
+						Player1_win_type => Player1_win_type,
+						Player2_win_type => Player2_win_type,
+						Player3_win_type => Player3_win_type,
+						Player4_win_type => Player4_win_type,
 	
 						Player_Turn_New => Player_Turn_New,
 						N_Players_New	=> N_Players_New,
@@ -334,11 +352,11 @@ component controller
 						double	=> double,
 		
 						round_end => round_end,	     
-						global_reset => global_reset
+						global_reset => reset_global
 						);
 						
-	lbl2: mini_controller port map ( clk => clk,
-					 reset => global_reset,
+	lbl2: mini_cont port map ( 	 clk => clk,
+					 reset => reset_global,
 					 button_left => button_left,
         				 button_right => button_right,
         				 button_select => button_select,
