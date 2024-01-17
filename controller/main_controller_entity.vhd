@@ -122,6 +122,8 @@ end game_cont;
 
 
 
+
+
 architecture behaviour of game_cont is
 
 component controller
@@ -384,3 +386,4 @@ component controller
         				 switch_select => sig_select
 					);
 end behaviour;
+
