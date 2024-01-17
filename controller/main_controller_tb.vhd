@@ -254,7 +254,7 @@ architecture behaviour of game_cont_tb is
 	--  button_select on choose_action number of players
 	-- 8030	< t < 8430	: button_select on : no change on screen : switch_select on 
 	-- 8430	< t < 8830	: button_select off : select single player game : new_state=game_resolution -> sets N_Players_New=2 , enable=1 , new_state=game_setup -> move to play_action bid screen
-
+	-- 8100 < t < X N_players = 2
 	--   bid selection 
 	--    player 1 bids 20, higher than allowed by their test budget of 10
 	-- button_left on choose_action player bid selection player 1
@@ -385,12 +385,13 @@ architecture behaviour of game_cont_tb is
 
 	-- emulate memory --
 	Player_Turn <=
-		"000" after 0 ns,
-		Player_Turn_New after 230 ns;
+		"000" after 0 ns;
+		
 
 	N_Players <=
 		"000" after 0 ns,
-		N_Players_New after 230 ns;
+		"010" after 8100 ns;
+		
 
 	Player1_Hand_Card_1 <=		"0000" after 0 ns,
 				"1010" after 13630 ns;
@@ -494,7 +495,12 @@ architecture behaviour of game_cont_tb is
 	-- unused
 	random_card <=	"0000" after 0 ns;
 
+
+
 end behaviour;
    
+
+
+
 
 
