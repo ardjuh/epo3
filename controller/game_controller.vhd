@@ -120,6 +120,8 @@ entity controller is
 		);
 end controller;
 
+
+
 architecture behaviour of controller is
 	type controller_state is ( reset_state,
 				   game_setup,
@@ -154,9 +156,12 @@ begin
 			if (reset = '1') then 
 				state <= reset_state;
 				current_screen_position <= "001";
+				Player_Turn_In <= "001";
+			
 			else 
 				state <= new_state;
 				current_screen_position <= new_current_screen_position;
+				
 			end if;
 		end if;
 	end process;
@@ -206,7 +211,7 @@ begin
 		split <= '0';
 		double <= '0';
 
-		new_current_screen_position <= "001";
+		new_current_screen_position <= current_screen_position;
 		cursor_position <= std_logic_vector(current_screen_position); 
 
 		draw_screen_type <= "00";
@@ -271,6 +276,8 @@ begin
 
 		case state is
 			when reset_state =>
+				bids_placed <= '0';
+
 				global_reset <= '1';
 				start_screen <= '1';
 				draw_screen_type <= "00";   ------------------------------------- adjust -------------------------------------
@@ -279,11 +286,15 @@ begin
 					
 			when game_setup =>    
 					
+				if ( start_screen = '0' ) and ( score_screen = '0' ) and ( bids_placed = '1' ) then
+					draw_screen_type <= "10";    ----- 10 tells graphics cursor to track the action menu -----
+					choose_action <= '1';
+				end if;
+
+
 				if ( bids_placed = '0' ) and ( N_Players /= "000" ) then	 -- bidding screen condition--
 					draw_screen_type <= "01";    ----- 10 tells graphics cursor to track the bidding menu -----
-					new_state <= player_action;
-				elsif ( choose_action = '1' ) then
-					draw_screen_type <= "10";    ----- 10 tells graphics cursor to track the action menu -----
+					choose_action <= '1';
 					new_state <= player_action;
 
 				-- Check whether starting cards have been dealt -- 
@@ -1260,4 +1271,6 @@ begin
             end case;
       end process;
 end architecture;
+
+
 
