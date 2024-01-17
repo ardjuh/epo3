@@ -120,6 +120,7 @@ entity controller is
 		);
 end controller;
 
+
 architecture behaviour of controller is
 	type controller_state is ( reset_state,
 				   game_setup,
