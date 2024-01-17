@@ -4,41 +4,51 @@ use IEEE.numeric_std.all;
 
 architecture behaviour of player is
     signal money_sig : std_logic_vector(9 downto 0);
+	 signal money_i : std_logic_vector(9 downto 0);
+	 signal insurance_i, doubledown_i, split_i, player_i : std_logic;
+	 signal bid_i : std_logic_vector(1 downto 0);
 begin
-    money_sig <= money;
+    money_sig <= money_i;
 
-    process (clk, rst, mem_rst, bid_enable, enable, bid_in, bid, profit, player_in, insurance_in, doubledown_in, split_in)
+    process (clk)
     begin
         if (rising_edge(clk)) then
-            bid_out        <= bid_out;
-            money          <= money;
-            insurance_out  <= insurance_out;
-            doubledown_out <= doubledown_out;
-            player_out     <= player_out;
-            split_out      <= split_out;
+            bid_i        <= bid_i;
+            money_i          <= money_i;
+            insurance_i  <= insurance_i;
+            doubledown_i <= doubledown_i;
+            player_i     <= player_i;
+            split_i      <= split_i;
             if (rst = '1') then
-                bid_out        <= "00";
-                money          <= "0001100100";
-                insurance_out  <= '0';
-                doubledown_out <= '0';
-                player_out     <= '1';
-                split_out      <= '0';
+                bid_i        <= "00";
+                money_i          <= "0001100100";
+                insurance_i  <= '0';
+                doubledown_i <= '0';
+                player_i     <= '1';
+                split_i      <= '0';
             elsif (mem_rst = '1') then
-                bid_out        <= "00";
-                insurance_out  <= '0';
-                doubledown_out <= '0';
-                player_out     <= '1';
-                split_out      <= '0';
+                bid_i        <= "00";
+                insurance_i  <= '0';
+                doubledown_i <= '0';
+                player_i     <= '1';
+                split_i      <= '0';
             elsif (bid_enable = '1') then
-                bid_out <= bid_in;
-                money   <= std_logic_vector(unsigned(money_sig) - unsigned(bid));
+                bid_i <= bid_in;
+                money_i   <= std_logic_vector(unsigned(money_sig) - unsigned(bid));
             elsif (enable = '1') then
-                money          <= std_logic_vector(unsigned(money_sig) + unsigned(profit));
-                player_out     <= player_in and player_out;
-                insurance_out  <= insurance_in or insurance_out;
-                doubledown_out <= doubledown_in or doubledown_out;
-                split_out      <= split_in or split_out;
+                money_i          <= std_logic_vector(unsigned(money_sig) + unsigned(profit));
+                player_i     <= player_in and player_i;
+                insurance_i  <= insurance_in or insurance_i;
+                doubledown_i <= doubledown_in or doubledown_i;
+                split_i      <= split_in or split_i;
             end if;
         end if;
     end process;
+	 
+            bid_out        <= bid_i;
+            money          <= money_i;
+            insurance_out  <= insurance_i;
+            doubledown_out <= doubledown_i;
+            player_out     <= player_i;
+            split_out      <= split_i;
 end behaviour;
