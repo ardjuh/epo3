@@ -265,7 +265,7 @@ begin
 			elsif ( Player4_Bid = "11" ) then
 				Player4_Bid_Value <= "10100";
 			else
-				Player3_Bid_Value <= "00000";
+				Player4_Bid_Value <= "00000";
 			end if;
 		end if;
 
