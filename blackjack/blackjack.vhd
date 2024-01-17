@@ -325,7 +325,7 @@ begin
 				insurance => insurance_signal, -- from controller
 				doubledown => double_signal, -- from controller
 				split => split_signal, -- from controller
-				player_a_in => broke1, player_b_in=> broke2, player_c_in => broke3, player_d_in => broke4, -- klopt dit wel?
+				-- player_a_in => broke1, player_b_in=> broke2, player_c_in => broke3, player_d_in => broke4, -- klopt dit wel?--
 				money1_in => money1_singal_new, money2_in => money2_signal_new, money3_in => money3_signal_new, money4_in => money4_signal_new,  -- from controller to mem
 				bid1_in => bid1_signal_new, bid2_in => bid2_signal_new, bid3_in => bid3_signal_new, bid4_in => bid4_signal_new, -- from controller to mem
 				win_type1_in => player1_win_signal, win_type2_in => player2_win_signal, win_type3_in => player3_win_signal, win_type4_in => player4_win_signal, -- from controller to mem 0: niet gewonnen, 1: insurance, 2: double down, 3: blackjack, 4 : normal
@@ -401,19 +401,18 @@ begin
 	p4: gpu_driver port map(h_pos => x_pos_signal, v_pos => y_pos_sinal,
 				red => red_signal, green => green_signal, blue => blue_signal,
 				screentype => draw_screen_signal, cursor_position => cursor_position_signal);
-				hit => hit_option_signal, double => double_option_signal, split => split_option_signal, insurance => insurance_option_signal, em => even_money_option_signal,
+				-- player?
+				hit => hit_option_signal, double => double_option_signal, split => split_option_signal, insurance => insurance_option_signal, em => even_money_option_signal, -- from controller, if certain actions should be selectable.
 				card1_1 => card1_1_signal, card1_2 => card1_2_signal, card1_3 => card1_3_signal, card1_4 => card1_4_signal, card1_5 => card1_5_signal,
 			    	card2_1 => card2_1_signal, card2_2 => card2_2_signal, card2_3 => card2_3_signal, card2_4 => card2_4_signal, card2_5 => card2_5_signal,
 			    	card3_1 => card3_1_signal, card3_2 => card3_2_signal, card3_3 => card3_3_signal, card3_4 => card3_4_signal, card3_5 => card3_5_signal,
 			    	card4_1 => card4_1_signal, card4_2 => card4_2_signal, card4_3 => card4_3_signal, card4_4 => card4_4_signal, card4_5 => card4_5_signal,
 				card5_1 => card5_1_signal, card5_2 => card5_2_signal, card5_3 => card5_3_signal, card5_4 => card5_4_signal, card5_5 => card5_5_signal,
-				player_a => player_a_signal, player_b => player_b_signal, player_c => player_c_signal, player_d => player_d_signal,
-				money1 => money1_singal, money2 => money2_signal, money3 => money3_signal, money4 => money4_signal,
+				money1 => money1_singal, money2 => money2_signal, money3 => money3_signal, money4 => money4_signal, -- from 
 				bet1 => bid1_signal, bet2 => bid2_signal, bet3 => bid3_signal, bet4 => bid4_signal,
 				split1 => split1_signal, split2 => split2_signal, split3 => split3_signal, split4 => split4_signal,
 				insurance1 => insurance1_signal, insurance2 => insurance2_signal, insurance3 => insurance3_signal, insurance4 => insurance4_signal,
 				doubledown1 => double1, doubledown2 => double2, doubledown3 => double3, doubledown4 => double4,
-				player => player_signal,
 				
 				
 
