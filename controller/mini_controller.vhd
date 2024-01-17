@@ -15,6 +15,7 @@ entity mini_cont is
         switch_select : out std_logic);
 end mini_cont;
 
+
 architecture behaviour of mini_cont is
 
     type mini_cont_state is (
