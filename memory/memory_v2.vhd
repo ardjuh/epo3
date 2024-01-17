@@ -65,9 +65,9 @@ begin
 
     flipflup : input_ff port map(clk => clk, D => enable, Q => enable_i);
 
-    process (player_in, bid1_in, bid2_in, bid3_in, bid4_in, win_type1_in, win_type2_in, win_type3_in, win_type4_in, enable)
+    process (recieving_hand, bid1_in, bid2_in, bid3_in, bid4_in, win_type1_in, win_type2_in, win_type3_in, win_type4_in, enable)
     begin
-        case player_in is
+        case recieving_hand is
             when "001" =>
                 h1            <= enable;
                 h2            <= '0';
