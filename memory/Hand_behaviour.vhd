@@ -7,6 +7,11 @@ begin
     process (clk, rst, enable, card)
     begin
         if (rising_edge(clk)) then
+            card1 <= card1;
+            card2 <= card2;
+            card3 <= card3;
+            card4 <= card4;
+            card5 <= card5;
             if (rst = '1') then
                 card1 <= "0000";
                 card2 <= "0000";
@@ -24,8 +29,6 @@ begin
                     card4 <= card;
                 elsif (card5 = "0000") then
                     card5 <= card;
-                else
-                    null;
                 end if;
             end if;
         end if;

@@ -212,13 +212,15 @@ begin
         end if;
     end process;
 
-    process (clk, rst, enable, player_in)
+    process (clk)
     begin
         if (rising_edge(clk)) then
             if (rst = '1') then
                 player_out <= "000";
             elsif (enable = '1') then
                 player_out <= player_in;
+            else
+                player_out <= player_out;
             end if;
         end if;
     end process;

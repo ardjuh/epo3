@@ -10,6 +10,12 @@ begin
     process (clk, rst, mem_rst, bid_enable, enable, bid_in, bid, profit, player_in, insurance_in, doubledown_in, split_in)
     begin
         if (rising_edge(clk)) then
+            bid_out        <= bid_out;
+            money          <= money;
+            insurance_out  <= insurance_out;
+            doubledown_out <= doubledown_out;
+            player_out     <= player_out;
+            split_out      <= split_out;
             if (rst = '1') then
                 bid_out        <= "00";
                 money          <= "0001100100";
