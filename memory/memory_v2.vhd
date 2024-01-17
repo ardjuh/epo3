@@ -2,11 +2,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 architecture behavior of memory_v2 is
-    component input_ff is
-        port (
-            clk : in std_logic;
-            D   : in std_logic;
-            Q   : out std_logic);
+    component input_ff port (
+        clk : in std_logic;
+        D   : in std_logic;
+        Q   : out std_logic);
     end component;
 
     component hand port (
