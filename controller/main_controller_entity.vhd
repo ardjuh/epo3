@@ -120,6 +120,8 @@ entity game_cont is
 		);
 end game_cont;
 
+
+
 architecture behaviour of game_cont is
 
 component controller
