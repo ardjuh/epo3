@@ -151,10 +151,10 @@ begin
 	process (clk)
 	begin
 		if (rising_edge (clk)) then
-			if (reset = '1') then
+			if (reset = '1') then 
 				state <= reset_state;
 				current_screen_position <= "001";
-			else
+			else 
 				state <= new_state;
 				current_screen_position <= new_current_screen_position;
 			end if;
@@ -273,7 +273,7 @@ begin
 			when reset_state =>
 				global_reset <= '1';
 				start_screen <= '1';
-				draw_screen_type <= "00";
+				draw_screen_type <= "00";   ------------------------------------- adjust -------------------------------------
 				new_state <= player_action;
 				
 					
@@ -1072,7 +1072,7 @@ begin
 					elsif ( switch_select = '1' ) then
 						if ( current_screen_position = "001" ) then
 							round_end <= '1';                            ---- round end executes a pseudo-reset on memory, RCM checks deck ----
-							new_state <= game_resolution;
+							new_state <= game_setup;
 
 						elsif ( current_screen_position = "010" ) then
 							global_reset <= '1';                                ---- reset send to all modules ----
@@ -1260,3 +1260,4 @@ begin
             end case;
       end process;
 end architecture;
+
