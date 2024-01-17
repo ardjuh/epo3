@@ -273,7 +273,7 @@ begin
 			when reset_state =>
 				global_reset <= '1';
 				start_screen <= '1';
-				draw_screen_type <= "00";   ------------------------------------- adjust -------------------------------------
+				draw_screen_type <= "00";
 				new_state <= player_action;
 				
 					
