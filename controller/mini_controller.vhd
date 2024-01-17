@@ -16,6 +16,7 @@ entity mini_cont is
 end mini_cont;
 
 
+
 architecture behaviour of mini_cont is
 
     type mini_cont_state is (
