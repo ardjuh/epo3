@@ -226,7 +226,7 @@ begin
     begin
         if (rising_edge(clk)) then
             if (rst = '1') then
-                player_temp <= "000";
+                player_temp <= "001";
             elsif (enable_i = '1') then
                 player_temp <= player_in;
             else
