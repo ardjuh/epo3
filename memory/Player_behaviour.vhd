@@ -7,9 +7,8 @@ architecture behaviour of player is
 begin
     money_sig <= money;
 
-    process (clk)
+    process (clk, rst, mem_rst, bid_enable, enable, bid_in, bid, profit, player_in, insurance_in, doubledown_in, split_in)
     begin
-
         if (rising_edge(clk)) then
             if (rst = '1') then
                 bid_out        <= "00";

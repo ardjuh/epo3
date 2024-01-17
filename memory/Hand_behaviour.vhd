@@ -4,7 +4,7 @@ use IEEE.numeric_std.all;
 
 architecture behaviour of hand is
 begin
-    process (clk)
+    process (clk, rst, enable, card)
     begin
         if (rising_edge(clk)) then
             if (rst = '1') then

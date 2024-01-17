@@ -212,7 +212,7 @@ begin
         end if;
     end process;
 
-    process (clk, rst)
+    process (clk, rst, enable, player_in)
     begin
         if (rising_edge(clk)) then
             if (rst = '1') then
