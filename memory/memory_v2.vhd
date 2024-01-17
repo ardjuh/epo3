@@ -56,7 +56,7 @@ begin
     p3_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h3, bid_enable => bid_enable, player_in => player_c_in, split_in => split, profit => profit, bid => bid, bid_in => bid3_in, insurance_in => insurance, doubledown_in => doubledown, player_out => player_c_out, bid_out => bid3_out, money => money3_out, insurance_out => insurance3_out, doubledown_out => doubledown3_out, split_out => split3_out);
     p4_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h4, bid_enable => bid_enable, player_in => player_d_in, split_in => split, profit => profit, bid => bid, bid_in => bid4_in, insurance_in => insurance, doubledown_in => doubledown, player_out => player_d_out, bid_out => bid4_out, money => money4_out, insurance_out => insurance4_out, doubledown_out => doubledown4_out, split_out => split4_out);
 
-    process (player_in, bid1_in, bid2_in, bid3_in, bid4_in, win_type1_in, win_type2_in, win_type3_in, win_type4_in)
+    process (player_in, bid1_in, bid2_in, bid3_in, bid4_in, win_type1_in, win_type2_in, win_type3_in, win_type4_in, enable)
     begin
         case player_in is
             when "001" =>
@@ -228,3 +228,4 @@ begin
 	 
 	 player_out <= player_temp;
 end behavior;
+
