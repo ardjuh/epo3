@@ -120,7 +120,6 @@ entity controller is
 		);
 end controller;
 
-
 architecture behaviour of controller is
 	type controller_state is ( reset_state,
 				   game_setup,
@@ -1057,7 +1056,7 @@ begin
 							new_current_screen_position <= "010"; 
 							new_state <= player_action;   
 						else
-							current_screen_position <= current_screen_position - 1;
+							new_current_screen_position <= current_screen_position - 1;
 							new_state <= player_action;
 						end if;
 		
