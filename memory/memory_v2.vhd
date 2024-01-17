@@ -2,6 +2,13 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 architecture behavior of memory_v2 is
+
+component input_ff is
+   port(clk : in  std_logic;
+        D   : in  std_logic;
+        Q   : out std_logic);
+end component;
+
     component hand port (
         clk    : in std_logic;
         rst    : in std_logic;
@@ -43,6 +50,9 @@ architecture behavior of memory_v2 is
     signal bid_temp               : std_logic_vector(1 downto 0) := "00";
     signal win_type_temp          : std_logic_vector(2 downto 0) := "000";
 	 signal player_temp				 : std_logic_vector(2 downto 0) := "000";
+signal enable_i : std_logic := '0';
+
+
 begin
     h1_l : hand port map(clk => clk, rst => rst or end_round, enable => h1, card => card_in, card1 => card1_1_out, card2 => card1_2_out, card3 => card1_3_out, card4 => card1_4_out, card5 => card1_5_out, score => score1_out);
     h2_l : hand port map(clk => clk, rst => rst or end_round, enable => h2, card => card_in, card1 => card2_1_out, card2 => card2_2_out, card3 => card2_3_out, card4 => card2_4_out, card5 => card2_5_out, score => score2_out);
@@ -55,6 +65,8 @@ begin
     p2_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h2, bid_enable => bid_enable, player_in => player_b_in, split_in => split, profit => profit, bid => bid, bid_in => bid2_in, insurance_in => insurance, doubledown_in => doubledown, player_out => player_b_out, bid_out => bid2_out, money => money2_out, insurance_out => insurance2_out, doubledown_out => doubledown2_out, split_out => split2_out);
     p3_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h3, bid_enable => bid_enable, player_in => player_c_in, split_in => split, profit => profit, bid => bid, bid_in => bid3_in, insurance_in => insurance, doubledown_in => doubledown, player_out => player_c_out, bid_out => bid3_out, money => money3_out, insurance_out => insurance3_out, doubledown_out => doubledown3_out, split_out => split3_out);
     p4_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h4, bid_enable => bid_enable, player_in => player_d_in, split_in => split, profit => profit, bid => bid, bid_in => bid4_in, insurance_in => insurance, doubledown_in => doubledown, player_out => player_d_out, bid_out => bid4_out, money => money4_out, insurance_out => insurance4_out, doubledown_out => doubledown4_out, split_out => split4_out);
+
+flipflup : input_ff port map(clk=>clk,D=> enable,Q=> enable_i);
 
     process (player_in, bid1_in, bid2_in, bid3_in, bid4_in, win_type1_in, win_type2_in, win_type3_in, win_type4_in, enable)
     begin
@@ -213,12 +225,12 @@ begin
         end if;
     end process;
 
-    process (clk, rst, enable, player_in)
+    process (clk, rst, enable_i, player_in)
     begin
         if (rising_edge(clk)) then
             if (rst = '1') then
                 player_temp <= "000";
-            elsif (enable = '1') then
+            elsif (enable_i = '1') then
                 player_temp <= player_in;
 				else
 					 player_temp <= player_temp;
@@ -228,4 +240,3 @@ begin
 	 
 	 player_out <= player_temp;
 end behavior;
-
