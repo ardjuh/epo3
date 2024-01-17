@@ -59,7 +59,7 @@ begin
     begin
         case player_in is
             when "001" =>
-                h1            <= '1';
+                h1            <= enable;
                 h2            <= '0';
                 h3            <= '0';
                 h4            <= '0';
@@ -69,7 +69,7 @@ begin
                 win_type_temp <= win_type1_in;
             when "010" =>
                 h1            <= '0';
-                h2            <= '1';
+                h2            <= enable;
                 h3            <= '0';
                 h4            <= '0';
                 h5            <= '0';
@@ -79,7 +79,7 @@ begin
             when "011" =>
                 h1            <= '0';
                 h2            <= '0';
-                h3            <= '1';
+                h3            <= enable;
                 h4            <= '0';
                 h5            <= '0';
                 h6            <= '0';
@@ -89,7 +89,7 @@ begin
                 h1            <= '0';
                 h2            <= '0';
                 h3            <= '0';
-                h4            <= '1';
+                h4            <= enable;
                 h5            <= '0';
                 h6            <= '0';
                 bid_temp      <= bid4_in;
@@ -99,7 +99,7 @@ begin
                 h2            <= '0';
                 h3            <= '0';
                 h4            <= '0';
-                h5            <= '1';
+                h5            <= enable;
                 h6            <= '0';
                 bid_temp      <= "00";
                 win_type_temp <= "000";
@@ -109,7 +109,7 @@ begin
                 h3            <= '0';
                 h4            <= '0';
                 h5            <= '0';
-                h6            <= '1';
+                h6            <= enable;
                 bid_temp      <= "00";
                 win_type_temp <= "000";
             when others =>
