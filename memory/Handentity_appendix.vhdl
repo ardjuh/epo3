@@ -17,12 +17,7 @@ entity hand is
     );
 end hand;
 
-
-
-
-
-
-
+	
 architecture behaviour of hand is
 	signal card1_i, card2_i, card3_i, card4_i, card5_i : std_logic_vector(3 downto 0);
 begin
