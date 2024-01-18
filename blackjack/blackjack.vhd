@@ -325,6 +325,8 @@ begin
 				insurance => insurance_signal, -- from controller
 				doubledown => double_signal, -- from controller
 				split => split_signal, -- from controller
+				card_in  => new_card_signal,
+				end_round => round_end_signal,
 				-- player_a_in => broke1, player_b_in=> broke2, player_c_in => broke3, player_d_in => broke4, -- klopt dit wel?--
 				money1_in => money1_singal_new, money2_in => money2_signal_new, money3_in => money3_signal_new, money4_in => money4_signal_new,  -- from controller to mem
 				bid1_in => bid1_signal_new, bid2_in => bid2_signal_new, bid3_in => bid3_signal_new, bid4_in => bid4_signal_new, -- from controller to mem
@@ -386,7 +388,7 @@ begin
 				
 				-- RNG--
 				random_card => random_card_signal, request_card => request_card_signal, round_end => round_end_signal,
-				new_card => new_card_signal, -- hoe connecten met memory?
+				new_card => new_card_signal, 
 
 				 --GPU--
 				draw_screen_type => draw_screen_signal, cursor_position => cursor_position_signal, 
