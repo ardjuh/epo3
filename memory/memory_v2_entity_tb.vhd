@@ -328,11 +328,32 @@ begin
 
     enable <= '0' after 0 ns,
         '1' after 30 ns,
-        '0' after 90 ns,
-        '1' after 110 ns,
+        '0' after 40 ns,
+        '1' after 60 ns,
+        '0' after 70 ns,
+        '1' after 90 ns,
+        '0' after 100 ns,
+
+        '1' after 120 ns,
+        '0' after 130 ns,
+        '1' after 150 ns,
+        '0' after 160 ns,
+        '1' after 180 ns,
         '0' after 190 ns,
         '1' after 210 ns,
-        '0' after 230 ns;
+        '0' after 220 ns,
+
+        '1' after 240 ns,
+        '0' after 250 ns,
+        '1' after 270 ns,
+        '0' after 280 ns,
+        '1' after 300 ns,
+        '0' after 310 ns,
+        '1' after 330 ns,
+        '0' after 340 ns,
+        '1' after 420 ns,
+        '0' after 430 ns;
+      
 
     player_in <= "000" after 0 ns,
         "010" after 90 ns,
@@ -363,5 +384,15 @@ begin
         '0' after 130 ns,
         '1' after 150 ns,
         '0' after 190 ns,
-        '1' after 250 ns;
+        '1' after 250 ns,
+        '0' after 300 ns;
+
+
+        doubledown <= '0' after 0 ns,
+        '1' after 250 ns,
+        '0' after 330 ns,
+        '1' after 350 ns,
+        '0' after 390 ns,
+        '1' after 450 ns,
+        '0' after 500 ns;
 end architecture;
