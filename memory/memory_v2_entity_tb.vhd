@@ -315,16 +315,16 @@ begin
     clk <= not clk after 10 ns;
 
     card_in <= "0000" after 0 ns,
-        "0100" after 30 ns,
-        "0110" after 50 ns,
-        "0101" after 70 ns,
-        "0110" after 90 ns,
-        "0101" after 110 ns,
-        "0100" after 130 ns,
-        "0110" after 150 ns,
-        "0101" after 170 ns,
-        "0110" after 190 ns,
-        "0101" after 210 ns;
+        "0100" after 70 ns,
+        "0110" after 130 ns,
+        "0101" after 190 ns,
+        "0110" after 250 ns,
+        "0101" after 310 ns,
+        "0100" after 370 ns,
+        "0110" after 430 ns,
+        "0101" after 490 ns,
+        "0110" after 550 ns,
+        "0101" after 610 ns;
 
     enable <= '0' after 0 ns,
         '1' after 30 ns,
