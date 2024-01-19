@@ -1,0 +1,41 @@
+library IEEE;
+use IEEE.std_logic_1164.ALL;
+
+architecture behaviour of testbench is
+   component blackjack is
+    port (
+        clk           : in std_logic;
+        reset         : in std_logic;
+        switch_select : in std_logic; -- controller
+        switch_left   : in std_logic; -- controller
+        switch_right  : in std_logic; -- controller
+        red           : out std_logic_vector(3 downto 0);
+        green         : out std_logic_vector(3 downto 0);
+        blue          : out std_logic_vector(3 downto 0);
+        H_sync        : out std_logic;
+        V_sync        : out std_logic);
+end blackjack;
+
+signal clk    : std_logic;
+signal reset  : std_logic;
+signal switch_select: std_logic;
+signal switch_left: std_logic;
+signal switch_right: std_logic;
+signal red: std_logic_vector (3 downto 0);
+signal green: std_logic_vector (3 downto 0);
+signal blue: std_logic_vector (3 downto 0);
+signal H_sync: std_logic;
+signal V_sync: out std_logic;
+
+begin
+   test: blackjack port map (clk, reset, switch_select, switch_left, switch_right, red, green, blue, h_sync v_sync);
+
+   clk <= '0' after 0 ns,
+          '1' after 20 ns when clk /= '1' else '0' after 20 ns;
+   reset <= '1' after 0 ns,
+            '0' after 80 ns;
+  switch_select <= '0' after 0 ns,
+                    '1' after 16800000 ns;
+  switch_left <= '0' after 0 ns,
+                 '1' after 33600000 ns;
+  switch_right <= '0' after 0 ns;
