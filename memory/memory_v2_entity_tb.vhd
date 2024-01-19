@@ -365,6 +365,10 @@ begin
         '1' after 5 ns,
         '0' after 25 ns;
 
+        end_round <= 
+        '1' after 200 ns,
+        '0' after 220 ns;
+
     bid2_in <= "00" after 0 ns,
         "01" after 30 ns,
         "10" after 50 ns,
@@ -373,6 +377,36 @@ begin
         "01" after 210 ns;
 
     win_type2_in <= "000" after 0 ns,
+        "001" after 30 ns,
+        "010" after 50 ns,
+        "001" after 70 ns,
+        "010" after 90 ns,
+        "001" after 210 ns;
+
+        bid_enable <= '0' after 0 ns,
+        '1' after 30 ns,
+        '0' after 40 ns,
+        '1' after 60 ns,
+        '0' after 70 ns,
+        '1' after 90 ns,
+        '0' after 100 ns,
+        '1' after 120 ns,
+        '0' after 130 ns,
+        '1' after 150 ns,
+        '0' after 160 ns,
+        '1' after 180 ns,
+        '0' after 190 ns,
+        '1' after 210 ns,
+        '0' after 220 ns;
+
+        bid1_in <= "00" after 0 ns,
+        "01" after 130 ns,
+        "10" after 150 ns,
+        "01" after 170 ns,
+        "10" after 190 ns,
+        "01" after 310 ns;
+
+    win_type1_in <= "000" after 0 ns,
         "001" after 30 ns,
         "010" after 50 ns,
         "001" after 70 ns,
