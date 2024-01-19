@@ -67,7 +67,8 @@ component gpu_driver
 	        card4_5  : in std_logic_vector (3 downto 0);
 	        money4   : in std_logic_vector (10 downto 0);
 	        split4   : in std_logic
-	    );     
+	    ); 
+end component;    
        
 component controller
     port( 	clk	: in  std_logic;
@@ -296,9 +297,9 @@ end component;
 		 
 	signal bid1_signal, bid1_signal_new, bid2_signal, bid2_signal_new, bid3_signal, bid3_signal_new, bid4_signal, bid4_signal_new : std_logic_vector(1 downto 0); --bids per player
 	signal card1_1_signal, card1_2_signal, card1_3signal, card1_4_sigal, card1_5_signal, card2_1_signal, card2_2_signal, card2_3_signal, card2_4_signal, card2_5_signal, card3_1_signal, card3_2_signal, card3_3_signal, card3_4_signal, card3_5_signal, card4_1_signal, card4_2_signal, card4_3_signal, card4_4_signal, card4_5_signal, card5_1_signal, card5_2_signal, card5_3_signal, card5_4_signal, card5_5_signal, card6_1_signal, card6_2_signal, card6_3_signal, card6_4_signal, card6_5_signal : std_logic_vector(3 downto 0); -- hand cards of players including dealers hand
-	signal money1_signal, money1_signal_new, money2_signal, money2_signal_new money3_signal, money3_signal_new, moneyd4_signal, money4_signal_new : std_logic_vector(10 downto 0); -- money of all 4 players
+	signal money1_signal, money1_signal_new, money2_signal, money2_signal_new, money3_signal, money3_signal_new, moneyd4_signal, money4_signal_new : std_logic_vector(10 downto 0); -- money of all 4 players
 	signal split1_signal, split2_signal, split3_signal, split4_signal : std_logic;	 -- high if a player splits, low if a player does not split
-	signal insurance1_signal, insurance2_signal, insurance3_signal, insurance4_signal- : std_logic; -- if a players chooses insurance
+	signal insurance1_signal, insurance2_signal, insurance3_signal, insurance4_signal : std_logic; -- if a players chooses insurance
 	signal double1, double2, double3, double4 : std_logic;
 
 	
@@ -340,7 +341,7 @@ begin
 				bid1_out => bid1_signal, bid2_out => bid2_signal, bid3_out => bid3_signal, bid4_out => bid4_signal, -- goes to controller and gpu
 				split1_out => split1_signal, split2_out => split2_signal, split3_out => split3_signal, split4_out => split4_signal, -- only goes to gpu
 				insurance1_out => insurance1_signal, insurance2_out => insurance2_signal, insurance3_out => insurance3_signal, insurance4_out => insurance4_signal, -- only goes to gpu
-				doubledown1_out => double1, doubledown2_out => double2 => doubledown3_out => double3, doubledown4_out => double4, -- only goes to gpu
+				doubledown1_out => double1, doubledown2_out => double2, doubledown3_out => double3, doubledown4_out => double4, -- only goes to gpu
 				score1_out => player1_score, score2_out => player2_score, score3_out => player3_score, score4_out => player4_score, score5_out => dealer_score, score6_out => split_score, -- goes to controller
 
 			    	card1_1_out => card1_1_signal, card1_2_out => card1_2_signal, card1_3_out => card1_3_signal, card1_4_out => card1_4_signal, card1_5_out => card1_5_signal,
@@ -351,10 +352,10 @@ begin
 				card6_1_out => card6_1_signal, card6_2_out => card6_2_signal, card6_3_out => card6_3_signal, card6_4_out => card6_4_signal, card6_5_out => card6_5_signal, -- extra hand cards when splitting
 				
 
-	p2: controller 	port map(clk => clk, reset => reset, 
+	p2: controller	port map(clk => clk, reset => reset, 
 
 				------------------ -- from and to memory --------------
-				Player_Turn => player_turn_in_signal --which player is at turn, comes from mem
+				Player_Turn => player_turn_in_signal, --which player is at turn, comes from mem
 				-- N_Players 
 				 
 				switch_select => select_signal, switch_left => left_signal, switch_right => right_signal,
@@ -392,10 +393,11 @@ begin
 
 				 --GPU--
 				draw_screen_type => draw_screen_signal, cursor_position => cursor_position_signal, 
-				hit_option => hit_option_signal, double_option => double_option_signal, split_option => split_option_signal, insurance_option => insurance_option_signal, even_money_option => even_money_option_signal,
+				hit_option => hit_option_signal, double_option => double_option_signal, split_option => split_option_signal, insurance_option => insurance_option_signal, even_money_option => even_money_option_signal
 				 
 				-- receiving hand?
 				-- global reset?
+);
 							
 				 
 	p3: vga_driver_combined port map(clk => clk, reset => reset, x_pos => x_pos_signal, y_pos => y_pos_signal, H_sync => H_sync_signal, V_sync => V_sync_signal);
