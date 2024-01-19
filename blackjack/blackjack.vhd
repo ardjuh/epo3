@@ -30,7 +30,14 @@ component gpu_driver
 	        green : out std_logic_vector(3 downto 0);
 	        blue  : out std_logic_vector(3 downto 0);
 	
-	        player : in std_logic_vector (1 downto 0);
+	        player : in std_logic_vector (2 downto 0);
+		screentype : in std_logic_vector(1 downto 0);
+		cursor_position : in std_logic_vector(2 downto 0);
+		hit : in std_logic;
+		em : in std_logic;
+		double : in std_logic;
+		insurance : in std_logic;
+		split 	 : in std_logic;
 	
 	        player_a : in std_logic;
 	        card1_1  : in std_logic_vector (3 downto 0);
@@ -38,8 +45,11 @@ component gpu_driver
 	        card1_3  : in std_logic_vector (3 downto 0);
 	        card1_4  : in std_logic_vector (3 downto 0);
 	        card1_5  : in std_logic_vector (3 downto 0);
-	        money1   : in std_logic_vector (10 downto 0);
+	        money1   : in std_logic_vector (9 downto 0);
 	        split1   : in std_logic;
+		bet1	 : in std_logic_vector(1 downto 0);
+		insurance1 : in std_logic;
+		doubledown1 : in std_logic;
 	
 	        player_b : in std_logic;
 	        card2_1  : in std_logic_vector (3 downto 0);
@@ -47,8 +57,11 @@ component gpu_driver
 	        card2_3  : in std_logic_vector (3 downto 0);
 	        card2_4  : in std_logic_vector (3 downto 0);
 	        card2_5  : in std_logic_vector (3 downto 0);
-	        money2   : in std_logic_vector (10 downto 0);
+	        money2   : in std_logic_vector (9 downto 0);
 	        split2   : in std_logic;
+		bet2	 : in std_logic_vector(1 downto 0);
+		insurance2 : in std_logic;
+		doubledown2 : in std_logic;
 	
 	        player_c : in std_logic;
 	        card3_1  : in std_logic_vector (3 downto 0);
@@ -56,8 +69,11 @@ component gpu_driver
 	        card3_3  : in std_logic_vector (3 downto 0);
 	        card3_4  : in std_logic_vector (3 downto 0);
 	        card3_5  : in std_logic_vector (3 downto 0);
-	        money3   : in std_logic_vector (10 downto 0);
+	        money3   : in std_logic_vector (9 downto 0);
 	        split3   : in std_logic;
+		bet3	 : in std_logic_vector(1 downto 0);
+		insurance3 : in std_logic;
+		doubledown3 : in std_logic;
 	
 	        player_d : in std_logic;
 	        card4_1  : in std_logic_vector (3 downto 0);
@@ -65,8 +81,23 @@ component gpu_driver
 	        card4_3  : in std_logic_vector (3 downto 0);
 	        card4_4  : in std_logic_vector (3 downto 0);
 	        card4_5  : in std_logic_vector (3 downto 0);
-	        money4   : in std_logic_vector (10 downto 0);
-	        split4   : in std_logic
+	        money4   : in std_logic_vector (9 downto 0);
+	        split4   : in std_logic;
+		bet4	 : in std_logic_vector(1 downto 0);
+		insurance4 : in std_logic;
+		doubledown4 : in std_logic;
+
+	        card5_1  : in std_logic_vector (3 downto 0);
+	        card5_2  : in std_logic_vector (3 downto 0);
+	        card5_3  : in std_logic_vector (3 downto 0);
+	        card5_4  : in std_logic_vector (3 downto 0);
+	        card5_5  : in std_logic_vector (3 downto 0);
+
+	        card6_1  : in std_logic_vector (3 downto 0);
+	        card6_2  : in std_logic_vector (3 downto 0);
+	        card6_3  : in std_logic_vector (3 downto 0);
+	        card6_4  : in std_logic_vector (3 downto 0);
+	        card6_5  : in std_logic_vector (3 downto 0)
 	    ); 
 end component;    
        
@@ -296,8 +327,8 @@ component memory
 end component;
 		 
 	signal bid1_signal, bid1_signal_new, bid2_signal, bid2_signal_new, bid3_signal, bid3_signal_new, bid4_signal, bid4_signal_new : std_logic_vector(1 downto 0); --bids per player
-	signal card1_1_signal, card1_2_signal, card1_3signal, card1_4_sigal, card1_5_signal, card2_1_signal, card2_2_signal, card2_3_signal, card2_4_signal, card2_5_signal, card3_1_signal, card3_2_signal, card3_3_signal, card3_4_signal, card3_5_signal, card4_1_signal, card4_2_signal, card4_3_signal, card4_4_signal, card4_5_signal, card5_1_signal, card5_2_signal, card5_3_signal, card5_4_signal, card5_5_signal, card6_1_signal, card6_2_signal, card6_3_signal, card6_4_signal, card6_5_signal : std_logic_vector(3 downto 0); -- hand cards of players including dealers hand
-	signal money1_signal, money1_signal_new, money2_signal, money2_signal_new, money3_signal, money3_signal_new, moneyd4_signal, money4_signal_new : std_logic_vector(10 downto 0); -- money of all 4 players
+	signal card1_1_signal, card1_2_signal, card1_3_signal, card1_4_signal, card1_5_signal, card2_1_signal, card2_2_signal, card2_3_signal, card2_4_signal, card2_5_signal, card3_1_signal, card3_2_signal, card3_3_signal, card3_4_signal, card3_5_signal, card4_1_signal, card4_2_signal, card4_3_signal, card4_4_signal, card4_5_signal, card5_1_signal, card5_2_signal, card5_3_signal, card5_4_signal, card5_5_signal, card6_1_signal, card6_2_signal, card6_3_signal, card6_4_signal, card6_5_signal : std_logic_vector(3 downto 0); -- hand cards of players including dealers hand
+	signal money1_signal, money1_signal_new, money2_signal, money2_signal_new, money3_signal, money3_signal_new, money4_signal, money4_signal_new : std_logic_vector(9 downto 0); -- money of all 4 players
 	signal split1_signal, split2_signal, split3_signal, split4_signal : std_logic;	 -- high if a player splits, low if a player does not split
 	signal insurance1_signal, insurance2_signal, insurance3_signal, insurance4_signal : std_logic; -- if a players chooses insurance
 	signal double1, double2, double3, double4 : std_logic;
@@ -318,6 +349,8 @@ end component;
 	signal cursor_position_signal: std_logic_vector(2 downto 0);
 	signal player1_score, player2_score, player3_score, player4_score, dealer_score, split_score : std_logic_vector (4 downto 0);
 	signal player1_win_signal, player2_win_signal, player3_win_signal, player4_win_signal : std_logic_vector(2 downto 0);
+	signal global_reset_signal : std_logic;
+	signal N_Players_New_signal, n_player_signal: std_logic_vector(2 downto 0);
 begin
 	p1: memory 	port map(clk => clk, rst => reset, 
 				enable => enable_signal, -- from controller, memory overwrites when enable = '1' 
@@ -328,12 +361,12 @@ begin
 				split => split_signal, -- from controller
 				card_in  => new_card_signal,
 				end_round => round_end_signal,
-				-- player_a_in => broke1, player_b_in=> broke2, player_c_in => broke3, player_d_in => broke4, -- klopt dit wel?--
-				money1_in => money1_singal_new, money2_in => money2_signal_new, money3_in => money3_signal_new, money4_in => money4_signal_new,  -- from controller to mem
+			        player_a_in => not broke1, player_b_in=> not broke2, player_c_in => not broke3, player_d_in => not broke4, -- klopt dit wel?--
+				money1_in => money1_signal_new, money2_in => money2_signal_new, money3_in => money3_signal_new, money4_in => money4_signal_new,  -- from controller to mem
 				bid1_in => bid1_signal_new, bid2_in => bid2_signal_new, bid3_in => bid3_signal_new, bid4_in => bid4_signal_new, -- from controller to mem
 				win_type1_in => player1_win_signal, win_type2_in => player2_win_signal, win_type3_in => player3_win_signal, win_type4_in => player4_win_signal, -- from controller to mem 0: niet gewonnen, 1: insurance, 2: double down, 3: blackjack, 4 : normal
 
-				player_out => player_turn_in, -- goes to controller, updates which player is at turn
+				player_out => player_turn_in_signal, -- goes to controller, updates which player is at turn
 				 
 				-- player_a_out => player_a_out_signal, player_b_out=> player_b_out_signal, player_c_out => player_c_out_signal, player_d_out => player_d_out_signal, -- to ???
 				 
@@ -349,16 +382,14 @@ begin
 			    	card3_1_out => card3_1_signal, card3_2_out => card3_2_signal, card3_3_out => card3_3_signal, card3_4_out => card3_4_signal, card3_5_out => card3_5_signal,
 			    	card4_1_out => card4_1_signal, card4_2_out => card4_2_signal, card4_3_out => card4_3_signal, card4_4_out => card4_4_signal, card4_5_out => card4_5_signal,
 			    	card5_1_out => card5_1_signal, card5_2_out => card5_2_signal, card5_3_out => card5_3_signal, card5_4_out => card5_4_signal, card5_5_out => card5_5_signal, -- dealer hand cards
-				card6_1_out => card6_1_signal, card6_2_out => card6_2_signal, card6_3_out => card6_3_signal, card6_4_out => card6_4_signal, card6_5_out => card6_5_signal, -- extra hand cards when splitting
-				
+				card6_1_out => card6_1_signal, card6_2_out => card6_2_signal, card6_3_out => card6_3_signal, card6_4_out => card6_4_signal, card6_5_out => card6_5_signal); -- extra hand cards when splitting	
 
-	p2: controller	port map(clk => clk, reset => reset, 
-
+	p2: controller	port map(clk => clk, reset => reset,
 				------------------ -- from and to memory --------------
 				Player_Turn => player_turn_in_signal, --which player is at turn, comes from mem
-				-- N_Players 
+				N_Players => N_Player_signal,
 				 
-				switch_select => select_signal, switch_left => left_signal, switch_right => right_signal,
+				button_select => select_signal, button_left => left_signal, button_right => right_signal,
 
 				Player1_Budget => money1_signal, Player2_Budget => money2_signal, Player3_Budget => money3_signal, Player4_Budget => money4_signal, -- comes from controller
 				Player1_Bid => bid1_signal, Player2_Bid => bid2_signal, Player3_Bid => bid3_signal, Player4_Bid => bid4_signal, -- comes form controller
@@ -380,31 +411,32 @@ begin
 				Player1_win_type => player1_win_signal, Player2_win_type => player2_win_signal, Player3_win_type => player3_win_signal, Player4_win_type => player4_win_signal, 
 
 				Player_Turn_New => player_turn_new_signal,
-				-- N_Players_New ?
+				N_Players_New => N_Players_New_signal,
 				enable => enable_signal,
 				bid_enable => bid_enable_signal,
-				Player1_Broke => broke1, Player2_Broke => broke2, Player3_Broke => broke3, Player4_Broke => broke4
+				Player1_Broke => broke1, Player2_Broke => broke2, Player3_Broke => broke3, Player4_Broke => broke4,
 				even_money => even_money_signal, insurance => insurance_signal, split => split_signal, double => double_signal,
 				round_end => round_end_signal, 
 				
 				-- RNG--
-				random_card => random_card_signal, request_card => request_card_signal, round_end => round_end_signal,
+				random_card => random_card_signal, request_card => request_card_signal,
 				new_card => new_card_signal, 
 
 				 --GPU--
 				draw_screen_type => draw_screen_signal, cursor_position => cursor_position_signal, 
-				hit_option => hit_option_signal, double_option => double_option_signal, split_option => split_option_signal, insurance_option => insurance_option_signal, even_money_option => even_money_option_signal
+				hit_option => hit_option_signal, double_option => double_option_signal, split_option => split_option_signal, insurance_option => insurance_option_signal, even_money_option => even_money_option_signal,
 				 
-				-- receiving hand?
-				-- global reset?
+				global_reset => global_reset_signal,
+				Player1_Insured => insurance1_signal, Player2_Insured => insurance2_signal, Player3_Insured => insurance3_signal, Player4_Insured => insurance4_signal,
+				Player1_Doubled_Down => double1, Player2_Doubled_Down => double2, Player3_Doubled_Down => double3, Player4_Doubled_Down => double4 
 );
 							
 				 
 	p3: vga_driver_combined port map(clk => clk, reset => reset, x_pos => x_pos_signal, y_pos => y_pos_signal, H_sync => H_sync_signal, V_sync => V_sync_signal);
 
-	p4: gpu_driver port map(h_pos => x_pos_signal, v_pos => y_pos_sinal,
+	p4: gpu_driver port map(h_pos => x_pos_signal, v_pos => y_pos_signal,
 				red => red_signal, green => green_signal, blue => blue_signal,
-				screentype => draw_screen_signal, cursor_position => cursor_position_signal);
+				screentype => draw_screen_signal, cursor_position => cursor_position_signal,
 				-- player?
 				hit => hit_option_signal, double => double_option_signal, split => split_option_signal, insurance => insurance_option_signal, em => even_money_option_signal, -- from controller, if certain actions should be selectable.
 				card1_1 => card1_1_signal, card1_2 => card1_2_signal, card1_3 => card1_3_signal, card1_4 => card1_4_signal, card1_5 => card1_5_signal,
@@ -412,19 +444,21 @@ begin
 			    	card3_1 => card3_1_signal, card3_2 => card3_2_signal, card3_3 => card3_3_signal, card3_4 => card3_4_signal, card3_5 => card3_5_signal,
 			    	card4_1 => card4_1_signal, card4_2 => card4_2_signal, card4_3 => card4_3_signal, card4_4 => card4_4_signal, card4_5 => card4_5_signal,
 				card5_1 => card5_1_signal, card5_2 => card5_2_signal, card5_3 => card5_3_signal, card5_4 => card5_4_signal, card5_5 => card5_5_signal,
-				money1 => money1_singal, money2 => money2_signal, money3 => money3_signal, money4 => money4_signal, -- from 
+				card6_1 => card6_1_signal, card6_2 => card6_2_signal, card6_3 => card6_3_signal, card6_4 => card6_4_signal, card6_5 => card6_5_signal,
+				money1 => money1_signal, money2 => money2_signal, money3 => money3_signal, money4 => money4_signal, -- from 
 				bet1 => bid1_signal, bet2 => bid2_signal, bet3 => bid3_signal, bet4 => bid4_signal,
 				split1 => split1_signal, split2 => split2_signal, split3 => split3_signal, split4 => split4_signal,
 				insurance1 => insurance1_signal, insurance2 => insurance2_signal, insurance3 => insurance3_signal, insurance4 => insurance4_signal,
 				doubledown1 => double1, doubledown2 => double2, doubledown3 => double3, doubledown4 => double4,
+				player => Player_Turn_in_signal, player_a => not broke1, player_b => not broke2, player_c => not broke3, player_d => not broke4);
 				
 				
 
 	p5: top_entity_rcm port map(clk => clk, reset => reset, request_card => request_card_signal, round_end => round_end_signal, random_card => random_card_signal);
 
-        switch_select <= select_signal;
-	switch_right  <= right_signal;
-	switch_left   <= left_signal;
+        select_signal <= switch_select;
+	right_signal <= switch_right;
+	left_signal <= switch_left;
 	
 	H_sync <= H_sync_signal;
 	V_sync <= V_sync_signal;
@@ -432,3 +466,4 @@ begin
 	red <= red_signal;
 	green <= green_signal;
 	blue <= blue_signal;
+end behavioral;
