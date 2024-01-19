@@ -4,11 +4,11 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.std_logic_unsigned.all;
 architecture behavior of gpu_driver is
-    signal x_pos : integer range -145 to 878;
-    signal y_pos : integer range -32 to 991;
-    signal r     : integer range 0 to 15;
-    signal g     : integer range 0 to 15;
-    signal b     : integer range 0 to 15;
+    signal x_pos   : integer range -145 to 878;
+    signal y_pos   : integer range -32 to 991;
+    signal r       : integer range 0 to 15;
+    signal g       : integer range 0 to 15;
+    signal b       : integer range 0 to 15;
     signal money_a : integer range 0 to 999;
     signal money_b : integer range 0 to 999;
     signal money_c : integer range 0 to 999;
@@ -91,10 +91,10 @@ architecture behavior of gpu_driver is
                 return '0';
             end if;
         elsif (letter = 6) then -- F
-             if (x = 0 or y = 0 or (y = 3 and x < 3)) then
-                 return '1';
-             else
-                 return '0';
+            if (x = 0 or y = 0 or (y = 3 and x < 3)) then
+                return '1';
+            else
+                return '0';
             end if;
             return '0';
         elsif (letter = 7) then -- G
@@ -578,7 +578,7 @@ architecture behavior of gpu_driver is
         end if;
     end function;
 
- impure   function table (
+    impure function table (
         x        : integer range 0 to 115;
         y        : integer range 0 to 45;
         player_a : std_logic;
@@ -874,8 +874,8 @@ architecture behavior of gpu_driver is
     function action_menu (
         x_pos     : integer range 0 to 639;
         y_pos     : integer range 0 to 99;
-	hit	  : std_logic := '0';
-	hold	  : std_logic := '0';
+        hit       : std_logic := '0';
+        hold      : std_logic := '0';
         em        : std_logic := '0';
         double    : std_logic := '0';
         insurance : std_logic := '0';
@@ -1051,21 +1051,21 @@ architecture behavior of gpu_driver is
                     return small_letter(x - 450, y, 5);--e
                 elsif (x < 462 and y < 7) then
                     return small_letter(x - 456, y, 20);--t
-					 
-                elsif (x < 450 and y>=9 and y<= 16) then
+
+                elsif (x < 450 and y >= 9 and y <= 16) then
                     return small_number(x - 444, y - 9, 2);--2
-						  
-                elsif (x < 450 and y>=18 and y<= 24) then
+
+                elsif (x < 450 and y >= 18 and y <= 24) then
                     return small_number(x - 444, y - 18, 6);--6
-						  
-                elsif (x < 450 and y>=27 and y<= 33) then
+
+                elsif (x < 450 and y >= 27 and y <= 33) then
                     return small_number(x - 444, y - 27, 1);--1
-                elsif (x < 456 and y>=27 and y<= 33) then
+                elsif (x < 456 and y >= 27 and y <= 33) then
                     return small_number(x - 450, y - 27, 0);--0
-						  
-                elsif (x < 450 and y>=36 and y<= 43) then
+
+                elsif (x < 450 and y >= 36 and y <= 43) then
                     return small_number(x - 444, y - 36, 2);--2
-                elsif (x < 456 and y>=36 and y<= 43) then
+                elsif (x < 456 and y >= 36 and y <= 43) then
                     return small_number(x - 450, y - 36, 0);--0
 
                 else
@@ -1092,530 +1092,527 @@ architecture behavior of gpu_driver is
                     return small_letter(x - 315, y - 22, 21);--U
                 elsif (x < 327) then
                     return small_letter(x - 321, y - 22, 14);--N
-					 elsif (x < 333) then
+                elsif (x < 333) then
                     return small_letter(x - 327, y - 22, 4);--D
                 else
                     return '0';
                 end if;
-                    elsif (y >= 72 and y <= 78) then
-                        if (x > 278) then
-                        if (x < 285) then
-                            return small_letter(x - 279, y - 72, 5); -- E
-                        elsif (x < 291) then
-                            return small_letter(x - 285, y - 72, 14);--N
-                        elsif (x < 297) then
-                            return small_letter(x - 291, y - 72, 4);--D
-                        elsif (x < 303) then
-                            return small_letter(x - 297, y - 72, 0); --SPACE
-                        elsif (x < 309) then
-                            return small_letter(x - 303, y - 72, 7); --G
-                        elsif (x < 315) then
-                            return small_letter(x - 309, y - 72, 1); --A
-                        elsif (x < 321) then
-                            return small_letter(x - 315, y - 72, 13); --M
-                        elsif (x < 327) then
-                            return small_letter(x - 321, y - 72, 5); --E
-                        else
-                            return '0';
-                        end if;
+            elsif (y >= 72 and y <= 78) then
+                if (x > 278) then
+                    if (x < 285) then
+                        return small_letter(x - 279, y - 72, 5); -- E
+                    elsif (x < 291) then
+                        return small_letter(x - 285, y - 72, 14);--N
+                    elsif (x < 297) then
+                        return small_letter(x - 291, y - 72, 4);--D
+                    elsif (x < 303) then
+                        return small_letter(x - 297, y - 72, 0); --SPACE
+                    elsif (x < 309) then
+                        return small_letter(x - 303, y - 72, 7); --G
+                    elsif (x < 315) then
+                        return small_letter(x - 309, y - 72, 1); --A
+                    elsif (x < 321) then
+                        return small_letter(x - 315, y - 72, 13); --M
+                    elsif (x < 327) then
+                        return small_letter(x - 321, y - 72, 5); --E
                     else
                         return '0';
                     end if;
-		else
-                        return '0';
-                    end if;
-        else
-            return '0';
-        end if;
-    
-end function;
-
-function details(
-    x           : integer range 0 to 84;
-    y           : integer range 0 to 38;
-    player      : integer range 1 to 4;
-    money       : integer range 0 to 999;
-    bet         : std_logic_vector(1 downto 0);
-    double_down : std_logic := '0';
-    insurance   : std_logic := '0'
-) return std_logic is
-begin
-    if (x >= 3 and x < 51 and y >= 3 and y < 10) then -- Player {{player}}
-        if (x < 9) then
-            return small_letter(x - 3, y - 3, 16);
-        elsif (x < 15) then
-            return small_letter(x - 9, y - 3, 12);
-        elsif (x < 21) then
-            return small_letter(x - 15, y - 3, 1);
-        elsif (x < 27) then
-            return small_letter(x - 21, y - 3, 25);
-        elsif (x < 33) then
-            return small_letter(x - 27, y - 3, 5);
-        elsif (x < 39) then
-            return small_letter(x - 33, y - 3, 18);
-        elsif (x < 45) then
-            return '0';
-        else
-            return small_number(x - 45, y - 3, player);
-        end if;
-    elsif (x >= 3 and x < 63 and y >= 12 and y < 19) then -- Money: {{money}}
-        if (x < 9) then
-            return small_letter(x - 3, y - 12, 13);
-        elsif (x < 15) then
-            return small_letter(x - 9, y - 12, 15);
-        elsif (x < 21) then
-            return small_letter(x - 15, y - 12, 14);
-        elsif (x < 27) then
-            return small_letter(x - 21, y - 12, 5);
-        elsif (x < 33) then
-            return small_letter(x - 27, y - 12, 25);
-        elsif (x < 39) then
-            return small_letter(x - 33, y - 12, 27);
-        elsif (x < 45) then
-            return '0';
-        elsif (x < 51) then
-            return small_number(x - 45, y - 12, money / 100);
-        elsif (x < 57) then
-            return small_number(x - 51, y - 12, (money / 10) mod 10);
-        else
-            return small_number(x - 57, y - 12, money mod 10);
-        end if;
-    elsif (x >= 3 and x < 45 and y >= 21 and y < 28) then -- Bet: {{bet}}
-        if (x < 9) then
-            return small_letter(x - 3, y - 21, 2);
-        elsif (x < 15) then
-            return small_letter(x - 9, y - 21, 5);
-        elsif (x < 21) then
-            return small_letter(x - 15, y - 21, 20);
-        elsif (x < 27) then
-            return small_letter(x - 21, y - 21, 27);
-        elsif (x < 33) then
-            return '0';
-        elsif (double_down = '1') then
-            case bet is
-                when "00" =>
-                    if (x < 39) then
-                        return small_number(x - 33, y - 21, 4);
-                    else
-                        return '0';
-                    end if;
-                when "01" =>
-                    if (x < 39) then
-                        return small_number(x - 33, y - 21, 1);
-                    else
-                        return small_number(x - 39, y - 21, 2);
-                    end if;
-                when "10" =>
-                    if (x < 39) then
-                        return small_number(x - 33, y - 21, 2);
-                    else
-                        return small_number(x - 39, y - 21, 0);
-                    end if;
-                when others =>
-                    if (x < 39) then
-                        return small_number(x - 33, y - 21, 4);
-                    else
-                        return small_number(x - 39, y - 21, 0);
-                    end if;
-            end case;
-        else
-            case bet is
-                when "00" =>
-                    if (x < 39) then
-                        return small_number(x - 33, y - 21, 2);
-                    else
-                        return '0';
-                    end if;
-                when "01" =>
-                    if (x < 39) then
-                        return small_number(x - 33, y - 21, 6);
-                    else
-                        return '0';
-                    end if;
-                when "10" =>
-                    if (x < 39) then
-                        return small_number(x - 33, y - 21, 1);
-                    else
-                        return small_number(x - 39, y - 21, 0);
-                    end if;
-                when others =>
-                    if (x < 39) then
-                        return small_number(x - 33, y - 21, 2);
-                    else
-                        return small_number(x - 39, y - 21, 0);
-                    end if;
-            end case;
-        end if;
-    elsif (x >= 3 and x < 87 and y >= 30 and y < 37) then -- Insurance: {{insurance}}
-        if (x < 9) then
-            return small_letter(x - 3, y - 30, 9);
-        elsif (x < 15) then
-            return small_letter(x - 9, y - 30, 14);
-        elsif (x < 21) then
-            return small_letter(x - 15, y - 30, 19);
-        elsif (x < 27) then
-            return small_letter(x - 21, y - 30, 21);
-        elsif (x < 33) then
-            return small_letter(x - 27, y - 30, 18);
-        elsif (x < 39) then
-            return small_letter(x - 33, y - 30, 1);
-        elsif (x < 45) then
-            return small_letter(x - 39, y - 30, 14);
-        elsif (x < 51) then
-            return small_letter(x - 45, y - 30, 3);
-        elsif (x < 57) then
-            return small_letter(x - 51, y - 30, 5);
-        elsif (x < 63) then
-            return small_letter(x - 57, y - 30, 27);
-        elsif (x < 69) then
-            return '0';
-        elsif (insurance = '1') then -- Yes
-            if (x < 75) then
-                return small_letter(x - 69, y - 30, 25);
-            elsif (x < 81) then
-                return small_letter(x - 75, y - 30, 5);
-            else
-                return small_letter(x - 81, y - 30, 19);
-            end if;
-        else -- No
-            if (x < 75) then
-                return small_letter(x - 69, y - 30, 14);
-            elsif (x < 81) then
-                return small_letter(x - 75, y - 30, 15);
+                else
+                    return '0';
+                end if;
             else
                 return '0';
             end if;
+        else
+            return '0';
         end if;
-    else
-        return '0';
-    end if;
-end function;
+
+    end function;
+
+    function details(
+        x           : integer range 0 to 84;
+        y           : integer range 0 to 38;
+        player      : integer range 1 to 4;
+        money       : integer range 0 to 999;
+        bet         : std_logic_vector(1 downto 0);
+        double_down : std_logic := '0';
+        insurance   : std_logic := '0'
+    ) return std_logic is
+    begin
+        if (x >= 3 and x < 51 and y >= 3 and y < 10) then -- Player {{player}}
+            if (x < 9) then
+                return small_letter(x - 3, y - 3, 16);
+            elsif (x < 15) then
+                return small_letter(x - 9, y - 3, 12);
+            elsif (x < 21) then
+                return small_letter(x - 15, y - 3, 1);
+            elsif (x < 27) then
+                return small_letter(x - 21, y - 3, 25);
+            elsif (x < 33) then
+                return small_letter(x - 27, y - 3, 5);
+            elsif (x < 39) then
+                return small_letter(x - 33, y - 3, 18);
+            elsif (x < 45) then
+                return '0';
+            else
+                return small_number(x - 45, y - 3, player);
+            end if;
+        elsif (x >= 3 and x < 63 and y >= 12 and y < 19) then -- Money: {{money}}
+            if (x < 9) then
+                return small_letter(x - 3, y - 12, 13);
+            elsif (x < 15) then
+                return small_letter(x - 9, y - 12, 15);
+            elsif (x < 21) then
+                return small_letter(x - 15, y - 12, 14);
+            elsif (x < 27) then
+                return small_letter(x - 21, y - 12, 5);
+            elsif (x < 33) then
+                return small_letter(x - 27, y - 12, 25);
+            elsif (x < 39) then
+                return small_letter(x - 33, y - 12, 27);
+            elsif (x < 45) then
+                return '0';
+            elsif (x < 51) then
+                return small_number(x - 45, y - 12, money / 100);
+            elsif (x < 57) then
+                return small_number(x - 51, y - 12, (money / 10) mod 10);
+            else
+                return small_number(x - 57, y - 12, money mod 10);
+            end if;
+        elsif (x >= 3 and x < 45 and y >= 21 and y < 28) then -- Bet: {{bet}}
+            if (x < 9) then
+                return small_letter(x - 3, y - 21, 2);
+            elsif (x < 15) then
+                return small_letter(x - 9, y - 21, 5);
+            elsif (x < 21) then
+                return small_letter(x - 15, y - 21, 20);
+            elsif (x < 27) then
+                return small_letter(x - 21, y - 21, 27);
+            elsif (x < 33) then
+                return '0';
+            elsif (double_down = '1') then
+                case bet is
+                    when "00" =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 4);
+                        else
+                            return '0';
+                        end if;
+                    when "01" =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 1);
+                        else
+                            return small_number(x - 39, y - 21, 2);
+                        end if;
+                    when "10" =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 2);
+                        else
+                            return small_number(x - 39, y - 21, 0);
+                        end if;
+                    when others =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 4);
+                        else
+                            return small_number(x - 39, y - 21, 0);
+                        end if;
+                end case;
+            else
+                case bet is
+                    when "00" =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 2);
+                        else
+                            return '0';
+                        end if;
+                    when "01" =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 6);
+                        else
+                            return '0';
+                        end if;
+                    when "10" =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 1);
+                        else
+                            return small_number(x - 39, y - 21, 0);
+                        end if;
+                    when others =>
+                        if (x < 39) then
+                            return small_number(x - 33, y - 21, 2);
+                        else
+                            return small_number(x - 39, y - 21, 0);
+                        end if;
+                end case;
+            end if;
+        elsif (x >= 3 and x < 87 and y >= 30 and y < 37) then -- Insurance: {{insurance}}
+            if (x < 9) then
+                return small_letter(x - 3, y - 30, 9);
+            elsif (x < 15) then
+                return small_letter(x - 9, y - 30, 14);
+            elsif (x < 21) then
+                return small_letter(x - 15, y - 30, 19);
+            elsif (x < 27) then
+                return small_letter(x - 21, y - 30, 21);
+            elsif (x < 33) then
+                return small_letter(x - 27, y - 30, 18);
+            elsif (x < 39) then
+                return small_letter(x - 33, y - 30, 1);
+            elsif (x < 45) then
+                return small_letter(x - 39, y - 30, 14);
+            elsif (x < 51) then
+                return small_letter(x - 45, y - 30, 3);
+            elsif (x < 57) then
+                return small_letter(x - 51, y - 30, 5);
+            elsif (x < 63) then
+                return small_letter(x - 57, y - 30, 27);
+            elsif (x < 69) then
+                return '0';
+            elsif (insurance = '1') then -- Yes
+                if (x < 75) then
+                    return small_letter(x - 69, y - 30, 25);
+                elsif (x < 81) then
+                    return small_letter(x - 75, y - 30, 5);
+                else
+                    return small_letter(x - 81, y - 30, 19);
+                end if;
+            else -- No
+                if (x < 75) then
+                    return small_letter(x - 69, y - 30, 14);
+                elsif (x < 81) then
+                    return small_letter(x - 75, y - 30, 15);
+                else
+                    return '0';
+                end if;
+            end if;
+        else
+            return '0';
+        end if;
+    end function;
 
 begin
--- Convert the position signals to unsigned and subtract the offset
-x_pos <= to_integer(unsigned(h_pos)) - 145;
-y_pos <= to_integer(unsigned(v_pos)) - 32;
--- Convert the color signals to unsigned
-red   <= std_logic_vector(to_unsigned(r, 4));
-green <= std_logic_vector(to_unsigned(g, 4));
-blue  <= std_logic_vector(to_unsigned(b, 4));
+    -- Convert the position signals to unsigned and subtract the offset
+    x_pos <= to_integer(unsigned(h_pos)) - 145;
+    y_pos <= to_integer(unsigned(v_pos)) - 32;
+    -- Convert the color signals to unsigned
+    red   <= std_logic_vector(to_unsigned(r, 4));
+    green <= std_logic_vector(to_unsigned(g, 4));
+    blue  <= std_logic_vector(to_unsigned(b, 4));
 
-money_a <= to_integer(unsigned(money1));
-money_b <= to_integer(unsigned(money2));
-money_c <= to_integer(unsigned(money3));
-money_d <= to_integer(unsigned(money4));
+    money_a <= to_integer(unsigned(money1));
+    money_b <= to_integer(unsigned(money2));
+    money_c <= to_integer(unsigned(money3));
+    money_d <= to_integer(unsigned(money4));
 
-carda_1 <= to_integer(unsigned(card1_1));
-carda_2 <= to_integer(unsigned(card1_2));
-carda_3 <= to_integer(unsigned(card1_3));
-carda_4 <= to_integer(unsigned(card1_4));
-carda_5 <= to_integer(unsigned(card1_5));
+    carda_1 <= to_integer(unsigned(card1_1));
+    carda_2 <= to_integer(unsigned(card1_2));
+    carda_3 <= to_integer(unsigned(card1_3));
+    carda_4 <= to_integer(unsigned(card1_4));
+    carda_5 <= to_integer(unsigned(card1_5));
 
-cardb_1 <= to_integer(unsigned(card2_1));
-cardb_2 <= to_integer(unsigned(card2_2));
-cardb_3 <= to_integer(unsigned(card2_3));
-cardb_4 <= to_integer(unsigned(card2_4));
-cardb_5 <= to_integer(unsigned(card2_5));
+    cardb_1 <= to_integer(unsigned(card2_1));
+    cardb_2 <= to_integer(unsigned(card2_2));
+    cardb_3 <= to_integer(unsigned(card2_3));
+    cardb_4 <= to_integer(unsigned(card2_4));
+    cardb_5 <= to_integer(unsigned(card2_5));
 
-cardc_1 <= to_integer(unsigned(card3_1));
-cardc_2 <= to_integer(unsigned(card3_2));
-cardc_3 <= to_integer(unsigned(card3_3));
-cardc_4 <= to_integer(unsigned(card3_4));
-cardc_5 <= to_integer(unsigned(card3_5));
+    cardc_1 <= to_integer(unsigned(card3_1));
+    cardc_2 <= to_integer(unsigned(card3_2));
+    cardc_3 <= to_integer(unsigned(card3_3));
+    cardc_4 <= to_integer(unsigned(card3_4));
+    cardc_5 <= to_integer(unsigned(card3_5));
 
-cardd_1 <= to_integer(unsigned(card4_1));
-cardd_2 <= to_integer(unsigned(card4_2));
-cardd_3 <= to_integer(unsigned(card4_3));
-cardd_4 <= to_integer(unsigned(card4_4));
-cardd_5 <= to_integer(unsigned(card4_5));
+    cardd_1 <= to_integer(unsigned(card4_1));
+    cardd_2 <= to_integer(unsigned(card4_2));
+    cardd_3 <= to_integer(unsigned(card4_3));
+    cardd_4 <= to_integer(unsigned(card4_4));
+    cardd_5 <= to_integer(unsigned(card4_5));
 
-carde_1 <= to_integer(unsigned(card5_1));
-carde_2 <= to_integer(unsigned(card5_2));
-carde_3 <= to_integer(unsigned(card5_3));
-carde_4 <= to_integer(unsigned(card5_4));
-carde_5 <= to_integer(unsigned(card5_5));
+    carde_1 <= to_integer(unsigned(card5_1));
+    carde_2 <= to_integer(unsigned(card5_2));
+    carde_3 <= to_integer(unsigned(card5_3));
+    carde_4 <= to_integer(unsigned(card5_4));
+    carde_5 <= to_integer(unsigned(card5_5));
 
-cardf_1 <= to_integer(unsigned(card6_1));
-cardf_2 <= to_integer(unsigned(card6_2));
-cardf_3 <= to_integer(unsigned(card6_3));
-cardf_4 <= to_integer(unsigned(card6_4));
-cardf_5 <= to_integer(unsigned(card6_5));
+    cardf_1 <= to_integer(unsigned(card6_1));
+    cardf_2 <= to_integer(unsigned(card6_2));
+    cardf_3 <= to_integer(unsigned(card6_3));
+    cardf_4 <= to_integer(unsigned(card6_4));
+    cardf_5 <= to_integer(unsigned(card6_5));
 
--- The process that splits the screen in sections
-process (x_pos, y_pos, screentype, split1, split2, split3, split4, player, cursor, carda_1, carda_2, carda_3, carda_4, carda_5, cardb_1, cardb_2, cardb_3, cardb_4, cardb_5, cardc_1, cardc_2, cardc_3, cardc_4, cardc_5, cardd_1, cardd_2, cardd_3, cardd_4, cardd_5, carde_1, carde_2, carde_3, carde_4, carde_5, cardf_1, cardf_2, cardf_3, cardf_4, cardf_5,
-money_a, money_b, money_c, money_d, hit, hold, em, double, insurance, split, bet1,bet2,bet3,bet4, doubledown1, doubledown2, doubledown3, doubledown4, insurance1, insurance2, insurance3, insurance4)
-begin
-    if (x_pos < 0 or x_pos > 639 or y_pos < 0 or y_pos > 479) then
+    -- The process that splits the screen in sections
+    process (x_pos, y_pos, screentype, split1, split2, split3, split4, player, cursor, carda_1, carda_2, carda_3, carda_4, carda_5, cardb_1, cardb_2, cardb_3, cardb_4, cardb_5, cardc_1, cardc_2, cardc_3, cardc_4, cardc_5, cardd_1, cardd_2, cardd_3, cardd_4, cardd_5, carde_1, carde_2, carde_3, carde_4, carde_5, cardf_1, cardf_2, cardf_3, cardf_4, cardf_5,
+        money_a, money_b, money_c, money_d, hit, hold, em, double, insurance, split, bet1, bet2, bet3, bet4, doubledown1, doubledown2, doubledown3, doubledown4, insurance1, insurance2, insurance3, insurance4)
+    begin
+        if (x_pos < 0 or x_pos > 639 or y_pos < 0 or y_pos > 479) then
 
-        r <= 0;
-        g <= 0;
-        b <= 0;
+            r <= 0;
+            g <= 0;
+            b <= 0;
 
-    	elsif (screentype = "00") then
-		r <= 0;
-      g <= 0;
-      b <= 0;
-	
-    		if (x_pos >= 0 and y_pos >= 190 and y_pos <= 290) then 
-			if (begin_menu(x_pos, y_pos - 190,"00")='1') then
-				if (y_pos >= 212 and y_pos <= 218) then
-					if (cursor = "001" and x_pos > 320 and x_pos < 327) then
-						r <= 10;
-						g <= 0;
-						b <= 0;
-					elsif(cursor = "010" and x_pos > 332 and x_pos < 339) then
-						r <= 10;
-						g <= 0;
-						b <= 0;
-					elsif(cursor = "011" and x_pos > 344 and x_pos < 351) then
-						r <= 10;
-						g <= 0;
-						b <= 0;
-					elsif(cursor = "100" and x_pos > 355 and x_pos < 362) then
-						r <= 10;
-						g <= 0;
-						b <= 0;
-					else
-						r <= 15;
-						g <= 15;
-						b <= 15;
-					end if;	
-				
-				else
-					r <= 15;
-					g <= 15;
-					b <= 15;
-		    		end if;
-			else
-                	r <= 0;
-                	g <= 0;
-                	b <= 0;
-			end if;
-		end if;
-		
-    elsif (screentype = "01" and x_pos >= 440 and x_pos < 467 and y_pos < 479 and y_pos >= 430) then --bet
-		  if ( begin_menu(x_pos, y_pos - 432, "01") = '1') then
-			    if(cursor = "001" and y_pos>=441 and y_pos<=447 and x_pos >= 440 and x_pos <451) then
-				    r <= 10;
-			    	    g <= 0;
-		    		    b <= 0;
-			    elsif(cursor= "010" and y_pos>=450 and y_pos<= 456 and x_pos >= 440 and x_pos <451) then
-				    r <= 10;
-			    	    g <= 0;
-		    		    b <= 0;
-			    elsif(cursor = "011" and y_pos >=459 and y_pos<=465 and x_pos >= 440 and x_pos <456) then
-				    r <= 10;
-			    	    g <= 0;
-		    		    b <= 0;
-		    	    elsif(cursor = "100" and y_pos >= 468 and y_pos<= 474 and x_pos >= 440 and x_pos <456)then 
-				    r <= 10;
-			    	    g <= 0;
-		    		    b <= 0;
-			     else
-                r <= 15;
-                g <= 15;
-                b <= 15;
-		end if;
+        elsif (screentype = "00") then
+            r <= 0;
+            g <= 0;
+            b <= 0;
+
+            if (x_pos >= 0 and y_pos >= 190 and y_pos <= 290) then
+                if (begin_menu(x_pos, y_pos - 190, "00") = '1') then
+                    if (y_pos >= 212 and y_pos <= 218) then
+                        if (cursor = "001" and x_pos > 320 and x_pos < 327) then
+                            r <= 10;
+                            g <= 0;
+                            b <= 0;
+                        elsif (cursor = "010" and x_pos > 332 and x_pos < 339) then
+                            r <= 10;
+                            g <= 0;
+                            b <= 0;
+                        elsif (cursor = "011" and x_pos > 344 and x_pos < 351) then
+                            r <= 10;
+                            g <= 0;
+                            b <= 0;
+                        elsif (cursor = "100" and x_pos > 355 and x_pos < 362) then
+                            r <= 10;
+                            g <= 0;
+                            b <= 0;
+                        else
+                            r <= 15;
+                            g <= 15;
+                            b <= 15;
+                        end if;
+
+                    else
+                        r <= 15;
+                        g <= 15;
+                        b <= 15;
+                    end if;
+                else
+                    r <= 0;
+                    g <= 0;
+                    b <= 0;
+                end if;
+            end if;
+
+        elsif (screentype = "01" and x_pos >= 440 and x_pos < 467 and y_pos < 479 and y_pos >= 430) then --bet
+            if (begin_menu(x_pos, y_pos - 432, "01") = '1') then
+                if (cursor = "001" and y_pos >= 441 and y_pos    <= 447 and x_pos >= 440 and x_pos < 451) then
+                    r                                                <= 10;
+                    g                                                <= 0;
+                    b                                                <= 0;
+                elsif (cursor = "010" and y_pos >= 450 and y_pos <= 456 and x_pos >= 440 and x_pos < 451) then
+                    r                                                <= 10;
+                    g                                                <= 0;
+                    b                                                <= 0;
+                elsif (cursor = "011" and y_pos >= 459 and y_pos <= 465 and x_pos >= 440 and x_pos < 456) then
+                    r                                                <= 10;
+                    g                                                <= 0;
+                    b                                                <= 0;
+                elsif (cursor = "100" and y_pos >= 468 and y_pos <= 474 and x_pos >= 440 and x_pos < 456) then
+                    r                                                <= 10;
+                    g                                                <= 0;
+                    b                                                <= 0;
+                else
+                    r <= 15;
+                    g <= 15;
+                    b <= 15;
+                end if;
             else
                 r <= 4;
                 g <= 4;
                 b <= 4;
             end if;
-		  
-		  elsif (screentype = "11") then
-        r <= 0;
-        g <= 0;
-        b <= 0;
 
-        if (x_pos >= 0 and y_pos >= 190 and y_pos <= 290) then
-            if (begin_menu(x_pos, y_pos - 190, "11") = '1') then --end
-					if (y_pos > 260 and cursor = "010") then
-                r <= 10;
-                g <= 0;
-                b <= 0;
-					 elsif (y_pos < 260 and cursor = "001") then
-                r <= 10;
-                g <= 0;
-                b <= 0;
-					else
-					r <=15 ;
-					g <=15;
-					b <= 15;
-					end if;
-            else
-                r <= 0;
-                g <= 0;
-                b <= 0;
-            end if;
-				elsif (x_pos>= 50 and y_pos >= 137 and x_pos <= 161 and y_pos <=189 ) then
-					if (table(x_pos - 50, y_pos - 190, '1', 0, 0, 0, 0, 0, money_a, '1', 0, 0, 0, 0, 0, money_b, '1', 0, 0, 0, 0, 0, money_c, '1', 0, 0, 0,0, 0, money_d) = '1') then
-						r <= 15;
-						g <= 15;
-						b <= 15;
-					else 
-						r <= 0;
-						g <= 0;
-						b <= 0;
-					end if;
-        end if;
-    elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 10 and x_pos <= 109) then -- Player hand
-        if (player ="000" and cards(x_pos - 10, y_pos - 362, carda_1, carda_2, carda_3, carda_4, carda_5) = '1') then
+        elsif (screentype = "11") then
             r <= 0;
             g <= 0;
             b <= 0;
-		  elsif (player ="001" and cards(x_pos - 10, y_pos - 362, cardb_1, cardb_2, cardb_3, cardb_4, cardb_5) = '1') then
-		      r <= 0;
-            g <= 0;
-            b <= 0;
-		  elsif (player ="010" and cards(x_pos - 10, y_pos - 362, cardc_1, cardc_2, cardc_3, cardc_4, cardc_5) = '1') then
-		      r <= 0;
-            g <= 0;
-            b <= 0;
-		  elsif (player ="011" and cards(x_pos - 10, y_pos - 362, cardd_1, cardd_2, cardd_3, cardd_4, cardd_5) = '1') then
-		      r <= 0;
-            g <= 0;
-            b <= 0;
-        else
-            r <= 15;
-            g <= 15;
-            b <= 15;
-        end if;
-     elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219) then
-        if (player = "000" and split1 = '1' and cards(x_pos - 120, y_pos - 362, cardf_1, cardf_2, cardf_3, cardf_4, cardf_5, '1') = '1') then -- Player hand with split
+
+            if (x_pos >= 0 and y_pos >= 190 and y_pos <= 290) then
+                if (begin_menu(x_pos, y_pos - 190, "11") = '1') then --end
+                    if (y_pos > 260 and cursor = "010") then
+                        r <= 10;
+                        g <= 0;
+                        b <= 0;
+                    elsif (y_pos < 260 and cursor = "001") then
+                        r <= 10;
+                        g <= 0;
+                        b <= 0;
+                    else
+                        r <= 15;
+                        g <= 15;
+                        b <= 15;
+                    end if;
+                else
+                    r <= 0;
+                    g <= 0;
+                    b <= 0;
+                end if;
+            elsif (x_pos >= 50 and y_pos >= 137 and x_pos <= 161 and y_pos <= 189) then
+                if (table(x_pos - 50, y_pos - 190, '1', 0, 0, 0, 0, 0, money_a, '1', 0, 0, 0, 0, 0, money_b, '1', 0, 0, 0, 0, 0, money_c, '1', 0, 0, 0, 0, 0, money_d) = '1') then
+                    r <= 15;
+                    g <= 15;
+                    b <= 15;
+                else
+                    r <= 0;
+                    g <= 0;
+                    b <= 0;
+                end if;
+            end if;
+        elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 10 and x_pos <= 109) then -- Player hand
+            if (player = "000" and cards(x_pos - 10, y_pos - 362, carda_1, carda_2, carda_3, carda_4, carda_5) = '1') then
                 r <= 0;
                 g <= 0;
                 b <= 0;
-	elsif (player = "001" and split2 = '1' and cards(x_pos - 120, y_pos - 362, cardf_1, cardf_2, cardf_3, cardf_4, cardf_5, '1') = '1') then
-		r <= 0;
+            elsif (player = "001" and cards(x_pos - 10, y_pos - 362, cardb_1, cardb_2, cardb_3, cardb_4, cardb_5) = '1') then
+                r <= 0;
                 g <= 0;
                 b <= 0;
-	elsif (player = "010" and split3 = '1' and cards(x_pos - 120, y_pos - 362, cardf_1, cardf_2, cardf_3, cardf_4, cardf_5, '1') = '1') then
-		r <= 0;
+            elsif (player = "010" and cards(x_pos - 10, y_pos - 362, cardc_1, cardc_2, cardc_3, cardc_4, cardc_5) = '1') then
+                r <= 0;
                 g <= 0;
                 b <= 0;
-	elsif (player = "011" and split4 = '1' and cards(x_pos - 120, y_pos - 362, cardf_1, cardf_2, cardf_3, cardf_4, cardf_5, '1') = '1') then
-		r <= 0;
+            elsif (player = "011" and cards(x_pos - 10, y_pos - 362, cardd_1, cardd_2, cardd_3, cardd_4, cardd_5) = '1') then
+                r <= 0;
                 g <= 0;
-                b <= 0;  
-	elsif ((player = "000" and split1 = '1') or (player = "001" and split2 = '1') or (player = "010" and split3 = '1') or (player = "011" and split4 = '1')) then
+                b <= 0;
+            else
                 r <= 15;
                 g <= 15;
                 b <= 15;
-        else
-            r <= 2;
-            g <= 11;
-            b <= 2;
-        end if;
-    elsif (y_pos >= 10 and y_pos < 118 and x_pos < 630 and x_pos >= 530) then -- Dealer hand
-        if (cards(x_pos - 530, y_pos - 10, carde_1, carde_2, carde_3, carde_4, carde_5) = '1') then
-            r <= 0;
-            g <= 0;
-            b <= 0;
-        else
-            r <= 15;
-            g <= 15;
-            b <= 15;
-        end if;
-         elsif (y_pos >= 180 and y_pos < 280) then -- Action menu
-				if (action_menu(x_pos, y_pos - 180, hit, hold, em, double, insurance, split) = '1') then
-					if (y_pos >= 202 and y_pos <= 208) then
-            		if (cursor = "001" and x_pos >= 80 and x_pos < 98) then --hit
-							r <= 8;
-							g <= 0;
-							b <= 0;
-						elsif (cursor = "010" and x_pos >= 293 and x_pos < 329) then --double
-							r <= 8;
-							g <= 0;
-							b <= 0;
-						elsif (cursor = "011" and x_pos >= 507 and x_pos < 567) then --even money
-							r <= 8;
-							g <= 0;
-							b <= 0;
-						else 
-							r <= 15;
-                		g <= 15;
-                		b <= 15;
-						end if;
-					elsif (y_pos >= 252 and y_pos <= 258) then
-            		if (cursor = "100" and x_pos >= 80 and x_pos < 104) then -- HOLD
-                		r <= 8;
-                		g <= 0;
-                		b <= 0;
-						elsif (cursor = "101" and x_pos >= 293 and x_pos < 323) then -- SPLIT
-                		r <= 8;
-                		g <= 0;
-                		b <= 0;
-						elsif (cursor = "110" and x_pos >= 507 and x_pos  < 561 ) then -- INSURANCE
-                		r <= 8;
-                		g <= 0;
-                		b <= 0;
-						else
-                		r <= 15;
-                		g <= 15;
-                		b <= 15;
-					end if;
+            end if;
+        elsif (y_pos <= 470 and y_pos >= 362 and x_pos >= 120 and x_pos <= 219) then
+            if (player = "000" and split1 = '1' and cards(x_pos - 120, y_pos - 362, cardf_1, cardf_2, cardf_3, cardf_4, cardf_5, '1') = '1') then -- Player hand with split
+                r <= 0;
+                g <= 0;
+                b <= 0;
+            elsif (player = "001" and split2 = '1' and cards(x_pos - 120, y_pos - 362, cardf_1, cardf_2, cardf_3, cardf_4, cardf_5, '1') = '1') then
+                r <= 0;
+                g <= 0;
+                b <= 0;
+            elsif (player = "010" and split3 = '1' and cards(x_pos - 120, y_pos - 362, cardf_1, cardf_2, cardf_3, cardf_4, cardf_5, '1') = '1') then
+                r <= 0;
+                g <= 0;
+                b <= 0;
+            elsif (player = "011" and split4 = '1' and cards(x_pos - 120, y_pos - 362, cardf_1, cardf_2, cardf_3, cardf_4, cardf_5, '1') = '1') then
+                r <= 0;
+                g <= 0;
+                b <= 0;
+            elsif ((player = "000" and split1 = '1') or (player = "001" and split2 = '1') or (player = "010" and split3 = '1') or (player = "011" and split4 = '1')) then
+                r <= 15;
+                g <= 15;
+                b <= 15;
             else
-             	r <= 15;
-              	g <= 15;
-              	b <= 15;
-				end if;
-			else
-				r <= 4;
-				g <= 4;
-            b <= 4;
-         end if;
-			 
-			 
-    elsif (x_pos < 630 and x_pos >= 544 and y_pos < 470 and y_pos >= 429) then -- Details
-        if (x_pos = 544 or x_pos = 629 or y_pos = 429 or y_pos = 469) then
-            r <= 0;
-            g <= 0;
-            b <= 0;
-        elsif (player = "000" and details(x_pos - 545, y_pos - 430, 1, money_a, bet1, doubledown1, insurance1) = '1') then
-            r <= 15;
-            g <= 15;
-            b <= 15;
-	elsif (player = "001" and details(x_pos - 545, y_pos - 430, 2, money_b, bet2, doubledown2, insurance2) = '1') then
-            r <= 15;
-            g <= 15;
-            b <= 15;
-	elsif (player = "010" and details(x_pos - 545, y_pos - 430, 3, money_c, bet3, doubledown3, insurance3) = '1') then
-            r <= 15;
-            g <= 15;
-            b <= 15;
-	elsif (player = "011" and details(x_pos - 545, y_pos - 430, 4, money_c, bet4, doubledown4, insurance4) = '1') then
-            r <= 15;
-            g <= 15;
-            b <= 15;
-	
-        else
-            r <= 2;
-            g <= 11;
-            b <= 2;
-        end if;
-    elsif (x_pos >= 10 and y_pos >= 10 and x_pos < 122 and y_pos < 62) then -- Table
-        if (x_pos = 10 or x_pos = 121 or y_pos = 10 or y_pos = 61) then
-            r <= 0;
-            g <= 0;
-            b <= 0;
-        elsif (x_pos <= 12 or x_pos >= 138 or y_pos <= 12 or y_pos >= 59) then
-            r <= 2;
-            g <= 11;
-            b <= 2;
-        elsif (table(x_pos - 13, y_pos - 13, '1', carda_1, carda_2, carda_3, carda_4, carda_5,money_a, '1', cardb_1, cardb_2, cardb_3, cardb_4, cardb_5, money_b, '1', cardc_1, cardc_2, cardc_3, cardc_4, cardc_5, money_c, '1', cardd_1, cardd_2, cardd_3,cardd_4, cardd_5,money_d) = '1') then
-            r <= 15;
-            g <= 15;
-            b <= 15;
-        else
-            r <= 2;
-            g <= 11;
-            b <= 2;
-        end if;
-    else
-        r <= 2;
-        g <= 11;
-        b <= 2;
-    end if;
+                r <= 2;
+                g <= 11;
+                b <= 2;
+            end if;
+        elsif (y_pos >= 10 and y_pos < 118 and x_pos < 630 and x_pos >= 530) then -- Dealer hand
+            if (cards(x_pos - 530, y_pos - 10, carde_1, carde_2, carde_3, carde_4, carde_5) = '1') then
+                r <= 0;
+                g <= 0;
+                b <= 0;
+            else
+                r <= 15;
+                g <= 15;
+                b <= 15;
+            end if;
+        elsif (y_pos >= 180 and y_pos < 280) then -- Action menu
+            if (action_menu(x_pos, y_pos - 180, hit, hold, em, double, insurance, split) = '1') then
+                if (y_pos >= 202 and y_pos <= 208) then
+                    if (cursor = "001" and x_pos >= 80 and x_pos < 98) then --hit
+                        r <= 8;
+                        g <= 0;
+                        b <= 0;
+                    elsif (cursor = "010" and x_pos >= 293 and x_pos < 329) then --double
+                        r <= 8;
+                        g <= 0;
+                        b <= 0;
+                    elsif (cursor = "011" and x_pos >= 507 and x_pos < 567) then --even money
+                        r <= 8;
+                        g <= 0;
+                        b <= 0;
+                    else
+                        r <= 15;
+                        g <= 15;
+                        b <= 15;
+                    end if;
+                elsif (y_pos >= 252 and y_pos <= 258) then
+                    if (cursor = "100" and x_pos >= 80 and x_pos < 104) then -- HOLD
+                        r <= 8;
+                        g <= 0;
+                        b <= 0;
+                    elsif (cursor = "101" and x_pos >= 293 and x_pos < 323) then -- SPLIT
+                        r <= 8;
+                        g <= 0;
+                        b <= 0;
+                    elsif (cursor = "110" and x_pos >= 507 and x_pos < 561) then -- INSURANCE
+                        r <= 8;
+                        g <= 0;
+                        b <= 0;
+                    else
+                        r <= 15;
+                        g <= 15;
+                        b <= 15;
+                    end if;
+                else
+                    r <= 15;
+                    g <= 15;
+                    b <= 15;
+                end if;
+            else
+                r <= 4;
+                g <= 4;
+                b <= 4;
+            end if;
+        elsif (x_pos < 630 and x_pos >= 544 and y_pos < 470 and y_pos >= 429) then -- Details
+            if (x_pos = 544 or x_pos = 629 or y_pos = 429 or y_pos = 469) then
+                r <= 0;
+                g <= 0;
+                b <= 0;
+            elsif (player = "000" and details(x_pos - 545, y_pos - 430, 1, money_a, bet1, doubledown1, insurance1) = '1') then
+                r <= 15;
+                g <= 15;
+                b <= 15;
+            elsif (player = "001" and details(x_pos - 545, y_pos - 430, 2, money_b, bet2, doubledown2, insurance2) = '1') then
+                r <= 15;
+                g <= 15;
+                b <= 15;
+            elsif (player = "010" and details(x_pos - 545, y_pos - 430, 3, money_c, bet3, doubledown3, insurance3) = '1') then
+                r <= 15;
+                g <= 15;
+                b <= 15;
+            elsif (player = "011" and details(x_pos - 545, y_pos - 430, 4, money_c, bet4, doubledown4, insurance4) = '1') then
+                r <= 15;
+                g <= 15;
+                b <= 15;
 
-end process;
+            else
+                r <= 2;
+                g <= 11;
+                b <= 2;
+            end if;
+        elsif (x_pos >= 10 and y_pos >= 10 and x_pos < 122 and y_pos < 62) then -- Table
+            if (x_pos = 10 or x_pos = 121 or y_pos = 10 or y_pos = 61) then
+                r <= 0;
+                g <= 0;
+                b <= 0;
+            elsif (x_pos <= 12 or x_pos >= 138 or y_pos <= 12 or y_pos >= 59) then
+                r <= 2;
+                g <= 11;
+                b <= 2;
+            elsif (table(x_pos - 13, y_pos - 13, '1', carda_1, carda_2, carda_3, carda_4, carda_5, money_a, '1', cardb_1, cardb_2, cardb_3, cardb_4, cardb_5, money_b, '1', cardc_1, cardc_2, cardc_3, cardc_4, cardc_5, money_c, '1', cardd_1, cardd_2, cardd_3, cardd_4, cardd_5, money_d) = '1') then
+                r <= 15;
+                g <= 15;
+                b <= 15;
+            else
+                r <= 2;
+                g <= 11;
+                b <= 2;
+            end if;
+        else
+            r <= 2;
+            g <= 11;
+            b <= 2;
+        end if;
+    end process;
 end architecture;
