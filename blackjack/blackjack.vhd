@@ -334,6 +334,7 @@ end component;
 	signal player_turn_in_signal, player_turn_new_signal : std_logic_vector(2 downto 0); -- which player is at turn
 
 	signal broke1, broke2, broke3, broke4 : std_logic;
+	signal player_a_signal, player_b_signal, player_c_signal, player_d_signal : std_logic;
 	signal select_signal, left_signal, right_signal,  H_sync_signal, V_sync_signal : std_logic;  -- gamepad inputs controller and sync signals vga driver
 	signal x_pos_signal, y_pos_signal : std_logic_vector(9 downto 0); -- current horizontal and vertical pixel position
 	signal red_signal, green_signal, blue_signal : std_logic_vector(3 downto 0); -- rgb signals
@@ -365,7 +366,7 @@ begin
 
 				player_out => player_turn_in_signal, -- goes to controller, updates which player is at turn
 				 
-				-- player_a_out => player_a_out_signal, player_b_out=> player_b_out_signal, player_c_out => player_c_out_signal, player_d_out => player_d_out_signal, -- to ???
+				player_a_out => player_a_signal, player_b_out=> player_b_signal, player_c_out => player_c_signal, player_d_out => player_d_signal, -- to ???
 				 
 				money1_out => money1_signal, money2_out => money2_signal, money3_out => money3_signal, money4_out => money4_signal, -- goes to controller and gpu
 				bid1_out => bid1_signal, bid2_out => bid2_signal, bid3_out => bid3_signal, bid4_out => bid4_signal, -- goes to controller and gpu
@@ -445,7 +446,7 @@ begin
 				split1 => split1_signal, split2 => split2_signal, split3 => split3_signal, split4 => split4_signal,
 				insurance1 => insurance1_signal, insurance2 => insurance2_signal, insurance3 => insurance3_signal, insurance4 => insurance4_signal,
 				doubledown1 => double1, doubledown2 => double2, doubledown3 => double3, doubledown4 => double4,
-				player => Player_Turn_in_signal, player_a => not broke1, player_b => not broke2, player_c => not broke3, player_d => not broke4);
+				player => Player_Turn_in_signal, player_a => player_a_signal, player_b => player_b_signal, player_c => player_c_signal, player_d => player_d_signal);
 				
 				
 
