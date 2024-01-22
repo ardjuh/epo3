@@ -1518,7 +1518,9 @@ begin
             end if;
         elsif (y_pos >= 180 and y_pos < 280) then -- Action menu
             if (action_menu(x_pos, y_pos - 180, hit, hold, em, double, insurance, split) = '1') then
-                if (y_pos >= 202 and y_pos <= 208) then
+                if (screentype /= "10") then
+                    null
+                elsif (y_pos >= 202 and y_pos <= 208) then
                     if (cursor = "001" and x_pos >= 80 and x_pos < 98) then --hit
                         r <= 8;
                         g <= 0;
