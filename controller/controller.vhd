@@ -133,7 +133,7 @@ signal N_Players : std_logic_vector (2 downto 0);
 signal Player1_Bid_Value, Player2_Bid_Value, Player3_Bid_Value, Player4_Bid_Value : std_logic_vector (4 downto 0);
 signal Player1_Inactive, Player2_Inactive, Player3_inactive, Player4_Inactive : std_logic;
 signal bids_placed, bid_successful, require_card, card_received : std_logic;  
-signal first_card_deal, dealer_card_deal, second_card_deal : std_logic;
+signal first_card_deal, new_first_card_deal, dealer_card_deal, second_card_deal : std_logic;
 
 signal even_money_selected, insurance_selected, split_selected, double_selected, hit_selected, hold_selected : std_logic;
 signal even_money_selectable, insurance_selectable, split_selectable, double_selectable, hit_selectable, hold_selectable : std_logic;
@@ -180,7 +180,7 @@ begin
 		Reserve_Hand_Card_1, Reserve_Hand_Card_2, Reserve_Hand_Card_3, Reserve_Hand_Card_4, Reserve_Hand_Card_5, Reserve_Hand_Score,
 		current_screen_position, bid_successful, choose_action, start_screen,
 		hold_selectable, hit_selectable, double_selectable, split_selectable, insurance_selectable, even_money_selectable,
-		score_screen, first_card_deal, random_card, second_card_deal, dealer_card_deal, 
+		score_screen, new_first_card_deal, random_card, second_card_deal, dealer_card_deal, 
 		hold_selected, hit_selected, double_selected, split_selected, insurance_selected, even_money_selected,
 		card_received, require_card, Player1_Insured, Player2_Insured, Player3_Insured, Player4_Insured, Player1_Doubled_Down,
 		Player2_Doubled_Down, Player3_Doubled_Down, Player4_Doubled_Down, Player1_Inactive, Player2_Inactive, Player3_Inactive, Player4_Inactive, draw_screen_type, 
@@ -234,8 +234,7 @@ begin
 				choose_action <= '0';
 				score_screen <= '0';
 
-				draw_screen_type <= "10"; 
-				new_state <= player_action;
+		draw_screen_type <= "10";
 
 		request_card <= '0';
 		new_card <= "0000";
@@ -273,6 +272,8 @@ begin
 		even_money_option <= even_money_selectable;
 
 		round_end <= '0';
+		
+		new_start_screen <= start_screen;
 
 
 		case state is
@@ -320,7 +321,7 @@ begin
 				split_player <= "000";
 				split_player_turn <= '0';
 
-				choose_action <= '0';
+			player_action	choose_action <= '0';
 				score_screen <= '0';
 
 				draw_screen_type <= "00"; 
@@ -334,7 +335,7 @@ begin
 				double_selected <= '0';
 				split_selected <='0';
 				hit_selected <= '0';
-				hold_selected <= '0';
+			player_action	hold_selected <= '0';
 
 				bid_successful <= '0';
 					
@@ -367,7 +368,7 @@ begin
 						second_card_deal <= '0';
 						new_state <= game_resolution; 
 
-					else
+			player_action		else
 						first_card_deal <= '0';
 						dealer_card_deal <= '0';
 						second_card_deal <= '1';
@@ -469,7 +470,7 @@ begin
 								else 
 								double_selectable <= '0';
 							end if;
-								
+			player_action					
 							hit_selectable <= '1';
 							new_state <= player_action;			
 
@@ -767,7 +768,7 @@ begin
 								Player3_win_type <= "001";
 								new_state <= game_setup;
 
-						elsif ( unsigned(Player4_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
+						elsif ( player_actionunsigned(Player4_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
 								Player4_win_type <= "001";
 								new_state <= game_setup;
 
@@ -838,7 +839,7 @@ begin
 								Player2_win_type <= "100";
 								new_state <= game_setup;
 
-							elsif ( split_player = "011" ) then
+							elsif player_action( split_player = "011" ) then
 								Player3_win_type <= "100";
 								new_state <= game_setup;
 
@@ -851,6 +852,9 @@ begin
 				end if;
 		
 			when player_action =>
+			if ( switch_select = '1' ) then
+							new_start_screen <= '0';
+					end if;
 				if ( start_screen = '1' ) then    
 					draw_screen_type<= "00";
 					-- menu for choosing players --
@@ -895,7 +899,6 @@ begin
 								--new_state <= player_action;
 								--choose_action <= '1';
 								--draw_screen_type <= "01";     --- 01 says draw the bidding box ---
-								--start_screen <= '0';
 								new_state <= game_setup;
 
 							elsif ( current_screen_position = "011" ) then
@@ -905,7 +908,6 @@ begin
 								--new_state <= player_action;
 								new_state <= game_setup;
 
-				new_start_screen <= '1';
 							else
 								N_Players <= "100";
 								enable <= '1';
@@ -1271,7 +1273,6 @@ begin
 							
 				elsif (second_card_deal = '1') and (random_card = "0000") then
 					--require_card <= '1';
-architecture beh
 					new_state <= pending_card_a;
 							
 				elsif (dealer_card_deal = '1') and (random_card = "0000") then
@@ -1461,4 +1462,3 @@ architecture beh
             end case;
       end process;
 end architecture;
-
