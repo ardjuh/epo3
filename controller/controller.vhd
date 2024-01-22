@@ -796,79 +796,29 @@ begin
                 end if;
             when player_action =>
                 if (switch_select = '1') then
+                    new_state        <= game_setup;
                     new_start_screen <= '0';
+                    enable           <= '1';
+                    if (N_Players = "000") then
+                        if (current_screen_position = "001") then
+                            N_Players_new    <= "001";
+                            Player2_Inactive <= '1';
+                            Player3_Inactive <= '1';
+                            Player4_Inactive <= '1';
+                        elsif (current_screen_position = "010") then
+                            N_Players_new    <= "010";
+                            Player3_Inactive <= '1';
+                            Player4_Inactive <= '1';
+                        elsif (current_screen_position = "011") then
+                            N_Players_new    <= "011";
+                            Player4_Inactive <= '1';
+                        else
+                            N_Players_new <= "100";
+                        end if;
+                    end if;
                 end if;
                 if (start_screen = '1') then
                     draw_screen_type <= "00";
-                    -- menu for choosing players --
-                    if (N_Players = "000") then
-                        if (switch_left = '1') then
-                            if (current_screen_position = "001") then -- if at option 1, left moves to option 4 --
-                                new_current_screen_position <= "100";
-                                new_state                   <= player_action;
-                            else
-                                new_current_screen_position <= current_screen_position - 1;
-                                new_state                   <= player_action;
-                            end if;
-
-                        elsif (switch_right = '1') then
-                            if (current_screen_position = "100") then -- if at option 4, right moves to option 1 --
-                                new_current_screen_position <= "001";
-                                new_state                   <= player_action;
-                            else
-                                new_current_screen_position <= current_screen_position + 1;
-                                new_state                   <= player_action;
-                            end if;
-
-                        elsif (switch_select = '1') then
-                            if (current_screen_position = "001") then
-                                N_Players_new    <= "001";
-                                Player2_Inactive <= '1';
-                                Player3_Inactive <= '1';
-                                Player4_Inactive <= '1';
-                                enable           <= '1';
-
-                                new_start_screen <= '0';
-                                --new_state <= player_action;
-                                new_state <= game_setup;
-
-                            elsif (current_screen_position = "010") then
-                                N_Players_new    <= "010";
-                                Player3_Inactive <= '1';
-                                Player4_Inactive <= '1';
-                                enable           <= '1';
-
-                                new_start_screen <= '1';
-                                --new_state <= player_action;
-                                --choose_action <= '1';
-                                --draw_screen_type <= "01";     --- 01 says draw the bidding box ---
-                                new_state <= game_setup;
-
-                            elsif (current_screen_position = "011") then
-                                N_Players_new    <= "011";
-                                Player4_Inactive <= '1';
-                                enable           <= '1';
-                                --new_state <= player_action;
-                                new_state <= game_setup;
-
-                            else
-                                N_Players_new <= "100";
-                                enable        <= '1';
-                                --new_state <= player_action;
-                                new_state <= game_setup;
-                            end if;
-                        else
-                            new_state <= player_action;
-                        end if;
-
-                    elsif (switch_select = '1') then
-                        choose_action    <= '1';
-                        new_start_screen <= '0';
-                        new_state        <= game_setup;
-                    else
-                        new_state <= player_action;
-                    end if;
-
                 elsif (choose_action = '1') and (draw_screen_type /= "00") then
                     if (bids_placed = '0') then
                         if (unsigned(N_Players) > Player_Turn_In) and (bid_successful = '1') then
