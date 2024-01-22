@@ -758,7 +758,7 @@ begin
                     new_state  <= game_setup;
                     bid_enable <= '1';
                     bids_placed_new <= '1';
-                    start_screen_new <= '0';
+                    new_start_screen <= '0';
                     if (current_screen_position = "001") then
                         Player1_Bid_New <= "00";
                     elsif (current_screen_position = "010") then
