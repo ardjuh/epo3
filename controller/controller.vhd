@@ -338,7 +338,7 @@ begin
                     choose_action    <= '1';
 
                 elsif (start_screen = '1') then
-                    new_state        <= bet_state;
+                    new_state        <= player_action;
                     draw_screen_type <= "00";
 
                 elsif (bids_placed = '0') and (N_Players /= "000") and (start_screen = '0') then -- bidding screen condition--
@@ -768,7 +768,6 @@ begin
             when bet_state =>
                 draw_screen_type <= "01";
                 choose_action    <= '1';
-                new_state        <= bet_state;
                 if (switch_select = '1') then
                     new_state  <= game_setup;
                     bid_enable <= '1';
@@ -815,6 +814,18 @@ begin
                         else
                             N_Players_new <= "100";
                         end if;
+                    end if;
+                elsif (switch_left = '1') then
+                    if (current_screen_position = "001") then -- if at option 1, left moves to option 4 --
+                        new_current_screen_position <= "100";
+                    else
+                        new_current_screen_position <= current_screen_position - 1;
+                    end if;
+                elsif (switch_right = '1') then
+                    if (current_screen_position = "100") then -- if at option 4, right moves to option 1 --
+                        new_current_screen_position <= "001";
+                    else
+                        new_current_screen_position <= current_screen_position + 1;
                     end if;
                 end if;
                 if (start_screen = '1') then
