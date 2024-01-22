@@ -127,7 +127,7 @@ architecture behaviour of controller is
 
     signal state, new_state               : controller_state;
     signal start_screen, new_start_screen : std_logic;
-    signal N_Players                      : std_logic_vector (2 downto 0);
+    signal N_Players, N_Players_new                      : std_logic_vector (2 downto 0);
 
     signal Player1_Bid_Value, Player2_Bid_Value, Player3_Bid_Value, Player4_Bid_Value : std_logic_vector (4 downto 0);
     signal Player1_Inactive, Player2_Inactive, Player3_inactive, Player4_Inactive     : std_logic;
@@ -315,8 +315,7 @@ begin
 
                 split_player      <= "000";
                 split_player_turn <= '0';
-
-                player_action choose_action <= '0';
+					 choose_action <= '0';
                 score_screen                <= '0';
 
                 draw_screen_type <= "00";
@@ -328,7 +327,7 @@ begin
                 double_selected             <= '0';
                 split_selected              <= '0';
                 hit_selected                <= '0';
-                player_action hold_selected <= '0';
+                hold_selected <= '0';
 
                 bid_successful <= '0';
 
@@ -361,7 +360,7 @@ begin
                         second_card_deal <= '0';
                         new_state        <= game_resolution;
 
-                        player_action else
+                    else
                         first_card_deal  <= '0';
                         dealer_card_deal <= '0';
                         second_card_deal <= '1';
@@ -463,7 +462,7 @@ begin
                             else
                                 double_selectable <= '0';
                             end if;
-                            player_action
+                            
                             hit_selectable <= '1';
                             new_state      <= player_action;
 
@@ -744,7 +743,7 @@ begin
                         Player2_win_type <= "001";
                     elsif (unsigned(Player3_Hand_Score) = unsigned(Dealer_Hand_Score)) then
                         Player3_win_type <= "001";
-                    elsif (player_actionunsigned(Player4_Hand_Score) = unsigned(Dealer_Hand_Score)) then
+                    elsif (unsigned(Player4_Hand_Score) = unsigned(Dealer_Hand_Score)) then
                         Player4_win_type <= "001";
                     elsif (unsigned(Player4_Hand_Score) = unsigned(Dealer_Hand_Score)) then
                         Player4_win_type <= "001";
@@ -786,7 +785,7 @@ begin
                         Player1_win_type <= "100";
                     elsif (split_player = "010") then
                         Player2_win_type <= "100";
-                    elsif player_action(split_player = "011") then
+                    elsif (split_player = "011") then
                         Player3_win_type <= "100";
                     else
                         Player4_win_type <= "100";
