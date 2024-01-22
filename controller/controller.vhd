@@ -334,6 +334,7 @@ begin
                     enable         <= '1';
                     request_card   <= '1';
                     Receiving_Hand <= "110";
+                    new_card       <= random_card;
                 elsif (bids_placed = '0') then
                     new_state <= bet_state;
                 elsif (start_screen = '0') and (score_screen = '0') and (bids_placed = '1') then
@@ -729,6 +730,7 @@ begin
                     bid_enable       <= '1';
                     bids_placed_new  <= '1';
                     new_start_screen <= '0';
+                    Receiving_Hand <= "001";
                     if (current_screen_position = "001") then
                         Player1_Bid_New <= "00";
                     elsif (current_screen_position = "010") then
