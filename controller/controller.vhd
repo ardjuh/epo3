@@ -184,7 +184,7 @@ begin
         hold_selected, hit_selected, double_selected, split_selected, insurance_selected, even_money_selected,
         card_received, require_card, Player1_Insured, Player2_Insured, Player3_Insured, Player4_Insured, Player1_Doubled_Down,
         Player2_Doubled_Down, Player3_Doubled_Down, Player4_Doubled_Down, Player1_Inactive, Player2_Inactive, Player3_Inactive, Player4_Inactive, draw_screen_type,
-        N_Players, Player1_Bid_Value, Player2_Bid_Value, Player3_Bid_Value, Player4_Bid_Value
+        N_Players, Player1_Bid_Value, Player2_Bid_Value, Player3_Bid_Value, Player4_Bid_Value, first_card_deal
         )
 
     begin
@@ -766,7 +766,7 @@ begin
                     end if;
                 end if;
             when bet_state =>
-                draw_screen_type <= "01";
+                draw_screen_type <= "10";
                 choose_action    <= '1';
                 if (switch_select = '1') then
                     new_state  <= game_setup;
