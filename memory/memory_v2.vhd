@@ -58,12 +58,43 @@ begin
     h5_l : hand port map(clk => clk, rst => rst or end_round, enable => h5, card => card_in, card1 => card5_1_out, card2 => card5_2_out, card3 => card5_3_out, card4 => card5_4_out, card5 => card5_5_out, score => score5_out);
     h6_l : hand port map(clk => clk, rst => rst or end_round, enable => h6, card => card_in, card1 => card6_1_out, card2 => card6_2_out, card3 => card6_3_out, card4 => card6_4_out, card5 => card6_5_out, score => score6_out);
 
-    p1_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h1, bid_enable => bid_enable, player_in => player_a_in, split_in => split, profit => profit, bid => bid, bid_in => bid1_in, insurance_in => insurance, doubledown_in => doubledown, player_out => player_a_out, bid_out => bid1_out, money => money1_out, insurance_out => insurance1_out, doubledown_out => doubledown1_out, split_out => split1_out);
-    p2_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h2, bid_enable => bid_enable, player_in => player_b_in, split_in => split, profit => profit, bid => bid, bid_in => bid2_in, insurance_in => insurance, doubledown_in => doubledown, player_out => player_b_out, bid_out => bid2_out, money => money2_out, insurance_out => insurance2_out, doubledown_out => doubledown2_out, split_out => split2_out);
-    p3_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h3, bid_enable => bid_enable, player_in => player_c_in, split_in => split, profit => profit, bid => bid, bid_in => bid3_in, insurance_in => insurance, doubledown_in => doubledown, player_out => player_c_out, bid_out => bid3_out, money => money3_out, insurance_out => insurance3_out, doubledown_out => doubledown3_out, split_out => split3_out);
-    p4_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h4, bid_enable => bid_enable, player_in => player_d_in, split_in => split, profit => profit, bid => bid, bid_in => bid4_in, insurance_in => insurance, doubledown_in => doubledown, player_out => player_d_out, bid_out => bid4_out, money => money4_out, insurance_out => insurance4_out, doubledown_out => doubledown4_out, split_out => split4_out);
+    p1_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h1, bid_enable => b1, player_in => player_a_in, split_in => split, profit => profit, bid => bid, bid_in => bid1_in, insurance_in => insurance, doubledown_in => doubledown, player_out => player_a_out, bid_out => bid1_out, money => money1_out, insurance_out => insurance1_out, doubledown_out => doubledown1_out, split_out => split1_out);
+    p2_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h2, bid_enable => b2, player_in => player_b_in, split_in => split, profit => profit, bid => bid, bid_in => bid2_in, insurance_in => insurance, doubledown_in => doubledown, player_out => player_b_out, bid_out => bid2_out, money => money2_out, insurance_out => insurance2_out, doubledown_out => doubledown2_out, split_out => split2_out);
+    p3_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h3, bid_enable => b3, player_in => player_c_in, split_in => split, profit => profit, bid => bid, bid_in => bid3_in, insurance_in => insurance, doubledown_in => doubledown, player_out => player_c_out, bid_out => bid3_out, money => money3_out, insurance_out => insurance3_out, doubledown_out => doubledown3_out, split_out => split3_out);
+    p4_l : player port map(clk => clk, rst => rst, mem_rst => end_round, enable => h4, bid_enable => b4, player_in => player_d_in, split_in => split, profit => profit, bid => bid, bid_in => bid4_in, insurance_in => insurance, doubledown_in => doubledown, player_out => player_d_out, bid_out => bid4_out, money => money4_out, insurance_out => insurance4_out, doubledown_out => doubledown4_out, split_out => split4_out);
 
     flipflup : input_ff port map(clk => clk, D => enable, Q => enable_i);
+
+    process (bid_enable, b1, b2, b3, b4)
+    begin
+        case recieving_hand is
+            when "001" =>
+                bid1_in <= b1;
+                bid2_in <= "00";
+                bid3_in <= "00";
+                bid4_in <= "00";
+            when "010" =>
+                bid1_in <= "00";
+                bid2_in <= b2;
+                bid3_in <= "00";
+                bid4_in <= "00";
+            when "011" =>
+                bid1_in <= "00";
+                bid2_in <= "00";
+                bid3_in <= b3;
+                bid4_in <= "00";
+            when "100" =>
+                bid1_in <= "00";
+                bid2_in <= "00";
+                bid3_in <= "00";
+                bid4_in <= b4;
+            when others =>
+                bid1_in <= "00";
+                bid2_in <= "00";
+                bid3_in <= "00";
+                bid4_in <= "00";
+        end case;
+    end process;
 
     process (recieving_hand, bid1_in, bid2_in, bid3_in, bid4_in, win_type1_in, win_type2_in, win_type3_in, win_type4_in, enable)
     begin
