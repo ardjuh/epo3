@@ -45,7 +45,7 @@ architecture behavior of memory_v2 is
 
     signal h1, h2, h3, h4, h5, h6 : std_logic                    := '0';
     signal profit                 : std_logic_vector(6 downto 0) := "0000000";
-    signal bid                    : std_logic_vector(4 downto 0) := "00000";
+    signal bid                    : std_logic_vector(4 downto 0) := "000000";
     signal bid_temp               : std_logic_vector(1 downto 0) := "00";
     signal win_type_temp          : std_logic_vector(2 downto 0) := "000";
     signal player_temp            : std_logic_vector(2 downto 0) := "000";
@@ -193,31 +193,31 @@ begin
                 profit <= "0000000";
         end case;
 
-        if (doubledown = '1') then
+        if (doubledown = '0') then
             case bid_temp is
                 when "00" =>
-                    bid <= "00010";
+                    bid <= "000100";
                 when "01" =>
-                    bid <= "00110";
+                    bid <= "001100";
                 when "10" =>
-                    bid <= "01010";
+                    bid <= "010100";
                 when "11" =>
-                    bid <= "10100";
+                    bid <= "101000";
                 when others =>
-                    bid <= "00000";
+                    bid <= "000000";
             end case;
         else
             case bid_temp is
                 when "00" =>
-                    bid <= "00001";
+                    bid <= "001000";
                 when "01" =>
-                    bid <= "00011";
+                    bid <= "011000";
                 when "10" =>
-                    bid <= "00101";
+                    bid <= "101000";
                 when "11" =>
-                    bid <= "01010";
+                    bid <= "101000";
                 when others =>
-                    bid <= "00000";
+                    bid <= "000000";
             end case;
         end if;
     end process;
