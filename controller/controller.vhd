@@ -142,7 +142,7 @@ architecture behaviour of controller is
     signal split_player      : std_logic_vector (2 downto 0);
     signal split_player_turn : std_logic;
 
-    signal choose_action, score_screen : std_logic;
+    signal score_screen : std_logic;
 
     signal draw_screen_type                                                                         : std_logic_vector (1 downto 0);
     signal current_screen_position, new_current_screen_position, Player_Turn_In, new_Player_Turn_In : unsigned(2 downto 0);
@@ -178,7 +178,7 @@ begin
         Player1_Budget, Player2_Budget, Player3_Budget, Player4_Budget,
         Player1_Bid, Player2_Bid, Player3_Bid, Player4_Bid,
         Reserve_Hand_Card_1, Reserve_Hand_Card_2, Reserve_Hand_Card_3, Reserve_Hand_Card_4, Reserve_Hand_Card_5, Reserve_Hand_Score,
-        current_screen_position, bid_successful, choose_action, start_screen,
+        current_screen_position, bid_successful, start_screen,
         hold_selectable, hit_selectable, double_selectable, split_selectable, insurance_selectable, even_money_selectable,
         score_screen, new_first_card_deal, random_card, second_card_deal, dealer_card_deal,
         hold_selected, hit_selected, double_selected, split_selected, insurance_selected, even_money_selected,
@@ -231,7 +231,6 @@ begin
         split_player      <= "000";
         split_player_turn <= '0';
 
-        choose_action <= '0';
         score_screen  <= '0';
 
         draw_screen_type <= "10";
@@ -317,7 +316,6 @@ begin
 
                 split_player      <= "000";
                 split_player_turn <= '0';
-                choose_action     <= '0';
                 score_screen      <= '0';
 
                 draw_screen_type <= "00";
@@ -332,22 +330,13 @@ begin
                 hold_selected       <= '0';
 
                 bid_successful <= '0';
-
-                if (start_screen = '0') and (score_screen = '0') and (bids_placed = '1') then
-                    draw_screen_type <= "10"; ----- 10 tells graphics cursor to track the action menu -----
-                    choose_action    <= '1';
-
-                elsif (start_screen = '1') then
+                if (start_screen = '1') then
                     new_state        <= player_action;
                     draw_screen_type <= "00";
-
-                elsif (bids_placed = '0') and (N_Players /= "000") and (start_screen = '0') then -- bidding screen condition--
-                    draw_screen_type <= "01"; ----- 10 tells graphics cursor to track the bidding menu -----
-                    choose_action    <= '1';
-                    new_state        <= bet_state;
-
-                    -- Check whether starting cards have been dealt -- 
-                    -- If yes, check which dealing phase we're in based on player count--
+                elsif (bids_placed = '0') then
+                    new_state <= bet_state;
+                elsif (start_screen = '0') and (score_screen = '0') and (bids_placed = '1') then
+                    draw_screen_type <= "10"; ----- 10 tells graphics cursor to track the action menu -----
                 elsif (N_Players = "001") and (bids_placed = '1') then -- if 1 player total, switch phases based on Player 1 cards --
                     new_Player_Turn_In <= "001";
                     if (Player1_Hand_Card_1 = "0000") then -- Dealer receives a card after the last player received their first card --
@@ -697,7 +686,6 @@ begin
                 else
                     score_screen     <= '1';
                     draw_screen_type <= "11";
-                    choose_action    <= '0';
                     enable           <= '1';
                     new_state        <= game_setup;
 
@@ -766,8 +754,7 @@ begin
                     end if;
                 end if;
             when bet_state =>
-                draw_screen_type <= "10";
-                choose_action    <= '1';
+                draw_screen_type <= "01";
                 if (switch_select = '1') then
                     new_state  <= game_setup;
                     bid_enable <= '1';
@@ -830,7 +817,7 @@ begin
                 end if;
                 if (start_screen = '1') then
                     draw_screen_type <= "00";
-                elsif (choose_action = '1') and (draw_screen_type /= "00") then
+                elsif (draw_screen_type /= "00") then
                     if (bids_placed = '0') then
                         if (unsigned(N_Players) > Player_Turn_In) and (bid_successful = '1') then
                             new_Player_Turn_In <= Player_Turn_In + 1;
