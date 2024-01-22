@@ -132,7 +132,7 @@ architecture behaviour of controller is
 
     signal Player1_Bid_Value, Player2_Bid_Value, Player3_Bid_Value, Player4_Bid_Value : std_logic_vector (4 downto 0);
     signal Player1_Inactive, Player2_Inactive, Player3_inactive, Player4_Inactive     : std_logic;
-    signal bids_placed, bid_successful, require_card, card_received                   : std_logic;
+    signal bids_placed, bids_placed_new, bid_successful, require_card, card_received  : std_logic;
     signal first_card_deal, new_first_card_deal, dealer_card_deal, second_card_deal   : std_logic;
 
     signal even_money_selected, insurance_selected, split_selected, double_selected, hit_selected, hold_selected             : std_logic;
@@ -156,14 +156,14 @@ begin
                 Player_Turn_In          <= "001";
                 start_screen            <= '1';
                 N_Players               <= "000";
-
+                bids_placed             <= '0';
             else
                 state                   <= new_state;
                 current_screen_position <= new_current_screen_position;
                 Player_Turn_In          <= new_Player_Turn_In;
                 start_screen            <= new_start_screen;
                 N_Players               <= N_Players_new;
-
+                bids_placed             <= bids_placed_new;
             end if;
         end if;
     end process;
@@ -231,7 +231,7 @@ begin
         split_player      <= "000";
         split_player_turn <= '0';
 
-        score_screen  <= '0';
+        score_screen <= '0';
 
         draw_screen_type <= "10";
 
@@ -272,6 +272,7 @@ begin
 
         new_start_screen <= start_screen;
         new_state        <= state;
+        bids_placed_new  <= bids_placed;
         case state is
             when reset_state =>
                 N_Players_new  <= "000";
@@ -828,8 +829,8 @@ begin
                         elsif (bid_successful = '1') and (unsigned(N_Players) = Player_Turn_In) then
                             if (N_Players = "001") then
                                 if (Player1_Bid_Value /= "00000") then
-                                    bids_placed <= '1';
-                                    new_state   <= game_setup;
+                                    bids_placed_new <= '1';
+                                    new_state       <= game_setup;
                                     --bid_successful <= '0';
                                     enable <= '1';
                                 else
@@ -838,9 +839,9 @@ begin
 
                             elsif (N_Players = "010") then
                                 if (Player2_Bid_Value /= "00000") then
-                                    bids_placed <= '1';
-                                    new_state   <= game_setup;
-                                    enable      <= '1';
+                                    bids_placed_new <= '1';
+                                    new_state       <= game_setup;
+                                    enable          <= '1';
                                 else
                                     new_state <= player_action;
 
@@ -848,9 +849,9 @@ begin
 
                             elsif (N_Players = "011") then
                                 if (Player1_Bid_Value /= "00000") then
-                                    bids_placed <= '1';
-                                    new_state   <= game_setup;
-                                    enable      <= '1';
+                                    bids_placed_new <= '1';
+                                    new_state       <= game_setup;
+                                    enable          <= '1';
                                 else
                                     new_state <= player_action;
                                 end if;
