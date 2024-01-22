@@ -272,6 +272,7 @@ begin
         round_end <= '0';
 
         new_start_screen <= start_screen;
+        new_state        <= state;
         case state is
             when reset_state =>
                 N_Players_new  <= "000";
@@ -425,7 +426,7 @@ begin
                     new_state <= player_action;
                     if (first_turn_over = '0') then
                         if (unsigned(Player1_Hand_Score) > 21) then
-                            null
+                            null;
                         elsif (Player1_Hand_Card_2 /= "0000") and (Player1_Hand_Card_3 = "0000") then
                             if (unsigned(Dealer_Hand_Score) > 9) and (unsigned(Player1_Hand_Score) = 21) then
                                 even_money_selectable <= '1';
@@ -455,22 +456,22 @@ begin
 
                         elsif (Player1_Hand_Card_3 /= "0000") then
                             if (unsigned(Player1_Hand_Score) = 21) then
-                                null
+                                null;
                             elsif (unsigned(Player1_Hand_Score) < 22) and (Player1_Hand_Card_5 /= "0000") then
-                                null
+                                null;
                             else
                                 hit_selectable <= '1';
                             end if;
                         end if;
 
                     elsif (unsigned(Player1_Hand_Score) > 21) then
-                        null
+                        null;
                     elsif (unsigned(Player1_Hand_Card_1) = 11) and (Player1_Hand_Card_2 /= "0000") then
-                        null
+                        null;
                     elsif (unsigned(Player1_Hand_Score) = 21) then
-                        null
+                        null;
                     elsif (unsigned(Player1_Hand_Score) < 22) and (Player1_Hand_Card_5 /= "0000") then
-                        null
+                        null;
                     else
                         hit_selectable <= '1';
                     end if;
@@ -679,14 +680,14 @@ begin
                 elsif (unsigned(split_player) = Player_Turn_In) and (split_player_turn = '1') then
                     new_state <= player_action;
                     if (unsigned(Reserve_Hand_Card_1) = 11) and (Reserve_Hand_Card_2 /= "0000") then
-                        null
+                        null;
                     elsif (unsigned(Reserve_Hand_Score) > 21) then
-                        null
+                        null;
 
                     elsif (unsigned(Reserve_Hand_Score) = 21) then
-                        null
+                        null;
                     elsif (unsigned(Reserve_Hand_Score) < 22) and (Reserve_Hand_Card_5 /= "0000") then
-                        null
+                        null;
                     else
                         hit_selectable <= '1';
                     end if;
