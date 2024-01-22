@@ -1380,7 +1380,6 @@ begin
                             g <= 15;
                             b <= 15;
                         end if;
-
                     else
                         r <= 15;
                         g <= 15;
@@ -1391,6 +1390,7 @@ begin
                     g <= 0;
                     b <= 0;
                 end if;
+					 
             end if;
 
         elsif (screentype = "01" and x_pos >= 440 and x_pos < 467 and y_pos < 479 and y_pos >= 430) then --bet
