@@ -119,6 +119,7 @@ end controller;
 architecture behaviour of controller is
     type controller_state is (reset_state,
         game_setup,
+        bet_state,
         player_action,
         game_resolution,
         pending_card_a,
@@ -127,7 +128,7 @@ architecture behaviour of controller is
 
     signal state, new_state               : controller_state;
     signal start_screen, new_start_screen : std_logic;
-    signal N_Players, N_Players_new                      : std_logic_vector (2 downto 0);
+    signal N_Players, N_Players_new       : std_logic_vector (2 downto 0);
 
     signal Player1_Bid_Value, Player2_Bid_Value, Player3_Bid_Value, Player4_Bid_Value : std_logic_vector (4 downto 0);
     signal Player1_Inactive, Player2_Inactive, Player3_inactive, Player4_Inactive     : std_logic;
@@ -315,19 +316,19 @@ begin
 
                 split_player      <= "000";
                 split_player_turn <= '0';
-					 choose_action <= '0';
-                score_screen                <= '0';
+                choose_action     <= '0';
+                score_screen      <= '0';
 
                 draw_screen_type <= "00";
                 new_state        <= game_setup;
             when game_setup =>
 
-                even_money_selected         <= '0';
-                insurance_selected          <= '0';
-                double_selected             <= '0';
-                split_selected              <= '0';
-                hit_selected                <= '0';
-                hold_selected <= '0';
+                even_money_selected <= '0';
+                insurance_selected  <= '0';
+                double_selected     <= '0';
+                split_selected      <= '0';
+                hit_selected        <= '0';
+                hold_selected       <= '0';
 
                 bid_successful <= '0';
 
@@ -336,13 +337,13 @@ begin
                     choose_action    <= '1';
 
                 elsif (start_screen = '1') then
-                    new_state        <= player_action;
+                    new_state        <= bet_state;
                     draw_screen_type <= "00";
 
                 elsif (bids_placed = '0') and (N_Players /= "000") and (start_screen = '0') then -- bidding screen condition--
                     draw_screen_type <= "01"; ----- 10 tells graphics cursor to track the bidding menu -----
                     choose_action    <= '1';
-                    new_state        <= player_action;
+                    new_state        <= bet_state;
 
                     -- Check whether starting cards have been dealt -- 
                     -- If yes, check which dealing phase we're in based on player count--
@@ -369,75 +370,62 @@ begin
 
                 elsif (N_Players = "010") then -- if 2 players, switch phases based on Player 2's hand --
                     new_Player_Turn_In <= "001";
+                    new_state          <= game_resolution;
                     if (Player2_Hand_Card_1 = "0000") then
                         first_card_deal  <= '1';
                         dealer_card_deal <= '0';
                         second_card_deal <= '0';
-                        new_state        <= game_resolution;
-
                     elsif (Player2_Hand_Card_1 /= "0000") and (Dealer_Hand_Card_1 = "0000") then
                         first_card_deal  <= '0';
                         dealer_card_deal <= '1';
                         second_card_deal <= '0';
-                        new_state        <= game_resolution;
-
                     else
                         first_card_deal  <= '0';
                         dealer_card_deal <= '0';
                         second_card_deal <= '1';
-                        new_state        <= game_resolution;
                     end if;
 
                 elsif (N_Players = "011") then -- if 3 players, switch phases based on Player 3's hand --
                     new_Player_Turn_In <= "001";
+                    new_state          <= game_resolution;
                     if (Player3_Hand_Card_1 = "0000") then
                         first_card_deal  <= '1';
                         dealer_card_deal <= '0';
                         second_card_deal <= '0';
-                        new_state        <= game_resolution;
-
                     elsif (Player3_Hand_Card_1 /= "0000") and (Dealer_Hand_Card_1 = "0000") then
                         first_card_deal  <= '0';
                         dealer_card_deal <= '1';
                         second_card_deal <= '0';
-                        new_state        <= game_resolution;
-
                     else
                         first_card_deal  <= '0';
                         dealer_card_deal <= '0';
                         second_card_deal <= '1';
-                        new_state        <= game_resolution;
                     end if;
-
                 else
                     new_Player_Turn_In <= "001";
+                    new_state          <= game_resolution;
                     if (Player4_Hand_Card_1 = "0000") then
                         first_card_deal  <= '1';
                         dealer_card_deal <= '0';
                         second_card_deal <= '0';
-                        new_state        <= game_resolution;
-
                     elsif (Player4_Hand_Card_1 /= "0000") and (Dealer_Hand_Card_1 = "0000") then
                         first_card_deal  <= '0';
                         dealer_card_deal <= '1';
                         second_card_deal <= '0';
-                        new_state        <= game_resolution;
-
                     else
                         first_card_deal  <= '0';
                         dealer_card_deal <= '0';
                         second_card_deal <= '1';
-                        new_state        <= game_resolution;
                     end if;
                 end if;
 
                 ----------------------------- checking actions available: scores of hands may be sent by mem, adjust accordingly -------------------------------------	
 
                 if (Player_Turn_In = "001") and (split_player_turn = '0') then
+                    new_state <= player_action;
                     if (first_turn_over = '0') then
                         if (unsigned(Player1_Hand_Score) > 21) then
-                            new_state <= player_action;
-
+                            null
                         elsif (Player1_Hand_Card_2 /= "0000") and (Player1_Hand_Card_3 = "0000") then
                             if (unsigned(Dealer_Hand_Score) > 9) and (unsigned(Player1_Hand_Score) = 21) then
                                 even_money_selectable <= '1';
@@ -462,41 +450,29 @@ begin
                             else
                                 double_selectable <= '0';
                             end if;
-                            
+
                             hit_selectable <= '1';
-                            new_state      <= player_action;
 
                         elsif (Player1_Hand_Card_3 /= "0000") then
                             if (unsigned(Player1_Hand_Score) = 21) then
-                                new_state <= player_action;
-
+                                null
                             elsif (unsigned(Player1_Hand_Score) < 22) and (Player1_Hand_Card_5 /= "0000") then
-                                new_state <= player_action;
-
+                                null
                             else
                                 hit_selectable <= '1';
-                                new_state      <= player_action;
                             end if;
                         end if;
 
+                    elsif (unsigned(Player1_Hand_Score) > 21) then
+                        null
+                    elsif (unsigned(Player1_Hand_Card_1) = 11) and (Player1_Hand_Card_2 /= "0000") then
+                        null
+                    elsif (unsigned(Player1_Hand_Score) = 21) then
+                        null
+                    elsif (unsigned(Player1_Hand_Score) < 22) and (Player1_Hand_Card_5 /= "0000") then
+                        null
                     else
-                        if (unsigned(Player1_Hand_Score) > 21) then
-                            new_state <= player_action;
-
-                        else
-                            if (unsigned(Player1_Hand_Card_1) = 11) and (Player1_Hand_Card_2 /= "0000") then
-                                new_state <= player_action;
-
-                            elsif (unsigned(Player1_Hand_Score) = 21) then
-                                new_state <= player_action;
-
-                            elsif (unsigned(Player1_Hand_Score) < 22) and (Player1_Hand_Card_5 /= "0000") then
-                                new_state <= player_action;
-                            else
-                                hit_selectable <= '1';
-                                new_state      <= player_action;
-                            end if;
-                        end if;
+                        hit_selectable <= '1';
                     end if;
 
                 elsif (Player_Turn_In = "010") and (split_player_turn = '0') then
@@ -701,21 +677,18 @@ begin
                         end if;
                     end if;
                 elsif (unsigned(split_player) = Player_Turn_In) and (split_player_turn = '1') then
+                    new_state <= player_action;
                     if (unsigned(Reserve_Hand_Card_1) = 11) and (Reserve_Hand_Card_2 /= "0000") then
-                        new_state <= player_action;
-
+                        null
                     elsif (unsigned(Reserve_Hand_Score) > 21) then
-                        new_state <= player_action;
+                        null
 
                     elsif (unsigned(Reserve_Hand_Score) = 21) then
-                        new_state <= player_action;
-
+                        null
                     elsif (unsigned(Reserve_Hand_Score) < 22) and (Reserve_Hand_Card_5 /= "0000") then
-                        new_state <= player_action;
-
+                        null
                     else
                         hit_selectable <= '1';
-                        new_state      <= player_action;
                     end if;
                 elsif (unsigned(Dealer_Hand_Score) < 17) and (Dealer_Hand_Card_5 = "0000") then
                     dealer_card_deal <= '1';
@@ -789,6 +762,35 @@ begin
                         Player3_win_type <= "100";
                     else
                         Player4_win_type <= "100";
+                    end if;
+                end if;
+            when bet_state =>
+                draw_screen_type <= "01";
+                choose_action    <= '1';
+                new_state        <= bet_state;
+                if (switch_select = '1') then
+                    new_state  <= game_setup;
+                    bid_enable <= '1';
+                    if (current_screen_position = "001") then
+                        Player1_Bid_New <= "00";
+                    elsif (current_screen_position = "010") then
+                        Player1_Bid_New <= "01";
+                    elsif (current_screen_position = "011") then
+                        Player1_Bid_New <= "10";
+                    else
+                        Player1_Bid_New <= "11";
+                    end if;
+                elsif (switch_left = '1') then
+                    if (current_screen_position = "001") then -- if at option 1, left moves to option 4 --
+                        new_current_screen_position <= "100";
+                    else
+                        new_current_screen_position <= current_screen_position - 1;
+                    end if;
+                elsif (switch_right = '1') then
+                    if (current_screen_position = "100") then -- if at option 4, right moves to option 1 --
+                        new_current_screen_position <= "001";
+                    else
+                        new_current_screen_position <= current_screen_position + 1;
                     end if;
                 end if;
             when player_action =>
