@@ -45,7 +45,7 @@ architecture behavior of memory_v2 is
         split_out      : out std_logic);
     end component;
 
-    signal h1, h2, h3, h4, h5, h6 : std_logic                    := '0';
+    signal h1, h2, h3, h4, h5, h6, b1, b2, b3, b4 : std_logic    := '0';
     signal profit                 : std_logic_vector(6 downto 0) := "0000000";
     signal bid                    : std_logic_vector(5 downto 0) := "000000";
     signal bid_temp               : std_logic_vector(1 downto 0) := "00";
