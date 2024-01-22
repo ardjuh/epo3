@@ -330,8 +330,10 @@ begin
 
                 bid_successful <= '0';
                 if (start_screen = '1') then
-                    new_state        <= player_action;
-                    draw_screen_type <= "00";
+                    new_state      <= player_action;
+                    enable         <= '1';
+                    request_card   <= '1';
+                    Receiving_Hand <= "110";
                 elsif (bids_placed = '0') then
                     new_state <= bet_state;
                 elsif (start_screen = '0') and (score_screen = '0') and (bids_placed = '1') then
@@ -466,7 +468,7 @@ begin
                 elsif (Player_Turn_In = "010") and (split_player_turn = '0') then
                     if (first_turn_over = '0') then
                         if (unsigned(Player2_Hand_Score) > 21) then
-null;
+                            null;
                         elsif (Player2_Hand_Card_2 /= "0000") and (Player2_Hand_Card_3 = "0000") then
                             if (unsigned(Dealer_Hand_Score) > 9) and (unsigned(Player2_Hand_Score) = 21) then
                                 even_money_selectable <= '1';
@@ -496,7 +498,7 @@ null;
 
                         elsif (Player2_Hand_Card_3 /= "0000") then
                             if (unsigned(Player2_Hand_Score) = 21) then
-null;
+                                null;
                             elsif (unsigned(Player2_Hand_Score) < 22) and (Player2_Hand_Card_5 /= "0000") then
                                 null;
                             else
@@ -723,9 +725,9 @@ null;
             when bet_state =>
                 draw_screen_type <= "01";
                 if (switch_select = '1') then
-                    new_state  <= game_setup;
-                    bid_enable <= '1';
-                    bids_placed_new <= '1';
+                    new_state        <= game_setup;
+                    bid_enable       <= '1';
+                    bids_placed_new  <= '1';
                     new_start_screen <= '0';
                     if (current_screen_position = "001") then
                         Player1_Bid_New <= "00";
@@ -827,8 +829,8 @@ null;
                             else
                                 if (Player1_Bid_Value /= "00000") then
                                     bids_placed_new <= '1';
-                                    new_state   <= game_setup;
-                                    enable      <= '1';
+                                    new_state       <= game_setup;
+                                    enable          <= '1';
                                 else
                                     new_state <= player_action;
                                 end if;
