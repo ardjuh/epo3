@@ -521,7 +521,7 @@ architecture behaviour of game_cont_tb is
 	Player3_Doubled_Down <= '0' after 0 ns;
 	Player4_Doubled_Down <= '0' after 0 ns;
 
-end end behaviour;
+end behaviour;
    
 
 

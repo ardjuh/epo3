@@ -15,6 +15,7 @@ entity memory_v2 is
         split      : in std_logic;
         end_round  : in std_logic;
         card_in    : in std_logic_vector(3 downto 0);
+        even_money : in std_logic;
 
         player_a_in  : in std_logic;
         win_type1_in : in std_logic_vector(2 downto 0); -- 0: niet gewonnen, 1: insurance, 2: double down, 3: blackjack, 4 : normal
@@ -46,6 +47,7 @@ entity memory_v2 is
         split1_out      : out std_logic;
         insurance1_out  : out std_logic;
         doubledown1_out : out std_logic;
+        even_money1_out : out std_logic;
 
         player_b_out    : out std_logic;
         card2_1_out     : out std_logic_vector(3 downto 0);
@@ -59,6 +61,7 @@ entity memory_v2 is
         split2_out      : out std_logic;
         insurance2_out  : out std_logic;
         doubledown2_out : out std_logic;
+        even_money2_out : out std_logic;
 
         player_c_out    : out std_logic;
         card3_1_out     : out std_logic_vector(3 downto 0);
@@ -72,6 +75,7 @@ entity memory_v2 is
         split3_out      : out std_logic;
         insurance3_out  : out std_logic;
         doubledown3_out : out std_logic;
+        even_money3_out : out std_logic;
 
         player_d_out    : out std_logic;
         card4_1_out     : out std_logic_vector(3 downto 0);
@@ -85,6 +89,7 @@ entity memory_v2 is
         split4_out      : out std_logic;
         insurance4_out  : out std_logic;
         doubledown4_out : out std_logic;
+        even_money4_out : out std_logic;
 
         -- dealer
         card5_1_out : out std_logic_vector(3 downto 0);
