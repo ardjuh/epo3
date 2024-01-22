@@ -35,23 +35,23 @@ architecture behavior of memory_v2 is
         doubledown_in  : in std_logic;
         player_in      : in std_logic;
         split_in       : in std_logic;
-		  even_money_in  : in std_logic;
+        even_money_in  : in std_logic;
         bid_out        : out std_logic_vector(1 downto 0);
         money          : out std_logic_vector(9 downto 0);
         insurance_out  : out std_logic;
         doubledown_out : out std_logic;
         player_out     : out std_logic;
-		  even_money_out : out std_logic;
+        even_money_out : out std_logic;
         split_out      : out std_logic);
     end component;
 
-    signal h1, h2, h3, h4, h5, h6, b1, b2, b3, b4 : std_logic    := '0';
-    signal profit                 : std_logic_vector(6 downto 0) := "0000000";
-    signal bid                    : std_logic_vector(5 downto 0) := "000000";
-    signal bid_temp               : std_logic_vector(1 downto 0) := "00";
-    signal win_type_temp          : std_logic_vector(2 downto 0) := "000";
-    signal player_temp            : std_logic_vector(2 downto 0) := "000";
-    signal enable_i               : std_logic                    := '0';
+    signal h1, h2, h3, h4, h5, h6, b1, b2, b3, b4 : std_logic                    := '0';
+    signal profit                                 : std_logic_vector(6 downto 0) := "0000000";
+    signal bid                                    : std_logic_vector(5 downto 0) := "000000";
+    signal bid_temp                               : std_logic_vector(1 downto 0) := "00";
+    signal win_type_temp                          : std_logic_vector(2 downto 0) := "000";
+    signal player_temp                            : std_logic_vector(2 downto 0) := "000";
+    signal enable_i                               : std_logic                    := '0';
 begin
     h1_l : hand port map(clk => clk, rst => rst or end_round, enable => h1, card => card_in, card1 => card1_1_out, card2 => card1_2_out, card3 => card1_3_out, card4 => card1_4_out, card5 => card1_5_out, score => score1_out);
     h2_l : hand port map(clk => clk, rst => rst or end_round, enable => h2, card => card_in, card1 => card2_1_out, card2 => card2_2_out, card3 => card2_3_out, card4 => card2_4_out, card5 => card2_5_out, score => score2_out);
@@ -135,35 +135,35 @@ begin
                 win_type_temp <= "000";
         end case;
     end process;
-	 
-	  process (bid_enable, b1, b2, b3, b4)
+
+    process (bid_enable, b1, b2, b3, b4)
     begin
         case recieving_hand is
             when "001" =>
-                bid1_in <= b1;
-                bid2_in <= "00";
-                bid3_in <= "00";
-                bid4_in <= "00";
+                b1 <= bid_enable;
+                b2 <= '0';
+                b3 <= '0';
+                b4 <= '0';
             when "010" =>
-                bid1_in <= "00";
-                bid2_in <= b2;
-                bid3_in <= "00";
-                bid4_in <= "00";
+                b1 <= '0';
+                b2 <= bid_enable;
+                b3 <= '0';
+                b4 <= '0';
             when "011" =>
-                bid1_in <= "00";
-                bid2_in <= "00";
-                bid3_in <= b3;
-                bid4_in <= "00";
+                b1 <= '0';
+                b2 <= '0';
+                b3 <= bid_enable;
+                b4 <= '0';
             when "100" =>
-                bid1_in <= "00";
-                bid2_in <= "00";
-                bid3_in <= "00";
-                bid4_in <= b4;
+                b1 <= '0';
+                b2 <= '0';
+                b3 <= '0';
+                b4 <= bid_enable;
             when others =>
-                bid1_in <= "00";
-                bid2_in <= "00";
-                bid3_in <= "00";
-                bid4_in <= "00";
+                b1 <= '0';
+                b2 <= '0';
+                b3 <= '0';
+                b4 <= '0';
         end case;
     end process;
 
