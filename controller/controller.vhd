@@ -142,7 +142,7 @@ signal first_turn_over : std_logic;
 signal split_player : std_logic_vector (2 downto 0);  
 signal split_player_turn : std_logic;
 
-signal start_screen, choose_action, score_screen : std_logic;
+signal start_screen, new_start_screen, choose_action, score_screen : std_logic;
 
 signal draw_screen_type : std_logic_vector (1 downto 0);
 signal current_screen_position, new_current_screen_position, Player_Turn_In, new_Player_Turn_In: unsigned(2 downto 0);
@@ -156,11 +156,13 @@ begin
 				state <= reset_state;
 				current_screen_position <= "001";
 				Player_Turn_In <= "001";
+				start_screen <= '1';
 			
 			else 
 				state <= new_state;
 				current_screen_position <= new_current_screen_position;
 				Player_Turn_In <= new_Player_Turn_In;
+				start_screen <= new_start_screen;
 				
 			end if;
 		end if;
@@ -321,7 +323,6 @@ begin
 				choose_action <= '0';
 				score_screen <= '0';
 
-				start_screen <= '1';
 				draw_screen_type <= "00"; 
 				new_state <= game_setup;
 				
@@ -763,7 +764,7 @@ begin
 								new_state <= game_setup;
 
 						elsif ( unsigned(Player3_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
-								Player3_win_type <= "001";start_screen
+								Player3_win_type <= "001";
 								new_state <= game_setup;
 
 						elsif ( unsigned(Player4_Hand_Score) = unsigned(Dealer_Hand_Score) ) then
@@ -809,7 +810,7 @@ begin
 								Player2_win_type <= "100";
 								new_state <= game_setup;
 							end if;
-start_screen
+
 						elsif ( unsigned(Player3_Hand_Score) > unsigned(Dealer_Hand_Score) ) then
 							if ( Player3_Doubled_Down = '1' ) then
 								Player3_win_type <= "010";
@@ -904,7 +905,7 @@ start_screen
 								--new_state <= player_action;
 								new_state <= game_setup;
 
-				start_screen <= '1';
+				new_start_screen <= '1';
 							else
 								N_Players <= "100";
 								enable <= '1';
@@ -912,17 +913,15 @@ start_screen
 								new_state <= game_setup;
 							end if;
 						else
-							new_state <= player_action;start_screen
+							new_state <= player_action;
 						end if;
 							
-					else
-						if ( switch_select = '1' ) then
+					elsif ( switch_select = '1' ) then
 							choose_action <= '1';
-							start_screen <= '0';
+							new_start_screen <= '0';
 							new_state <= game_setup;
 							else 
 							new_state <= player_action;
-						end if;
 					end if;
 
 				elsif ( choose_action = '1' ) and ( draw_screen_type /= "00" ) then 
