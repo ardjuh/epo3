@@ -881,7 +881,7 @@ begin
 								Player4_Inactive <= '1';
 								enable <= '1';
 								
-						      start_screen <= '0';
+						      new_start_screen <= '0';
 								--new_state <= player_action;
 								new_state <= game_setup;
 
@@ -891,7 +891,7 @@ begin
 								Player4_Inactive <= '1';
 								enable <= '1';
 								
-				            start_screen <= '1';
+				            new_start_screen <= '1';
 								--new_state <= player_action;
 								--choose_action <= '1';
 								--draw_screen_type <= "01";     --- 01 says draw the bidding box ---
