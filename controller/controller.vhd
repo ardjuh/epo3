@@ -189,7 +189,6 @@ begin
 
     begin
         N_Players_new  <= N_Players;
-        bids_placed    <= '0';
         bid_successful <= '0';
         require_card   <= '0';
         card_received  <= '0';
@@ -276,7 +275,6 @@ begin
         case state is
             when reset_state =>
                 N_Players_new  <= "000";
-                bids_placed    <= '0';
                 bid_successful <= '0';
                 require_card   <= '0';
                 card_received  <= '0';
@@ -759,6 +757,7 @@ begin
                 if (switch_select = '1') then
                     new_state  <= game_setup;
                     bid_enable <= '1';
+                    bids_placed_new <= '1';
                     if (current_screen_position = "001") then
                         Player1_Bid_New <= "00";
                     elsif (current_screen_position = "010") then
@@ -858,7 +857,7 @@ begin
 
                             else
                                 if (Player1_Bid_Value /= "00000") then
-                                    bids_placed <= '1';
+                                    bids_placed_new <= '1';
                                     new_state   <= game_setup;
                                     enable      <= '1';
                                 else
